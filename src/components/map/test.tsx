@@ -37,7 +37,7 @@ const MapComponent: React.FC = () => {
     const handleSearch = useCallback((query: string) => {
         if (!currentPosition) return;
 
-        axios.get('/api/search', {
+        axios.get('http://localhost:4040/api/search', {
             params: {
                 query,
                 lat: currentPosition.lat,
@@ -45,6 +45,11 @@ const MapComponent: React.FC = () => {
                 radius: 5000,
             },
         }).then(response => {
+
+            console.log('API Response:', response.data);
+            console.log(currentPosition.lat, currentPosition.lng)
+            console.log(response.data.items)
+            
             const items: Place[] = response.data.items.map((item: any) => ({
                 title: item.title,
                 point: {
