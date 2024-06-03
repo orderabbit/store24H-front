@@ -16,7 +16,13 @@ const SEARCH_MAP_URL = (query: string, lat: number, lng: number, radius: number)
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number, radius: number): Promise<SearchMapResponseDto> => {
     try {
-        const response = await axios.get<SearchMapResponseDto>(SEARCH_MAP_URL(query, lat, lng, radius));
+        const response = await axios.get<SearchMapResponseDto>(SEARCH_MAP_URL(query, lat, lng, radius), {
+            headers: {
+                'Authorization': `KakaoAK ${process.env.d0630e67d7487ad8a58bae7c65823e88}`,
+                'KA': 'sdk/1.0.0 os/javascript',
+                'os': 'javascript',
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Error fetching map data:', error);

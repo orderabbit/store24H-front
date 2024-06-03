@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { SearchMapRequest } from 'apis';
+import { SearchMapResponseDto } from 'apis/response/map';
 
-// Kakao API를 타입스크립트에서 인식하게 하기 위한 타입 선언
 declare global {
     interface Window {
         kakao: any;
@@ -10,11 +11,13 @@ declare global {
 const Test: React.FC = () => {
     const [map, setMap] = useState<any>(null);
     const [currentPosition, setCurrentPosition] = useState<{ lat: number; lng: number } | null>(null);
+    const [places, setPlaces] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
         const script = document.createElement('script');
         script.async = true;
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_JAVASCRIPT_KEY&autoload=false`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=d0630e67d7487ad8a58bae7c65823e88&autoload=false`;
         document.head.appendChild(script);
 
         script.onload = () => {
@@ -33,15 +36,13 @@ const Test: React.FC = () => {
     useEffect(() => {
         if (map && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     const { latitude, longitude } = position.coords;
                     const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
-
                     const marker = new window.kakao.maps.Marker({
                         map: map,
                         position: locPosition
                     });
-
                     map.setCenter(locPosition);
                     setCurrentPosition({ lat: latitude, lng: longitude });
                 },
@@ -52,9 +53,27 @@ const Test: React.FC = () => {
         }
     }, [map]);
 
+    const handleSearch = async () => {
+        try {
+            if (!currentPosition) return;
+            const { lat, lng } = currentPosition;
+            const response: SearchMapResponseDto = await SearchMapRequest(searchQuery, lat, lng, 5000);
+            setPlaces(response.documents);
+        } catch (error) {
+            console.error('Error fetching places:', error);
+        }
+    };
+
     return (
         <div>
+            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+            <button onClick={handleSearch}>Search</button>
             <div id="map" style={{ width: '100%', height: '600px' }}></div>
+            <ul>
+                {places.map((place, index) => (
+                    <li key={index}>{place.place_name}</li>
+                ))}
+            </ul>
         </div>
     );
 };
