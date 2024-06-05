@@ -9,9 +9,10 @@ import './App.css';
 function App() {
   return (
     <Routes>
-      <Route path={MAIN_PATH()} element={<Map />}></Route>
-      <Route path={TEST_PATH()} element={<Test />}></Route>
+        <Route path={MAIN_PATH()} element={<Map />}></Route>
+        <Route path={TEST_PATH()} element={<Test />}></Route>
     </Routes>
+
   );
 }
 

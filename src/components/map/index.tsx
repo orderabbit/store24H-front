@@ -1,121 +1,150 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Container as MapDiv, Marker, NaverMap, useNavermaps } from 'react-naver-maps';
-import axios from 'axios';
-import SearchBar from 'components/searchbar';
+import React, { useEffect, useState } from 'react';
+import { SearchMapRequest } from 'apis';
+import { SearchMapResponseDto } from 'apis/response/map';
 import './style.css';
 
-interface Place {
-    title: string;
-    point: {
-        x: number;
-        y: number;
-    };
+declare global {
+    interface Window {
+        kakao: any;
+    }
 }
 
-const MapComponent: React.FC = () => {
-    const navermaps = useNavermaps();
-    const handleZoomChanged = useCallback((zoom: number) => { }, []);
-
+const Test: React.FC = () => {
+    const [map, setMap] = useState<any>(null);
     const [currentPosition, setCurrentPosition] = useState<{ lat: number; lng: number } | null>(null);
-    const [places, setPlaces] = useState<Place[]>([]);
+    const [places, setPlaces] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [markers, setMarkers] = useState<any[]>([]);
+    const [isMapTypeRoadmap, setIsMapTypeRoadmap] = useState<boolean>(true);
+    const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
+    const [isSearchContainerVisible, setIsSearchContainerVisible] = useState<boolean>(false);
+    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+
+    const createMarker = (position: any, imageSrc: string, imageSize: { width: number; height: number }) => {
+        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, new window.kakao.maps.Size(imageSize.width, imageSize.height));
+        const marker = new window.kakao.maps.Marker({
+            map: map,
+            position: position,
+            image: markerImage
+        });
+        return marker;
+    };
 
     useEffect(() => {
-        const getCurrentPosition = () => {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=d0630e67d7487ad8a58bae7c65823e88&autoload=false`;
+        document.head.appendChild(script);
+
+        script.onload = () => {
+            window.kakao.maps.load(() => {
+                const container = document.getElementById('map') as HTMLElement;
+                const options = {
+                    center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 3
+                };
+                const map = new window.kakao.maps.Map(container, options);
+                setMap(map);
+
+                map.setZoomable(false);
+                const zoomHandler = (event: WheelEvent) => {
+                    if (isAnimating) return;
+                    event.preventDefault();
+                    const delta = event.deltaY;
+                    const level = map.getLevel();
+                    if (delta > 0) {
+                        setIsAnimating(true);
+                        map.setLevel(level + 1, { animate: true });
+                    } else {
+                        setIsAnimating(true);
+                        map.setLevel(level - 1, { animate: true });
+                    }
+                    setTimeout(() => setIsAnimating(false), 300);
+                };
+
+                container.addEventListener('wheel', zoomHandler);
+
+                return () => {
+                    container.removeEventListener('wheel', zoomHandler);
+                };
+            });
+        };
+    }, []);
+
+    useEffect(() => {
+        if (map && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     const { latitude, longitude } = position.coords;
+                    const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
+                    createMarker(locPosition, 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-256.png', { width: 24, height: 35 });
+                    map.setCenter(locPosition);
                     setCurrentPosition({ lat: latitude, lng: longitude });
                 },
                 (error) => {
                     console.error('Error getting current position:', error);
                 }
             );
-        };
-        getCurrentPosition();
-    }, []);
+        }
+    }, [map]);
 
-    const handleSearch = useCallback((query: string) => {
-        if (!currentPosition) return;
+    const handleSearch = async () => {
+        try {
+            if (!currentPosition) return;
+            const { lat, lng } = currentPosition;
+            const response: SearchMapResponseDto = await SearchMapRequest(searchQuery, lat, lng);
 
-        axios.get('/api/search', {
-            params: {
-                query,
-                lat: currentPosition.lat,
-                lng: currentPosition.lng,
-                radius: 5000,
-            },
-        }).then(response => {
-            const items: Place[] = response.data.items.map((item: any) => ({
-                title: item.title,
-                point: {
-                    x: item.mapx,
-                    y: item.mapy,
-                }
-            }));
-            setPlaces(items);
-        }).catch(error => {
-            console.error('Error searching places:', error);
-        });
-    }, [currentPosition]);
+            markers.forEach(marker => marker.setMap(null));
+            setMarkers([]);
+
+            setPlaces(response.documents);
+
+            const newMarkers = response.documents.map(place => {
+                const position = new window.kakao.maps.LatLng(place.y, place.x);
+                return createMarker(position, 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', { width: 24, height: 35 });
+            });
+
+            setMarkers(newMarkers);
+        } catch (error) {
+            console.error('Error fetching places:', error);
+        }
+    };
+
+    const toggleMapType = () => {
+        setIsMapTypeRoadmap(prevState => !prevState);
+        if (map) {
+            const newMapType = isMapTypeRoadmap ? window.kakao.maps.MapTypeId.HYBRID : window.kakao.maps.MapTypeId.ROADMAP;
+            map.setMapTypeId(newMapType);
+        }
+    };
+
+    const toggleSearchContainer = () => {
+        setIsSearchContainerVisible(prevState => !prevState);
+    };
 
     return (
-        <div style={{ position: 'relative' }}>
-            <SearchBar onSearch={handleSearch} />
-            {currentPosition && currentPosition.lat && currentPosition.lng && (
-                <NaverMap
-                    zoomControl
-                    zoomControlOptions={{ position: navermaps?.Position.TOP_RIGHT }}
-                    defaultCenter={{ lat: currentPosition.lat, lng: currentPosition.lng }}
-                    defaultZoom={13}
-                    onZoomChanged={handleZoomChanged}
-                    draggable={true}
-                    pinchZoom={true}
-                    scrollWheel={true}
-                    keyboardShortcuts={true}
-                    disableDoubleTapZoom={false}
-                    disableDoubleClickZoom={false}
-                    disableTwoFingerTapZoom={false}
-                    disableKineticPan={false}
-                    tileTransition={true}
-                    minZoom={7}
-                    maxZoom={21}
-                    scaleControl={true}
-                    logoControl={true}
-                    mapDataControl={true}
-                    mapTypeControl={true}
-                    // style={{ width: '100%', height: '100%' }}
-                >
-                    {currentPosition && (
-                        <Marker
-                            position={{ lat: currentPosition.lat, lng: currentPosition.lng }}
-                            animation={navermaps?.Animation.BOUNCE}
-                        />
-                    )}
+        <div id="map-container">
+            <div className="search-icon" onClick={toggleSearchContainer}>
+                <img src="https://cdn-icons-png.flaticon.com/512/64/64673.png" alt="Search" />
+            </div>
+            <div className="search-container" style={{ display: isSearchContainerVisible ? 'block' : 'none' }}>
+                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                <button onClick={handleSearch}>Search</button>
+                <div className="overlay" style={{ display: showSearchResults ? 'block' : 'none' }}>
                     {places.map((place, index) => (
-                        <Marker
-                            key={index}
-                            position={{ lat: place.point.y, lng: place.point.x }}
-                            title={place.title}
-                        />
+                        <div key={index} className="search-item">
+                            {place.name}
+                        </div>
                     ))}
-                </NaverMap>
-            )}
+                </div>
+            </div>
+            <div id="map"></div>
+            <div className="map-toggle-container">
+                <div className={`map-toggle ${isMapTypeRoadmap ? "active" : ""}`} onClick={toggleMapType}>지도</div>
+                <div className={`map-toggle ${!isMapTypeRoadmap ? "active" : ""}`} onClick={toggleMapType}>스카이뷰</div>
+            </div>
         </div>
     );
 };
 
-const Map: React.FC = () => {
-    return (
-        <MapDiv
-            style={{
-                position: 'relative',
-                width: '100%',
-                height: '600px',
-            }}
-        >
-            <MapComponent />
-        </MapDiv>
-    );
-};
-
-export default Map;
+export default Test;
