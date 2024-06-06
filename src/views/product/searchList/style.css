@@ -1,0 +1,32 @@
+.search-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    width: 500px;
+    margin: auto;
+}
+
+.search-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.product-item img {
+    margin-right: 15px;
+}
+
+.view-all-button {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.view-all-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
