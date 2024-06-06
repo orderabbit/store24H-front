@@ -7,7 +7,7 @@ const API_DOMAIN = `${DOMAIN}/api/v1`;
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
 const SEARCH_MAP_URL = (query: string, lat: number, lng: number) =>
     `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
-const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/save?keyword=${keyword}`;
+const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {

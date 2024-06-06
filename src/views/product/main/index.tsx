@@ -10,7 +10,7 @@ const Search: React.FC = () => {
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (keyword.trim() !== '') {
-            navigate(`/save?keyword=${encodeURIComponent(keyword)}`);
+            navigate(`/search?keyword=${encodeURIComponent(keyword)}`);
         }
     };
 
