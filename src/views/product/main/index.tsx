@@ -1,8 +1,7 @@
-// Search.tsx
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './style.css';
+
 
 const Search: React.FC = () => {
     const [keyword, setKeyword] = useState('');
@@ -16,15 +15,20 @@ const Search: React.FC = () => {
     };
 
     return (
-        <div className="container">
-            <h1>
-                <a href="/">
-                    <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-                </a>
-            </h1>
-            <div className="d-flex flex-column align-items-center gap-5">
-                <form onSubmit={handleSearch} className="d-flex flex-column align-items-center gap-7">
-                    <div className="search-bar input-group mb-3">
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="container">
+                <h1 className="text-center mb-5">
+                    <a href="/" className="text-decoration-none">
+                        <span style={{ color: '#4285f4', fontSize: '100px' }}>G</span>
+                        <span style={{ color: '#ea4335', fontSize: '100px' }}>o</span>
+                        <span style={{ color: '#fbbc05', fontSize: '100px' }}>o</span>
+                        <span style={{ color: '#4285f4', fontSize: '100px' }}>g</span>
+                        <span style={{ color: '#34a853', fontSize: '100px' }}>l</span>
+                        <span style={{ color: '#ea4335', fontSize: '100px' }}>e</span>
+                    </a>
+                </h1>
+                <form onSubmit={handleSearch} className="d-flex flex-column align-items-center gap-3">
+                    <div className="input-group mb-3" style={{ maxWidth: '500px' }}>
                         <input
                             name="keyword"
                             type="text"
@@ -34,9 +38,6 @@ const Search: React.FC = () => {
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
                         />
-                        <div className="input-group-append"></div>
-                    </div>
-                    <div className="d-flex justify-content-center gap-7">
                         <button type="submit" className="btn btn-primary">검색</button>
                     </div>
                 </form>
