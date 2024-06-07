@@ -1,5 +1,9 @@
 import ResponseDto from "./response.dto";
+import SearchMapResponseDto from "./map/search-map.response.dto";
+import SaveProductResponseDto from "./product/save-product.response.dto";
 
 export type {
-    ResponseDto
+    ResponseDto,
+    SearchMapResponseDto,
+    SaveProductResponseDto
 };

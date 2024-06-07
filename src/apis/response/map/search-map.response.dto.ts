@@ -1,6 +1,6 @@
 import ResponseDto from "../response.dto";
 
-export default interface SearcgMapResponseDto extends ResponseDto {
+export default interface SearchMapResponseDto extends ResponseDto {
     documents: {
         place_name: string;
         address_name: string;

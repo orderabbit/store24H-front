@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { GetProductRequest } from 'apis';
+import { GetProductRequest, PostProductRequest } from 'apis';
 import './style.css';
+import axios from 'axios';
+import { SaveProductRequestDto } from 'apis/request';
 
 interface Product {
     productId: number;
@@ -29,6 +31,7 @@ const SearchList: React.FC = () => {
             if (searchKeyword) {
                 try {
                     const response = await GetProductRequest(searchKeyword);
+                    console.log(response.data.items);
                     setProducts(response.data.items);
                 } catch (error) {
                     console.error('Failed to fetch products', error);
@@ -43,6 +46,29 @@ const SearchList: React.FC = () => {
         e.preventDefault();
         if (keyword.trim() !== '') {
             navigate(`/search?keyword=${encodeURIComponent(keyword)}`);
+        }
+    };
+
+    const saveProductClickHandler = async (product: Product) => {
+        const formData: SaveProductRequestDto = {
+            productId: product.productId,
+            title: product.title,
+            link: product.link,
+            image: product.image,
+            lowPrice: product.lowPrice,
+            category1: product.category1,
+            category2: product.category2
+        };
+
+        try {
+            const response = await PostProductRequest(formData);
+            if (response.code === 'SU') {
+                alert("상품이 저장되었습니다.");
+            } else {
+                console.error("Error saving product", response.data.message);
+            }
+        } catch (error) {
+            console.error("Error saving product", error);
         }
     };
 
@@ -78,6 +104,7 @@ const SearchList: React.FC = () => {
                                 <div>{product.category1}/{product.category2}</div>
                             </div>
                         </div>
+                        <button className="btn view-all-button" onClick={() => saveProductClickHandler(product)}>저장</button>
                     </li>
                 ))}
             </ul>
@@ -86,6 +113,9 @@ const SearchList: React.FC = () => {
                     전체 상품 목록으로
                 </button>
             </div>
+            <button id="allProductsButton" className="btn view-all-button" onClick={() => saveProductClickHandler}>
+                저장
+            </button>
         </div>
     );
 };
