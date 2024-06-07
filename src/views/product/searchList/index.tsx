@@ -72,7 +72,6 @@ const SearchList: React.FC = () => {
         }
     };
 
-
     return (
         <div className="search-container">
             <h2 className="page-title">Api검색+등록</h2>
