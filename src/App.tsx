@@ -14,7 +14,7 @@ function App() {
       {/* <Route path={MAIN_PATH()} element={<Map />}></Route> */}
       <Route path={TEST_PATH()} element={<Test />}></Route>
       <Route path="/" element={<Search />} />
-      <Route path="/save" element={<SearchList />} />
+      <Route path="/search" element={<SearchList />} />
     </Routes>
 
   );

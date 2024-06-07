@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SearchMapRequest } from 'apis';
-import { SearchMapResponseDto } from 'apis/response/map';
 import './style.css';
+import { SearchMapResponseDto } from 'apis/response';
+
 
 declare global {
     interface Window {
