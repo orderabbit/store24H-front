@@ -167,7 +167,7 @@
           "active": false,
           "left": 87.7774,
           "top": 535.3338,
-          "zIndex": 57,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 84.5703125,
           "color": "#FFEB3B"
@@ -368,7 +368,7 @@
           "active": true,
           "left": 711.7778,
           "top": 568,
-          "zIndex": 113,
+          "zIndex": 3,
           "widthName": 60,
           "widthComment": 71.5703125,
           "color": "#03A9F4"
@@ -454,7 +454,7 @@
           "active": false,
           "left": 174.4446,
           "top": 750.6529,
-          "zIndex": 104,
+          "zIndex": 2,
           "widthName": 122.3515625,
           "widthComment": 97.5703125
         },
