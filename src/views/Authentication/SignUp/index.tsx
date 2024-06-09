@@ -50,7 +50,7 @@ export default function SignUp() {
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
     const [NameMessage, setNameMessage] = useState<string>('');
-    const [genderMessage, setGenderMessage] = useState<string>('');
+    const [GenderMessage, setGenderMessage] = useState<string>('');
 
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
@@ -170,6 +170,16 @@ export default function SignUp() {
         const { value } = event.target;
         setPasswordCheck(value);
         setPasswordCheckMessage('');
+    };
+    const onNameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setName(value);
+        setNameMessage('');
+    };
+    const onGenderChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setGender(value);
+        setGenderMessage('');
     };
 
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -327,8 +337,10 @@ export default function SignUp() {
                             <InputBox ref={nicknameRef} title='닉네임' placeholder='닉네임을 입력해주세요' type='text' value={nickname} onChange={onNicknameChangeHandler} isErrorMessage={isNicknameError} message={NicknameMessage} buttonTitle='중복 확인' onButtonClick={onNicknameButtenClickHandler} onKeyDown={onNicknameKeyDownHandler} />
                             <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type='password' value={password} onChange={onPasswordChangeHandler} isErrorMessage={isPasswordError} message={passwordMessage} onKeyDown={onPasswordKeyDownHandler} />
                             <InputBox ref={passwordCheckRef} title='비밀번호 확인' placeholder='비밀번호를 입력해주세요' type='password' value={passwordCheck} onChange={onPasswordCheckChangeHandler} isErrorMessage={isPasswordCheckError} message={passwordCheckMessage} onKeyDown={onPasswordCheckKeyDownHandler} />
+                            <InputBox ref={nameRef} title='이름' placeholder='이름을 입력해주세요' type='text' value={name} onChange={onNameChangeHandler} isErrorMessage={isNameError} message={NameMessage}   />
+                            <InputBox ref={genderRef} title='성별' placeholder='성별을 입력해주세요' type='text' value={gender} onChange={onGenderChangeHandler} isErrorMessage={isGenderError} message={GenderMessage} />
                             <InputBox ref={emailRef} title='이메일' placeholder='이메일 주소를 입력해주세요' type='text' value={email} onChange={onEmailChangeHandler} isErrorMessage={isEmailError} message={EmailMessage} buttonTitle='이메일 인증' onButtonClick={onEmailButtenClickHandler} onKeyDown={onEmailKeyDownHandler} />
-                                                <InputBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
+                            <InputBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
                         </div>
                         <div className="auth-consent-box">
                             <div className="auth-check-box" onClick={onAgreedPersonalClickHandler}>
