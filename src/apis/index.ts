@@ -41,7 +41,6 @@ const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
 
 
-
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
         const response = await axios.get<SearchMapResponseDto>(SEARCH_MAP_URL(query, lat, lng), {});
@@ -62,14 +61,17 @@ export const GetProductRequest = async (keyword: string): Promise<AxiosResponse>
     }
 };
 
-export const PostProductRequest = async (formData: SaveProductRequestDto): Promise<SaveProductResponseDto> => {
-    try {
-        const response = await axios.post(POST_PRODUCT_URL(), formData, {});
-        return response.data;
-    } catch (error) {
-        console.error('Error posting product data:', error);
-        throw error;
-    }
+export const PostProductRequest = async (formData: SaveProductRequestDto, accessToken: string): Promise<SaveProductResponseDto> => {
+    const result = await axios.post(POST_PRODUCT_URL(), formData, authorization(accessToken))
+        .then(response => {
+            const responseBody: SaveProductResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
 }
 
 export const GetProductListRequest = async (userId: string, accessToken: string): Promise<AxiosResponse> => {

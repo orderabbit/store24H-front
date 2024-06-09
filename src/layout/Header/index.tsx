@@ -13,7 +13,7 @@ export default function Header() {
   const { pathname } = useLocation();
   const [cookies, setCookie] = useCookies();
 
-  const [isLogin, setLogin] = useState<boolean>(true);
+  const [isLogin, setLogin] = useState<boolean>(false);
   const [isMainPage, setMainPage] = useState<boolean>(false);
   const [isSearchPage, setSearchPage] = useState<boolean>(false);
   const [isDetailPage, setDetailPage] = useState<boolean>(false);
@@ -29,9 +29,9 @@ export default function Header() {
     setUserPage(isUserPage);
   }, [pathname]);
 
-  // useEffect(() => {
-  //   setLogin(loginUser !== null);
-  // }, [loginUser])
+  useEffect(() => {
+    setLogin(loginUser !== null);
+  }, [loginUser])
 
   const navigator = useNavigate();
 
