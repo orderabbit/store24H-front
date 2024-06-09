@@ -6,6 +6,7 @@ import { GetProductRequest, PostProductRequest } from 'apis';
 import './style.css';
 import axios from 'axios';
 import { SaveProductRequestDto } from 'apis/request';
+import { useCookies } from 'react-cookie';
 
 interface Product {
     productId: number;
@@ -19,6 +20,7 @@ interface Product {
 }
 
 const SearchList: React.FC = () => {
+    const [cookies, setCookie] = useCookies();
     const [products, setProducts] = useState<Product[]>([]);
     const [keyword, setKeyword] = useState('');
     const location = useLocation();
@@ -50,6 +52,7 @@ const SearchList: React.FC = () => {
     };
 
     const saveProductClickHandler = async (product: Product) => {
+        const accessToken = cookies.accessToken;
         const formData: SaveProductRequestDto = {
             productId: product.productId,
             title: product.title,
@@ -61,12 +64,12 @@ const SearchList: React.FC = () => {
         };
 
         try {
-            const response = await PostProductRequest(formData);
-            if (response.code === 'SU') {
-                alert("상품이 저장되었습니다.");
-            } else {
-                console.error("Error saving product", response.data.message);
-            }
+            const response = await PostProductRequest(formData, accessToken);
+            if (response.code === 'SU') alert("상품이 저장되었습니다.");
+            if (response.code === 'DP') alert("이미 저장된 상품입니다.");
+            if (response.code === 'DBE') alert("상품 저장에 실패했습니다.");
+            if (response.code === 'AF') alert("로그인이 필요합니다.");
+            
         } catch (error) {
             console.error("Error saving product", error);
         }

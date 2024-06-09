@@ -12,6 +12,7 @@ enum ResponseMessage{
     DATABASE_ERROR = "Database error.",
 
     DUPLICATE_NICKNAME = 'Duplicate nickname',
+    DUPLICATED_PRODUCT = "Duplicate Product",
     NOT_EXISTED_USER = "Not Existed User",
     NOT_EXISTED_BOARD = 'Not Existed Board',
     

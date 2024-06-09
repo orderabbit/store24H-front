@@ -14,6 +14,7 @@ enum ResponseCode{
 
     DUPLICATE_NICKNAME = 'DN',
     DUPLICATE_PASSWORD = 'DP',
+    DUPLICATED_PRODUCT = "DP",
 
     NOT_EXISTED_USER = "NU",
     NOT_EXISTED_BOARD = 'NB',
