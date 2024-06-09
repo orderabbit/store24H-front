@@ -7,6 +7,8 @@ import Search from 'views/product/main';
 import SearchList from 'views/product/searchList';
 import CartList from 'views/product/cart-list';
 import Container from 'layout/Container';
+import SignIn from 'views/Authentication/SignIn';
+import SignUp from 'views/Authentication/SignUp';
 
 
 
@@ -19,6 +21,8 @@ function App() {
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/cart" element={<CartList />} />
+        <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
       </Route>
     </Routes>
 
