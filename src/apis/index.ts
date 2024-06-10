@@ -41,6 +41,7 @@ const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keywo
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
 
+const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -147,3 +148,16 @@ export const checkCertificationRequest = async (requestBody: CheckCertificationR
         .catch(errorHandler);
     return result;
 };
+
+export const PostPaymentRequest = async (amount: string, paymentMethod: string) => {
+    try {
+        const response = await axios.post(POST_PAYMENT_URL(), {
+            amount: amount,
+            paymentMethod: paymentMethod
+        });
+        return response;
+    } catch (error) {
+        console.error('Error fetching payment data:', error);
+        throw error;
+    }
+}

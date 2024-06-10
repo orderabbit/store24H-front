@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import { getSignInUserRequest } from 'apis';
 import OAuth from 'views/Authentication/OAuth';
+import PaymentForm from 'components/payment';
 
 
 
@@ -54,6 +55,7 @@ function App() {
         <Route path="/cart" element={<CartList />} />
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path='/payment' element={<PaymentForm />}></Route>
       </Route>
     </Routes>
 
