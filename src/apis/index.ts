@@ -5,14 +5,7 @@ import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInReque
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import { GetSignInUserResponseDto } from "./response/user";
-
-const authorization = (accessToken: string) => {
-    return { headers: { Authorization: `Bearer ${accessToken}` } }
-};
-
-const DOMAIN = 'http://localhost:4040';
-const API_DOMAIN = `${DOMAIN}/api/v1`;
+import { GetSignInUserResponseDto, GetUserResponseDto } from "./response/user";
 
 
 const responseHandler = <T>(response: AxiosResponse<any, any>) => {
@@ -24,6 +17,13 @@ const errorHandler = (error: any) => {
     if (!error.response || !error.response.data) return null;
     const responseBody: ResponseDto = error.response.data;
     return responseBody;
+};
+
+const DOMAIN = 'http://localhost:4040';
+const API_DOMAIN = `${DOMAIN}/api/v1`;
+
+const authorization = (accessToken: string) => {
+    return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
 
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
@@ -40,6 +40,7 @@ const SEARCH_MAP_URL = (query: string, lat: number, lng: number) =>
 const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
+const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
@@ -84,6 +85,24 @@ export const GetProductListRequest = async (userId: string, accessToken: string)
         throw error;
     }
 }
+
+export const getUserRequest = async (userId: string, accessToken: string) => {
+    const result = await axios.get(GET_USER_URL(userId), authorization(accessToken))
+        .then(response => {
+            const responseBody: GetUserResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+        console.log(userId);
+        console.log(accessToken);
+    return result;
+}
+
+
 
 export const getSignInUserRequest = async (accessToken: string) => {
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
