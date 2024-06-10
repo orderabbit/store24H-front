@@ -22,8 +22,6 @@ import { SuccessPage } from 'views/payment/SuccessPage';
 import { FailPage } from 'views/payment/FailPage';
 import React from 'react';
 
-
-
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
   const [cookies, setCookies] = useCookies();
