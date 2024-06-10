@@ -33,9 +33,9 @@ const SearchList: React.FC = () => {
             if (searchKeyword) {
                 try {
                     const response = await GetProductRequest(searchKeyword);
-                    console.log(response.data.items);
                     setProducts(response.data.items);
                 } catch (error) {
+                    alert("상품을 찾을 수 없습니다.");
                     console.error('Failed to fetch products', error);
                 }
             }
