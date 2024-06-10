@@ -16,6 +16,7 @@ import { User } from 'types/interface';
 import { useEffect } from 'react';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import { getSignInUserRequest } from 'apis';
+import OAuth from 'views/Authentication/OAuth';
 
 
 
@@ -46,6 +47,7 @@ function App() {
     <Routes>
       <Route element={<Container />}>
         {/* <Route path={MAIN_PATH()} element={<Map />}></Route> */}
+        <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth/>}></Route>
         <Route path={TEST_PATH()} element={<Test />}></Route>
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
