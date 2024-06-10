@@ -15,10 +15,10 @@ const Search: React.FC = () => {
     };
 
     return (
-        <div className="main">
+        <div className="d-flex justify-content-center align-items-center vh-100">
             <div className="container">
-                <h1 className="main-box">
-                    <a href="/" className="google-home">
+                <h1 className="text-center mb-5">
+                    <a href="/" className="text-decoration-none">
                         <span style={{ color: '#4285f4', fontSize: '90px' }}>G</span>
                         <span style={{ color: '#ea4335', fontSize: '60px' }}>o</span>
                         <span style={{ color: '#fbbc05', fontSize: '60px' }}>o</span>
@@ -27,18 +27,18 @@ const Search: React.FC = () => {
                         <span style={{ color: '#ea4335', fontSize: '60px' }}>e</span>
                     </a>
                 </h1>
-                <form onSubmit={handleSearch} className="search-box">
-                    <div className="search-container" style={{ maxWidth: '500px' }}>
+                <form onSubmit={handleSearch} className="d-flex flex-column align-items-center gap-3">
+                    <div className="input-group mb-3" style={{ maxWidth: '500px' }}>
                         <input
                             name="keyword"
                             type="text"
-                            className="search-title"
+                            className="form-control rounded-pill"
                             placeholder="검색"
                             aria-label="검색"
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
                         />
-                        <button type="submit" className="search-button">검색</button>
+                        <button type="submit" className="btn btn-primary">검색</button>
                     </div>
                 </form>
             </div>
