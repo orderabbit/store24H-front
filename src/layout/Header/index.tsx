@@ -56,13 +56,13 @@ export default function Header() {
     };
     if (isLogin && isUserPage)
       return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
-    if (isLogin && isMainPage || isDetailPage)
+    if (isLogin && isMainPage)
       return <div className='white-button' onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>
     if (!isLogin)
       return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>;
     return null;
   };
-  
+  console.log(isLogin)
   return (
     <div id='header'>
       <div className='header-container'>

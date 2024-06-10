@@ -5,6 +5,7 @@ import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInReque
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
+import { GetSignInUserResponseDto } from "./response/user";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -84,19 +85,20 @@ export const GetProductListRequest = async (userId: string, accessToken: string)
     }
 }
 
-// export const getSignInUserRequest = async (accessToken: string) => {
-//     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
-//         .then(response => {
-//             const responseBody: GetSignInUserResponseDto = response.data;
-//             return responseBody;
-//         })
-//         .catch(error => {
-//             if (!error.response) return null;
-//             const responseBody: ResponseDto = error.response.data;
-//             return responseBody;
-//         })
-//     return result;
-// };
+export const getSignInUserRequest = async (accessToken: string) => {
+    const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
+        .then(response => {
+            const responseBody: GetSignInUserResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
+};
+
 export const SnsSignInRequest = async (requestBody: SignInRequestDto, type: 'kakao' | 'naver' | 'google') => {
     const result = await axios.post(SNS_SIGN_IN_URL(type), requestBody)
         .then(responseHandler<SignInRequestDto>)
