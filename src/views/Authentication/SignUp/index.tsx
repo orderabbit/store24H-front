@@ -11,6 +11,7 @@ import { ResponseBody } from "types";
 import { ResponseCode } from "types/enums";
 import './style.css';
 import { SIGNIN_PATH } from "constant";
+import React from "react";
 
 export default function SignUp() {
 
