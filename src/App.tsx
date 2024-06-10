@@ -9,10 +9,39 @@ import CartList from 'views/product/cart-list';
 import Container from 'layout/Container';
 import SignIn from 'views/Authentication/SignIn';
 import SignUp from 'views/Authentication/SignUp';
+import { useLoginUserStore } from 'stores';
+import { useCookies } from 'react-cookie';
+import { ResponseDto } from 'apis/response';
+import { User } from 'types/interface';
+import { useEffect } from 'react';
+import { GetSignInUserResponseDto } from 'apis/response/user';
+import { getSignInUserRequest } from 'apis';
 
 
 
 function App() {
+  const { setLoginUser, resetLoginUser } = useLoginUserStore();
+  const [cookies, setCookies] = useCookies();
+
+  const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto | null) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+
+    if (code === 'AF' || code === 'NU' || code === 'DBE') {
+      resetLoginUser();
+      return;
+    }
+    const loginUser: User = { ...responseBody as GetSignInUserResponseDto };
+    setLoginUser(loginUser);
+  }
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      resetLoginUser();
+      return;
+    }
+    getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
+  }, [cookies.accessToken]);
   return (
     <Routes>
       <Route element={<Container />}>
