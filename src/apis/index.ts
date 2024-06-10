@@ -149,15 +149,9 @@ export const checkCertificationRequest = async (requestBody: CheckCertificationR
     return result;
 };
 
-export const PostPaymentRequest = async (amount: string, paymentMethod: string) => {
-    try {
-        const response = await axios.post(POST_PAYMENT_URL(), {
-            amount: amount,
-            paymentMethod: paymentMethod
-        });
-        return response;
-    } catch (error) {
-        console.error('Error fetching payment data:', error);
-        throw error;
-    }
-}
+export const postPaymentRequest = async (accessToken: string, paymentData: any) => {
+    const result = await axios.post(POST_PAYMENT_URL(), paymentData, authorization(accessToken))
+        .then(responseHandler)
+        .catch(errorHandler);
+    return result;
+};
