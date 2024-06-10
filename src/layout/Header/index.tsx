@@ -63,7 +63,7 @@ export default function Header() {
       return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>;
     return null;
   };
-  console.log(isLogin)
+
   return (
     <div id='header'>
       <div className='header-container'>
