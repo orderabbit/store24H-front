@@ -116,8 +116,10 @@ const SearchList: React.FC = () => {
                                 <div>{product.category1}/{product.category2}</div>
                             </div>
                         </div>
+                        <div className="item-array">
                         <button className="item-store" onClick={() => saveProductClickHandler(product)}>담기</button>
                         <button className="item-buy" onClick={() => saveProductClickHandler(product)}>구매</button>
+                        </div>
                     </li>
                 ))}
             </ul>
