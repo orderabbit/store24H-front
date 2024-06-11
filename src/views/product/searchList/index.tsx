@@ -69,56 +69,61 @@ const SearchList: React.FC = () => {
             if (response.code === 'DP') alert("이미 저장된 상품입니다.");
             if (response.code === 'DBE') alert("상품 저장에 실패했습니다.");
             if (response.code === 'AF') alert("로그인이 필요합니다.");
-            
+
         } catch (error) {
             console.error("Error saving product", error);
         }
     };
 
     return (
-        <div className="search-container">
-            <h2 className="page-title">Api검색+등록</h2>
-            <div className="d-flex flex-column align-items-center gap-5">
-                <form onSubmit={handleSearch} className="search-form d-flex flex-column align-items-center gap-7">
-                    <div className="input-group mb-3">
-                        <input
-                            name="keyword"
-                            type="text"
-                            className="form-control rounded-pill"
-                            placeholder="검색"
-                            aria-label="검색"
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
-                        />
-                        <div className="input-group-append">
-                            <input type="submit" value="검색" className="btn search-btn view-all-button" />
+        <div className="list-search-container">
+            <h2 className="list-page-title"> 검색 목록</h2>
+            <div className="list-search-box">
+                <form onSubmit={handleSearch} className="list-search-blank">
+                    <div className="list-search-bar">
+                        <div className="list-search-input">
+                            <input
+                                name="keyword"
+                                type="text"
+                                className="list-search-keyword"
+                                placeholder="검색"
+                                aria-label="검색"
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                            />
+                            <div className="list-search-button">
+                                <input type="submit" value="검색" className="search-button" />
+                            </div>
                         </div>
+                        <div className="item-shopping-basket">
+                        <button id="allProductsButton" className="item-shopping-basket-button" onClick={() => navigate('/product/list')}>
+                            장바구니
+                        </button>
                     </div>
+                    </div>
+                    
                 </form>
+
             </div>
             <ul className="list-group">
                 {products.map((product) => (
-                    <li key={product.productId} className="product-item list-group-item">
-                        <div className="d-flex align-items-center">
+                    <li key={product.productId} className="product-item-list-group-item">
+                        <div className="items-center">
                             <img src={product.image} alt={product.title} width="100" />
-                            <div className="ml-3">
+                            <div className="items-price">
                                 <a href={product.link} target="_blank" rel="noopener noreferrer">{product.title}</a>
                                 <div>{product.lowPrice} 원</div>
                                 <div>{product.category1}/{product.category2}</div>
                             </div>
                         </div>
-                        <button className="btn view-all-button" onClick={() => saveProductClickHandler(product)}>저장</button>
+                        <div className="item-array">
+                        <button className="item-store" onClick={() => saveProductClickHandler(product)}>담기</button>
+                        <button className="item-buy" onClick={() => saveProductClickHandler(product)}>구매</button>
+                        </div>
                     </li>
                 ))}
             </ul>
-            <div className="d-flex justify-content-center gap-7">
-                <button id="allProductsButton" className="btn view-all-button" onClick={() => navigate('/product/list')}>
-                    전체 상품 목록으로
-                </button>
-            </div>
-            <button id="allProductsButton" className="btn view-all-button" onClick={() => saveProductClickHandler}>
-                저장
-            </button>
+
         </div>
     );
 };
