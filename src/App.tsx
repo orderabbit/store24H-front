@@ -57,8 +57,8 @@ function App() {
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path='/payment' element={<CheckoutPage />}></Route>
-        <Route path="success" element={<SuccessPage />}></Route>
-        <Route path="fail" element={<FailPage />}></Route>
+        <Route path="/success" element={<SuccessPage />}></Route>
+        <Route path="/fail" element={<FailPage />}></Route>
       </Route>
     </Routes>
 
