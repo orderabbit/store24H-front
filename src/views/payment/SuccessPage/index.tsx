@@ -8,7 +8,6 @@ export function SuccessPage() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
     const requestData = {
       orderId: searchParams.get("orderId"),
       customerId: searchParams.get("customerId"),
