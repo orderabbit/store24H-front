@@ -17,9 +17,10 @@ import { useEffect } from 'react';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import { getSignInUserRequest } from 'apis';
 import OAuth from 'views/Authentication/OAuth';
-import PaymentForm from 'components/payment';
-
-
+import { CheckoutPage } from 'views/payment/CheckoutPage';
+import { SuccessPage } from 'views/payment/SuccessPage';
+import { FailPage } from 'views/payment/FailPage';
+import React from 'react';
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -55,7 +56,9 @@ function App() {
         <Route path="/cart" element={<CartList />} />
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
-        <Route path='/payment' element={<PaymentForm />}></Route>
+        <Route path='/payment' element={<CheckoutPage />}></Route>
+        <Route path="success" element={<SuccessPage />}></Route>
+        <Route path="fail" element={<FailPage />}></Route>
       </Route>
     </Routes>
 

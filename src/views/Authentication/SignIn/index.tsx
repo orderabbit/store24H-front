@@ -10,6 +10,7 @@ import { ResponseBody } from "types";
 import { ResponseCode } from "types/enums";
 import './style.css';
 import { MAIN_PATH, SIGNUP_PATH } from "constant";
+import React from "react";
 // import { PasswordRecoveryRequestDto } from "apis/request/user";
 // import { PasswordRecoveryResponseDto } from "apis/response/user";
 

@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
+import React from 'react';
 
 
 export default function Header() {
@@ -62,7 +63,7 @@ export default function Header() {
       return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>;
     return null;
   };
-  console.log(isLogin)
+
   return (
     <div id='header'>
       <div className='header-container'>
