@@ -28,7 +28,7 @@ setCurrentSection(currentSection -1);
 
 }
 
-const onNextClickHandler = () => {F
+const onNextClickHandler = () => {
     if(currentSection == totalSection) return;
     setCurrentPage(currentSection * 10+1);
     setCurrentSection(currentSection + 1);
