@@ -6,4 +6,4 @@ export type {
     ResponseDto,
     SearchMapResponseDto,
     SaveProductResponseDto
-};
+}

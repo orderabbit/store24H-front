@@ -5,7 +5,8 @@ import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInReque
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import { GetSignInUserResponseDto, GetUserResponseDto } from "./response/user";
+import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
+import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
 
 
 const responseHandler = <T>(response: AxiosResponse<any, any>) => {
@@ -40,7 +41,14 @@ const SEARCH_MAP_URL = (query: string, lat: number, lng: number) =>
 const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
+
+// -- !--MyPageURL   -- //
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
+const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
+const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
+const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
+
+// -- MyPageURL --! //
 
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
@@ -101,6 +109,47 @@ export const getUserRequest = async (userId: string, accessToken: string) => {
         console.log(accessToken);
     return result;
 }
+
+export const patchNicknameRequest = async (requestBody: PatchNicknameRequestDto, accessToken: string) => {
+    const result = await axios.patch(PATCH_NICKNAME_URL(), requestBody, authorization(accessToken))
+        .then(response => {
+            const responseBody: PatchNicknameResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
+}
+
+export const patchPasswordRequest = async (userId: string, requestBody: PatchPasswordRequestDto, accessToken: string) => {
+    const result = await axios.patch(PATCH_PASSWORD_URL(userId), requestBody, authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+export const withdrawUserRequest = async (userId: number | string, accessToken: string) => {
+    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), authorization(accessToken))
+        .then(response => {
+            const responseBody: WithdrawalUserResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.data;
+            return responseBody;
+        });
+    return result;
+};
 
 
 
