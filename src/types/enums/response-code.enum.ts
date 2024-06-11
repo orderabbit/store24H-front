@@ -21,7 +21,8 @@ enum ResponseCode{
     AUTHORIZATION_FAILED = "AF",
 
     WRONG_PASSWORD = "WP",
-    DO_NOT_HAVE_PERMISSION = "NP"
+    DO_NOT_HAVE_PERMISSION = "NP",
+    DUPLICATED_ORDER = "DO"
 };
 
 export default ResponseCode;

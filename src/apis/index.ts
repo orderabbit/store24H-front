@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
@@ -41,7 +41,7 @@ const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keywo
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
 
-const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/confirm`;
+const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -151,7 +151,14 @@ export const checkCertificationRequest = async (requestBody: CheckCertificationR
 
 export const postPaymentRequest = async (paymentData: any) => {
     const result = await axios.post(POST_PAYMENT_URL(), paymentData)
-        .then(responseHandler)
-        .catch(errorHandler);
+        .then(response => {
+            const responseBody: PostPaymentResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
     return result;
-};
+  };

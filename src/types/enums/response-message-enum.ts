@@ -17,7 +17,8 @@ enum ResponseMessage{
     NOT_EXISTED_BOARD = 'Not Existed Board',
     
     WRONG_PASSWORD = "Wrong Password",
-    DO_NOT_HAVE_PERMISSION = "Do Not Have Permission"
+    DO_NOT_HAVE_PERMISSION = "Do Not Have Permission",
+    DUPLICATED_ORDER = "Duplicate Order"
 };
 
 export default ResponseMessage;
