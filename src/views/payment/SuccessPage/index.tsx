@@ -1,3 +1,4 @@
+import { postPaymentRequest } from "apis";
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -7,34 +8,28 @@ export function SuccessPage() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // TODO: 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
     // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
     const requestData = {
       orderId: searchParams.get("orderId"),
+      customerId: searchParams.get("customerId"),
+      customerName: searchParams.get("customerName"),
+      customerEmail: searchParams.get("customerEmail"),
+      customerPhone: searchParams.get("customerPhone"),
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
     };
 
     async function confirm() {
-      const response = await fetch("/confirm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await postPaymentRequest(requestData);
+      if (!response) return;
+      if (response.code === "DBE") alert("데이터베이스 오류가 발생했습니다. 다시 시도해주세요.");
+      if (response.code === "VF") alert("결제 금액이 일치하지 않습니다.");
+      if (response.code === "DO") alert("이미 결제가 완료된 주문입니다.");
 
-      const json = await response.json();
-
-      if (!response.ok) {
-        // TODO: 결제 실패 비즈니스 로직을 구현하세요.
-        console.log(json);
-        navigate(`/fail?message=${json.message}&code=${json.code}`);
+      if (!response.code) {
+        navigate(`/fail?message=${response.message}&code=${response.code}`);
         return;
       }
-
-      // TODO: 결제 성공 비즈니스 로직을 구현하세요.
-      console.log(json);
     }
     confirm();
   }, []);
