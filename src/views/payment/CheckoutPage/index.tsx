@@ -6,7 +6,6 @@ import { useCookies } from "react-cookie";
 import { GetProductListRequest, postPaymentRequest } from "apis";
 
 const selector = "#payment-widget";
-
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 const customerKey = nanoid();
 
@@ -39,7 +38,7 @@ export function CheckoutPage(): JSX.Element {
         });
     }
   }, [loginUser?.userId]);
-  
+
   useEffect(() => {
     const fetchPaymentWidget = async (): Promise<void> => {
       try {
@@ -88,18 +87,20 @@ export function CheckoutPage(): JSX.Element {
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName: "토스 티셔츠 외 2건",
+        customerId: loginUser.userId,
         customerName: loginUser.nickname,
-        customerEmail: "sdaf@naver.com",
-        customerMobilePhone: "01012341234",
+        customerEmail: loginUser.email,
+        customerPhone: "01012341234",
         amount: totalAmount,
-        successUrl: `${window.location.origin}/success`,
+        successUrl: `${window.location.origin}/success?orderId=${loginUser.userId}_${nanoid()}
+        &customerId=${loginUser.userId}
+        &customerName=${loginUser.nickname}
+        &customerEmail=${loginUser.email}
+        &customerPhone=01012341234
+        &amount=${totalAmount}
+        &paymentKey=${clientKey}`,
         failUrl: `${window.location.origin}/fail`,
-        // paymentKey: customerKey,
-      // };
       });
-      // console.log("Payment data:", paymentData);
-      // const response = await postPaymentRequest(paymentData);
-      // console.log("Payment response:", response);
     } catch (error) {
       console.error("Error requesting payment:", error);
     }
