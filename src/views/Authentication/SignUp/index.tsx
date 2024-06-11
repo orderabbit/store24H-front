@@ -11,6 +11,7 @@ import { ResponseBody } from "types";
 import { ResponseCode } from "types/enums";
 import './style.css';
 import { SIGNIN_PATH } from "constant";
+import React from "react";
 
 export default function SignUp() {
 
@@ -20,8 +21,7 @@ export default function SignUp() {
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
-    const nameRef = useRef<HTMLInputElement | null>(null);
-    const genderRef = useRef<HTMLInputElement | null>(null);
+   
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -29,8 +29,6 @@ export default function SignUp() {
     const [passwordCheck, setPasswordCheck] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [certificationNumber, setCertificationNumber] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [gender, setGender] = useState<string>('');
     const [agreedPersonal, setAgreenPersonal] = useState<boolean>(false);
 
     const [isUserIdError, setUserIdError] = useState<boolean>(false);
@@ -39,8 +37,6 @@ export default function SignUp() {
     const [isPasswordCheckError, setPasswordCheckError] = useState<boolean>(false);
     const [isEmailError, setEmailError] = useState<boolean>(false);
     const [isCertificationNumberError, setCertificationNumberError] = useState<boolean>(false);
-    const [isNameError, setNameError] = useState<boolean>(false);
-    const [isGenderError, setGenderError] = useState<boolean>(false);
     const [isAgreedPersonalError, setAgreedPersonalError] = useState<boolean>(false);
 
     const [userIdMessage, setUserIdMessage] = useState<string>('');
@@ -49,14 +45,12 @@ export default function SignUp() {
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
-    const [NameMessage, setNameMessage] = useState<string>('');
-    const [GenderMessage, setGenderMessage] = useState<string>('');
-
+   
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
 
-    const signUpButtonClass = userId && password && nickname && passwordCheck && email && certificationNumber && name && gender ?
+    const signUpButtonClass = userId && password && nickname && passwordCheck && email && certificationNumber ?
         'primary-button-lg' : 'disable-button-lg';
 
     const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
@@ -171,16 +165,7 @@ export default function SignUp() {
         setPasswordCheck(value);
         setPasswordCheckMessage('');
     };
-    const onNameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setName(value);
-        setNameMessage('');
-    };
-    const onGenderChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setGender(value);
-        setGenderMessage('');
-    };
+    
 
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -243,7 +228,7 @@ export default function SignUp() {
 
     const onSignUpButtonClickHandler = () => {
 
-        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber || !name || !gender) return;
+        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber ) return;
         if (!isUserIdCheck) {
             alert('중복 확인은 필수입니다.');
             return;
@@ -268,7 +253,7 @@ export default function SignUp() {
             return;
         }
 
-        const requestBody: SignUpRequestDto = { userId, nickname, password, email, certificationNumber, name, gender, agreedPersonal };
+        const requestBody: SignUpRequestDto = { userId, nickname, password, email, certificationNumber,  agreedPersonal };
         signupRequest(requestBody).then(signUpResponse)
     };
 
@@ -337,8 +322,6 @@ export default function SignUp() {
                             <InputBox ref={nicknameRef} title='닉네임' placeholder='닉네임을 입력해주세요' type='text' value={nickname} onChange={onNicknameChangeHandler} isErrorMessage={isNicknameError} message={NicknameMessage} buttonTitle='중복 확인' onButtonClick={onNicknameButtenClickHandler} onKeyDown={onNicknameKeyDownHandler} />
                             <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type='password' value={password} onChange={onPasswordChangeHandler} isErrorMessage={isPasswordError} message={passwordMessage} onKeyDown={onPasswordKeyDownHandler} />
                             <InputBox ref={passwordCheckRef} title='비밀번호 확인' placeholder='비밀번호를 입력해주세요' type='password' value={passwordCheck} onChange={onPasswordCheckChangeHandler} isErrorMessage={isPasswordCheckError} message={passwordCheckMessage} onKeyDown={onPasswordCheckKeyDownHandler} />
-                            <InputBox ref={nameRef} title='이름' placeholder='이름을 입력해주세요' type='text' value={name} onChange={onNameChangeHandler} isErrorMessage={isNameError} message={NameMessage}   />
-                            <InputBox ref={genderRef} title='성별' placeholder='성별을 입력해주세요' type='text' value={gender} onChange={onGenderChangeHandler} isErrorMessage={isGenderError} message={GenderMessage} />
                             <InputBox ref={emailRef} title='이메일' placeholder='이메일 주소를 입력해주세요' type='text' value={email} onChange={onEmailChangeHandler} isErrorMessage={isEmailError} message={EmailMessage} buttonTitle='이메일 인증' onButtonClick={onEmailButtenClickHandler} onKeyDown={onEmailKeyDownHandler} />
                             <InputBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
                         </div>

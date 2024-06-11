@@ -1,12 +1,18 @@
 import axios, { AxiosResponse } from "axios";
-import { ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
-import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
+import { GetSignInUserResponseDto } from "./response/user";
+
+const authorization = (accessToken: string) => {
+    return { headers: { Authorization: `Bearer ${accessToken}` } }
+};
+
+const DOMAIN = 'http://localhost:4040';
+const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 
 const responseHandler = <T>(response: AxiosResponse<any, any>) => {
@@ -18,13 +24,6 @@ const errorHandler = (error: any) => {
     if (!error.response || !error.response.data) return null;
     const responseBody: ResponseDto = error.response.data;
     return responseBody;
-};
-
-const DOMAIN = 'http://localhost:4040';
-const API_DOMAIN = `${DOMAIN}/api/v1`;
-
-const authorization = (accessToken: string) => {
-    return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
 
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
@@ -42,14 +41,7 @@ const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keywo
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
 
-// -- !--MyPageURL   -- //
-const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
-const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
-const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
-const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
-
-// -- MyPageURL --! //
-
+const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -93,65 +85,6 @@ export const GetProductListRequest = async (userId: string, accessToken: string)
         throw error;
     }
 }
-
-export const getUserRequest = async (userId: string, accessToken: string) => {
-    const result = await axios.get(GET_USER_URL(userId), authorization(accessToken))
-        .then(response => {
-            const responseBody: GetUserResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.response.data;
-            return responseBody;
-        });
-        console.log(userId);
-        console.log(accessToken);
-    return result;
-}
-
-export const patchNicknameRequest = async (requestBody: PatchNicknameRequestDto, accessToken: string) => {
-    const result = await axios.patch(PATCH_NICKNAME_URL(), requestBody, authorization(accessToken))
-        .then(response => {
-            const responseBody: PatchNicknameResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.response.data;
-            return responseBody;
-        })
-    return result;
-}
-
-export const patchPasswordRequest = async (userId: string, requestBody: PatchPasswordRequestDto, accessToken: string) => {
-    const result = await axios.patch(PATCH_PASSWORD_URL(userId), requestBody, authorization(accessToken))
-        .then(response => {
-            const responseBody: ResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.response.data;
-            return responseBody;
-        });
-    return result;
-};
-export const withdrawUserRequest = async (userId: number | string, accessToken: string) => {
-    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), authorization(accessToken))
-        .then(response => {
-            const responseBody: WithdrawalUserResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.data;
-            return responseBody;
-        });
-    return result;
-};
-
-
 
 export const getSignInUserRequest = async (accessToken: string) => {
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
@@ -215,3 +148,17 @@ export const checkCertificationRequest = async (requestBody: CheckCertificationR
         .catch(errorHandler);
     return result;
 };
+
+export const postPaymentRequest = async (paymentData: any) => {
+    const result = await axios.post(POST_PAYMENT_URL(), paymentData)
+        .then(response => {
+            const responseBody: PostPaymentResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
+  };

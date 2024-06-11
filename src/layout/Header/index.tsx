@@ -1,10 +1,11 @@
-import { MAIN_PATH, SEARCH_PATH, SIGNIN_PATH, USER_PATH } from 'constant';
+import { MAIN_PATH, PAYMENT_PATH, SEARCH_PATH, SIGNIN_PATH, USER_PATH } from 'constant';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
+import React from 'react';
 
 
 export default function Header() {
@@ -16,15 +17,16 @@ export default function Header() {
   const [isLogin, setLogin] = useState<boolean>(false);
   const [isMainPage, setMainPage] = useState<boolean>(false);
   const [isSearchPage, setSearchPage] = useState<boolean>(false);
-  const [isDetailPage, setDetailPage] = useState<boolean>(false);
   const [isUserPage, setUserPage] = useState<boolean>(false);
+  const [isPaymentPage, setPaymentPage] = useState<boolean>(false);
 
   useEffect(() => {
-
     const isMainPage = pathname === MAIN_PATH();
     setMainPage(isMainPage);
     const isSearchPage = pathname.startsWith(SEARCH_PATH());
     setSearchPage(isSearchPage);
+    const isPaymentPage = pathname.startsWith(PAYMENT_PATH());
+    setPaymentPage(isPaymentPage);
     const isUserPage = pathname.startsWith(USER_PATH(''));
     setUserPage(isUserPage);
   }, [pathname]);
@@ -62,7 +64,7 @@ export default function Header() {
       return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>;
     return null;
   };
-  console.log(isLogin)
+
   return (
     <div id='header'>
       <div className='header-container'>
@@ -73,7 +75,7 @@ export default function Header() {
           <div className='header-logo'>{'logo'}</div>
         </div>
         <div className='header-right-box'>
-          {(isMainPage || isSearchPage || isDetailPage || isUserPage) && <MyPageButton />}
+          {(isMainPage || isSearchPage || isUserPage || isPaymentPage) && <MyPageButton />}
         </div>
       </div>
     </div>

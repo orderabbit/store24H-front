@@ -1,6 +1,6 @@
 import Map from 'components/map';
 import Test from 'components/map/test';
-import { MAIN_PATH, PRODUCT_PATH, SEARCH_LIST_PATH, TEST_PATH, USER_PATH } from 'constant';
+import { MAIN_PATH, PRODUCT_PATH, SEARCH_LIST_PATH, TEST_PATH } from 'constant';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Search from 'views/product/main';
@@ -9,7 +9,6 @@ import CartList from 'views/product/cart-list';
 import Container from 'layout/Container';
 import SignIn from 'views/Authentication/SignIn';
 import SignUp from 'views/Authentication/SignUp';
-import MyPage from 'views/User';
 import { useLoginUserStore } from 'stores';
 import { useCookies } from 'react-cookie';
 import { ResponseDto } from 'apis/response';
@@ -17,10 +16,11 @@ import { User } from 'types/interface';
 import { useEffect } from 'react';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import { getSignInUserRequest } from 'apis';
-
 import OAuth from 'views/Authentication/OAuth';
-
-
+import { CheckoutPage } from 'views/payment/CheckoutPage';
+import { SuccessPage } from 'views/payment/SuccessPage';
+import { FailPage } from 'views/payment/FailPage';
+import React from 'react';
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -56,7 +56,10 @@ function App() {
         <Route path="/cart" element={<CartList />} />
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
-        <Route path={USER_PATH(':userId')} element={<MyPage />} /></Route>
+        <Route path='/payment' element={<CheckoutPage />}></Route>
+        <Route path="/success" element={<SuccessPage />}></Route>
+        <Route path="/fail" element={<FailPage />}></Route>
+      </Route>
     </Routes>
 
   );

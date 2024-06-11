@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import './style.css';
 
 const Search: React.FC = () => {
     const [keyword, setKeyword] = useState('');
@@ -19,12 +19,12 @@ const Search: React.FC = () => {
             <div className="container">
                 <h1 className="text-center mb-5">
                     <a href="/" className="text-decoration-none">
-                        <span style={{ color: '#4285f4', fontSize: '100px' }}>G</span>
-                        <span style={{ color: '#ea4335', fontSize: '100px' }}>o</span>
-                        <span style={{ color: '#fbbc05', fontSize: '100px' }}>o</span>
-                        <span style={{ color: '#4285f4', fontSize: '100px' }}>g</span>
-                        <span style={{ color: '#34a853', fontSize: '100px' }}>l</span>
-                        <span style={{ color: '#ea4335', fontSize: '100px' }}>e</span>
+                        <span style={{ color: '#4285f4', fontSize: '90px' }}>G</span>
+                        <span style={{ color: '#ea4335', fontSize: '60px' }}>o</span>
+                        <span style={{ color: '#fbbc05', fontSize: '60px' }}>o</span>
+                        <span style={{ color: '#4285f4', fontSize: '60px' }}>g</span>
+                        <span style={{ color: '#34a853', fontSize: '60px' }}>l</span>
+                        <span style={{ color: '#ea4335', fontSize: '60px' }}>e</span>
                     </a>
                 </h1>
                 <form onSubmit={handleSearch} className="d-flex flex-column align-items-center gap-3">
