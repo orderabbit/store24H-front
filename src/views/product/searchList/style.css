@@ -70,9 +70,12 @@
 
 
 
+
+
 .list-group{
     margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
-    
+    padding : 0;
+    margin : 0;
 }
 
 
@@ -80,21 +83,31 @@
     display: flex;
     font-style: initial;
     font-weight: 300;
-    flex-wrap: nowrap;
-   
+
+
 }
 .items-center{
     margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .items-price{
     margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
-
+    text-align: center;
+    margin-left: 30px;
 }
-
+.item-info{
+    margin-top: 30px;
+    text-align: left;}
 .item-array{
     margin-top: 5px; /* 검색창과 버튼 사이 여백 추가 */
     margin-left: auto;
+    display: flex;
+    flex-direction: column; /* 버튼들을 세로로 배열합니다. */
+    justify-content: flex-end; /* 버튼들을 오른쪽 세로수직으로 정렬합니다. */
+    
 }
 
 .item-store,.item-buy
@@ -102,12 +115,14 @@
     background-color: #007bff;
     border-color: #f2f3f8;
     color: #f2f3f8; /* 폰트 색상 파란색으로 설정 */
-    border-radius: 5px; /* 모서리를 둥글게 만듦 */
+    border-radius: 10px; /* 모서리를 둥글게 만듦 */
     font-style: italic; /* 폰트 스타일 변경 */
+    height: 38px; /* 상자의 높이 조절 */
+    width: 80px;
+    margin-bottom: 15px;
     
-    height: 100px; /* 상자의 높이 조절 */
-    margin-bottom: 10px;
     }
+
 .item-buy{ background-color:#f2f3f8;
         border-color:  #007bff;
         color: #007bff; /* 폰트 색상 파란색으로 설정 */
