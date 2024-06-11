@@ -7,6 +7,10 @@ import "./style.css";
 import axios from "axios";
 import { SaveProductRequestDto } from "apis/request";
 import { useCookies } from "react-cookie";
+import { usePagination } from 'hooks';
+import Pagination from 'components/Pagination';
+
+
 
 interface Product {
   productId: number;
@@ -18,6 +22,8 @@ interface Product {
   category1: string;
   category2: string;
 }
+
+
 
 const SearchList: React.FC = () => {
   const [cookies, setCookie] = useCookies();
