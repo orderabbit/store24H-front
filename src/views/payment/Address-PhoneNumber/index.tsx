@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 declare global {
     interface Window {
@@ -7,12 +7,25 @@ declare global {
     }
 }
 
+interface Product {
+    productId: number;
+    title: string;
+    link: string;
+    image: string;
+    lowPrice: string;
+    category1: string;
+    category2: string;
+}
+
 const AddressPage = () => {
+    const location = useLocation()
     const [address, setAddress] = useState<string>('');
     const [postcode, setPostcode] = useState<string>('');
     const [detailAddress, setDetailAddress] = useState<string>('');
     const [phoneNumber, setPhoneNumber] = useState<string>('');
     const navigate = useNavigate();
+    const selectedProducts: Product[] =  location.state.selectedProducts || [];
+    const selectedProductIds: Product[] =  location.state.selectedProductIds || [];
 
     const handlePostcodeSearch = () => {
         new window.daum.Postcode({
@@ -24,22 +37,29 @@ const AddressPage = () => {
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        console.log('selectedProductIds', selectedProducts);
         event.preventDefault();
-        navigate(`/checkout?address=${encodeURIComponent(address)}&postcode=${encodeURIComponent(postcode)}&detailAddress=${encodeURIComponent(detailAddress)}&phoneNumber=${encodeURIComponent(phoneNumber)}`);
+        navigate(`/checkout`, {
+            state: {
+                selectedProductIds,
+                selectedProducts,
+                address,
+                postcode,
+                detailAddress,
+                phoneNumber
+            }
+        });
     };
+
+    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     navigate(`/checkout?address=${encodeURIComponent(address)}&postcode=${encodeURIComponent(postcode)}&detailAddress=${encodeURIComponent(detailAddress)}&phoneNumber=${encodeURIComponent(phoneNumber)}`);
+    // };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         if (name === 'detailAddress') setDetailAddress(value);
         if (name === 'phoneNumber') setPhoneNumber(value);
-    };
-
-    const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAddress(event.target.value);
-    };
-
-    const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPhoneNumber(event.target.value);
     };
 
     return (

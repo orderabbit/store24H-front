@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { useLoginUserStore } from "stores";
 import { useCookies } from "react-cookie";
 import { GetProductListRequest, postPaymentRequest } from "apis";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const selector = "#payment-widget";
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
@@ -15,13 +15,10 @@ export function CheckoutPage(): JSX.Element {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
-  const [cookies, setCookies] = useCookies();
   const { loginUser } = useLoginUserStore();
-  const [searchParams] = useSearchParams();
-  const address = searchParams.get('address') || '';
-  const postcode = searchParams.get('postcode') || '';
-  const detailAddress = searchParams.get('detailAddress') || '';
-  const phoneNumber = searchParams.get('phoneNumber') || '';
+  const location = useLocation();
+  const { selectedProducts, address, postcode, detailAddress, phoneNumber } = location.state || {};
+
   const paymentMethodsWidgetRef = useRef<any>(null);
 
   useEffect(() => {
@@ -32,18 +29,11 @@ export function CheckoutPage(): JSX.Element {
   }, [loginUser]);
 
   useEffect(() => {
-    if (loginUser) {
-      GetProductListRequest(loginUser.userId, cookies.accessToken)
-        .then((response) => {
-          const productList = response.data.items;
-          const total = productList.reduce((sum: number, product: { lowPrice: string; }) => sum + parseFloat(product.lowPrice), 0);
-          setTotalAmount(total);
-        })
-        .catch((error) => {
-          console.error("Error fetching product list:", error);
-        });
+    if (selectedProducts && selectedProducts.length > 0) {
+      const total = selectedProducts.reduce((sum: number, product: { lowPrice: string; }) => sum + parseFloat(product.lowPrice), 0);
+      setTotalAmount(total);
     }
-  }, [loginUser?.userId]);
+  }, [selectedProducts]);
 
   useEffect(() => {
     const fetchPaymentWidget = async (): Promise<void> => {
@@ -104,6 +94,7 @@ export function CheckoutPage(): JSX.Element {
                       &customerEmail=${loginUser.email}
                       &customerAddress=${postcode} ${address} ${detailAddress}
                       &customerPhone=${phoneNumber}
+                      &productIds=${selectedProducts.map((product: { productId: number; }) => product.productId).join(",")}
                       &amount=${totalAmount}
                       &paymentKey=${clientKey}`,
         failUrl: `${window.location.origin}/fail`,
