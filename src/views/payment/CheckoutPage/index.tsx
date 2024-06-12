@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import { useLoginUserStore } from "stores";
 import { useCookies } from "react-cookie";
 import { GetProductListRequest, postPaymentRequest } from "apis";
+import { useSearchParams } from "react-router-dom";
 
 const selector = "#payment-widget";
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
@@ -15,8 +16,13 @@ export function CheckoutPage(): JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
   const [cookies, setCookies] = useCookies();
-  const paymentMethodsWidgetRef = useRef<any>(null);
   const { loginUser } = useLoginUserStore();
+  const [searchParams] = useSearchParams();
+  const address = searchParams.get('address') || '';
+  const postcode = searchParams.get('postcode') || '';
+  const detailAddress = searchParams.get('detailAddress') || '';
+  const phoneNumber = searchParams.get('phoneNumber') || '';
+  const paymentMethodsWidgetRef = useRef<any>(null);
 
   useEffect(() => {
     const userId = loginUser?.userId;
@@ -90,15 +96,17 @@ export function CheckoutPage(): JSX.Element {
         customerId: loginUser.userId,
         customerName: loginUser.nickname,
         customerEmail: loginUser.email,
-        customerPhone: "01012341234",
+        customerPhone: phoneNumber,
+        customerAddress: `${postcode} ${address} ${detailAddress}`,
         amount: totalAmount,
         successUrl: `${window.location.origin}/success?orderId=${loginUser.userId}_${nanoid()}
-        &customerId=${loginUser.userId}
-        &customerName=${loginUser.nickname}
-        &customerEmail=${loginUser.email}
-        &customerPhone=01012341234
-        &amount=${totalAmount}
-        &paymentKey=${clientKey}`,
+                      &customerId=${loginUser.userId}
+                      &customerName=${loginUser.nickname}
+                      &customerEmail=${loginUser.email}
+                      &customerAddress=${postcode} ${address} ${detailAddress}
+                      &customerPhone=${phoneNumber}
+                      &amount=${totalAmount}
+                      &paymentKey=${clientKey}`,
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
