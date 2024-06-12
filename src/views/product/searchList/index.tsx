@@ -88,6 +88,11 @@ const SearchList: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = products.slice(startIndex, endIndex);
 
+  const formatPrice = (price: string) => {
+    return parseFloat(price).toLocaleString();
+};
+
+
   return (
     <div className="list-search-container">
       <h2 className="list-page-title"> 검색 목록</h2>
@@ -131,7 +136,7 @@ const SearchList: React.FC = () => {
                 {product.title}
               </a>
               <div className="item-info">
-                <div>{product.lowPrice} 원</div>
+                <div>{formatPrice(product.lowPrice)} 원</div>
                 <div>
                   {product.category1}/{product.category2}
                 </div>
