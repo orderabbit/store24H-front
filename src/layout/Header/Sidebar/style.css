@@ -1,0 +1,47 @@
+#sidebar {
+    z-index: 5;
+    padding: 12px;
+    border-radius: 0 15px 15px 0;
+    color: #F2F3F8;
+    background-color: #007BFF;
+    height: 50%;
+    width: 15%;
+    left: -55%;
+    top: 96px;
+    position: fixed;
+    transition: 0.5s ease;
+  }
+  
+  
+  #sidebar.open {
+    left: 0;
+    transition: 0.5s ease;
+  }
+  
+  #sidebar .close {
+    cursor: pointer;
+    outline: none;
+    color: #F2F3F8;
+  }
+  
+  #sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #sidebar ul li {
+    margin: 30px 8px;
+    cursor: pointer;
+  }
+
+  #sidebar ul li:hover {
+    text-decoration: underline;
+  }
+  
+  #sidebar .exit-menu {
+    position: absolute;
+    bottom: 26px;
+    font-size: 0.8rem;
+  }
+  

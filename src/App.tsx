@@ -64,6 +64,7 @@ function App() {
         <Route path='/checkout' element={<CheckoutPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
+        <Route path="/user/:userId" element={<MyPage />} />
       </Route>      
     </Routes>
 
