@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
@@ -42,6 +42,7 @@ const SEARCH_MAP_URL = (query: string, lat: number, lng: number) =>
 const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
+const DELETE_PRODUCT_URL = (productId: number) => `${API_DOMAIN}/product/delete/${productId}`;
 
 const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
@@ -90,6 +91,20 @@ export const GetProductListRequest = async (userId: string, accessToken: string)
         console.error('Error fetching product list:', error);
         throw error;
     }
+}
+
+export const DeleteProductRequest = async (productId: number, accessToken: string) => {
+    const result = await axios.delete(DELETE_PRODUCT_URL(productId), authorization(accessToken))
+        .then(response => {
+            const responseBody: DeleteProductResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
 }
 
 export const getUserRequest = async (userId: string, accessToken: string) => {

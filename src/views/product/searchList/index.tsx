@@ -76,6 +76,33 @@ const SearchList: React.FC = () => {
     }
   };
 
+  const buyProductClickHandler = async (product: Product) => {
+    const accessToken = cookies.accessToken;
+    const formData: SaveProductRequestDto = {
+      productId: product.productId,
+      title: product.title,
+      link: product.link,
+      image: product.image,
+      lowPrice: product.lowPrice,
+      category1: product.category1,
+      category2: product.category2,
+    };
+
+    try {
+      const response = await PostProductRequest(formData, accessToken);
+      if (response.code === "SU"){alert("구매하시겠습니까?");
+        navigate("/address")
+      }
+
+      if (response.code === "AF") alert("로그인이 필요합니다.");
+    } catch (error) {
+      console.error("Error", error);
+    }
+  }
+
+  const cartButtonClickHandler = () => {
+    navigate("/cart");
+  }
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = products.slice(startIndex, endIndex);
@@ -109,7 +136,7 @@ const SearchList: React.FC = () => {
               <button
                 id="allProductsButton"
                 className="item-shopping-basket-button"
-                onClick={() => navigate("/product/list")}
+                onClick={cartButtonClickHandler}
               >
                 장바구니
               </button>
@@ -143,7 +170,7 @@ const SearchList: React.FC = () => {
               </button>
               <button
                 className="item-buy"
-                onClick={() => saveProductClickHandler(product)}
+                onClick={() => buyProductClickHandler(product)}
               >
                 구매
               </button>
