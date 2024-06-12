@@ -1,7 +1,7 @@
 import User from "./user.interface";
-import SearchList from "./search-List.intetface";
+import SearchResult from "./search-List.interface";
 
 export type {
     User,
-    SearchList
+    SearchResult
 }
