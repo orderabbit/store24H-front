@@ -20,6 +20,14 @@
 
     cursor: pointer;
 }
+.category-logo {
+    color:rgba(0, 0, 0, 1);
+    font-family: 'GimhaeGaya';
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.4px;
+}
 
 .header-logo {
     color: rgba(0, 0, 0, 1);
