@@ -21,6 +21,7 @@ import { CheckoutPage } from 'views/payment/CheckoutPage';
 import { SuccessPage } from 'views/payment/SuccessPage';
 import { FailPage } from 'views/payment/FailPage';
 import React from 'react';
+import MyPage from 'views/User';
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -59,6 +60,7 @@ function App() {
         <Route path='/payment' element={<CheckoutPage />}></Route>
         <Route path="/success" element={<SuccessPage />}></Route>
         <Route path="/fail" element={<FailPage />}></Route>
+        <Route path="/user/:userId" element={<MyPage />}></Route>
       </Route>
     </Routes>
 

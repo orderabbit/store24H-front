@@ -173,7 +173,7 @@ export default function MyPage() {
                         <div className='user-top-info-nickname'>{nickname}</div>
                       }
                       <div className='icon-box' onClick={onNicknameEditButtonClickHandler}>
-                        <div className='icon edit-icon'></div>
+                        <div className='icon-edit-icon'>변경</div>
                       </div></> :
                       <div className='user-top-info-nickname'>{nickname}</div>
                     }
@@ -193,7 +193,7 @@ export default function MyPage() {
                         <div className='sign-in-content-input'>••••••••</div>
                       }
                       <div className='icon-box' onClick={onPasswordEditButtonClickHandler}>
-                      <div className='icon edit-icon'></div>
+                      <div className='icon-edit-icon'>변경</div>
                       </div>
                     </p>
                   )}
