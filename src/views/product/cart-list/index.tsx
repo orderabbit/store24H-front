@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { GetProductListRequest } from 'apis';
+import { DeleteProductRequest, GetProductListRequest } from 'apis';
 import useLoginUserStore from 'stores/login-user.store';
 import { useCookies } from 'react-cookie';
 
@@ -46,9 +46,26 @@ const CartList: React.FC = () => {
         fetchProducts();
     }, [userId, cookies.accessToken]);
 
+    const deleteButtonClickHandler = async (productId: number) => {
+        alert('삭제하시겠습니까?');
+        if (userId && cookies.accessToken) {
+            const response = await DeleteProductRequest(productId, cookies.accessToken);
+            if(!response) return;
+            if (response.code === 'SU') {
+                alert('삭제되었습니다.');
+                const newProducts = products.filter(product => product.productId !== productId);
+                setProducts(newProducts);
+            } else {
+                alert('삭제에 실패했습니다.');
+            }
+        }
+    }
+
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();
     };
+
+
 
     return (
         <div className="container">
@@ -105,7 +122,7 @@ const CartList: React.FC = () => {
                             <td>{product.category1}/{product.category2}</td>
                             <td>
                                 <div>
-                                    <button className="mt-[5px] btn btn-warning" onClick={() => navigate(`/product/delete/${product.productId}`)}>삭제</button>
+                                    <button className="mt-[5px] btn btn-warning" onClick={() => deleteButtonClickHandler(product.productId)}>삭제</button>
                                 </div>
                             </td>
                         </tr>
