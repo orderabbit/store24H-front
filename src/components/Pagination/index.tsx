@@ -3,41 +3,31 @@ import "./style.css";
 
 interface Props {
   currentPage: number;
-  currentSection: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setCurrentSection: Dispatch<SetStateAction<number>>;
-
   viewPageList: number[];
-  totalSection: number;
 }
 
-export default function Pagination(props: Props) {
-  const { currentPage, currentSection, viewPageList, totalSection } = props;
-  const { setCurrentPage, setCurrentSection } = props;
-
-
+const Pagination: React.FC<Props> = ({ currentPage, setCurrentPage, viewPageList }) => {
   const onPageClickHandler = (page: number) => {
     setCurrentPage(page);
   };
+
   const onPreviousClickHandler = () => {
-    console.log(currentSection);
-    if (currentSection === 1) return;
-    const newSection = currentSection - 1;
-    setCurrentSection(newSection);
-    setCurrentPage((newSection - 1) * 10 + 10);
+    const prevPage = currentPage - 1;
+    if (prevPage < 1 || !viewPageList.includes(prevPage)) return;
+    setCurrentPage(prevPage);
   };
 
   const onNextClickHandler = () => {
-    console.log(currentSection, totalSection);
-    if (currentSection === totalSection) return;
-    const newSection = currentSection + 1;
-    setCurrentSection(newSection);
-    setCurrentPage((newSection - 1) * 10 + 1);
+    const nextPage = currentPage + 1;
+    if (!viewPageList.includes(nextPage)) return;
+    setCurrentPage(nextPage);
   };
+
   return (
     <div id="pagination-wrapper">
       <div className="pagination-change-link-box">
-        <div className="icon-box-small">
+        <div className="icon-box-small" style={{ cursor: currentPage === 1 ? "not-allowed" : "pointer" }}>
           <div
             className="pagination-change-link-text"
             onClick={onPreviousClickHandler}
@@ -66,6 +56,7 @@ export default function Pagination(props: Props) {
           <div
             className="pagination-change-link-text"
             onClick={onNextClickHandler}
+            style={{ cursor: !viewPageList.includes(currentPage + 1) ? "not-allowed" : "pointer" }} // Disable next button if next page does not exist
           >
             {"다음"}
           </div>
@@ -74,4 +65,6 @@ export default function Pagination(props: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default Pagination;

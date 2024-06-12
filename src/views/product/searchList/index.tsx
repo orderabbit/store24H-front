@@ -28,9 +28,6 @@ const SearchList: React.FC = () => {
   const searchKeyword = query.get("keyword");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentSection, setCurrentSection] = useState(1);
-  const [viewPageList, setViewPageList] = useState<number[]>([]);
-  const [totalSection, setTotalSection] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -40,11 +37,6 @@ const SearchList: React.FC = () => {
           const response = await GetProductRequest(searchKeyword);
           console.log(response.data.items);
           setProducts(response.data.items);
-          const totalItems = response.data.items.length;
-          const totalPage = Math.ceil(totalItems / itemsPerPage);
-          const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
-          setViewPageList(pages);
-          setTotalSection(Math.ceil(totalPage / 10));
         } catch (error) {
           console.error("Failed to fetch products", error);
         }
@@ -90,7 +82,7 @@ const SearchList: React.FC = () => {
 
   const formatPrice = (price: string) => {
     return parseFloat(price).toLocaleString();
-};
+  };
 
 
   return (
@@ -160,15 +152,11 @@ const SearchList: React.FC = () => {
         ))}
       </ul>
       <div className="search-pagination-box">
-    
-      <Pagination
-        currentPage={currentPage}
-        currentSection={currentSection}
-        setCurrentPage={setCurrentPage}
-        setCurrentSection={setCurrentSection}
-        viewPageList={viewPageList.slice((currentSection - 1) * 10, currentSection * 10)}
-        totalSection={totalSection}
-       />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          viewPageList={Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => i + 1)}
+        />
       </div>
     </div>
   );
