@@ -21,6 +21,7 @@ import { CheckoutPage } from 'views/payment/CheckoutPage';
 import { SuccessPage } from 'views/payment/SuccessPage';
 import { FailPage } from 'views/payment/FailPage';
 import React from 'react';
+import AddressPage from 'views/payment/Address-PhoneNumber';
 
 function App() {
   const { setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -54,11 +55,12 @@ function App() {
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/cart" element={<CartList />} />
-        <Route path="/signin" element={<SignIn />}></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route path='/payment' element={<CheckoutPage />}></Route>
-        <Route path="/success" element={<SuccessPage />}></Route>
-        <Route path="/fail" element={<FailPage />}></Route>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/address" element={<AddressPage />} />
+        <Route path='/checkout' element={<CheckoutPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/fail" element={<FailPage />} />
       </Route>
     </Routes>
 
