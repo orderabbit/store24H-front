@@ -89,7 +89,6 @@ export function CheckoutPage(): JSX.Element {
         alert("로그인이 필요합니다.");
         return;
       }
-      // const paymentData = {
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName: "토스 티셔츠 외 2건",
