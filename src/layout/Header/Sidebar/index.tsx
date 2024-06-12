@@ -50,7 +50,7 @@ export default function SideBar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
         {/* 나중에 폰트어썸 사용해서 아이콘추가? 하면될듯 */}
         <li onClick={() => handleCategoryClick('식품')}>식품</li>
         <li onClick={() => handleCategoryClick('스포츠')}>스포츠</li>
-        <li onClick={() => handleCategoryClick('미용')}>미용</li>
+        <li onClick={() => handleCategoryClick('화장품')}>화장품</li>
         <li onClick={() => handleCategoryClick('패션')}>패션</li>
         <li onClick={() => handleCategoryClick('생활')}>생활</li>
         <li onClick={() => handleCategoryClick('가전')}>가전</li>

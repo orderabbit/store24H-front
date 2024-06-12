@@ -21,29 +21,40 @@ const CartList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('title');
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string>("");
     const navigate = useNavigate();
-    
+
+    useEffect(() => {
+        if (loginUser?.userId) {
+            setUserId(loginUser.userId);
+            setIsLoggedIn(true);
+        }
+    }, [loginUser]);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                if (!loginUser) {
-                    navigate('/login');
-                    return;
+                if (userId && cookies.accessToken) {
+                    const response = await GetProductListRequest(userId, cookies.accessToken);
+                    setProducts(response.data.items);
                 }
-                const response = await GetProductListRequest(loginUser?.userId, cookies.accessToken);
-                setProducts(response.data);
             } catch (error) {
                 console.error('Failed to fetch products', error);
             }
         };
         fetchProducts();
-    }, [loginUser, cookies.accessToken]);
+    }, [userId, cookies.accessToken]);
+
+    const formatPrice = (price: string) => {
+        return parseFloat(price).toLocaleString();
+    };
 
     return (
         <div className="container">
             <div>
                 <h2>Product List</h2>
-                <div className="search-bar input-group mb-3">
+                {/* <div className="search-bar input-group mb-3">
                     <input
                         name="keyword"
                         type="text"
@@ -67,9 +78,9 @@ const CartList: React.FC = () => {
                                 <option value="category">카테고리</option>
                             </select>
                         </div>
-                        {/* <button type="button" onClick={submitForm} className="btn search-btn">검색</button> */}
+                        <button type="button" onClick={submitForm} className="btn search-btn">검색</button>
                     </div>
-                </div>
+                </div> */}
             </div>
             <table className="table">
                 <thead>
@@ -90,11 +101,10 @@ const CartList: React.FC = () => {
                             <td>
                                 <a href={product.link} target="_blank" rel="noopener noreferrer">{product.title}</a>
                             </td>
-                            <td>{product.lowPrice} 원</td>
+                            <td>{formatPrice(product.lowPrice)} 원</td>
                             <td>{product.category1}/{product.category2}</td>
                             <td>
                                 <div>
-                                    <button className="btn btn-warning" onClick={() => navigate(`/product/edit/${product.productId}`)}>수정</button>
                                     <button className="mt-[5px] btn btn-warning" onClick={() => navigate(`/product/delete/${product.productId}`)}>삭제</button>
                                 </div>
                             </td>
@@ -102,11 +112,6 @@ const CartList: React.FC = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="d-flex justify-content-center gap-7">
-                <button id="apiProductsButton" className="btn btn-primary" onClick={() => navigate('/api/search')}>
-                    Api등록 검색으로
-                </button>
-            </div>
         </div>
     );
 };
