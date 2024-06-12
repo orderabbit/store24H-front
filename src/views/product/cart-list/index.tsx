@@ -19,9 +19,9 @@ const CartList: React.FC = () => {
     const { loginUser } = useLoginUserStore();
     const [cookies, setCookie] = useCookies();
     const [products, setProducts] = useState<Product[]>([]);
-    const [keyword, setKeyword] = useState('');
-    const [category, setCategory] = useState('title');
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [checkedProducts, setCheckedProducts] = useState<{ [key: number | string]: boolean }>({});
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [userId, setUserId] = useState<string>("");
     const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const CartList: React.FC = () => {
         alert('삭제하시겠습니까?');
         if (userId && cookies.accessToken) {
             const response = await DeleteProductRequest(productId, cookies.accessToken);
-            if(!response) return;
+            if (!response) return;
             if (response.code === 'SU') {
                 alert('삭제되었습니다.');
                 const newProducts = products.filter(product => product.productId !== productId);
@@ -65,44 +65,48 @@ const CartList: React.FC = () => {
         return parseFloat(price).toLocaleString();
     };
 
+    const calculateTotalPrice = () => {
+        return Object.keys(checkedProducts)
+            .filter(productId => checkedProducts[productId])
+            .reduce((total, productId) => {
+                const product = products.find(product => product.productId === parseInt(productId));
+                return total + (product ? parseFloat(product.lowPrice) : 0);
+            }, 0).toLocaleString();
+    };
 
+    const handleCheckboxChange = (productId: number) => {
+        setCheckedProducts(prevCheckedProducts => ({
+            ...prevCheckedProducts,
+            [productId]: !prevCheckedProducts[productId]
+        }));
+        if (!checkedProducts[productId]) {
+            const selectedProduct = products.find(product => product.productId === productId);
+            if (selectedProduct) {
+                setSelectedProducts(prevSelectedProducts => [...prevSelectedProducts, selectedProduct]);
+            }
+        } else {
+            setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product.productId !== productId));
+        }
+    };
+    
+
+    const handleCheckout = () => {
+        const selectedProductIds = selectedProducts.map(product => product.productId);
+        navigate('/address', {
+            state: { selectedProducts, selectedProductIds }
+        });
+    };
 
     return (
         <div className="container">
             <div>
                 <h2>Product List</h2>
-                {/* <div className="search-bar input-group mb-3">
-                    <input
-                        name="keyword"
-                        type="text"
-                        className="w-[120px] form-control rounded-pill"
-                        placeholder="상품 검색"
-                        aria-label="Recipient's username"
-                        aria-describedby="button-addon2"
-                        value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
-                    />
-                    <div className="input-group-append">
-                        <div className="input-group-prepend">
-                            <select
-                                className="form-select rounded-pill"
-                                id="category"
-                                name="category"
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                            >
-                                <option value="title">제목</option>
-                                <option value="category">카테고리</option>
-                            </select>
-                        </div>
-                        <button type="button" onClick={submitForm} className="btn search-btn">검색</button>
-                    </div>
-                </div> */}
             </div>
             <table className="table">
                 <thead>
                     <tr>
                         <th> </th>
+                        <th>선택</th>
                         <th>상품번호</th>
                         <th>상품명</th>
                         <th>가격</th>
@@ -114,6 +118,13 @@ const CartList: React.FC = () => {
                     {products.map(product => (
                         <tr key={product.productId}>
                             <td><img src={product.image} alt={product.title} width="100" /></td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    checked={checkedProducts[product.productId] || false}
+                                    onChange={() => handleCheckboxChange(product.productId)}
+                                />
+                            </td>
                             <td>{product.productId}</td>
                             <td>
                                 <a href={product.link} target="_blank" rel="noopener noreferrer">{product.title}</a>
@@ -127,9 +138,14 @@ const CartList: React.FC = () => {
                             </td>
                         </tr>
                     ))}
+                    <tr>
+                        <td colSpan={7} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                            총 가격: {calculateTotalPrice()} 원
+                        </td>
+                    </tr>
                 </tbody>
                 <div>
-                    <button className="mt-[5px] btn btn-warning" onClick={() => navigate("/address")}>구매하기</button>
+                    <button className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
                 </div>
             </table>
 
