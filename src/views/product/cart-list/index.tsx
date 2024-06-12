@@ -128,7 +128,11 @@ const CartList: React.FC = () => {
                         </tr>
                     ))}
                 </tbody>
+                <div>
+                    <button className="mt-[5px] btn btn-warning" onClick={() => navigate("/address")}>구매하기</button>
+                </div>
             </table>
+
         </div>
     );
 };
