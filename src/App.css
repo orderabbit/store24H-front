@@ -301,33 +301,8 @@
   background-image: url(images/expand-left.png);
 }
 
-
-.logo-light-icon {
-  background-image: url(images/logo-light.png);
-}
-
-.insta-icon {
-  background-image: url(images/insta.png);
-}
-
-.naver-blog-icon {
-  background-image: url(images/naver-blog.png);
-}
-
-.logo-dark-icon {
-  background-image:  url(images/logo-dark.png);
-}
-
 .search-light-icon {
   background-image: url(images/search-light.png);
-}
-
-.image-box-light-icon {
-  background-image: url(images/image-box-light.png);
-}
-
-.close-icon {
-  background-image: url(images/close.png);
 }
 
 .check-round-fill-icon {
@@ -338,18 +313,6 @@
   background-image: url(images/check-ring-light.png);
 }
 
-.more-icon {
-  background-image: url(images/more.png);
-}
-
-.favorite-fill-icon {
-  background-image: url(images/favorite-fill.png);
-}
-
-.favorite-light-icon {
-  background-image: url(images/favorite-light.png);
-}
-
 .up-light-icon {
   background-image: url(images/expand-up-light.png);
 }
@@ -358,89 +321,14 @@
   background-image: url(images/expand-down-light.png);
 }
 
-.comment-icon {
-  background-image: url(images/chat-light.png);
-}
-
-.edit-icon {
-  background-image: url(images/edit-light.png);
-}
-
-.image-box-white-icon {
-  background-image: url(images/image-box-white-light.png);
-}
 
 .arrow-right-icon {
   background-image: url(images/arrow-right.png);
 }
 
-.url-box-light-icon {
-  background-image: url(images/link.png);
-}
 
-.pre-icon {
-  background-image: url(images/skip_previous.png);
-}
 
-.play-icon {
-  background-image: url(images/play_arrow.png);
-}
 
-.pause-icon {
-  background-image: url(images/pause.png);
-}
-
-.next-icon {
-  background-image: url(images/skip_next.png);
-}
-
-.forward-icon {
-  background-image: url(images/forward_10.png);
-}
-
-.backward-icon {
-  background-image: url(images/backward_10.png);
-}
-
-.mute-icon {
-  background-image: url(images/mute.png);
-}
-
-.unmute-icon {
-  background-image: url(images/unmute.png);
-}
-
-.upload-icon {
-  background-image: url(images/playlist_add.png);
-}
-
-.delete-icon {
-  background-image: url(images/delete.png);
-}
-
-.replay-icon {
-  background-image: url(images/replay.png);
-}
-
-.list-icon {
-  background-image: url(images/list_music.png);
-}
-
-.repeat-on-icon {
-  background-image: url(images/repeat_on.png);
-}
-
-.repeat-off-icon {
-  background-image: url(images/repeat_off.png);
-}
-
-.random-on-icon {
-  background-image: url(images/random_on.png);
-}
-
-.random-off-icon {
-  background-image: url(images/random_off.png);
-}
 
 
 

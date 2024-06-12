@@ -111,27 +111,6 @@ export function CheckoutPage(): JSX.Element {
       <div className="box_section">
         <div id="payment-widget" />
         <div id="agreement" />
-        {/* <div style={{ paddingLeft: "24px" }}>
-          <div className="checkable typography--p">
-            <label
-              htmlFor="coupon-box"
-              className="checkable__label typography--regular"
-            >
-              <input
-                id="coupon-box"
-                className="checkable__input"
-                type="checkbox"
-                aria-checked="true"
-                onChange={(event) => {
-                  setTotalAmount(
-                    event.target.checked ? totalAmount - 5000 : totalAmount + 5000
-                  );
-                }}
-              />
-              <span className="checkable__label-text">5,000원 쿠폰 적용</span>
-            </label>
-          </div>
-        </div> */}
         <div className="result wrapper">
           <button
             className="button"
