@@ -2,6 +2,7 @@ import { MAIN_PATH, PAYMENT_PATH, SEARCH_PATH, SIGNIN_PATH, USER_PATH } from 'co
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Sidebar from 'layout/Header/Sidebar';
 
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
@@ -9,7 +10,10 @@ import React from 'react';
 
 
 export default function Header() {
-
+  const[isOpen, setIsOpen] = useState<boolean>(false);
+  const toggleSide = () => {
+    setIsOpen(!isOpen);
+  };
   const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
   const { pathname } = useLocation();
   const [cookies, setCookie] = useCookies();
@@ -65,18 +69,28 @@ export default function Header() {
     return null;
   };
 
+  
+
   return (
     <div id='header'>
       <div className='header-container'>
-        <div className='header-left-box' onClick={onLogoClickHandler}>
-          <div className='icon-box'>
-            <div className='icon logo-dark-icon'></div>
-          </div>
-          <div className='header-logo'>{'logo'}</div>
+        <div className='header-left-box' onClick={toggleSide}>
+          {/* 카테고리 로고, 햄버거버튼 추가?예정 */}
+          <div className='category-logo'>{'Category'}</div>
         </div>
-        <div className='header-right-box'>
+        {/* 사이드바 */}
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className='header-container'>
+          <div className='header-left-box' onClick={onLogoClickHandler}>
+            <div className='icon-box'>
+              <div className='icon logo-dark-icon'></div>
+            </div>
+            <div className='header-logo'>{'logo'}</div>
+          </div>
+          <div className='header-right-box'>
           {(isMainPage || isSearchPage || isUserPage || isPaymentPage) && <MyPageButton />}
         </div>
+      </div>
       </div>
     </div>
   );
