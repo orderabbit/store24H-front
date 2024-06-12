@@ -1,5 +1,5 @@
 
-export default interface SearchList{
+export default interface SearchResult{
     productId : number;
     userId : string;
     title : string; 
