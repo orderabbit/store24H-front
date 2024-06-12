@@ -1,0 +1,55 @@
+
+        
+CREATE TABLE cart
+(
+  product_id VARCHAR(255) NOT NULL COMMENT '상품 번호',
+  title      VARCHAR(255) NOT NULL COMMENT '제목',
+  link       VARCHAR(255) NOT NULL COMMENT '링크',
+  image      VARCHAR(255) NULL     COMMENT '이미지',
+  low_price  VARCHAR(255) NOT NULL COMMENT '최저가',
+  category1  VARCHAR(255) NOT NULL COMMENT '대분류',
+  category2  VARCHAR(255) NOT NULL COMMENT '중분류',
+  user_id    VARCHAR(50)  NOT NULL COMMENT '사용자 아이디',
+  PRIMARY KEY (product_id)
+) COMMENT '장바구니 테이블';
+
+CREATE TABLE certification_number
+(
+  user_id              VARCHAR(50)  NOT NULL COMMENT '사용자 아이디',
+  certification_number VARCHAR(30)  NOT NULL COMMENT '인증번호',
+  email                VARCHAR(255) NOT NULL COMMENT '이메일'
+) COMMENT '인증번호 테이블';
+
+CREATE TABLE payment
+(
+  amount           VARCHAR(255) NOT NULL COMMENT '결제가격',
+  customer_email   VARCHAR(255) NOT NULL COMMENT '이메일',
+  customer_name    VARCHAR(255) NOT NULL COMMENT '닉네임',
+  customer_phone   VARCHAR(255) NOT NULL COMMENT '핸드폰 번호',
+  order_id         VARCHAR(255) NOT NULL COMMENT '주문번호',
+  customer_address VARCHAR(255) NOT NULL COMMENT '주소',
+  customer_id      VARCHAR(50)  NOT NULL COMMENT '사용자 아이디'
+) COMMENT '결제정보 테이블';
+
+CREATE TABLE user
+(
+  user_id       VARCHAR(50)  NOT NULL COMMENT '사용자 아이디',
+  password      VARCHAR(255) NOT NULL COMMENT '사용자 비밀번호',
+  nickname      VARCHAR(20)  NOT NULL COMMENT '사용자 닉네임',
+  email         VARCHAR(255) NOT NULL COMMENT '사용자 이메일',
+  profile_image TEXT         NULL     COMMENT '사용자 프로필 사진 URL',
+  PRIMARY KEY (user_id)
+) COMMENT '사용자 테이블';
+
+ALTER TABLE cart
+  ADD CONSTRAINT FK_user_TO_cart
+    FOREIGN KEY (user_id)
+    REFERENCES user (user_id);
+
+ALTER TABLE payment
+  ADD CONSTRAINT FK_user_TO_payment
+    FOREIGN KEY (customer_id)
+    REFERENCES user (user_id);
+
+        
+      

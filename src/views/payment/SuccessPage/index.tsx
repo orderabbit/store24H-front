@@ -15,6 +15,7 @@ export function SuccessPage() {
       customerEmail: searchParams.get("customerEmail"),
       customerPhone: searchParams.get("customerPhone"),
       customerAddress: searchParams.get("customerAddress"),
+      productIds: searchParams.get("productIds"),
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
     };
