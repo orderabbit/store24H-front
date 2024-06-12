@@ -1,5 +1,3 @@
-// SearchList.tsx
-
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetProductRequest, PostProductRequest } from "apis";
@@ -7,10 +5,7 @@ import "./style.css";
 import axios from "axios";
 import { SaveProductRequestDto } from "apis/request";
 import { useCookies } from "react-cookie";
-import { usePagination } from 'hooks';
 import Pagination from 'components/Pagination';
-
-
 
 interface Product {
   productId: number;
@@ -23,16 +18,20 @@ interface Product {
   category2: string;
 }
 
-
-
 const SearchList: React.FC = () => {
-  const [cookies, setCookie] = useCookies();
+  const [cookies] = useCookies();
   const [products, setProducts] = useState<Product[]>([]);
   const [keyword, setKeyword] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
   const searchKeyword = query.get("keyword");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentSection, setCurrentSection] = useState(1);
+  const [viewPageList, setViewPageList] = useState<number[]>([]);
+  const [totalSection, setTotalSection] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,6 +40,11 @@ const SearchList: React.FC = () => {
           const response = await GetProductRequest(searchKeyword);
           console.log(response.data.items);
           setProducts(response.data.items);
+          const totalItems = response.data.items.length;
+          const totalPage = Math.ceil(totalItems / itemsPerPage);
+          const pages = Array.from({ length: totalPage }, (_, i) => i + 1);
+          setViewPageList(pages);
+          setTotalSection(Math.ceil(totalPage / 10));
         } catch (error) {
           console.error("Failed to fetch products", error);
         }
@@ -80,9 +84,14 @@ const SearchList: React.FC = () => {
     }
   };
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProducts = products.slice(startIndex, endIndex);
+
   const formatPrice = (price: string) => {
     return parseFloat(price).toLocaleString();
 };
+
 
   return (
     <div className="list-search-container">
@@ -117,7 +126,7 @@ const SearchList: React.FC = () => {
         </form>
       </div>
       <ul className="list-group">
-        {products.map((product) => (
+        {displayedProducts.map((product) => (
           <li key={product.productId} className="product-item-list-group-item">
             <div className="items-center">
               <img src={product.image} alt={product.title} width="100" />
@@ -127,10 +136,10 @@ const SearchList: React.FC = () => {
                 {product.title}
               </a>
               <div className="item-info">
-              <div>{formatPrice(product.lowPrice)} 원</div>
-              <div>
-                {product.category1}/{product.category2}
-              </div>
+                <div>{formatPrice(product.lowPrice)} 원</div>
+                <div>
+                  {product.category1}/{product.category2}
+                </div>
               </div>
             </div>
             <div className="item-array">
@@ -150,6 +159,17 @@ const SearchList: React.FC = () => {
           </li>
         ))}
       </ul>
+      <div className="search-pagination-box">
+    
+      <Pagination
+        currentPage={currentPage}
+        currentSection={currentSection}
+        setCurrentPage={setCurrentPage}
+        setCurrentSection={setCurrentSection}
+        viewPageList={viewPageList.slice((currentSection - 1) * 10, currentSection * 10)}
+        totalSection={totalSection}
+       />
+      </div>
     </div>
   );
 };
