@@ -17,7 +17,7 @@ interface Props{
 
 const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
 
-    const{title, placeholder, type, value, isErrorMessage, buttonTitle, message, onChange, onKeyDown, onButtonClick} = props;
+    const{title, type, value, isErrorMessage, buttonTitle, message, onChange, onKeyDown, onButtonClick} = props;
 
     const buttonClass = value === '' ? 'input-box-button-disable' : 'input-box-button';
     const messageClass = isErrorMessage ? 'input-box-message-error' : 'input-box-message';
@@ -27,7 +27,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
             <div className='input-box-title'>{title}</div>
             <div className='input-box-content'>
                 <div className='input-box-body'>
-                    <input ref={ref} className="input-box-input" placeholder={placeholder} type={type} value={value} onChange={onChange} onKeyDown={onKeyDown}/>
+                    <input ref={ref} className="input-box-input" type={type} value={value} onChange={onChange} onKeyDown={onKeyDown}/>
                     {buttonTitle !== undefined && onButtonClick !== undefined && <div className={buttonClass} onClick={onButtonClick}>{buttonTitle}</div>}
                 </div>
                 {message !== undefined && <div className={messageClass}>{message}</div>}

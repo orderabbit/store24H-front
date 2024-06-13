@@ -27,7 +27,7 @@
     align-items :center;
     justify-content: space-between;
     gap:10px;
-    flex-wrap: nowrap; /* 요소들이 가로로 나열되도록 고정 */
+    
 }
 
 .list-search-input{
