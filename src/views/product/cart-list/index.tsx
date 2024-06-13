@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import { DeleteProductRequest, GetProductListRequest } from 'apis';
 import useLoginUserStore from 'stores/login-user.store';
 import { useCookies } from 'react-cookie';
@@ -22,6 +21,7 @@ const CartList: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [checkedProducts, setCheckedProducts] = useState<{ [key: number | string]: boolean }>({});
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+    const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
     const [userId, setUserId] = useState<string>("");
     const navigate = useNavigate();
 
@@ -88,7 +88,25 @@ const CartList: React.FC = () => {
             setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product.productId !== productId));
         }
     };
-    
+
+    const handleAllCheckboxChange = () => {
+        const newIsAllChecked = !isAllChecked;
+        setIsAllChecked(newIsAllChecked);
+
+        const newCheckedProducts: { [key: number | string]: boolean } = {};
+        const newSelectedProducts: Product[] = [];
+
+        products.forEach(product => {
+            newCheckedProducts[product.productId] = newIsAllChecked;
+            if (newIsAllChecked) {
+                newSelectedProducts.push(product);
+            }
+        });
+
+        setCheckedProducts(newCheckedProducts);
+        setSelectedProducts(newSelectedProducts);
+    };
+
 
     const handleCheckout = () => {
         const selectedProductIds = selectedProducts.map(product => product.productId);
@@ -105,8 +123,14 @@ const CartList: React.FC = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th> </th>
-                        <th>선택</th>
+                        <th>
+                            <input
+                                type="checkbox"
+                                checked={isAllChecked}
+                                onChange={handleAllCheckboxChange}
+                            />
+                        </th>
+                        <th></th>
                         <th>상품번호</th>
                         <th>상품명</th>
                         <th>가격</th>
@@ -117,7 +141,6 @@ const CartList: React.FC = () => {
                 <tbody>
                     {products.map(product => (
                         <tr key={product.productId}>
-                            <td><img src={product.image} alt={product.title} width="100" /></td>
                             <td>
                                 <input
                                     type="checkbox"
@@ -125,6 +148,7 @@ const CartList: React.FC = () => {
                                     onChange={() => handleCheckboxChange(product.productId)}
                                 />
                             </td>
+                            <td><img src={product.image} alt={product.title} width="100" /></td>
                             <td>{product.productId}</td>
                             <td>
                                 <a href={product.link} target="_blank" rel="noopener noreferrer">{product.title}</a>
@@ -138,17 +162,18 @@ const CartList: React.FC = () => {
                             </td>
                         </tr>
                     ))}
+                </tbody>
+                <tfoot>
                     <tr>
-                        <td colSpan={7} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                        <td colSpan={6} style={{ textAlign: 'right', fontWeight: 'bold' }}>
                             총 가격: {calculateTotalPrice()} 원
                         </td>
+                        <td colSpan={7} style={{}}>
+                            <button className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
+                        </td>
                     </tr>
-                </tbody>
-                <div>
-                    <button className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
-                </div>
+                </tfoot>
             </table>
-
         </div>
     );
 };

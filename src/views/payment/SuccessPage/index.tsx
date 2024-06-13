@@ -27,7 +27,7 @@ export function SuccessPage() {
       if (response.code === "VF") alert("결제 금액이 일치하지 않습니다.");
       if (response.code === "DO") alert("이미 결제가 완료된 주문입니다.");
 
-      if (!response.code) {
+      if (response.code !== "SU") {
         navigate(`/fail?message=${response.message}&code=${response.code}`);
         return;
       }
