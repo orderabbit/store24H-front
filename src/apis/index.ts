@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
-import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
+import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
+import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
-import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -108,6 +108,7 @@ export const DeleteProductRequest = async (productId: number, accessToken: strin
 }
 
 export const getUserRequest = async (userId: string, accessToken: string) => {
+    
     const result = await axios.get(GET_USER_URL(userId), authorization(accessToken))
         .then(response => {
             const responseBody: GetUserResponseDto = response.data;
@@ -117,7 +118,7 @@ export const getUserRequest = async (userId: string, accessToken: string) => {
             if (!error.response) return null;
             const responseBody: ResponseDto = error.response.data;
             return responseBody;
-        });
+        });        
     return result;
 }
 
