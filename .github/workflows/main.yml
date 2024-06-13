@@ -15,8 +15,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: Dockerfile
 
     steps:
 
@@ -55,9 +53,6 @@ jobs:
         source: '*'
         strip_components: 1
         target: '/home/ubuntu/{project-name}'
-        runs:
-          using: 'docker'
-          image: 'Dockerfile'
         script: |
           cd /home/ubuntu/store24H-front
           # 다음에 artifact 사용 가능
