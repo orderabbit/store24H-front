@@ -19,7 +19,7 @@ jobs:
     steps:
 
     - name: 해당 브런치로 체크아웃
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
 
     - name: 노드 설치
       uses: actions/setup-node@v1
