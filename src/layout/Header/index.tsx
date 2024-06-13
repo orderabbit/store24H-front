@@ -78,7 +78,7 @@ export default function Header() {
             <div className='icon-box'>
               <div className='icon logo-dark-icon'></div>
             </div>
-            <div className='header-logo'>{'logo'}</div>
+            <div className='header-logo'>{'NAVER'}</div>
           </div>
           <div className='header-right-box'>
           {<MyPageButton />}
