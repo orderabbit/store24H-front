@@ -118,8 +118,6 @@ export const getUserRequest = async (userId: string, accessToken: string) => {
             const responseBody: ResponseDto = error.response.data;
             return responseBody;
         });
-        console.log(userId);
-        console.log(accessToken);
     return result;
 }
 
