@@ -13,24 +13,25 @@
       steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20.14.0'
-
-      - name: Install dependencies
-        run: npm install
-
+      - uses: actions/setup-java@v2
+        with: 
+          distribution: 'build'
+          java-version: '17'
+        
+      - name: Grant execute
+        run: chmod +x gradlew
+	
       - name: Build
         run: |
           echo Build.
-          npm run build
+          ./gradlew clean build
+          npm start
 
       - name: Set artifact
-        run: echo "artifact=$ (ls ./build)" >> $GITHUB_ENV
+        run: echo "artifact=$ (ls ./build/libs)" >> $GITHUB_ENV
 
       - name: Deploy to Lightsail
-        uses: orderabbit/store24H-front@dep
+        uses: orderabbit/store24H-front@main
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
@@ -39,11 +40,4 @@
             cd /home/ubuntu/store24H-front
             # 다음에 artifact 사용 가능
             echo $artifact
-            sudo docker stop front
-            sudo docker build -t tdf .
-            sudo docker create --name front-container -p 80:80 tdf:latest
-            sudo docker start front-container
-            
-            
-            
-            
+            # 여기에 배포 스크립트를 작성하고 실행합니다.
