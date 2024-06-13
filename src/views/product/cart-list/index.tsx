@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import { DeleteProductRequest, GetProductListRequest } from 'apis';
 import useLoginUserStore from 'stores/login-user.store';
 import { useCookies } from 'react-cookie';
@@ -166,7 +165,7 @@ const CartList: React.FC = () => {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan={6} style={{ textAlign: 'right',fontWeight: 'bold' }}>
+                        <td colSpan={6} style={{ textAlign: 'right', fontWeight: 'bold' }}>
                             총 가격: {calculateTotalPrice()} 원
                         </td>
                         <td colSpan={7} style={{}}>
