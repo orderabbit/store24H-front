@@ -9,9 +9,15 @@ interface LoginUserStore {
 };
 
 const useLoginUserStore = create<LoginUserStore>(set => ({
-    loginUser: null,
-    setLoginUser: (loginUser) => set(state => ({...state, loginUser})),
-    resetLoginUser: () => set(state => ({ ...state, loginUser: null}))
+    loginUser: JSON.parse(localStorage.getItem("loginUser") || "null"),
+    setLoginUser: (loginUser) => {
+        set(state => ({...state, loginUser}));
+        localStorage.setItem("loginUser", JSON.stringify(loginUser));
+    },
+    resetLoginUser: () => {
+        set(state => ({ ...state, loginUser: null}))
+        localStorage.removeItem("loginUser");
+    }
 }));
 
 export default useLoginUserStore;

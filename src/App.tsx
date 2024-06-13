@@ -1,28 +1,26 @@
-import Map from 'components/map';
+import { getSignInUserRequest } from 'apis';
+import { ResponseDto } from 'apis/response';
+import { GetSignInUserResponseDto } from 'apis/response/user';
 import Test from 'components/map/test';
-import { MAIN_PATH, PRODUCT_PATH, SEARCH_LIST_PATH, TEST_PATH } from 'constant';
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import Search from 'views/product/main';
-import SearchList from 'views/product/searchList';
-import CartList from 'views/product/cart-list';
+import { TEST_PATH } from 'constant';
 import Container from 'layout/Container';
+import React, { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { Route, Routes } from 'react-router-dom';
+import { useLoginUserStore } from 'stores';
+import { User } from 'types/interface';
+import OAuth from 'views/Authentication/OAuth';
 import SignIn from 'views/Authentication/SignIn';
 import SignUp from 'views/Authentication/SignUp';
-import { useLoginUserStore } from 'stores';
-import { useCookies } from 'react-cookie';
-import { ResponseDto } from 'apis/response';
-import { User } from 'types/interface';
-import { useEffect } from 'react';
-import { GetSignInUserResponseDto } from 'apis/response/user';
-import { getSignInUserRequest } from 'apis';
-import OAuth from 'views/Authentication/OAuth';
-import { CheckoutPage } from 'views/payment/CheckoutPage';
-import { SuccessPage } from 'views/payment/SuccessPage';
-import { FailPage } from 'views/payment/FailPage';
-import React from 'react';
 import MyPage from 'views/User';
 import AddressPage from 'views/payment/Address-PhoneNumber';
+import { CheckoutPage } from 'views/payment/CheckoutPage';
+import { FailPage } from 'views/payment/FailPage';
+import { SuccessPage } from 'views/payment/SuccessPage';
+import CartList from 'views/product/cart-list';
+import Search from 'views/product/main';
+import SearchList from 'views/product/searchList';
+import './App.css';
 
 
 function App() {
@@ -30,6 +28,7 @@ function App() {
   const [cookies, setCookies] = useCookies();
 
   const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto | null) => {
+
     if (!responseBody) return;
     const { code } = responseBody;
 
@@ -42,6 +41,7 @@ function App() {
   }
 
   useEffect(() => {
+
     if (!cookies.accessToken) {
       resetLoginUser();
       return;
@@ -57,7 +57,6 @@ function App() {
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/cart" element={<CartList />} />
-
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/address" element={<AddressPage />} />
