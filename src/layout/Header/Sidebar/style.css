@@ -1,47 +1,47 @@
 #sidebar {
-    z-index: 5;
-    padding: 12px;
-    border-radius: 0 15px 15px 0;
-    color: #F2F3F8;
-    background-color: #007BFF;
-    height: 50%;
-    width: 15%;
-    left: -55%;
-    top: 96px;
-    position: fixed;
-    transition: 0.5s ease;
-  }
-  
-  
-  #sidebar.open {
-    left: 0;
-    transition: 0.5s ease;
-  }
-  
-  #sidebar .close {
-    cursor: pointer;
-    outline: none;
-    color: #F2F3F8;
-  }
-  
-  #sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  #sidebar ul li {
-    margin: 30px 8px;
-    cursor: pointer;
-  }
+  z-index: 5;
+  padding: 12px;
+  border-radius: 15px 0px 0 15px;
+  color: #F2F3F8;
+  background-color: #007BFF;
+  height: 50%; /* 사이드바의 높이를 화면의 높이에 비례해 설정 */
+  width: 0; /* 초기에는 사이드바가 접혀있기 때문에 너비를 0으로 설정 */
+  top: 96px; /* 배치위치 */
+  position: fixed;
+  visibility: hidden;
+  transition: width 1s ease /* 펼쳐지는 속도 */
+}
 
-  #sidebar ul li:hover {
-    text-decoration: underline;
-  }
+#sidebar.open {
+  visibility: visible;
+  width: 280px; /* 사이드바가 열릴 때 너비를 280px로 펼쳐지는 애니메이션 */
+  right: 84%; /* 열었을때 위치 */
   
-  #sidebar .exit-menu {
-    position: absolute;
-    bottom: 26px;
-    font-size: 0.8rem;
-  }
-  
+}
+
+#sidebar .close {
+  cursor: pointer;
+  outline: none;
+  color: #F2F3F8;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar ul li {
+  margin: 30px 8px;
+  cursor: pointer;
+}
+
+#sidebar ul li:hover {
+  text-decoration: underline;
+}
+
+#sidebar .exit-menu {
+  position: absolute;
+  bottom: 26px;
+  font-size: 0.8rem;
+}

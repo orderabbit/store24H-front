@@ -11,9 +11,10 @@ import React from 'react';
 
 export default function Header() {
   const[isOpen, setIsOpen] = useState<boolean>(false);
-  const toggleSide = () => {
+  const toggleSide = () => {  // 햄버거 버튼 클릭 토글 (미사용)
     setIsOpen(!isOpen);
   };
+  const [isHovering, setIsHovering] = useState<boolean>(false); // 햄버거 버튼 위에 마우스를 올렸는지 여부
   const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
   const { pathname } = useLocation();
   const [cookies, setCookie] = useCookies();
@@ -69,14 +70,36 @@ export default function Header() {
     return null;
   };
 
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    // 마우스가 햄버거 버튼 위에 있지 않고, 사이드바가 열린 상태에서만 사이드바를 닫는다.
+    if (!isHovering && isOpen) {
+      setIsOpen(false);
+    }
+  };
+
+  
+
   
 
   return (
     <div id='header'>
       <div className='header-container'>
-        <div className='header-left-box' onClick={toggleSide}>
-          {/* 카테고리 로고, 햄버거버튼 추가?예정 */}
-          <div className='category-logo'>{'Category'}</div>
+        <div className='header-left-box' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}> {/* onClick={toggleSide} 시에는 클릭시 사이드바 나옴*/}
+          {/* 카테고리 로고, 햄버거버튼*/}
+          <div className='category-logo'>
+          <div className="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          </div>
         </div>
         {/* 사이드바 */}
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
