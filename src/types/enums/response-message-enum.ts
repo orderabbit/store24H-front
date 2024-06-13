@@ -12,11 +12,13 @@ enum ResponseMessage{
     DATABASE_ERROR = "Database error.",
 
     DUPLICATE_NICKNAME = 'Duplicate nickname',
+    DUPLICATED_PRODUCT = "Duplicate Product",
     NOT_EXISTED_USER = "Not Existed User",
     NOT_EXISTED_BOARD = 'Not Existed Board',
     
     WRONG_PASSWORD = "Wrong Password",
-    DO_NOT_HAVE_PERMISSION = "Do Not Have Permission"
+    DO_NOT_HAVE_PERMISSION = "Do Not Have Permission",
+    DUPLICATED_ORDER = "Duplicate Order"
 };
 
 export default ResponseMessage;

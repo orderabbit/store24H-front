@@ -14,13 +14,15 @@ enum ResponseCode{
 
     DUPLICATE_NICKNAME = 'DN',
     DUPLICATE_PASSWORD = 'DP',
+    DUPLICATED_PRODUCT = "DP",
 
     NOT_EXISTED_USER = "NU",
     NOT_EXISTED_BOARD = 'NB',
     AUTHORIZATION_FAILED = "AF",
 
     WRONG_PASSWORD = "WP",
-    DO_NOT_HAVE_PERMISSION = "NP"
+    DO_NOT_HAVE_PERMISSION = "NP",
+    DUPLICATED_ORDER = "DO"
 };
 
 export default ResponseCode;

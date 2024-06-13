@@ -1,38 +1,585 @@
-.App {
-  text-align: center;
+.divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.emphasis {
+  font-weight: bolder;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.word-badge {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 30px;
+  padding: 6px 20px;
+
+  color: rgba(0, 0, 0, 0.5);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.word-badge:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+.primary-button-lg{
+  border-radius: 6px;
+  padding: 8px 24px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(58, 87, 232, 1);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 175%;
+
+  cursor: pointer;
+}
+
+.primary-button-small{
+  border-radius: 6px;
+  padding: 8px 24px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  justify-content: end;
+  align-items: end;
+
+  background-color: rgba(58, 87, 232, 1);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 150%;
+
+  cursor: pointer;
+}
+
+.disable-button-lg{
+  border-radius: 6px;
+  padding: 8px 24px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(138, 146, 166, 1);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 175%;
+
+  cursor: default;
+}
+
+.text-link-lg{
+  box-sizing: border-box;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: rgba(113, 113, 113, 1);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 175%;
+
+  cursor: pointer;
+}
+
+.text-link-lg-right{
+  box-sizing: border-box;
+
+  display: inline-flex;
+  justify-content: end;
+  align-items: center;
+
+  color: rgba(113, 113, 113, 1);
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+
+  cursor: pointer;
+}
+
+.text-link-lg:hover{
+  color: rgba(40, 40, 40, 1);
+}
+
+.primary-button-lg:hover{
+  opacity: 0.95;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.kakao-sign-in-button{
+  width: 56px;
+  height: 56px;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+  background-image: url(images/kakao-sign-in.png);
+
+  cursor: pointer;
+}
+
+.naver-sign-in-button{
+  width: 56px;
+  height: 56px;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+  background-image: url(images/naver-sign-in.png);
+
+  cursor: pointer;
+}
+
+.google-sign-in-button{
+  width: 56px;
+  height: 56px;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+  background-image: url(images/google-sign-in.png);
+
+  cursor: pointer;
+}
+
+.black-button {
+  border-radius: 46px;
+  width: 95px;
+  height: 30px;
+
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 1);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.black-button:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.disable-button {
+  border-radius: 46px;
+  width: 95px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.4);
+
+  color: rgba(255, 255, 255, 1);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: not-allowed;
+}
+
+.white-button {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 46px;
+  width: 93px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 1);
+
+  color: rgba(0, 0, 0, 0.5);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+
+  cursor: pointer;
+}
+
+.white-button:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.icon-box {
+  width: 24px;
+  height: 24px;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.icon-box-small {
+  width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.icon-box-large {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button {
+  border-radius: 50% 50%;
+
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+}
+
+.eye-light-off-icon {
+  background-image: url(images/eye-light-off.png);
+}
+
+.eye-light-on-icon {
+  background-image: url(images/eye-light-on.png);
+}
+
+.expand-right-icon {
+  background-image: url(images/expand-right.png);
+}
+
+.expand-left-icon {
+  background-image: url(images/expand-left.png);
+}
+
+.search-light-icon {
+  background-image: url(images/search-light.png);
+}
+
+.check-round-fill-icon {
+  background-image: url(images/check-round-fill.png);
+}
+
+.check-ring-light-icon {
+  background-image: url(images/check-ring-light.png);
+}
+
+.up-light-icon {
+  background-image: url(images/expand-up-light.png);
+}
+
+.down-light-icon {
+  background-image: url(images/expand-down-light.png);
+}
+
+
+.arrow-right-icon {
+  background-image: url(images/arrow-right.png);
+}
+
+
+
+
+
+
+
+/* body {
+  background-image: url('https://static.toss.im/ml-illust/img-back_005.jpg');
+  background-color: rgba(200, 200, 200, 0.5);
+} */
+.p {
+padding: 0;
+margin: 0;
+font-family: Toss Product Sans, -apple-system, BlinkMacSystemFont,
+  Bazier Square, Noto Sans KR, Segoe UI, Apple SD Gothic Neo, Roboto,
+  Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+  Segoe UI Symbol, Noto Color Emoji;
+color: #4e5968;
+word-break: keep-all;
+word-wrap: break-word;
+}
+.h4 {
+font-size: 20px;
+font-weight: 700;
+color: #333D4B;
+}
+.wrapper {
+max-width: 800px;
+margin: 0 auto;
+}
+.button {
+color: #f9fafb;
+background-color: #3182f6;
+margin: 0;
+font-size: 15px;
+font-weight: 400;
+line-height: 18px;
+white-space: nowrap;
+text-align: center;
+/* vertical-align: middle; */
+cursor: pointer;
+border: 0 solid transparent;
+user-select: none;
+transition: background 0.2s ease, color 0.1s ease;
+text-decoration: none;
+border-radius: 7px;
+padding: 11px 16px;
+}
+.button:hover {
+color: #fff;
+background-color: #1b64da;
+}
+.title {
+margin: 0 0 4px;
+font-size: 24px;
+font-weight: 600;
+color: #4e5968;
+}
+.result {
+flex-direction: column;
+align-items: center;
+text-align: center;
+text-wrap: balance;
+}
+.box_section {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgb(0 0 0 / 5%), 0 6px 6px rgb(0 0 0 / 40%);
+  padding: 40px 30px 50px 30px; 
+  margin-top:30px; 
+  margin-bottom:50px; 
+  color: #333D4B
+}
+:root {
+  --checkable-size: 20px;
+  --checkable-input-top: 3px;
+  --checkable-input-left: 5px;
+  --checkable-input-width: 14px;
+  --checkable-input-height: 10px;
+  --checkable-input-svg: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.343 4.574l4.243 4.243 7.07-7.071' fill='transparent' stroke-width='2' stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --checkable-label-text-padding: 8px;
+  --indeterminate-checkable-input-top: 7px;
+  --indeterminate-checkable-input-left: 5px;
+  --indeterminate-checkable-input-width: 14px
+}
+
+
+:root .checkable--small {
+  --checkable-size: 20px;
+  --checkable-input-top: 2px;
+  --checkable-input-left: 4px;
+  --checkable-input-width: 12px;
+  --checkable-input-height: 9px;
+  --checkable-input-svg: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.286 3.645l3.536 3.536 5.892-5.893' fill='transparent' stroke-width='2' stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --indeterminate-checkable-input-top: 5px;
+  --indeterminate-checkable-input-left: 4px;
+  --indeterminate-checkable-input-width: 12px
+}
+
+.checkable {
+  position: relative;
+  display: flex
+}
+
+.checkable+.checkable {
+  margin-top: 12px
+}
+
+.checkable--inline {
+  display: inline-block
+}
+
+.checkable--inline+.checkable--inline {
+  margin-top: 0;
+  margin-left: 18px
+}
+
+.checkable__label {
+  display: inline-block;
+  max-width: 100%;
+  min-height: 20px;
+  min-height: var(--checkable-size);
+  line-height: 1.6;
+  padding-left: 20px;
+  padding-left: var(--checkable-size);
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #4e5968;
+  color: var(--grey700);
+  cursor: pointer
+}
+
+.checkable__input {
+  position: absolute;
+  margin: 0 0 0 -20px;
+  margin: 0 0 0 calc(var(--checkable-size)*-1);
+  top: 4px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  cursor: pointer
+}
+
+.checkable__input:after,.checkable__input:before {
+  content: "";
+  position: absolute
+}
+
+.checkable__input:before {
+  top: -4px;
+  left: 0;
+  width: 20px;
+  width: var(--checkable-size);
+  height: 20px;
+  height: var(--checkable-size);
+  border: 2px solid #d1d6db;
+  border: 2px solid #d1d6db;
+  background-color: #fff;
+  background-color: white;
+  transition: border-color .1s ease,background-color .1s ease
+}
+
+.checkable__input:after {
+  opacity: 0;
+  transition: opacity .1s ease;
+  top: 3px;
+  top: var(--checkable-input-top);
+  left: 5px;
+  left: var(--checkable-input-left);
+  width: 14px;
+  width: var(--checkable-input-width);
+  height: 10px;
+  height: var(--checkable-input-height);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.343 4.574l4.243 4.243 7.07-7.071' fill='transparent' stroke-width='2' stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: var(--checkable-input-svg);
+  background-repeat: no-repeat
+}
+
+.checkable__input[type=checkbox]:indeterminate:after {
+  top: 7px;
+  top: var(--indeterminate-checkable-input-top);
+  left: 5px;
+  left: var(--indeterminate-checkable-input-left);
+  width: 14px;
+  width: var(--indeterminate-checkable-input-width);
+  height: 0;
+  border: 1px solid #fff;
+  border: 1px solid var(--white);
+  border-radius: 1px;
+  transform: rotate(0)
+}
+
+.checkable__input:focus {
+  outline: 0
+}
+
+.checkable__input:focus:before,.checkable__input:hover:before {
+  background-color: #e8f3ff;
+  background-color: #e8f3ff;
+  border-color: #3182f6;
+  border-color: #3182f6
+}
+
+.checkable__input:checked:before,.checkable__input[type=checkbox]:indeterminate:before {
+  border-color: #3182f6;
+  border-color: #3182f6;
+  background-color: #3182f6;
+  background-color: #3182f6
+}
+
+.checkable__input:checked:after,.checkable__input[type=checkbox]:indeterminate:after {
+  opacity: 1
+}
+
+.checkable__input:disabled:before {
+  background-color: #f2f4f6;
+  background-color: var(--grey100);
+  border-color: rgba(0,23,51,.02);
+  border-color: var(--greyOpacity50)
+}
+
+.checkable__input:disabled:checked:before,.checkable__input:disabled[type=checkbox]:indeterminate:before {
+  background-color: #e5e8eb;
+  background-color: var(--grey200);
+  border-color: #e5e8eb;
+  border-color: var(--grey200)
+}
+
+.checkable__input[type=checkbox]:before {
+  border-radius: 6px
+}
+
+.checkable__input[type=radio]:before {
+  border-radius: 12px
+}
+
+.checkable__label-text {
+  display: inline-block;
+  padding-left: 13px;
+  color: #4e5968;
+}
+
+.checkable--disabled>.checkable__input {
+  cursor: not-allowed
+}
+
+.checkable--disabled>.checkable__label {
+  color: #b0b8c1;
+  color: var(--grey400);
+  cursor: not-allowed
+}
+
+.checkable--read-only {
+  pointer-events: none
 }
