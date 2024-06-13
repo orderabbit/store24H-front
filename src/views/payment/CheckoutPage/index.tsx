@@ -79,23 +79,24 @@ export function CheckoutPage(): JSX.Element {
         alert("로그인이 필요합니다.");
         return;
       }
+      const selectedProductIds = selectedProducts.map((product: { productId: number }) => product.productId);
       await paymentWidget?.requestPayment({
-        orderId: nanoid(),
+        orderId: nanoid().trim(),
         orderName: "토스 티셔츠 외 2건",
         customerId: loginUser.userId,
         customerName: loginUser.nickname,
         customerEmail: loginUser.email,
         customerPhone: phoneNumber,
-        customerAddress: `${postcode} ${address} ${detailAddress}`,
+        customerAddress: `${postcode.trim()} ${address.trim()} ${detailAddress.trim()}`,
         amount: totalAmount,
         successUrl: `${window.location.origin}/success?orderId=${loginUser.userId}_${nanoid()}
-                      &customerId=${loginUser.userId}
-                      &customerName=${loginUser.nickname}
+                      &customerId=${loginUser.userId.trim()}
+                      &customerName=${loginUser.nickname.trim()}
                       &customerEmail=${loginUser.email}
-                      &customerAddress=${postcode} ${address} ${detailAddress}
-                      &customerPhone=${phoneNumber}
-                      &productIds=${selectedProducts.map((product: { productId: number; }) => product.productId).join(",")}
-                      &amount=${totalAmount}
+                      &customerAddress=${postcode.trim()} ${address.trim()} ${detailAddress.trim()}
+                      &customerPhone=${phoneNumber.trim()}
+                      &productIds=${encodeURIComponent(JSON.stringify(selectedProductIds))}
+                      &amount=${parseFloat(totalAmount.toString().trim())}
                       &paymentKey=${clientKey}`,
         failUrl: `${window.location.origin}/fail`,
       });
