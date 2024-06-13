@@ -90,15 +90,16 @@ const SearchList: React.FC = () => {
 
     try {
       const response = await PostProductRequest(formData, accessToken);
-      if (response.code === "SU"){alert("구매하시겠습니까?");
-        navigate("/address")
+      if (response.code === "SU") {
+        alert("구매하시겠습니까?");
+        navigate("/address", { state: { selectedProduct: product } });
       }
 
       if (response.code === "AF") alert("로그인이 필요합니다.");
     } catch (error) {
       console.error("Error", error);
     }
-  }
+  };
 
   const cartButtonClickHandler = () => {
     navigate("/cart");
