@@ -157,15 +157,15 @@ export default function MyPage() {
         <div className='sign-in-container'>
           <div className='sign-in-box'>
             <div className='user-profile'>
-              <div className='sign-in-title'>My Profile</div>
+              <div className='sign-in-title'>My 페이지</div>
               <div className='sign-in-content-box'>
                 <div className='sign-in-content-input-box'>
                   <p>
-                    <small>ID</small>
+                    <small>아이디</small>
                     {userId}
                   </p>
                   <p>
-                    <small>Nickname</small>
+                    <small>닉네임</small>
                     {isMyPage ?
                     <>
                       {isNicknameChange ?
@@ -179,15 +179,15 @@ export default function MyPage() {
                     }
                   </p>
                   <p>
-                    <small>Email</small>
+                    <small>이메일</small>
                     {email}
                   </p>
                   {isMyPage && (
                     <p>
-                      <small>Password</small>
+                      <small>비밀번호</small>
                       {isPasswordChange ?
                         <>
-                          <input className='sign-in-content-input' type='password' placeholder='현재 비밀번호' value={currentPassword} onChange={onCurrentPasswordChangeHandler} />
+                        <input className='sign-in-content-input' type='password' placeholder='현재 비밀번호' value={currentPassword} onChange={onCurrentPasswordChangeHandler} />
                           <input className='sign-in-content-input' type='password' placeholder='새 비밀번호' value={newPassword} onChange={onNewPasswordChangeHandler} />
                         </> :
                         <div className='sign-in-content-input'>••••••••</div>

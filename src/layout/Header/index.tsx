@@ -111,9 +111,8 @@ export default function Header() {
             <div className='header-logo'>{'logo'}</div>
           </div>
           <div className='header-right-box'>
-          {(isMainPage || isSearchPage || isUserPage || isPaymentPage) && <MyPageButton />}
+          {<MyPageButton />}
         </div>
-      </div>
       </div>
     </div>
   );
