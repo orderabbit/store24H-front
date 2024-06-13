@@ -74,13 +74,6 @@ export default function Header() {
   return (
     <div id='header'>
       <div className='header-container'>
-        <div className='header-left-box' onClick={toggleSide}>
-          {/* 카테고리 로고, 햄버거버튼 추가?예정 */}
-          <div className='category-logo'>{'Category'}</div>
-        </div>
-        {/* 사이드바 */}
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className='header-container'>
           <div className='header-left-box' onClick={onLogoClickHandler}>
             <div className='icon-box'>
               <div className='icon logo-dark-icon'></div>
@@ -88,9 +81,8 @@ export default function Header() {
             <div className='header-logo'>{'logo'}</div>
           </div>
           <div className='header-right-box'>
-          {(isMainPage || isSearchPage || isUserPage || isPaymentPage) && <MyPageButton />}
+          {<MyPageButton />}
         </div>
-      </div>
       </div>
     </div>
   );
