@@ -412,6 +412,7 @@ text-wrap: balance;
   --indeterminate-checkable-input-width: 14px
 }
 
+
 :root .checkable--small {
   --checkable-size: 20px;
   --checkable-input-top: 2px;
