@@ -29,6 +29,7 @@ const SearchList: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -63,6 +64,7 @@ const SearchList: React.FC = () => {
       lowPrice: product.lowPrice,
       category1: product.category1,
       category2: product.category2,
+      count: quantities[product.productId] || 1,
     };
 
     try {
@@ -86,6 +88,7 @@ const SearchList: React.FC = () => {
       lowPrice: product.lowPrice,
       category1: product.category1,
       category2: product.category2,
+      count: quantities[product.productId] || 1,
     };
 
     try {
@@ -110,6 +113,24 @@ const SearchList: React.FC = () => {
 
   const formatPrice = (price: string) => {
     return parseFloat(price).toLocaleString();
+  };
+
+  const handleQuantityChange = (productId: number, quantity: number) => {
+    setQuantities({ ...quantities, [productId]: quantity });
+  };
+
+  const incrementQuantity = (productId: number) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: (prevQuantities[productId] || 1) + 1,
+    }));
+  };
+
+  const decrementQuantity = (productId: number) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: Math.max((prevQuantities[productId] || 1) - 1, 1),
+    }));
   };
 
 
@@ -163,6 +184,17 @@ const SearchList: React.FC = () => {
               </div>
             </div>
             <div className="item-array">
+              <div className="quantity-wrapper">
+                <div className="quantity-selector">
+                  <div className="icon-button" onClick={() => decrementQuantity(product.productId)}>
+                    <div className="icon quantity-minus-icon"></div>
+                  </div>
+                  <span>{quantities[product.productId] || 1}</span>
+                  <div className="icon-button" onClick={() => incrementQuantity(product.productId)}>
+                    <div className="icon quantity-plus-icon"></div>
+                  </div>
+                </div>
+              </div>
               <button
                 className="item-store"
                 onClick={() => saveProductClickHandler(product)}
