@@ -13,6 +13,7 @@ interface Product {
     lowPrice: string;
     category1: string;
     category2: string;
+    count: number;
 }
 
 const CartList: React.FC = () => {
@@ -33,17 +34,19 @@ const CartList: React.FC = () => {
             setIsLoggedIn(true);
         }
     }, [loginUser]);
-
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 if (userId && cookies.accessToken) {
                     const response = await GetProductListRequest(userId, cookies.accessToken);
                     setProducts(response.data.items);
-                    const initialQuantities = response.data.items.reduce((acc: { [x: string]: number; }, product: { productId: string | number; }) => {
-                        acc[product.productId] = 1;
+
+                    // Initialize quantities based on server data
+                    const initialQuantities = response.data.items.reduce((acc: { [x: string]: number }, product: Product) => {
+                        acc[product.productId] = product.count || 1; // Use product.count if available, otherwise default to 1
                         return acc;
                     }, {});
+
                     setQuantities(initialQuantities);
                 }
             } catch (error) {
@@ -52,6 +55,7 @@ const CartList: React.FC = () => {
         };
         fetchProducts();
     }, [userId, cookies.accessToken]);
+
 
     const deleteButtonClickHandler = async (productId: number) => {
         alert('삭제하시겠습니까?');
