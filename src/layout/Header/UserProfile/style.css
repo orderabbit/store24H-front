@@ -1,0 +1,46 @@
+#profilebar {
+  z-index: 5;
+  padding: 12px;
+  border-radius: 15px 15px 15px 15px;
+  color: #f8f8f8;
+  background-color: rgb(94, 71, 197);
+  height: 30%; /* 사이드바의 높이를 화면의 높이에 비례해 설정 */
+  width: 20%; /* 초기에는 사이드바가 접혀있기 때문에 너비를 0으로 설정 */
+  top: 96px; /* 배치위치 */
+  position: fixed;
+  visibility: hidden; /* 사이드바를 숨김 */
+}
+
+#profilebar.open {
+  visibility: visible;
+  right: 1%; /* 열었을때 위치 */
+  background-color: rgba(0, 0, 0, 0.959);
+  
+}
+
+#profilebar .close {
+  cursor: pointer;
+  outline: none;
+  color: #000000;
+}
+
+#profilebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#profilebar ul li {
+  margin: 30px 8px;
+  cursor: pointer;
+}
+
+#profilebar ul li:hover {
+  text-decoration: underline;
+}
+
+#profilebar .exit-menu {
+  position: absolute;
+  bottom: 26px;
+  font-size: 0.8rem;
+}

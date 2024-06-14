@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 
-export default function SideBar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
+export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
   const outside = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const handlerOutside = (e: MouseEvent) => {
-    if (outside.current && !outside.current.contains(e.target as Node)) {
+    if (outside.current && !outside.current.contains(e.target as Node) && isOpen == true) {
       toggleSide();
     }
   };
