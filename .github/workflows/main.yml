@@ -45,7 +45,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Deploy to Lightsail
-      uses: orderabbit/store24h-back@v1
+      uses: orderabbit/store24h-front@v1
       with:
         host: ${{ secrets.LIGHTSAIL_HOST }}
         username: ${{ secrets.LIGHTSAIL_USERNAME }}
