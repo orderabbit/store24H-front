@@ -39,6 +39,7 @@ const CartList: React.FC = () => {
                 if (userId && cookies.accessToken) {
                     const response = await GetProductListRequest(userId, cookies.accessToken);
                     setProducts(response.data.items);
+                    dispatchCartUpdateEvent(response.data.items.length);
                 }
             } catch (error) {
                 console.error('Failed to fetch products', error);
@@ -56,11 +57,17 @@ const CartList: React.FC = () => {
                 alert('삭제되었습니다.');
                 const newProducts = products.filter(product => product.productId !== productId);
                 setProducts(newProducts);
+                dispatchCartUpdateEvent(newProducts.length); // 헤더 장바구니 갯수 추가를 위한 새 이벤트
             } else {
                 alert('삭제에 실패했습니다.');
             }
         }
-    }
+    };
+
+    const dispatchCartUpdateEvent = (cartCount: number) => {
+        const event = new CustomEvent('cartUpdate', { detail: { cartCount } });
+        window.dispatchEvent(event);
+    }; // 헤더 장바구니 갯수 추가를 위한 새 이벤트
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();

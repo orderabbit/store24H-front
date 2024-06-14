@@ -45,28 +45,37 @@ export default function Header() {
   const [isSearchPage, setSearchPage] = useState<boolean>(false);
   const [isUserPage, setUserPage] = useState<boolean>(false);
   const [isPaymentPage, setPaymentPage] = useState<boolean>(false);
-  
+  const navigator = useNavigate();
+
   useEffect(() => {
-    // 상품 리스트를 가져오는 함수
     const fetchProducts = async () => {
       try {
         if (loginUser?.userId && cookies.accessToken) {
           const response = await GetProductListRequest(loginUser.userId, cookies.accessToken);
-          setProducts(response.data.items);
+          setCartListCount(response.data.items.length); // 상품 리스트 길이로 업데이트
         }
       } catch (error) {
         console.error('Failed to fetch products', error);
       }
     };
-
+  
     fetchProducts();
   }, [loginUser, cookies.accessToken]);
 
   useEffect(() => {
-    // 상품 배열의 길이를 이용하여 장바구니 아이콘 옆에 표시할 상품 수를 업데이트
-    setCartListCount(products.length);
-  }, [products]);
+    const handleCartUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ cartCount: number }>;
+      setCartListCount(customEvent.detail.cartCount);
+    };
 
+    window.addEventListener('cartUpdate', handleCartUpdate);
+    
+    return () => {
+      window.removeEventListener('cartUpdate', handleCartUpdate);
+    };
+  }, []); // 헤더 장바구니 갯수 추가를 위한 새 이벤트
+  
+  
   useEffect(() => {
     const isMainPage = pathname === MAIN_PATH();
     setMainPage(isMainPage);
@@ -80,13 +89,19 @@ export default function Header() {
 
   useEffect(() => {
     setLogin(loginUser !== null);
-  }, [loginUser])
-
-  const navigator = useNavigate();
+  }, [loginUser]);
 
   const onLogoClickHandler = () => {
     navigator(MAIN_PATH());
   }
+
+  const onCartListIconClickHandler = () => {
+    navigator('/cart');
+  };
+
+  const onProfileButtonClickHandler = () => {
+      setIsProfileOpen(true);
+    };
   
   const MyPageButton = () => {
 
@@ -104,10 +119,6 @@ export default function Header() {
       navigator(SIGNIN_PATH());
     };
 
-    const onCartListIconClickHandler = () => {
-      navigator('/cart');
-    };    // 장바구니 페이지로 이동
-
     if (isLogin) {
       return (
         <>
@@ -115,7 +126,7 @@ export default function Header() {
             <img src={cartListIcon} alt="CartList" />
             <span>장바구니 {cartListCount > 0 && `(${cartListCount})`}</span>
           </div>
-          <div className='navbar-icon' onClick={() => setIsProfileOpen(true)}>
+          <div className='navbar-icon' onClick={onProfileButtonClickHandler}>
             <img src={profileIcon} alt="Profile" />
             <span>프로필</span>
           </div>

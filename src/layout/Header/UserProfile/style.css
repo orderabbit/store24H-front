@@ -2,20 +2,21 @@
   z-index: 5;
   padding: 12px;
   border-radius: 15px 15px 15px 15px;
-  color: #f8f8f8;
-  background-color: rgb(94, 71, 197);
-  height: 30%; /* 사이드바의 높이를 화면의 높이에 비례해 설정 */
-  width: 20%; /* 초기에는 사이드바가 접혀있기 때문에 너비를 0으로 설정 */
-  top: 96px; /* 배치위치 */
+  color: #fdfdfd;
+  height: 40%;
+  width: 400px;
+  top: 96px;
+  right: 1%;
   position: fixed;
-  visibility: hidden; /* 사이드바를 숨김 */
+  visibility: hidden;
+  background-color: rgba(170, 56, 56, 0.575);
+  transition: visibility 0s, opacity 0.5s linear;
+  opacity: 0;
 }
 
 #profilebar.open {
   visibility: visible;
-  right: 1%; /* 열었을때 위치 */
-  background-color: rgba(0, 0, 0, 0.959);
-  
+  opacity: 1;
 }
 
 #profilebar .close {
@@ -23,24 +24,91 @@
   outline: none;
   color: #000000;
 }
+#profilebar .profile-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-#profilebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
-#profilebar ul li {
-  margin: 30px 8px;
+#profilebar .profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#profilebar .profile-image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+#profilebar .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#profilebar .profile-email {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+#profilebar .profile-info {
+  text-align: center;
+}
+
+#profilebar .profile-info p{
+  font-size: 1.7rem;
+}
+
+#profilebar .nickname {
+  font-weight: bold;
+}
+
+#profilebar .profile-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+#profilebar .profile-action-mypage,
+#profilebar .profile-action-logout {
+  flex: 1;
+  width: 160px;
+  height: 60px;
+  padding: 8px 4px;
+  margin: 0 3px;
+  font-size: 1rem;
+  border: none;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.363); /* 버튼색깔 */
   cursor: pointer;
 }
 
-#profilebar ul li:hover {
-  text-decoration: underline;
+#profilebar .profile-action-mypage {
+  border-radius: 15px 0 0 15px;
 }
 
-#profilebar .exit-menu {
-  position: absolute;
-  bottom: 26px;
-  font-size: 0.8rem;
+#profilebar .profile-action-logout {
+  border-radius: 0 15px 15px 0;
+}
+
+#profilebar .profile-action-mypage:hover {
+  background-color: rgba(0, 0, 0, 0.301);
+}
+
+#profilebar .profile-action-logout:hover {
+  background-color: rgba(0, 0, 0, 0.301);
+}
+
+#profilebar .action-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
