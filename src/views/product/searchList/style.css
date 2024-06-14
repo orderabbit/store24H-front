@@ -1,135 +1,162 @@
-
-
 .list-search-container {
     margin-top: 20px;
-    padding-left: 18%; /* 텍스트를 화면 왼쪽에서 조금 떨어지게 함 */
+    padding-left: 18%;
     padding-right: 16%;
-    
 }
 
 .list-page-title {
     margin-bottom: 20px;
     font-style: initial;
     font-weight: 800;
-    
 }
 
-.list-search-box {
-    
-}
-
-.list-search-blank {
-   
-}
-
-.list-search-bar{
-    display: flex;
-    align-items :center;
-    justify-content: space-between;
-    gap:10px;
-    
-}
-
-.list-search-input{
+.list-search-bar {
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* 줄어들지 않도록 고정 */
+    justify-content: space-between;
+    gap: 10px;
 }
-.list-search-keyword{
-    width:600px;
-    height: 35px; /* 검색창 높이 조절 */
+
+.list-search-input {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.list-search-keyword {
+    width: 600px;
+    height: 35px;
     font-size: 20px;
-    border-radius: 10px; /* 모서리를 둥글게 만듦 */
-    padding-left: 20px; /* placeholder를 왼쪽으로 이동 */
-    border: 1px solid #D3D3D3; /* 연한 회색 테두리 */
-    font-style: italic; /* 폰트 스타일 변경 */
+    border-radius: 10px;
+    padding-left: 20px;
+    border: 1px solid #D3D3D3;
+    font-style: italic;
 }
+
 .search-button {
     background-color: #007bff;
     border-color: #f2f3f8;
-    color: #f2f3f8; /* 폰트 색상 파란색으로 설정 */
-    border-radius: 5px; /* 모서리를 둥글게 만듦 */
-    margin-left: 2px; /* 검색창과 버튼 사이 여백 추가 */
+    color: #f2f3f8;
+    border-radius: 5px;
+    margin-left: 2px;
     font-size: 16px;
     height: 35px;
     width: 80px;
 }
-.item-shopping-basket{
-    margin-left: auto; /* 오른쪽 끝으로 보내기 */
-    flex-shrink: 0; /* 줄어들지 않도록 고정 */
+
+.item-shopping-basket {
+    margin-left: auto;
+    flex-shrink: 0;
 }
+
 .item-shopping-basket-button {
     background-color: #007bff;
     border-color: #f2f3f8;
-    color: #f2f3f8; /* 폰트 색상 파란색으로 설정 */
-    border-radius: 5px; /* 모서리를 둥글게 만듦 */
+    color: #f2f3f8;
+    border-radius: 5px;
     width: 80px;
     height: 35px;
     font-size: 16px;
 }
 
-
-
-
-
-.list-group{
-    margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
-    padding : 0;
-    margin : 0;
+.list-group {
+    margin-top: 20px;
+    padding: 0;
+    margin: 0;
 }
 
-
-.product-item-list-group-item{
+.product-item-list-group-item {
     display: flex;
+    align-items: center;
     font-style: initial;
     font-weight: 300;
-
-
+    padding: 10px 0;
 }
-.items-center{
-    margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
+
+.items-center {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-shrink: 0;
 }
 
-.items-price{
-    margin-top: 20px; /* 검색창과 버튼 사이 여백 추가 */
+.items-price {
     text-align: center;
-    margin-left: 30px;
-}
-.item-info{
-    margin-top: 30px;
-    text-align: left;}
-.item-array{
-    margin-top: 5px; /* 검색창과 버튼 사이 여백 추가 */
-    margin-left: auto;
+    margin-left: 10%;
+    flex-grow: 1;
     display: flex;
-    flex-direction: column; /* 버튼들을 세로로 배열합니다. */
-    justify-content: flex-end; /* 버튼들을 오른쪽 세로수직으로 정렬합니다. */
-    
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.item-store,.item-buy
-{
+.items-price a {
+    margin-right: auto;
+}
+
+.item-info {
+    margin-top: 10px;
+    text-align: left;
+    display: flex;
+    gap: 10px;
+}
+
+.item-array {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.item-store,
+.item-buy {
     background-color: #007bff;
     border-color: #f2f3f8;
-    color: #f2f3f8; /* 폰트 색상 파란색으로 설정 */
-    border-radius: 10px; /* 모서리를 둥글게 만듦 */
-    font-style: italic; /* 폰트 스타일 변경 */
-    height: 38px; /* 상자의 높이 조절 */
+    color: #f2f3f8;
+    border-radius: 10px;
+    font-style: italic;
+    height: 38px;
     width: 80px;
-    margin-bottom: 15px;
-    
-    }
-
-.item-buy{ background-color:#f2f3f8;
-        border-color:  #007bff;
-        color: #007bff; /* 폰트 색상 파란색으로 설정 */
+    margin-left: 10px;
 }
-.search-pagination-box{
+
+.item-buy {
+    background-color: #f2f3f8;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.search-pagination-box {
     margin-top: 60px;
     font-size: 20px;
     display: flex;
     justify-content: center;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: 600;
+
+}
+
+.quantity-selector .quantity-minus-icon::before,
+.quantity-selector .quantity-plus-icon::before {
+    display: inline-block;
+}
+
+.quantity-selector .quantity-minus-icon::before {
+    font-size: 16px;
+}
+
+.quantity-selector .quantity-plus-icon::before {
+    font-size: 16px;
+}
+
+.quantity-wrapper {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin-right: 20px;
 }
