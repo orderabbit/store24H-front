@@ -72,6 +72,9 @@ export default function MyPage() {
   ) => {
     if (!cookies.accessToken) return;
 
+    setDuplicateNicknameError(false);
+    setEmptyNicknameError(false);
+
     if (!responseBody) return;
     const { code } = responseBody;
     if (code === "VF") setEmptyNicknameError(true);
@@ -86,8 +89,9 @@ export default function MyPage() {
       getUserResponse(response);
       setNicknameChange(false); // 닉네임 변경 상태를 false로 설정
       setModalOpen(false);
-      setEmptyNicknameError(false);
-      setDuplicateNicknameError(false);
+      // setEmptyNicknameError(false);
+      // setDuplicateNicknameError(false);
+      
     });
   };
 
@@ -264,16 +268,18 @@ export default function MyPage() {
             <div className="modal-body">
               <h2 className="modal-title"> 닉네임 변경</h2>              
               <div className="modal-title-body">
-                <label>현재 닉네임 : {nickname}</label>
+                <div className="modal-title-cnt">현재 닉네임 :</div>
+                <div className="modal-content-cnt"> {nickname}</div>
               </div>
-              <div className="modal-title-new-body">
-              <label> 새 닉네임 :
-           <div className="modal-title-new" style={{ display: 'inline-block', marginLeft: '10px' }}>
+              <div className="modal-title-body">
+              <label style={{ display: 'flex', alignItems: 'center' }}>
+                 <div className="modal-title-cnt">변경 닉네임 :</div>
+           <div className="modal-content-cnt" >
               <input
                 type="text"
                 value={changeNickname}
                 onChange={onNicknameChangeHandler}
-                style={{ width: '80%' }}
+                style={{ width: '70%' ,height : 22.5}}
               />
             </div>
           </label>
