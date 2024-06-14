@@ -50,7 +50,7 @@
     
 }
 .sign-in-content-input{
-    width: 100%;
+    width: 40px;
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
@@ -123,7 +123,7 @@
   /* Modal Content */
   .modal-content {
     background-color: #fefefe;
-    margin: 6%  50%; 
+    margin: 6%  43%; 
     border: 1px solid #0af350f3;
     width: 300px;
    
@@ -192,3 +192,65 @@
   .error-message,.duplicate-error-message{
     letter-spacing: 1px;
     color : red}
+
+
+
+    .modal-content-password {
+      background-color: #fefefe;
+      margin: 5%  40%; 
+      border: 1px solid #0af350f3;
+      width: 400px;
+      border-radius: 5px;
+      
+    }
+    .modal-body-password{
+      font-size: 17px;
+      letter-spacing: 2px;
+      margin-top: 40px;
+      padding-left: 40px;
+      
+    }
+    .modal-title-password{
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      
+    }
+    .modal-title-body-password{
+      display: flex; /* Flexbox 레이아웃 설정 */
+      justify-content: space-between; /* 요소들을 가장자리에 정렬하며 사이 간격을 균등하게 분배 */
+      margin-bottom:10px;
+      height: 40px;
+    }
+    .modal-title-cnt-password {
+      
+      width: 150px;
+      /* margin-right: 5px;  */
+    }
+    
+    .modal-content-cnt-password {
+      flex: 1; /* 또는 적절한 너비를 지정 */
+      width: 150px;
+      height: 25.5px;
+      
+    }      
+    .modal-button-store-password{
+      /* background-color: #ffffff; 
+      border: 2px solid #4ff55c; 
+      border-radius: 8px;  */
+      width: 45px;
+      flex-shrink: 0; /* 줄어들지 않도록 고정 */
+      text-align: center;
+      font-weight: 550;
+      margin-left: auto; /* 오른쪽 끝으로 보내기 */
+      margin-right: 30px;
+      margin-bottom: 30px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center; /* 텍스트 가운데 정렬 */
+      padding-top: 12px;
+    }
+    .duplicate-error-message,.empty-error-message,.match-error-message,.matchCurrent-error-message{
+      letter-spacing: 1px;
+    color : red}
+    

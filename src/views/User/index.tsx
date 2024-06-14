@@ -31,7 +31,6 @@ export default function MyPage() {
   const navigator = useNavigate();
 
   const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
-  // const imageInputRef = useRef<HTMLInputElement | null>(null);
   const [isNicknameChange, setNicknameChange] = useState<boolean>(false);
 
   const [nickname, setNickname] = useState<string>("");
@@ -42,9 +41,15 @@ export default function MyPage() {
   const [isPasswordChange, setPasswordChange] = useState<boolean>(false);
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [matchCurrentPasswordError,setMatchCurrentPasswordError] = useState<boolean>(false);
+  const [passwordMatchError, setPasswordMatchError] = useState<boolean>(false);
+  const [emptyPasswordError, setEmptyPasswordError] = useState<boolean>(false);
+  const [duplicatePasswordError, setDuplicatePasswordError] = useState<boolean>(false);
+  
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [isModalOpne, setModalOpen] = useState<boolean>(false);
+  const [isNicknameModalOpen, setNicknameModalOpen] = useState<boolean>(false);
+  const [isPasswordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
 
   const getUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null
@@ -88,16 +93,13 @@ export default function MyPage() {
     getUserRequest(userId, cookies.accessToken).then((response) => {
       getUserResponse(response);
       setNicknameChange(false); // 닉네임 변경 상태를 false로 설정
-      setModalOpen(false);
-      // setEmptyNicknameError(false);
-      // setDuplicateNicknameError(false);
-      
+      setNicknameModalOpen(false);
     });
   };
 
   const onNicknameEditButtonClickHandler = () => {
     setChangeNickname(nickname);
-    setModalOpen(true);
+    setNicknameModalOpen(true);
   };
 
   const onNicknameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -115,38 +117,29 @@ export default function MyPage() {
    patchNicknameRequest(requestBody,cookies.accessToken).then(patchNicknameResponse);
   };
 
-
   const patchPasswordResponse = (
     responseBody: PatchPasswordResponseDto | ResponseDto | null
   ) => {
     if (!cookies.accessToken || !userId) return;
-
+    setPasswordMatchError(false);
+    setEmptyPasswordError(false);
+    setDuplicatePasswordError(false);
+    setMatchCurrentPasswordError(false);
     if (!responseBody) return;
     const { code } = responseBody;
-    if (code === "VF") alert("비밀번호는 필수입니다.");
+    if (code === "VF") setEmptyPasswordError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
-    if (code === "DP") alert("기존 비밀번호와 중복되는 비밀번호입니다.");
+    if (code === "DP") setDuplicatePasswordError(true);
     if (code === "NU") alert("존재하지 않는 유저입니다.");
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") return;
-
     setPasswordChange(false);
     alert("비밀번호가 변경되었습니다.");
     navigator(USER_PATH(userId));
   };
 
   const onPasswordEditButtonClickHandler = () => {
-    if (isPasswordChange && currentPassword !== "" && newPassword !== "") {
-      const requestBody: PatchPasswordRequestDto = {
-        currentPassword,
-        newPassword,
-      };
-      patchPasswordRequest(userId!, requestBody, cookies.accessToken).then(
-        patchPasswordResponse
-      );
-    } else {
-      setPasswordChange(!isPasswordChange);
-    }
+    setPasswordModalOpen(true);
   };
 
   const onCurrentPasswordChangeHandler = (
@@ -160,33 +153,52 @@ export default function MyPage() {
     const { value } = event.target;
     setNewPassword(value);
   };
-  // const withDrawUserResponse = (responseBody: ResponseDto | null) => {
-  //   if (!responseBody) return;
-  //   const { code } = responseBody;
-  //   if (code === 'AF') alert('인증에 실패했습니다.');
-  //   if (code === 'NU') alert('존재하지 않는 유저입니다.');
-  //   if (code === 'DBE') alert('데이터베이스 오류입니다.');
-  //   if (code !== 'SU') return;
 
-  //   resetLoginUser();
-  //   setCookie('accessToken', '', { path: '/', expires: new Date() })
-  //   alert('회원탈퇴가 완료되었습니다.');
-  //   navigator(MAIN_PATH());
-  // }
+  const onConfirmPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setConfirmPassword(value);
+  };
+ 
+  
+  const handlePasswordSubmit = () => {
+    if(loginUser){
+    console.log(loginUser?.password)
+    }
+    setPasswordMatchError(false);
+    if (currentPassword === "" || newPassword === "" || confirmPassword === "") {
+      setEmptyPasswordError(true);
+      setDuplicatePasswordError(false);
+      setPasswordMatchError(false);
+      setMatchCurrentPasswordError(false);
+      return;
+    }
+    if(currentPassword !== loginUser?.password){
+      setMatchCurrentPasswordError(true);
+      return;
+    }
+    if(currentPassword === newPassword)
+      {setDuplicatePasswordError(true);
+        return;
+      }
+    if (newPassword !== confirmPassword) {
+      setPasswordMatchError(true);
+      return;
+    }
+    const requestBody: PatchPasswordRequestDto = {
+      currentPassword,
+      newPassword,
+      // confirmPassword,
+    };
+    patchPasswordRequest(userId!, requestBody, cookies.accessToken).then(
+      patchPasswordResponse
+    );
+    setPasswordModalOpen(false);
+  };
 
-  // const withDrawalUserButtonClickHandler = () => {
-  //   alert('정말 탈퇴하시겠습니까?');
-  //   navigator(MAIN_PATH());
-  //   if (!cookies.accessToken) return;
-  //   if (!loginUser) return;
-  //   const { userId } = loginUser;
-
-  //   withdrawUserRequest(userId, cookies.accessToken).then(withDrawUserResponse);
-  // }
   useEffect(() => {
     if (!userId) return;
       getUserRequest(userId, cookies.accessToken).then(getUserResponse);
-      }, [userId, isNicknameChange]);
+  }, [userId, isNicknameChange]);
 
   if (!userId) return <></>;
   return (
@@ -206,7 +218,7 @@ export default function MyPage() {
               <div className="sign-info-content">
                 {isMyPage ? (
                   <>
-                      <div className="user-top-info-nickname">{nickname}</div>
+                    <div className="user-top-info-nickname">{nickname}</div>
                     <div
                       className="icon-box"
                       onClick={onNicknameEditButtonClickHandler}
@@ -227,26 +239,7 @@ export default function MyPage() {
               <div className="sign-info">
                 <div className="sign-info-title">비밀번호</div>
                 <div className="sign-info-content">
-                  {isPasswordChange ? (
-                    <>
-                      <input
-                        className="sign-in-content-input"
-                        type="password"
-                        placeholder="현재 비밀번호"
-                        value={currentPassword}
-                        onChange={onCurrentPasswordChangeHandler}
-                      />
-                      <input
-                        className="sign-in-content-input"
-                        type="password"
-                        placeholder="새 비밀번호"
-                        value={newPassword}
-                        onChange={onNewPasswordChangeHandler}
-                      />
-                    </>
-                  ) : (
-                    <div className="sign-in-content-input">••••••••</div>
-                  )}
+                  <div className="sign-in-content-input">••••••••</div>
                   <div
                     className="icon-box"
                     onClick={onPasswordEditButtonClickHandler}
@@ -259,35 +252,93 @@ export default function MyPage() {
           </div>
         </div>
       </div>
-      {isModalOpne &&  (
+      {isNicknameModalOpen &&  (
         <div className="modal">
           <div className="modal-content">
-          <span className="close" onClick={() => setModalOpen(false)}>
+            <span className="close" onClick={() => setNicknameModalOpen(false)}>
               &times;
             </span>
             <div className="modal-body">
-              <h2 className="modal-title"> 닉네임 변경</h2>              
+              <h2 className="modal-title"> 닉네임 변경</h2>
               <div className="modal-title-body">
                 <div className="modal-title-cnt">현재 닉네임 :</div>
                 <div className="modal-content-cnt"> {nickname}</div>
               </div>
               <div className="modal-title-body">
-              <label style={{ display: 'flex', alignItems: 'center' }}>
-                 <div className="modal-title-cnt">변경 닉네임 :</div>
-           <div className="modal-content-cnt" >
-              <input
-                type="text"
-                value={changeNickname}
-                onChange={onNicknameChangeHandler}
-                style={{ width: '70%' ,height : 22.5}}
-              />
-            </div>
-          </label>
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="modal-title-cnt">변경 닉네임 :</div>
+                  <div className="modal-content-cnt" >
+                    <input
+                      type="text"
+                      value={changeNickname}
+                      onChange={onNicknameChangeHandler}
+                      style={{ width: '70%' ,height : 22.5}}
+                    />
+                  </div>
+                </label>
               </div>
               {emptyNicknameError && (<div className="error-message">변경할 닉네임을 입력해주세요.</div>)} 
               {duplicateNicknameError && (<div className="duplicate-error-message">중복되는 닉네임입니다.</div>)} 
               <div className="modal-button-store" onClick={handelNicknameSubmit}>
-              저장
+                저장
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isPasswordModalOpen &&  (
+        <div className="modal">
+          <div className="modal-content-password">
+            <span className="close" onClick={() => setPasswordModalOpen(false)}>
+              &times;
+            </span>
+            <div className="modal-body-password">
+              <h2 className="modal-title-password"> 비밀번호 변경</h2>
+              <div className="modal-title-body-password">
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="modal-title-cnt-password">현재 비밀번호 :</div>
+                  <div className="modal-content-cnt-password" >
+                    <input
+                      type="password"
+                      value={currentPassword}
+                      onChange={onCurrentPasswordChangeHandler}
+                      style={{ width: '70%' ,height : 22.5}}
+                    />
+                  </div>
+                </label>
+              </div>
+              <div className="modal-title-body-password">
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="modal-title-cnt-password">변경 비밀번호 :</div>
+                  <div className="modal-content-cnt-password" >
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={onNewPasswordChangeHandler}
+                      style={{ width: '70%' ,height : 22.5}}
+                    />
+                  </div>
+                </label>
+              </div>
+              <div className="modal-title-body-password">
+                <label style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="modal-title-cnt-password">비밀번호 확인 :</div>
+                  <div className="modal-content-cnt-password" >
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={onConfirmPasswordChangeHandler}
+                      style={{ width: '70%' ,height : 22.5}}
+                    />
+                  </div>
+                </label>
+                </div>
+              {matchCurrentPasswordError && (<div className="matchCurrent-error-message">현재 비밀번호가 일치하지 않습니다.</div>)}
+              {duplicatePasswordError && (<div className="duplicate-error-message">이전 비밀번호와 일치합니다.</div>)}
+              {emptyPasswordError && (<div className="empty-error-message">변경할 비밀번호를 입력해주세요.</div>)}
+              {passwordMatchError && (<div className="match-error-message">비밀번호가 일치하지 않습니다.</div>)}
+              <div className="modal-button-store-password" onClick={handlePasswordSubmit}>
+                저장
               </div>
             </div>
           </div>
