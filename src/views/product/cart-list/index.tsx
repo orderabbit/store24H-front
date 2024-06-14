@@ -146,41 +146,41 @@ const CartList: React.FC = () => {
             </div>
             {products.length === 0 ? (
                 <table className="table">
-                <thead>
-                    <tr className='head'>
-                        <th>
-                            <input
-                                type="checkbox"
-                                checked={isAllChecked}
-                                onChange={handleAllCheckboxChange}
-                            />
-                        </th>
-                        <th></th>
-                        <th>상품번호</th>
-                        <th>상품명</th>
-                        <th>수량</th>
-                        <th>가격</th>
-                        <th> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colSpan={7} style={{ height: '76px', textAlign: 'center', fontSize: '24px', color: 'rgba(0, 0, 0, 0.4)', fontWeight: '500'}}>
-                            장바구니에 담긴 상품이 없습니다.
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colSpan={6} style={{ textAlign: 'right', fontWeight: 'bold' }}>
-                            총 가격: 0 원
-                        </td>
-                        <td colSpan={7} style={{}}>
-                            <button className="mt-[5px] btn btn-warning">구매하기</button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+                    <thead>
+                        <tr className='head'>
+                            <th>
+                                <input
+                                    type="checkbox"
+                                    checked={isAllChecked}
+                                    onChange={handleAllCheckboxChange}
+                                />
+                            </th>
+                            <th></th>
+                            <th>상품번호</th>
+                            <th>상품명</th>
+                            <th>수량</th>
+                            <th>가격</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colSpan={7} style={{ height: '76px', textAlign: 'center', fontSize: '24px', color: 'rgba(0, 0, 0, 0.4)', fontWeight: '500' }}>
+                                장바구니에 담긴 상품이 없습니다.
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan={6} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                                총 가격: 0 원
+                            </td>
+                            <td colSpan={7} style={{}}>
+                                <button className="mt-[5px] btn btn-warning">구매하기</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             ) : (
                 <table className="table">
                     <thead>
@@ -216,7 +216,7 @@ const CartList: React.FC = () => {
                                     <a href={product.link} target="_blank" rel="noopener noreferrer">{product.title}</a>
                                 </td>
                                 <td>
-                                    <div className='quantity-wrapper'>
+                                    <div className='cart-quantity-wrapper'>
                                         <div className="quantity-selector">
                                             <div className="icon-button" onClick={() => decrementQuantity(product.productId)}>
                                                 <div className="icon quantity-minus-icon"></div>

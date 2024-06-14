@@ -30,6 +30,10 @@ const SearchList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+  const [sortByPriceAsc, setSortByPriceAsc] = useState<boolean>(false);
+  const [sortByPriceDesc, setSortByPriceDesc] = useState<boolean>(false);
+  const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(false);
+  const [sortByNameDesc, setSortByNameDesc] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,15 +41,33 @@ const SearchList: React.FC = () => {
         try {
           const response = await GetProductRequest(searchKeyword);
           console.log(response.data.items);
-          setProducts(response.data.items);
+          let fetchedProducts = response.data.items;
+
+          if (sortByPriceAsc) {
+            fetchedProducts = fetchedProducts.sort((a: { lowPrice: string; }, b: { lowPrice: string; }) => parseFloat(a.lowPrice) - parseFloat(b.lowPrice));
+          } else if (sortByPriceDesc) {
+            fetchedProducts = fetchedProducts.sort((a: { lowPrice: string; }, b: { lowPrice: string; }) => parseFloat(b.lowPrice) - parseFloat(a.lowPrice));
+          } else if (sortByNameAsc) {
+            fetchedProducts = fetchedProducts.sort((a: { title: string; }, b: { title: any; }) => a.title.localeCompare(b.title));
+          } else if (sortByNameDesc) {
+            fetchedProducts = fetchedProducts.sort((a: { title: any; }, b: { title: string; }) => b.title.localeCompare(a.title));
+          }
+
+          setProducts(fetchedProducts);
+
+          const initialQuantities = fetchedProducts.reduce((acc: { [key: number]: number }, product: Product) => {
+            acc[product.productId] = 1; // 초기 수량 1로 설정
+            return acc;
+          }, {});
+          setQuantities(initialQuantities);
         } catch (error) {
-          console.error("Failed to fetch products", error);
+          console.error('Failed to fetch products', error);
         }
       }
     };
 
     fetchProducts();
-  }, [searchKeyword]);
+  }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -133,6 +155,51 @@ const SearchList: React.FC = () => {
     }));
   };
 
+  const handleSortByPriceAsc = () => {
+    // 현재 가격 오름차순 정렬 상태라면 초기화
+    if (sortByPriceAsc) {
+      setSortByPriceAsc(false);
+    } else {
+      setSortByPriceAsc(true);
+      setSortByPriceDesc(false);
+      setSortByNameAsc(false);
+      setSortByNameDesc(false);
+    }
+  };
+  
+  const handleSortByPriceDesc = () => {
+    if (sortByPriceDesc) {
+      setSortByPriceDesc(false);
+    } else {
+      setSortByPriceDesc(true);
+      setSortByPriceAsc(false);
+      setSortByNameAsc(false);
+      setSortByNameDesc(false);
+    }
+  };
+  
+  const handleSortByNameAsc = () => {
+    if (sortByNameAsc) {
+      setSortByNameAsc(false);
+    } else {
+      setSortByNameAsc(true);
+      setSortByPriceAsc(false);
+      setSortByPriceDesc(false);
+      setSortByNameDesc(false);
+    }
+  };
+  
+  const handleSortByNameDesc = () => {
+    if (sortByNameDesc) {
+      setSortByNameDesc(false);
+    } else {
+      setSortByNameDesc(true);
+      setSortByPriceAsc(false);
+      setSortByPriceDesc(false);
+      setSortByNameAsc(false);
+    }
+  };
+  
 
   return (
     <div className="list-search-container">
@@ -164,6 +231,20 @@ const SearchList: React.FC = () => {
               </button>
             </div>
           </div>
+          <div className="items-sort">
+            <button className="item-sort" onClick={handleSortByPriceAsc}>
+              가격 낮은 순
+            </button>
+            <button className="item-sort" onClick={handleSortByPriceDesc}>
+              가격 높은 순
+            </button>
+            <button className="item-sort" onClick={handleSortByNameAsc}>
+              이름 오름차순
+            </button>
+            <button className="item-sort" onClick={handleSortByNameDesc}>
+              이름 내림차순
+            </button>
+          </div>
         </form>
       </div>
       <ul className="list-group">
@@ -177,11 +258,14 @@ const SearchList: React.FC = () => {
                 {product.title}
               </a>
               <div className="item-info">
-                <div>{formatPrice(product.lowPrice)} 원</div>
+
                 <div>
                   {product.category1}/{product.category2}
                 </div>
               </div>
+            </div>
+            <div className="item-price">
+              <div>{formatPrice(product.lowPrice)} 원</div>
             </div>
             <div className="item-array">
               <div className="quantity-wrapper">
