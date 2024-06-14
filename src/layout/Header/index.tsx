@@ -63,17 +63,17 @@ export default function Header() {
   }, [loginUser, cookies.accessToken]);
 
   useEffect(() => {
-    const handleCartUpdate = (event: Event) => {
+    const handleCartUpdate: EventListener = (event) => {
       const customEvent = event as CustomEvent<{ cartCount: number }>;
       setCartListCount(customEvent.detail.cartCount);
     };
-
+  
     window.addEventListener('cartUpdate', handleCartUpdate);
     
     return () => {
       window.removeEventListener('cartUpdate', handleCartUpdate);
     };
-  }, []); // 헤더 장바구니 갯수 추가를 위한 새 이벤트
+  }, []);
   
   
   useEffect(() => {
