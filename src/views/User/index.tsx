@@ -37,17 +37,18 @@ export default function MyPage() {
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [changeNickname, setChangeNickname] = useState<string>("");
-
+  const [emptyNicknameError, setEmptyNicknameError] = useState<boolean>(false);
+  const [duplicateNicknameError, setDuplicateNicknameError] = useState<boolean>(false);
   const [isPasswordChange, setPasswordChange] = useState<boolean>(false);
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [isModalOpne, setModalOpen] = useState<boolean>(false);
 
   const getUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null
   ) => {
-    console.log('sdfsdfsdfsd');
     if (!responseBody) return;
     const { code } = responseBody;
     if (code === "NU") alert("존재하지 않는 유저입니다.");
@@ -59,14 +60,10 @@ export default function MyPage() {
     const { userId, nickname, email, profileImage } =
       responseBody as GetUserResponseDto;
 
-    console.log(responseBody);
-
     setNickname(nickname);
     setEmail(email);
     setProfileImage(profileImage);
     const isMyPage = userId === loginUser?.userId;
-    console.log("123123 => ", userId);
-    console.log("45545 => ",loginUser);
     setMyPage(isMyPage);
   };
 
@@ -77,9 +74,9 @@ export default function MyPage() {
 
     if (!responseBody) return;
     const { code } = responseBody;
-    if (code === "VF") alert("닉네임은 필수입니다.");
+    if (code === "VF") setEmptyNicknameError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
-    if (code === "DN") alert("기존 닉네임과 중복되는 닉네임입니다.");
+    if (code === "DN") setDuplicateNicknameError(true);
     if (code === "NU") alert("존재하지 않는 유저입니다.");
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") return;
@@ -88,25 +85,32 @@ export default function MyPage() {
     getUserRequest(userId, cookies.accessToken).then((response) => {
       getUserResponse(response);
       setNicknameChange(false); // 닉네임 변경 상태를 false로 설정
+      setModalOpen(false);
+      setEmptyNicknameError(false);
+      setDuplicateNicknameError(false);
     });
   };
 
   const onNicknameEditButtonClickHandler = () => {
-    if (isNicknameChange && changeNickname !== "") {
-      const requestBody: PatchNicknameRequestDto = { nickname: changeNickname };
-      patchNicknameRequest(requestBody, cookies.accessToken).then(
-        patchNicknameResponse
-      );
-    } else {
-      setChangeNickname(nickname);
-      setNicknameChange(!isNicknameChange);
-    }
+    setChangeNickname(nickname);
+    setModalOpen(true);
   };
 
   const onNicknameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setChangeNickname(value);
   };
+
+  const handelNicknameSubmit = () => {
+   if(changeNickname === ""){
+    setEmptyNicknameError(true);
+    setDuplicateNicknameError(false);
+    return;
+   }
+   const requestBody : PatchNicknameRequestDto = {nickname : changeNickname};
+   patchNicknameRequest(requestBody,cookies.accessToken).then(patchNicknameResponse);
+  };
+
 
   const patchPasswordResponse = (
     responseBody: PatchPasswordResponseDto | ResponseDto | null
@@ -177,10 +181,8 @@ export default function MyPage() {
   // }
   useEffect(() => {
     if (!userId) return;
-    console.log('11')
-    getUserRequest(userId, cookies.accessToken).then(getUserResponse);
-    console.log('22')
-  }, [userId, isNicknameChange]);
+      getUserRequest(userId, cookies.accessToken).then(getUserResponse);
+      }, [userId, isNicknameChange]);
 
   if (!userId) return <></>;
   return (
@@ -200,17 +202,7 @@ export default function MyPage() {
               <div className="sign-info-content">
                 {isMyPage ? (
                   <>
-                    {isNicknameChange ? (
-                      <input
-                        className="user-top-info-nickname-input"
-                        type="text"
-                        size={nickname.length + 2}
-                        value={changeNickname}
-                        onChange={onNicknameChangeHandler}
-                      />
-                    ) : (
                       <div className="user-top-info-nickname">{nickname}</div>
-                    )}
                     <div
                       className="icon-box"
                       onClick={onNicknameEditButtonClickHandler}
@@ -263,6 +255,38 @@ export default function MyPage() {
           </div>
         </div>
       </div>
+      {isModalOpne &&  (
+        <div className="modal">
+          <div className="modal-content">
+          <span className="close" onClick={() => setModalOpen(false)}>
+              &times;
+            </span>
+            <div className="modal-body">
+              <h2 className="modal-title"> 닉네임 변경</h2>              
+              <div className="modal-title-body">
+                <label>현재 닉네임 : {nickname}</label>
+              </div>
+              <div className="modal-title-new-body">
+              <label> 새 닉네임 :
+           <div className="modal-title-new" style={{ display: 'inline-block', marginLeft: '10px' }}>
+              <input
+                type="text"
+                value={changeNickname}
+                onChange={onNicknameChangeHandler}
+                style={{ width: '80%' }}
+              />
+            </div>
+          </label>
+              </div>
+              {emptyNicknameError && (<div className="error-message">변경할 닉네임을 입력해주세요.</div>)} 
+              {duplicateNicknameError && (<div className="duplicate-error-message">중복되는 닉네임입니다.</div>)} 
+              <div className="modal-button-store" onClick={handelNicknameSubmit}>
+              저장
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
