@@ -2,7 +2,7 @@
 export default interface SearchResult{
     productId : number;
     userId : string;
-    title : string; 
+    title : string;
     link : string;
     image : string;
     lowPrice : string;

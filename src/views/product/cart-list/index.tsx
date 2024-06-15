@@ -64,32 +64,36 @@ const CartList: React.FC = () => {
     }, [userId, cookies.accessToken]);
 
     const deleteButtonClickHandler = async (productId: number) => {
-        if (!window.confirm('삭제하시겠습니까?')) {
+        if (!window.confirm("삭제하시겠습니까?")) {
             return;
         }
         if (userId && cookies.accessToken) {
             try {
-                const response = await DeleteProductRequest(productId, cookies.accessToken);
-                if (response?.code === 'SU') {
-                    alert('삭제되었습니다.');
-                    const newProducts = products.filter(product => product.productId !== productId);
+                const response = await DeleteProductRequest(
+                    productId,
+                    cookies.accessToken
+                );
+                if (response?.code === "SU") {
+                    alert("삭제되었습니다.");
+                    const newProducts = products.filter(
+                        (product) => product.productId !== productId
+                    );
                     setProducts(newProducts);
-                    const event = new CustomEvent('cartUpdate', {
+                    const event = new CustomEvent("cartUpdate", {
                         detail: {
                             cartCount: newProducts.length,
                         },
                     });
                     window.dispatchEvent(event);
                 } else {
-                    alert('삭제에 실패했습니다.');
+                    alert("삭제에 실패했습니다.");
                 }
             } catch (error) {
-                console.error('Failed to delete product', error);
-                alert('삭제 중 오류가 발생했습니다.');
+                console.error("Failed to delete product", error);
+                alert("삭제 중 오류가 발생했습니다.");
             }
         }
-    }
-    
+    };
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();
@@ -194,7 +198,6 @@ const CartList: React.FC = () => {
                                 />
                             </th>
                             <th></th>
-                            <th>상품번호</th>
                             <th>상품명</th>
                             <th>수량</th>
                             <th>가격</th>
@@ -243,14 +246,13 @@ const CartList: React.FC = () => {
                                 />
                             </th>
                             <th></th>
-                            <th>상품번호</th>
                             <th>상품명</th>
                             <th>수량</th>
                             <th>가격</th>
                             <th> </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style={{ width: "100%" }}>
                         {products.map((product) => (
                             <tr key={product.productId}>
                                 <td className="checkbox" style={{ verticalAlign: "middle" }}>
@@ -263,7 +265,6 @@ const CartList: React.FC = () => {
                                 <td>
                                     <img src={product.image} alt={product.title} width="100" />
                                 </td>
-                                <td>{product.productId}</td>
                                 <td>
                                     <a
                                         href={product.link}
@@ -306,16 +307,14 @@ const CartList: React.FC = () => {
                             </tr>
                         ))}
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td
-                                colSpan={6}
-                                style={{ textAlign: "right", fontWeight: "bold" }}
-                            >
+                    <tfoot style={{ alignItems: 'center'}}>
+                        <tr style={{ width: '100%', textAlign: 'center' }}>
+                            <td colSpan={4} style={{  textAlign: 'right', fontWeight: 'bold' }}>
                                 총 가격: {calculateTotalPrice()} 원
                             </td>
-                            <td colSpan={7} style={{}}>
+                            <td>
                                 <button
+                                    style={{ width: "90px" }}
                                     className="mt-[5px] btn btn-warning"
                                     onClick={handleCheckout}
                                 >

@@ -21,7 +21,6 @@ export default function SignUp() {
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
-   
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -45,7 +44,7 @@ export default function SignUp() {
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
-   
+
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);

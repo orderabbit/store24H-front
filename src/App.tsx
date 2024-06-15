@@ -64,7 +64,7 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
-      </Route>      
+      </Route>
     </Routes>
 
   );

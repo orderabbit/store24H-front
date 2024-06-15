@@ -56,7 +56,7 @@ const Pagination: React.FC<Props> = ({ currentPage, setCurrentPage, viewPageList
           <div
             className="pagination-change-link-text"
             onClick={onNextClickHandler}
-            style={{ cursor: !viewPageList.includes(currentPage + 1) ? "not-allowed" : "pointer" }} // Disable next button if next page does not exist
+            style={{ cursor: !viewPageList.includes(currentPage + 1) ? "not-allowed" : "pointer" }}
           >
             {"다음"}
           </div>
