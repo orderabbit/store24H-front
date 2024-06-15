@@ -24,22 +24,27 @@ interface Product {
 }
 
 const SearchList: React.FC = () => {
+  const { loginUser } = useLoginUserStore();
+  
   const [cookies] = useCookies();
   const [products, setProducts] = useState<Product[]>([]);
   const [keyword, setKeyword] = useState("");
-  const { loginUser } = useLoginUserStore();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const query = new URLSearchParams(location.search);
-  const searchKeyword = query.get("keyword");
-
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
   const [sortByPriceAsc, setSortByPriceAsc] = useState<boolean>(false);
   const [sortByPriceDesc, setSortByPriceDesc] = useState<boolean>(false);
   const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(false);
   const [sortByNameDesc, setSortByNameDesc] = useState<boolean>(false);
+
+  const itemsPerPage = 10;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const query = new URLSearchParams(location.search);
+  const searchKeyword = query.get("keyword");
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProducts = products.slice(startIndex, endIndex);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,7 +53,6 @@ const SearchList: React.FC = () => {
           const response = await GetProductRequest(searchKeyword);
           console.log(response.data.items);
           let fetchedProducts = response.data.items;
-
           if (sortByPriceAsc) {
             fetchedProducts = fetchedProducts.sort(
               (a: { lowPrice: string }, b: { lowPrice: string }) =>
@@ -70,9 +74,7 @@ const SearchList: React.FC = () => {
                 b.title.localeCompare(a.title)
             );
           }
-
           setProducts(fetchedProducts);
-
           const initialQuantities = fetchedProducts.reduce(
             (acc: { [key: number]: number }, product: Product) => {
               acc[product.productId] = 1; // 초기 수량 1로 설정
@@ -88,13 +90,7 @@ const SearchList: React.FC = () => {
     };
 
     fetchProducts();
-  }, [
-    searchKeyword,
-    sortByPriceAsc,
-    sortByPriceDesc,
-    sortByNameAsc,
-    sortByNameDesc,
-  ]);
+  }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -115,7 +111,6 @@ const SearchList: React.FC = () => {
       category2: product.category2,
       count: quantities[product.productId] || 1,
     };
-
     try {
       const response = await PostProductRequest(formData, accessToken);
       if (response.code === "SU") {
@@ -171,19 +166,9 @@ const SearchList: React.FC = () => {
     }
   };
 
-  const cartButtonClickHandler = () => {
-    navigate("/cart");
-  };
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedProducts = products.slice(startIndex, endIndex);
 
   const formatPrice = (price: string) => {
     return parseFloat(price).toLocaleString();
-  };
-
-  const handleQuantityChange = (productId: number, quantity: number) => {
-    setQuantities({ ...quantities, [productId]: quantity });
   };
 
   const incrementQuantity = (productId: number) => {
@@ -201,7 +186,6 @@ const SearchList: React.FC = () => {
   };
 
   const handleSortByPriceAsc = () => {
-    // 현재 가격 오름차순 정렬 상태라면 초기화
     if (sortByPriceAsc) {
       setSortByPriceAsc(false);
     } else {
@@ -264,15 +248,6 @@ const SearchList: React.FC = () => {
               <div className="list-search-button">
                 <input type="submit" value="검색" className="search-button" />
               </div>
-            </div>
-            <div className="item-shopping-basket">
-              <button
-                id="allProductsButton"
-                className="item-shopping-basket-button"
-                onClick={cartButtonClickHandler}
-              >
-                장바구니
-              </button>
             </div>
           </div>
           <div className="items-sort">

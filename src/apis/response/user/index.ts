@@ -5,9 +5,9 @@ import PatchPasswordResponseDto from "./patch-password.response.dto";
 import WithdrawalUserResponseDto from "./withdrawal-user.response.dto";
 
 export type { 
-    GetSignInUserResponseDto,
     GetUserResponseDto,
+    WithdrawalUserResponseDto,
+    GetSignInUserResponseDto,
     PatchNicknameResponseDto,
-    PatchPasswordResponseDto,
-    WithdrawalUserResponseDto
+    PatchPasswordResponseDto
 }

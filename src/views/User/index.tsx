@@ -22,7 +22,7 @@ import {
 
 export default function MyPage() {
   const [isMyPage, setMyPage] = useState<boolean>(false);
-  const [cookies] = useCookies(["accessToken"]); // accessToken을 쿠키에서 가져옴.
+  const [cookies] = useCookies(["accessToken"]);
   const { userId } = useParams();
   const navigator = useNavigate();
 
