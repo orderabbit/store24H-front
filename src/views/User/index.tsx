@@ -27,6 +27,7 @@ export default function MyPage() {
   const navigator = useNavigate();
 
   const { loginUser } = useLoginUserStore();
+  const [isSocialUser, setIsSocialUser] = useState<boolean>(false);
   const [isNicknameChange, setNicknameChange] = useState<boolean>(false);
 
   const [nickname, setNickname] = useState<string>("");
@@ -61,12 +62,13 @@ export default function MyPage() {
       navigator(MAIN_PATH());
       return;
     }
-    const { userId, nickname, email, profileImage } =
+    const { userId, nickname, email, profileImage, socialUser } =
       responseBody as GetUserResponseDto;
-
+      console.log(responseBody)
     setNickname(nickname);
     setEmail(email);
     setProfileImage(profileImage);
+    setIsSocialUser(socialUser);
     const isMyPage = userId === loginUser?.userId;
     setMyPage(isMyPage);
   };
@@ -253,20 +255,23 @@ export default function MyPage() {
               <div className="sign-info-title">이메일</div>
               <div className="sign-info-content">{email}</div>
             </div>
-            {isMyPage && (
+            
               <div className="sign-info">
                 <div className="sign-info-title">비밀번호</div>
                 <div className="sign-info-content">
                   <div className="sign-in-content-input">••••••••</div>
+                  {!isSocialUser && (
                   <div
                     className="icon-box"
                     onClick={onPasswordEditButtonClickHandler}
                   >
+                    
                     <div className="icon-edit-icon">변경</div>
+                  
                   </div>
+                  )}
                 </div>
               </div>
-            )}
           </div>
         </div>
       </div>
