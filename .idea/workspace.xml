@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8394222-374f-4892-a542-bd43b94cc96f" name="변경" comment="" />
+    <list default="true" id="c8394222-374f-4892-a542-bd43b94cc96f" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/apis/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/apis/request/user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/request/user/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/apis/response/user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/response/user/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Header/UserProfile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Header/UserProfile/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Authentication/SignIn/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Authentication/SignIn/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,16 +28,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "FrontMyPage",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "모듈",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;FrontMyPage&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
