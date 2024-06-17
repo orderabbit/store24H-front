@@ -3,18 +3,34 @@
     flex-direction: row;
     align-items: center;
     height: 65%;
+    bottom: 0;
+    transform: translateY(10%);
+    
 }
 
 .overlay-container{
     display: flex;
-    overflow: hidden;
     position: absolute;
+    height: 100%;
+    margin-left: 10px;
     z-index: 3;
+}
+
+.overlay-box{
+    display: flex;
     width: 30vw;
-    height: 75%;
+    z-index: 3;
     transition: transform 0.1s ease-in-out;
     border-radius: 10%;
-    background-color: rgba(140, 243, 157, 0.897);
+    background-color: rgba(140, 243, 157, 0.712);
+    flex-direction: row-reverse;
+    top: 100px;
+
+}
+
+.overlay {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .overlay-pannel{
@@ -22,27 +38,31 @@
 
 .overlay-in{
     position: absolute;
+    left: 0;
     padding: 8%;
-    height: 100%;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+    
 }
 
 .overlay-out{
     position: absolute;
+    left: 0;
     padding: 8%;
     opacity: 0;
-    height: 100vw;
     transition: opacity 0.3s ease-in-out;
 }
 
 .open-button{
-    flex-direction: row-reverse;
+    display: flex;
+    z-index: 3;
+    border-radius: 0, 10%, 10%, 0%;
+    transition: transform 0.2s ease-in-out;
 }
 
-.log-io-container .overlay-container {
-    transform: translateX(110%);
-}
+.log-io-container .overlay-box {
+    transform: translateX(100%);
+} 
 
 .log-io-container.right-panel-active .overlay-in {
     opacity: 0;
@@ -50,4 +70,8 @@
 
 .log-io-container.right-panel-active .overlay-out {
     opacity: 1;
+}
+
+.log-io-container.right-panel-active .open-button {
+    transform: translateX(7%);
 }
