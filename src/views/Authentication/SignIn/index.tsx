@@ -1,5 +1,5 @@
 
-import { SNS_SIGN_IN_URL, signInRequest } from "apis";
+import { SNS_SIGN_IN_URL, signInRequest, recoveryPasswordRequest } from "apis";
 import { SignInRequestDto } from "apis/request/auth";
 import { SignInResponseDto } from "apis/response/auth";
 import InputBox from "components/InputBox";
@@ -11,8 +11,8 @@ import { ResponseCode } from "types/enums";
 import './style.css';
 import { MAIN_PATH, SIGNUP_PATH } from "constant";
 import React from "react";
-// import { PasswordRecoveryRequestDto } from "apis/request/user";
-// import { PasswordRecoveryResponseDto } from "apis/response/user";
+import { PasswordRecoveryRequestDto } from "apis/request/user";
+import { PasswordRecoveryResponseDto } from "apis/response/user";
 
 export default function SignIn() {
 
@@ -95,48 +95,48 @@ export default function SignIn() {
         setEmail(e.target.value);
     };
 
-    // const recoverPasswordResponse = (responseBody: ResponseBody<PasswordRecoveryResponseDto>) => {
-    //     if (!responseBody) return;
+    const recoverPasswordResponse = (responseBody: ResponseBody<PasswordRecoveryResponseDto>) => {
+        if (!responseBody) return;
 
-    //     const { code } = responseBody;
-    //     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //     if (!emailPattern.test(email)) {
-    //         alert('올바른 이메일 형식이 아닙니다.');
-    //         return;
-    //     }
-    //     if (code === 'VF') alert('이메일을 입력하세요.');
-    //     if (code === 'DBE') alert('데이터베이스 오류입니다.');
-    //     if (code === 'NU'){
-    //         setIsEmailError(true);
-    //         setEmailMessage('가입되지 않은 이메일입니다.');
-    //     }
-    //     if (code === 'SU'){
-    //         setIsEmailError(false);
-    //         setEmailMessage('이메일 전송 완료');
-    //     }
-    // };
+        const { code } = responseBody;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert('올바른 이메일 형식이 아닙니다.');
+            return;
+        }
+        if (code === 'VF') alert('이메일을 입력하세요.');
+        if (code === 'DBE') alert('데이터베이스 오류입니다.');
+        if (code === 'NU'){
+            setIsEmailError(true);
+            setEmailMessage('가입되지 않은 이메일입니다.');
+        }
+        if (code === 'SU'){
+            setIsEmailError(false);
+            setEmailMessage('이메일 전송 완료');
+        }
+    };
 
-    // const onRecoverPasswordButtonClickHandler = async (email: string) => {
-    //     if (!email) {
-    //         setIsEmailError(true);
-    //         setEmailMessage('이메일을 입력하세요.');
-    //         return;
-    //     }
-    //     const requestBody: PasswordRecoveryRequestDto = { email };
-    //     recoveryPasswordRequest(requestBody).then(recoverPasswordResponse);
+    const onRecoverPasswordButtonClickHandler = async (email: string) => {
+        if (!email) {
+            setIsEmailError(true);
+            setEmailMessage('이메일을 입력하세요.');
+            return;
+        }
+        const requestBody: PasswordRecoveryRequestDto = { email };
+        recoveryPasswordRequest(requestBody).then(recoverPasswordResponse);
 
-    //     setIsEmailError(false);
-    //     setEmailMessage('이메일 전송중...');
-    // };
+        setIsEmailError(false);
+        setEmailMessage('이메일 전송중...');
+    };
 
-    // const handleRecoverPassword = async () => {
-    //     await onRecoverPasswordButtonClickHandler(email);
-    // };
+    const handleRecoverPassword = async () => {
+        await onRecoverPasswordButtonClickHandler(email);
+    };
 
-    // const onRecoverPasswordKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    //     if (event.key !== 'Enter') return;
-    //     handleRecoverPassword();
-    // }
+    const onRecoverPasswordKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter') return;
+        handleRecoverPassword();
+    }
 
     const toggleRecoveryBox = () => {
         setShowRecoveryBox(!showRecoveryBox);
@@ -167,12 +167,12 @@ export default function SignIn() {
                             </div>
                         </div>
                     </div>
-                    {/* {showRecoveryBox && (
+                    {showRecoveryBox && (
                         <div className="recovery-password-box">
-                            <InputBox ref={emailRef} title="" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
+                            <InputBox ref={emailRef} title="이메일" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
                             <div className="primary-button-small recovery-password-button" onClick={handleRecoverPassword}>{'비밀번호 찾기'}</div>
                         </div>
-                    )} */}
+                    )}
                 </div>
             </div>
         </div>
