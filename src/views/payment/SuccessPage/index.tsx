@@ -50,6 +50,7 @@ export function SuccessPage() {
           searchParams.get("amount")
         ).toLocaleString()}원`}</p>
         <p>{`paymentKey: ${searchParams.get("paymentKey")}`}</p>
+        <button className="mt-[5px] btn btn-warning" onClick={() => navigate("/")}>메인페이지</button>
       </div>
     </div>
   );

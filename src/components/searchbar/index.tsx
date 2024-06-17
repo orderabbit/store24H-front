@@ -18,10 +18,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
     return (
         <form onSubmit={handleSubmit} style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
-            <input 
-                type="text" 
-                value={query} 
-                onChange={handleChange} 
+            <input
+                type="text"
+                value={query}
+                onChange={handleChange}
                 placeholder="Search for places..."
                 style={{ padding: '5px', fontSize: '16px' }}
             />

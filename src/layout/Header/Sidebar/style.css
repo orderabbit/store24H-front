@@ -45,3 +45,9 @@
   bottom: 26px;
   font-size: 0.8rem;
 }
+
+.category-icon {
+  width: 24px; /* 이미지 아이콘의 크기 조절 */
+  height: 24px;
+  margin-right: 10px;
+}

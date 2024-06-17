@@ -6,4 +6,5 @@ export default interface SaveProductRequestDto {
     lowPrice: string;
     category1: string;
     category2: string;
+    count: number;
 }
