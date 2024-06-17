@@ -300,11 +300,10 @@ export default function SignUp() {
         onCertificationNumberButtenClickHandler();
     };
 
-
+    {/*<div id='sign-up-wrapper'>
+    <div className='sign-up-image'></div>
+    <div className='sign-up-container'>*/}
     return (
-        <div id='sign-up-wrapper'>
-            <div className='sign-up-image'></div>
-            <div className='sign-up-container'>
                 <div className='sign-up-box'>
                     <div className='sign-up-title'>{'?'}</div>
                     <div className='sign-up-content-box'>
@@ -338,7 +337,7 @@ export default function SignUp() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     );
+    {/*</div>
+    </div>*/}
 }

@@ -11,6 +11,7 @@ import { ResponseCode } from "types/enums";
 import './style.css';
 import { MAIN_PATH, SIGNUP_PATH } from "constant";
 import React from "react";
+
 // import { PasswordRecoveryRequestDto } from "apis/request/user";
 // import { PasswordRecoveryResponseDto } from "apis/response/user";
 
@@ -143,38 +144,30 @@ export default function SignIn() {
     };
 
     return (
-        <div id='sign-in-wrapper'>
-            <div className='sign-in-container'>
-                <div className='sign-in-box'>
-                    <div className='sign-in-title'>{'?'}</div>
-                    <div className='sign-in-content-box'>
-                        <div className='sign-in-content-input-box'>
-                            <InputBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} onKeyDown={onIdKeyDownHandler} />
-                            <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type={passwordType} value={password} onChange={onPasswordChangeHandler} isErrorMessage message={message} onKeyDown={onPasswordKeyDownHandler} />
-                            <div className='sign-in-content-button-box'>
-                                <div className='primary-button-lg full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
-                                <div className='text-link-lg full-width' onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
-                                <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
-                            </div>
-                            <div className='sign-in-content-divider'></div>
-                            <div className='sign-in-content-sns-sign-in-box'>
-                                <div className='sign-in-content-sns-sign-in-title'>{'sns 로그인'}</div>
-                                <div className='sign-in-content-sns-sign-in-button-box'>
-                                    <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
-                                    <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
-                                    <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
-                                </div>
-                            </div>
-                        </div>
+        <div className="sign-in-box">
+            <div className='sign-in-content-box'>
+                <div className='sign-in-content-sns-sign-in-box'>
+                    <div className='sign-in-content-sns-sign-in-title'>{'sns 로그인'}</div>
+                    <div className='sign-in-content-sns-sign-in-button-box'>
+                        <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
+                        <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
+                        <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
                     </div>
-                    {/* {showRecoveryBox && (
-                        <div className="recovery-password-box">
-                            <InputBox ref={emailRef} title="" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
-                            <div className="primary-button-small recovery-password-button" onClick={handleRecoverPassword}>{'비밀번호 찾기'}</div>
-                        </div>
-                    )} */}
+                </div>
+
+                <div className='sign-in-content-input-box'>
+                    <div>
+                        <InputBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} onKeyDown={onIdKeyDownHandler} />
+                        <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type={passwordType} value={password} onChange={onPasswordChangeHandler} isErrorMessage message={message} onKeyDown={onPasswordKeyDownHandler} />
+                    </div>
+                    <div className='sign-in-content-button-box'>
+                        <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
+                        <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
+
+
