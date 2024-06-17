@@ -206,30 +206,24 @@ const CartList: React.FC = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td
-                                colSpan={7}
-                                style={{
+                            <td colSpan={7} style={{
                                     height: "76px",
                                     textAlign: "center",
                                     fontSize: "24px",
                                     color: "rgba(0, 0, 0, 0.4)",
                                     fontWeight: "500",
-                                }}
-                            >
+                                }}>
                                 장바구니에 담긴 상품이 없습니다.
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td
-                                colSpan={6}
-                                style={{ textAlign: "right", fontWeight: "bold" }}
-                            >
-                                총 가격: 0 원
+                    <tfoot style={{ alignItems: 'center' }}>
+                        <tr style={{ width: '100%', textAlign: 'center' }}>
+                            <td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                                총 가격: {calculateTotalPrice()} 원
                             </td>
-                            <td colSpan={7} style={{}}>
-                                <button className="mt-[5px] btn btn-warning">구매하기</button>
+                            <td>
+                                <button style={{ width: "90px" }} className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
                             </td>
                         </tr>
                     </tfoot>
@@ -307,19 +301,13 @@ const CartList: React.FC = () => {
                             </tr>
                         ))}
                     </tbody>
-                    <tfoot style={{ alignItems: 'center'}}>
+                    <tfoot style={{ alignItems: 'center' }}>
                         <tr style={{ width: '100%', textAlign: 'center' }}>
-                            <td colSpan={4} style={{  textAlign: 'right', fontWeight: 'bold' }}>
+                            <td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
                                 총 가격: {calculateTotalPrice()} 원
                             </td>
                             <td>
-                                <button
-                                    style={{ width: "90px" }}
-                                    className="mt-[5px] btn btn-warning"
-                                    onClick={handleCheckout}
-                                >
-                                    구매하기
-                                </button>
+                                <button style={{ width: "90px" }} className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
                             </td>
                         </tr>
                     </tfoot>

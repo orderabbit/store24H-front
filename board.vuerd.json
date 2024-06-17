@@ -3,8 +3,8 @@
     "version": "2.2.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -421.78819999999996,
-    "scrollLeft": -54,
+    "scrollTop": -386.78819999999996,
+    "scrollLeft": 0,
     "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
@@ -167,7 +167,7 @@
           "active": false,
           "left": 87.7774,
           "top": 535.3338,
-          "zIndex": 2,
+          "zIndex": 58,
           "widthName": 60,
           "widthComment": 84.5703125,
           "color": "#FFEB3B"
@@ -205,7 +205,7 @@
           {
             "id": "d960c481-e1f7-41c8-98c3-adbc573187fd",
             "name": "title",
-            "comment": "제목",
+            "comment": "이름",
             "dataType": "VARCHAR(255)",
             "default": "",
             "option": {
@@ -341,6 +341,29 @@
             }
           },
           {
+            "id": "84fb2405-3192-40db-a6b1-09496fccfecb",
+            "name": "count",
+            "comment": "상품 개수",
+            "dataType": "VARCHAR(255)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 89.29296875,
+              "widthDefault": 60
+            }
+          },
+          {
             "id": "1fe752b0-9642-4a45-8127-583eb67d1c1b",
             "name": "user_id",
             "comment": "사용자 아이디",
@@ -366,9 +389,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 711.7778,
-          "top": 568,
-          "zIndex": 4,
+          "left": 765.1106,
+          "top": 500.2226,
+          "zIndex": 71,
           "widthName": 60,
           "widthComment": 97.5703125,
           "color": "#03A9F4"
@@ -656,7 +679,7 @@
             "064fc6d0-8d4e-4923-a408-028894988bf1"
           ],
           "x": 545.009821875,
-          "y": 621.0838,
+          "y": 578.2088,
           "direction": "right"
         },
         "end": {
@@ -664,8 +687,8 @@
           "columnIds": [
             "1fe752b0-9642-4a45-8127-583eb67d1c1b"
           ],
-          "x": 711.7778,
-          "y": 684.5,
+          "x": 765.1106,
+          "y": 626.9726,
           "direction": "left"
         },
         "constraintName": "fk_user_to_playlist",

@@ -22,6 +22,7 @@ import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
 import SearchList from 'views/product/searchList';
 import './App.css';
+import OrderPage from 'views/orderlist';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
+        <Route path="/orderItem/:userId" element={<OrderPage />} />
       </Route>
     </Routes>
 

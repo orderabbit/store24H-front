@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { SaveProductRequestDto } from "./request";
+import { SaveOrderListRequestDto, SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
@@ -41,7 +41,6 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
 const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
-const RECOVER_PASSWORD_URL = () => `${API_DOMAIN}/user/recovery-password`;
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
@@ -251,4 +250,28 @@ export const postPaymentRequest = async (paymentData: any) => {
             return responseBody;
         })
     return result;
+};
+
+export const postOrderListRequest = async (orderData: SaveOrderListRequestDto): Promise<ResponseDto | null> => {
+    try {
+        const response = await axios.post<ResponseDto>(POST_ORDER_LIST_URL(), orderData);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data as ResponseDto;
+        }
+        return null;
+    }
+};
+
+export const getOrderListRequest = async (userId: string): Promise<GetOrderListResponseDto | null> => {
+    try {
+        const response = await axios.get<GetOrderListResponseDto>(GET_ORDER_LIST_URL(userId));
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data as GetOrderListResponseDto;
+        }
+        return null;
+    }
 };
