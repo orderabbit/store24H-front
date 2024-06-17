@@ -1,118 +1,50 @@
 #profilebar {
-  z-index: 5;
-  padding: 12px;
-  border-radius: 15px 15px 15px 15px;
-  color: #fdfdfd;
-  height: 40%;
-  width: 400px;
-  top: 96px;
-  right: 1%;
+  z-index: 5; /* 프로필 사이드바가 다른 요소 위에 정상적으로 보이도록 z-index 설정 */
   position: fixed;
-  visibility: hidden;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(182, 135, 135);
-  transition: visibility 0s, opacity 0.5s linear;
-  opacity: 0;
+  top: 150px; /* 헤더 바 아래에 위치하도록 조정 */
+  right: 20%; /* 헤더 오른쪽에 위치 */
+  padding: 10px;
+  border: 1px solid #ced4da;
+  /* border-radius: 10px; */
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  visibility: hidden; /* 기본적으로 숨김 */
+  opacity: 0; /* 기본적으로 투명 */
+  transition: visibility 0s, opacity 0.3s ease-in-out; /* 애니메이션 효과 추가 */
 }
 
 #profilebar.open {
-  visibility: visible;
-  opacity: 1;
-}
-
-#profilebar .close {
-  cursor: pointer;
-  outline: none;
-  margin-right: 10px;
-  color: #000000;
-  position: absolute;
-  top: 12px; /* 이동할 위치 조정 */
-  right: 3px; /* 이동할 위치 조정 */
-}
-
-#profilebar .profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-#profilebar .profile-image-container {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#profilebar .profile-image {
-  width: 120px;
-  height: 120px;
-}
-
-#profilebar .profile-email {
-  font-size: 0.9rem;
-  color: #ffffff;
-  text-align: center;
+  visibility: visible; /* 열린 상태일 때 보이게 설정 */
+  opacity: 1; /* 열린 상태일 때 불투명하게 설정 */
 }
 
 #profilebar .profile-info {
-  text-align: center;
-}
-
-#profilebar .profile-info p{
-  font-size: 1.7rem;
-}
-
-#profilebar .nickname {
-  font-weight: bold;
-}
-
-#profilebar .profile-actions {
+  color: black;
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  width: 100%;
-}
-
-#profilebar .profile-action-mypage,
-#profilebar .profile-action-logout {
-  flex: 1;
-  width: 160px;
-  height: 60px;
-  padding: 8px 4px;
-  margin: 0 3px;
-  font-size: 1rem;
-  border: none;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.363); /* 버튼색깔 */
+  flex-direction: column;
+  text-align: center;
+  align-items: center; /* 가운데 정렬 */
   cursor: pointer;
 }
 
-#profilebar .profile-action-mypage {
-  border-radius: 15px 0 0 15px;
+#profilebar ul {
+  list-style-type: none; /* 목록 점 표시 제거 */
+  padding: 0;
 }
 
-#profilebar .profile-action-logout {
-  border-radius: 0 15px 15px 0;
+#profilebar li {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 4px;
+  text-align: center;
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, text-decoration 0.3s ease; /* 호버링 애니메이션 효과 추가 */
 }
 
-#profilebar .profile-action-mypage:hover {
-  background-color: rgba(0, 0, 0, 0.301);
-}
-
-#profilebar .profile-action-logout:hover {
-  background-color: rgba(0, 0, 0, 0.301);
-}
-
-#profilebar .action-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
+#profilebar li:hover {
+  background-color: #f0f0f0; /* 호버링 시 배경색 변경 */
+  color: #007bff; /* 호버링 시 텍스트 색상 변경 */
+  text-decoration: underline; /* 호버링 시 밑줄 추가 */
 }

@@ -2,12 +2,12 @@ import axios, { AxiosResponse } from "axios";
 import { SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
-import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
+import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
 import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
-
+import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
+import { ResponseBody } from "types";
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
@@ -41,6 +41,7 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
 const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
+const RECOVER_PASSWORD_URL = () => `${API_DOMAIN}/user/recovery-password`;
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
@@ -177,6 +178,18 @@ export const withdrawUserRequest = async (userId: number | string, accessToken: 
             return responseBody;
         });
     return result;
+};
+
+export const recoveryPasswordRequest = async (requestBody: PasswordRecoveryRequestDto): Promise<ResponseBody<PasswordRecoveryResponseDto>> => {
+    try {
+        const response = await axios.post(RECOVER_PASSWORD_URL(), requestBody);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data;
+        }
+        throw error;
+    }
 };
 
 export const PostProductRequest = async (formData: SaveProductRequestDto, accessToken: string): Promise<SaveProductResponseDto> => {

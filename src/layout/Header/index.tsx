@@ -32,7 +32,7 @@ export default function Header() {
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen);
   }
-  const [isHovering, setIsHovering] = useState<boolean>(false); // 햄버거 버튼 위에 마우스를 올렸는지 여부
+  const [isHoveringProfile, setIsHoveringProfile] = useState<boolean>(false); // 햄버거 버튼 위에 마우스를 올렸는지 여부
   const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
   const { pathname } = useLocation();
   const [cookies, setCookie] = useCookies();
@@ -96,61 +96,46 @@ export default function Header() {
   }
 
   const onCartListIconClickHandler = () => {
-    navigator('/cart');
+    if(!loginUser){
+      navigator(SIGNIN_PATH());
+    }else {
+      navigator('/cart');
+    }
   };
 
-  const onProfileButtonClickHandler = () => {
-      setIsProfileOpen(true);
-    };
+  const onProfileIconClickHandler = () => {
+    setIsProfileOpen(!isProfileOpen); // 프로필 팝업 열기/닫기 토글
+  };
+
+  const onSignInButtonClickHandler = () => {
+    navigator(SIGNIN_PATH());
+  };
+  
+  const onSignOutButtonClickHandler = () => {
+    resetLoginUser();
+    setCookie('accessToken', '', { path: MAIN_PATH(), expires: new Date() })
+    navigator(MAIN_PATH());
+  };  
+  
+  const onContactButtonClickHandler = () => {
+    navigator('/contact');
+  };
   
   const MyPageButton = () => {
 
-    const onMyPageButtonClickHandler = () => {
-      if (!loginUser) return;
-      const { userId } = loginUser;
-      navigator(USER_PATH(userId));
-    };
-    // const onSignOutButtonClickHandler = () => {
-    //   resetLoginUser();
-    //   setCookie('accessToken', '', { path: MAIN_PATH(), expires: new Date() })
-    //   navigator(MAIN_PATH());
-    // };  해당 로그아웃 버튼은 UserProfile 컴포넌트로 이동
-    const onSignInButtonClickHandler = () => {
-      navigator(SIGNIN_PATH());
-    };
 
-    if (isLogin) {
-      return (
-        <>
-          <div className='navbar-icon' onClick={onCartListIconClickHandler}>
-            <img src={cartListIcon} alt="CartList" />
-            <span>장바구니 {cartListCount > 0 && `(${cartListCount})`}</span>
-          </div>
-          <div className='navbar-icon' onClick={onProfileButtonClickHandler}>
-            <img src={profileIcon} alt="Profile" />
-            <span>프로필</span>
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <div className='black-button' onClick={onSignInButtonClickHandler}>
-          {'로그인'}
+    return (
+      <>
+        <div className='navbar-icon' onClick={onProfileIconClickHandler}>
+          <img src={profileIcon} alt="Profile" />
+          <span>프로필</span>
         </div>
-      );
-    }
-    // if (isLogin)
-    //   return <div className='white-button' onClick={onSignOutButtonClickHandler}>{'로그아웃'}</div>
-    // if (isLogin)
-    //   return <div onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>
-    // if(isLogin)
-    //   return <div className='profile-icon' onClick={toggleProfile}>
-    //     <img src={profileIcon} alt="Profile" />
-    //     <span>프로필</span>
-    //   </div>
-    // if (!isLogin)
-    //   return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>;
-    // return null;
+        <div className='navbar-icon' onClick={onCartListIconClickHandler}>
+          <img src={cartListIcon} alt="CartList" />
+          <span>장바구니 {cartListCount > 0 && `(${cartListCount})`}</span>
+        </div>
+      </>
+    );
   };
 
   const handleMouseEnter = () => {
@@ -166,17 +151,35 @@ export default function Header() {
     // }
   };
 
+  const handleProfileMouseEnter = () => {
+    setIsProfileOpen(true); // 프로필 아이콘에 마우스 호버 시 프로필 사이드바 열기
+  };
+
+  const handleProfileMouseLeave = () => {
+    setIsProfileOpen(false); // 프로필 아이콘에서 마우스 떠나면 프로필 사이드바 닫기
+  };
+
   return (
     <div id='header'>
+      <div className='top-bar'>
+        {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>로그인</div>}
+        {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
+        {isLogin && (
+          <>
+            <div className='auth-button' onClick={onProfileIconClickHandler}>
+              <span className='nickname'>{loginUser?.nickname}님</span>
+            </div>
+            <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
+          </>
+        )}
+        <div className='auth-button' onClick={onContactButtonClickHandler}>고객센터</div>
+      </div>
       <div className='header-container'>
-        <div className='header-left-box' onClick={toggleSide}> 
+        <div className='header-left-box'> 
           {/* onClick={toggleSide} 시에는 클릭시 사이드바 나옴 , onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} => 마우스 호버링 */}
           {/* 카테고리 로고, 햄버거버튼*/}
           <div className='category-logo'>
-          <div className="hamburger" onClick={toggleSide}>
-            <span></span>
-            <span></span>
-            <span></span>
+          <div className={`hamburger ${isOpen ? 'active' : ''}`} onClick={toggleSide}>
             <span></span>
           </div>
           </div>
