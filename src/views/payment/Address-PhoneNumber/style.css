@@ -33,17 +33,24 @@ body, html {
     
 }
 .address-content input {
-    padding: 5px;
-    font-size: 13px;
+    padding: 3px;
+    font-size: 15px;
     width: 300px;
     font-weight: 600;
+    
 }
 .Find-postal-code{
     margin-left: 10px;
-    border : 2px solid;
+    border : 1px solid;
+    padding: 3px;
+    font-size: 15px;
+    font-weight: 600;
     
 }
 .address-store{
     justify-content: flex-end; /* 화면 맨 왼쪽으로 정렬 */
     display: flex;
+}
+.error-message{
+    margin-bottom: -5px;
 }
