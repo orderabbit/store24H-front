@@ -26,6 +26,9 @@
     height: 75%;
     display: flex;
     gap: 0px;
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 1;
+    z-index: 3;
 }
 
 .sign-in-title {
@@ -46,8 +49,8 @@
     /*align-items: flex-start;*/ /* 왼쪽 정렬 */
     gap: 0;
     height: 100%; /* 부모 요소(.sign-in-box)의 높이에 맞춤 */
-    
 }
+
 .sign-in-content-input{
     width: 100%;
     display: flex;
@@ -104,4 +107,9 @@
     cursor: pointer;
     flex-shrink: 0; /* 줄어들지 않도록 고정 */
     
+}
+
+.log-io-container.right-panel-active .sign-in-box {
+    transform: translateX(100%);
+    opacity: 0;
 }
