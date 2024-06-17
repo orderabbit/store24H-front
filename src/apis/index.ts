@@ -3,7 +3,7 @@ import { SaveOrderListRequestDto, SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteProductResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
@@ -41,6 +41,7 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
 const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
+const RECOVER_PASSWORD_URL = () => `${API_DOMAIN}/user/recovery-password`;
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
 const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
@@ -48,6 +49,8 @@ const DELETE_PRODUCT_URL = (productId: number) => `${API_DOMAIN}/product/delete/
 const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
+const POST_ORDER_LIST_URL = () => `${API_DOMAIN}/orders/saveOrderInfo`;
+const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${userId}`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
