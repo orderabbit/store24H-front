@@ -1,4 +1,4 @@
-export default interface SaveProductRequestDto {
+export default interface SaveCartRequestDto {
     productId: number;
     title: string;
     link: string;

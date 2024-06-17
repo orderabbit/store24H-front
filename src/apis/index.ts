@@ -1,13 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import { SaveOrderListRequestDto, SaveProductRequestDto } from "./request";
+import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteProductResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
+import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
@@ -40,17 +41,25 @@ const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
 const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
-const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
 const RECOVER_PASSWORD_URL = () => `${API_DOMAIN}/user/recovery-password`;
+const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
 
-const POST_PRODUCT_URL = () => `${API_DOMAIN}/product/save`;
-const GET_PRODUCT_LIST_URL = (userId: string) => `${API_DOMAIN}/product/list/${userId}`;
-const DELETE_PRODUCT_URL = (productId: number) => `${API_DOMAIN}/product/delete/${productId}`;
-const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
+const POST_CART_URL = () => `${API_DOMAIN}/cart/save`;
+const GET_CART_LIST_URL = (userId: string) => `${API_DOMAIN}/cart/list/${userId}`;
+const DELETE_CART_URL = (productId: number) => `${API_DOMAIN}/cart/delete/${productId}`;
+const GET_SEARCH_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/cart/search?keyword=${keyword}`;
 
 const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
+
 const POST_ORDER_LIST_URL = () => `${API_DOMAIN}/orders/saveOrderInfo`;
 const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${userId}`;
+
+const POST_PRODUCT_URL = () => `${API_DOMAIN}/product`;
+const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}`;
+const GET_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/detail/${productId}`;
+const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
+const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
+const GET_SEARCH_PRODUCT_LIST_URL = (searchWord: string, preSearchWord: string | null) => `${API_DOMAIN}/product/search-list/${searchWord}${preSearchWord ? '/' + preSearchWord : ''}`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -194,10 +203,10 @@ export const recoveryPasswordRequest = async (requestBody: PasswordRecoveryReque
     }
 };
 
-export const PostProductRequest = async (formData: SaveProductRequestDto, accessToken: string): Promise<SaveProductResponseDto> => {
-    const result = await axios.post(POST_PRODUCT_URL(), formData, authorization(accessToken))
+export const PostCartRequest = async (formData: SaveCartRequestDto, accessToken: string): Promise<SaveCartResponseDto> => {
+    const result = await axios.post(POST_CART_URL(), formData, authorization(accessToken))
         .then(response => {
-            const responseBody: SaveProductResponseDto = response.data;
+            const responseBody: SaveCartResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {
@@ -209,7 +218,7 @@ export const PostProductRequest = async (formData: SaveProductRequestDto, access
 
 export const GetProductListRequest = async (userId: string, accessToken: string): Promise<AxiosResponse> => {
     try {
-        const response = await axios.get(GET_PRODUCT_LIST_URL(userId), authorization(accessToken));
+        const response = await axios.get(GET_CART_LIST_URL(userId), authorization(accessToken));
         return response;
     } catch (error) {
         console.error('Error fetching product list:', error);
@@ -217,9 +226,9 @@ export const GetProductListRequest = async (userId: string, accessToken: string)
     }
 };
 
-export const GetProductRequest = async (keyword: string): Promise<AxiosResponse> => {
+export const GetListProductRequest = async (keyword: string): Promise<AxiosResponse> => {
     try {
-        const response = await axios.get(GET_PRODUCT_URL(keyword), {});
+        const response = await axios.get(GET_SEARCH_PRODUCT_URL(keyword), {});
         return response;
     } catch (error) {
         console.error('Error fetching product data:', error);
@@ -227,10 +236,10 @@ export const GetProductRequest = async (keyword: string): Promise<AxiosResponse>
     }
 };
 
-export const DeleteProductRequest = async (productId: number, accessToken: string) => {
-    const result = await axios.delete(DELETE_PRODUCT_URL(productId), authorization(accessToken))
+export const DeleteCartRequest = async (productId: number, accessToken: string) => {
+    const result = await axios.delete(DELETE_CART_URL(productId), authorization(accessToken))
         .then(response => {
-            const responseBody: DeleteProductResponseDto = response.data;
+            const responseBody: DeleteCartResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {
@@ -277,4 +286,88 @@ export const getOrderListRequest = async (userId: string): Promise<GetOrderListR
         }
         return null;
     }
+};
+
+export const PostProductRequest = async (formData: PostProductRequestDto, accessToken: string) => {
+    const result = await axios.post(POST_PRODUCT_URL(), formData, authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+
+export const PatchProductRequest = async (productId: number | string, formData: PatchProductRequestDto, accessToken: string) => {
+    const result = await axios.patch(PATCH_PRODUCT_URL(productId), formData, authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+
+export const GetProductRequest = async (productId: number | string) => {
+    const result = await axios.get(GET_PRODUCT_URL(productId))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+
+export const DeleteProductRequest = async (productId: number | string, accessToken: string) => {
+    const result = await axios.delete(DELETE_PRODUCT_URL(productId), authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+
+export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
+    const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
+};
+
+export const GetSearchProductListRequest = async (searchWord: string, preSearchWord: string | null) => {
+    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(searchWord, preSearchWord))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        });
+    return result;
 };
