@@ -326,8 +326,17 @@
   background-image: url(images/arrow-right.png);
 }
 
+.quantity-minus-icon {
+  background-image: url(images/quantity-minus.png);
+}
 
+.quantity-plus-icon {
+  background-image: url(images/quantity-plus.png);
+}
 
+.close-icon {
+  background-image: url(images/close.png);
+}
 
 
 
