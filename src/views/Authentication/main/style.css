@@ -1,0 +1,38 @@
+.log-io-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.overlay-container{
+    display: flex;
+    overflow: hidden;
+    z-index: 100;
+    position: absolute;
+    flex-direction: row;
+    width: 60vw;
+    height: 75%;
+}
+
+.overlay{
+    transition: transform 0.6s ease-in-out;
+    background-position: 0 0;
+    background-color: brown;
+
+}
+
+.overlay-pannel{
+   
+}
+
+.overlay-left{
+
+}
+
+.overlay-right{
+
+}
+
+.log-io-container.right-panel-active .overlay {
+    transform: translateX(100%);
+}
