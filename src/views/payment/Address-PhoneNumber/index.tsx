@@ -24,6 +24,11 @@ const AddressPage = () => {
   const [postcode, setPostcode] = useState<string>("");
   const [detailAddress, setDetailAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [nameError, setNameError] = useState<string>("");
+  const [postcodeError, setPostcodeError] = useState<string>("");
+  const [addressError, setAddressError] = useState<string>("");
+  const [detailAddressError, setDetailAddressError] = useState<string>("");
+  const [phoneNumberError, setPhoneNumberError] = useState<string>("");
   const navigate = useNavigate();
   const selectedProducts: Product[] = location.state.selectedProducts || [];
   const selectedProductIds: Product[] = location.state.selectedProductIds || [];
@@ -38,25 +43,68 @@ const AddressPage = () => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("selectedProductIds", selectedProducts);
     event.preventDefault();
-    navigate(`/checkout`, {
-      state: {
-        selectedProductIds,
-        selectedProducts,
-        name,
-        address,
-        postcode,
-        detailAddress,
-        phoneNumber,
-      },
-    });
-  };
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     navigate(`/checkout?address=${encodeURIComponent(address)}&postcode=${encodeURIComponent(postcode)}&detailAddress=${encodeURIComponent(detailAddress)}&phoneNumber=${encodeURIComponent(phoneNumber)}`);
-  // };
+    // Validation
+    let isValid = true;
+
+    if (name.trim() === "") {
+      setNameError("받는 사람을 입력해주세요.");
+      isValid = false;
+    } else {
+      setNameError("");
+    }
+
+    if (postcode.trim() === "") {
+      setPostcodeError("우편번호를 입력해주세요.");
+      isValid = false;
+    } else {
+      setPostcodeError("");
+    }
+
+    if (address.trim() === "") {
+      setAddressError("주소를 입력해주세요.");
+      isValid = false;
+    } else {
+      setAddressError("");
+    }
+
+    if (detailAddress.trim() === "") {
+      setDetailAddressError("상세주소를 입력해주세요.");
+      isValid = false;
+    } else {
+      setDetailAddressError("");
+    }
+
+    if (phoneNumber.trim() === "") {
+      setPhoneNumberError("휴대폰 번호를 입력해주세요.");
+      isValid = false;
+    } else {
+      // Check phone number format
+      const regex = /^\d{3}-\d{3,4}-\d{4}$/;
+      if (!regex.test(phoneNumber)) {
+        setPhoneNumberError("휴대폰 번호 형식을 확인해주세요. ex) 010-1234-5678");
+        isValid = false;
+      } else {
+        setPhoneNumberError("");
+      }
+    }
+
+    // Proceed with navigation if valid
+    if (isValid) {
+      navigate(`/checkout`, {
+        state: {
+          selectedProductIds,
+          selectedProducts,
+          name,
+          address,
+          postcode,
+          detailAddress,
+          phoneNumber,
+        },
+      });
+    }
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -70,9 +118,11 @@ const AddressPage = () => {
       <div className="address-home">
         <div className="address-whole-title">배송지</div>
         <div className="address-whole">
+          
           <div className="address-title">받는 사람 :</div>
           <div className="address-content">
-            <input type="text" name="name" onChange={handleInputChange}  />
+            <input type="text" name="name" value={name} onChange={handleInputChange}  />
+            {nameError && <p className="error-message">{nameError}</p>}
           </div>
           <br />
           <div className="address-title">우편번호 :</div>
@@ -85,11 +135,13 @@ const AddressPage = () => {
             >
               우편번호 찾기
             </button>
+            {postcodeError && <p className="error-message">{postcodeError}</p>}
           </div>
           <br />
           <div className="address-title">주소 :</div>
           <div className="address-content">
             <input type="text" value={address} readOnly />
+            {addressError && <p className="error-message">{addressError}</p>}
           </div>
 
           <br />
@@ -101,6 +153,7 @@ const AddressPage = () => {
               value={detailAddress}
               onChange={handleInputChange}
             />
+            {detailAddressError && <p className="error-message">{detailAddressError}</p>}
           </div>
 
           <br />
@@ -112,12 +165,14 @@ const AddressPage = () => {
               value={phoneNumber}
               onChange={handleInputChange}
             />
+            {phoneNumberError && <p className="error-message">{phoneNumberError}</p>}
           </div>
 
           <br />
           <div className="address-store">
             <button type="submit">배송지 저장</button>
           </div>
+          
         </div>
       </div>
     </form>
@@ -125,3 +180,4 @@ const AddressPage = () => {
 };
 
 export default AddressPage;
+ 
