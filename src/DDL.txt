@@ -3,12 +3,13 @@
 CREATE TABLE cart
 (
   product_id VARCHAR(255) NOT NULL COMMENT '상품 번호',
-  title      VARCHAR(255) NOT NULL COMMENT '제목',
+  title      VARCHAR(255) NOT NULL COMMENT '이름',
   link       VARCHAR(255) NOT NULL COMMENT '링크',
   image      VARCHAR(255) NULL     COMMENT '이미지',
   low_price  VARCHAR(255) NOT NULL COMMENT '최저가',
   category1  VARCHAR(255) NOT NULL COMMENT '대분류',
   category2  VARCHAR(255) NOT NULL COMMENT '중분류',
+  count      VARCHAR(255) NOT NULL COMMENT '상품 개수',
   user_id    VARCHAR(50)  NOT NULL COMMENT '사용자 아이디',
   PRIMARY KEY (product_id)
 ) COMMENT '장바구니 테이블';
@@ -40,6 +41,29 @@ CREATE TABLE user
   profile_image TEXT         NULL     COMMENT '사용자 프로필 사진 URL',
   PRIMARY KEY (user_id)
 ) COMMENT '사용자 테이블';
+
+CREATE TABLE order_list
+(
+  order_id    VARCHAR(50) NOT NULL COMMENT '주문 번호',
+  user_id     VARCHAR(50) NOT NULL COMMENT '주문한 사용자 아이디',
+  order_date  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '주문 일시',
+  total_amount DECIMAL(10, 2) NOT NULL COMMENT '총 주문 금액',
+  status      VARCHAR(20) NOT NULL DEFAULT 'ORDERED' COMMENT '주문 상태',
+  PRIMARY KEY (order_id),
+  FOREIGN KEY (user_id) REFERENCES user (user_id)
+) COMMENT '주문 목록 테이블';
+
+CREATE TABLE order_item
+(
+  item_id     INT         NOT NULL AUTO_INCREMENT COMMENT '주문 상품 아이디',
+  order_id    VARCHAR(50) NOT NULL COMMENT '주문 번호',
+  product_id  INT         NOT NULL COMMENT '상품 아이디',
+  quantity    INT         NOT NULL DEFAULT 1 COMMENT '상품 수량',
+  price       DECIMAL(10, 2) NOT NULL COMMENT '상품 가격',
+  PRIMARY KEY (item_id),
+  FOREIGN KEY (order_id) REFERENCES order_list (order_id)
+) COMMENT '주문 상품 목록 테이블';
+
 
 ALTER TABLE cart
   ADD CONSTRAINT FK_user_TO_cart

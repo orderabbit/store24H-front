@@ -5,7 +5,6 @@ import nicknameCheckRequestDto from "apis/request/auth/nickname-check.request.dt
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "apis/response/auth";
 import nicknameCheckResponseDto from "apis/response/auth/nickname-check.response.dto";
 import InputBox from "components/InputBox";
-import SignBox from "components/signBox";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseBody } from "types";
@@ -13,6 +12,7 @@ import { ResponseCode } from "types/enums";
 import './style.css';
 import { SIGNIN_PATH } from "constant";
 import React from "react";
+import SignBox from "components/SignBox";
 
 export default function SignUp() {
 
