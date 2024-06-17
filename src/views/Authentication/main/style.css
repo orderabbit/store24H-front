@@ -2,37 +2,52 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 65%;
 }
 
 .overlay-container{
     display: flex;
     overflow: hidden;
-    z-index: 100;
     position: absolute;
-    flex-direction: row;
-    width: 60vw;
+    z-index: 3;
+    width: 30vw;
     height: 75%;
-}
-
-.overlay{
-    transition: transform 0.6s ease-in-out;
-    background-position: 0 0;
-    background-color: brown;
-
+    transition: transform 0.1s ease-in-out;
+    border-radius: 10%;
+    background-color: rgba(140, 243, 157, 0.897);
 }
 
 .overlay-pannel{
-   
 }
 
-.overlay-left{
-
+.overlay-in{
+    position: absolute;
+    padding: 8%;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.overlay-right{
-
+.overlay-out{
+    position: absolute;
+    padding: 8%;
+    opacity: 0;
+    height: 100vw;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.log-io-container.right-panel-active .overlay {
-    transform: translateX(100%);
+.open-button{
+    flex-direction: row-reverse;
+}
+
+.log-io-container .overlay-container {
+    transform: translateX(110%);
+}
+
+.log-io-container.right-panel-active .overlay-in {
+    opacity: 0;
+}
+
+.log-io-container.right-panel-active .overlay-out {
+    opacity: 1;
 }
