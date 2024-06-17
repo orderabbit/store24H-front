@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DeleteProductRequest, GetProductListRequest } from "apis";
+import { DeleteCartRequest, GetProductListRequest } from "apis";
 import useLoginUserStore from "stores/login-user.store";
 import { useCookies } from "react-cookie";
 import "./style.css";
@@ -69,7 +69,7 @@ const CartList: React.FC = () => {
         }
         if (userId && cookies.accessToken) {
             try {
-                const response = await DeleteProductRequest(
+                const response = await DeleteCartRequest(
                     productId,
                     cookies.accessToken
                 );

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  GetListProductRequest,
   GetProductListRequest,
-  GetProductRequest,
-  PostProductRequest,
+  PostCartRequest
 } from "apis";
 import "./style.css";
 import axios from "axios";
-import { SaveProductRequestDto } from "apis/request";
 import { useCookies } from "react-cookie";
 import Pagination from "components/Pagination";
 import { useLoginUserStore } from "stores";
+import { SaveCartRequestDto } from "apis/request";
 
 interface Product {
   productId: number;
@@ -50,7 +50,7 @@ const SearchList: React.FC = () => {
     const fetchProducts = async () => {
       if (searchKeyword) {
         try {
-          const response = await GetProductRequest(searchKeyword);
+          const response = await GetListProductRequest(searchKeyword);
           console.log(response.data.items);
           let fetchedProducts = response.data.items;
           if (sortByPriceAsc) {
@@ -101,7 +101,7 @@ const SearchList: React.FC = () => {
 
   const saveProductClickHandler = async (product: Product) => {
     const accessToken = cookies.accessToken;
-    const formData: SaveProductRequestDto = {
+    const formData: SaveCartRequestDto = {
       productId: product.productId,
       title: product.title,
       link: product.link,
@@ -112,7 +112,7 @@ const SearchList: React.FC = () => {
       count: quantities[product.productId] || 1,
     };
     try {
-      const response = await PostProductRequest(formData, accessToken);
+      const response = await PostCartRequest(formData, accessToken);
       if (response.code === "SU") {
         alert("상품이 저장되었습니다.");
         if (!loginUser) return;
@@ -144,7 +144,7 @@ const SearchList: React.FC = () => {
       return;
     }
     const accessToken = cookies.accessToken;
-    const formData: SaveProductRequestDto = {
+    const formData: SaveCartRequestDto = {
       productId: product.productId,
       title: product.title,
       link: product.link,
@@ -156,7 +156,7 @@ const SearchList: React.FC = () => {
     };
 
     try {
-      const response = await PostProductRequest(formData, accessToken);
+      const response = await PostCartRequest(formData, accessToken);
       if (response.code === "SU") {
         navigate("/address", { state: { selectedProduct: product } });
       }
