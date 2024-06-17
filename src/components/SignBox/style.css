@@ -17,8 +17,6 @@
 .sign-box-content{
     display: flex;
     flex-direction: column;
-
-    gap: 4px;
 }
 
 .sign-box-body{
