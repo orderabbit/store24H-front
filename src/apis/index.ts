@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
-import { SaveProductRequestDto } from "./request";
+import { SaveOrderListRequestDto, SaveProductRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "./request/user";
-import { DeleteProductResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteProductResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveProductResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
@@ -48,6 +48,9 @@ const DELETE_PRODUCT_URL = (productId: number) => `${API_DOMAIN}/product/delete/
 const GET_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
+
+const POST_ORDER_LIST_URL = () => `${API_DOMAIN}/orders/saveOrderInfo`;
+const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${userId}`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -238,4 +241,28 @@ export const postPaymentRequest = async (paymentData: any) => {
             return responseBody;
         })
     return result;
+};
+
+export const postOrderListRequest = async (orderData: SaveOrderListRequestDto): Promise<ResponseDto | null> => {
+    try {
+        const response = await axios.post<ResponseDto>(POST_ORDER_LIST_URL(), orderData);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data as ResponseDto;
+        }
+        return null;
+    }
+};
+
+export const getOrderListRequest = async (userId: string): Promise<GetOrderListResponseDto | null> => {
+    try {
+        const response = await axios.get<GetOrderListResponseDto>(GET_ORDER_LIST_URL(userId));
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data as GetOrderListResponseDto;
+        }
+        return null;
+    }
 };
