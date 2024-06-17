@@ -12,14 +12,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* 테두리 선 색상 녹색으로 설정 */
 }
 
 .sign-in-box{
     width: 380px;
-    
     display: flex;
     flex-direction: column;
 
+    z-index: 3;
     gap: 24px;
 }
 
@@ -39,7 +40,7 @@
     flex-direction: column;
 
     align-items: center;
-
+ 
     gap: 24px;
 }
 
@@ -85,4 +86,25 @@
     flex-direction: column;
 
     gap: 16px;
+}
+
+
+.sign-in-button{
+    background-color: rgba(146, 224, 192, 0.774);
+    text-align: center;
+    color: rgb(84, 114, 92);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.sign-up-button{
+    background-color: rgba(221, 221, 221, 0.774);
+    text-align: center;
+    color: rgb(84, 114, 92);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
 }

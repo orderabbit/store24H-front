@@ -17,7 +17,7 @@ export function CheckoutPage(): JSX.Element {
   const [userId, setUserId] = useState<string>("");
   const { loginUser } = useLoginUserStore();
   const location = useLocation();
-  const { selectedProducts, address, postcode, detailAddress, phoneNumber } = location.state || {};
+  const { selectedProducts, name, address, postcode, detailAddress, phoneNumber } = location.state || {};
 
   const paymentMethodsWidgetRef = useRef<any>(null);
 
@@ -118,7 +118,7 @@ export function CheckoutPage(): JSX.Element {
                       &customerId=${loginUser.userId.trim()}
                       &customerName=${loginUser.nickname.trim()}
                       &customerEmail=${loginUser.email}
-                      &customerAddress=${postcode.trim()} ${address.trim()} ${detailAddress.trim()}
+                      &customerAddress= ${name.trim()} ${postcode.trim()} ${address.trim()} ${detailAddress.trim()}
                       &customerPhone=${phoneNumber.trim()}
                       &productIds=${encodeURIComponent(JSON.stringify(selectedProductIds))}
                       &amount=${parseFloat(totalAmount.toString().trim())}

@@ -8,9 +8,9 @@
 }
 
 .sign-in-container {
-    flex-direction: column;
-    background-color: #ffffff; /* 배경색 흰색 */
-    border: 2px solid #4ff55c; /* 테두리 선 색상 녹색으로 설정 */
+    flex-direction: row;
+    /*background-color: #ffffff;*/ /* 배경색 흰색 */
+    /*border: 2px solid #4ff55c;*/ /* 테두리 선 색상 녹색으로 설정 */
     color: #00020a; /* 폰트 색상 파란색으로 설정 */
     display: flex;
     width: 800px;
@@ -20,22 +20,25 @@
   }
 
 .sign-in-box{
-    width: 700px;
-    height: 700px;
+    background-color: #e6e5e593;
+    padding: 40px;
+    width: 30vw;
+    height: 75%;
     display: flex;
-    flex-direction: column;
     gap: 0px;
-    
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 1;
+    z-index: 3;
+    border-radius: 20px;
 }
 
 .sign-in-title {
     color: rgba(64, 64, 64, 1);
     display: flex;
-    justify-content: flex-start; /* 화면 맨 왼쪽으로 정렬 */
+    /*justify-content: flex-start;*/ /* 화면 맨 왼쪽으로 정렬 */
     font-size: 30px;
     line-height: 173%;
-    letter-spacing: 2px; /* 글자 사이의 간격을 조정 */
-    border-bottom: 1px solid #000000; /* 아래쪽에 5px 굵기의 검은색 굵은 줄 추가 */
+    /*letter-spacing: 2px;*/ /* 글자 사이의 간격을 조정 */
     width: 600px; /* 굵은 줄의 길이 */
     padding-bottom: 12px; /* 굵은 줄과 내용 사이의 간격 조정 */
 }
@@ -44,11 +47,11 @@
 .sign-in-content-box{
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 왼쪽 정렬 */
+    /*align-items: flex-start;*/ /* 왼쪽 정렬 */
     gap: 0;
     height: 100%; /* 부모 요소(.sign-in-box)의 높이에 맞춤 */
-    
 }
+
 .sign-in-content-input{
     width: 40px;
     display: flex;
@@ -105,6 +108,11 @@
     cursor: pointer;
     flex-shrink: 0; /* 줄어들지 않도록 고정 */
     
+}
+
+.log-io-container.right-panel-active .sign-in-box {
+    transform: translateX(100%);
+    opacity: 0;
 }
 .modal {
     display: block; 
