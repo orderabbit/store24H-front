@@ -61,6 +61,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i lightsail.pem ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} << 'EOF'
         cd /home/${{ secrets.LIGHTSAIL_USER }}/app
-   
+  
          
           
