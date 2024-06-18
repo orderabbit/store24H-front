@@ -58,7 +58,7 @@ const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${user
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product`;
 const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}`;
-const GET_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/detail/${productId}`;
+const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
 const GET_SEARCH_PRODUCT_LIST_URL = (searchWord: string, preSearchWord: string | null) => `${API_DOMAIN}/product/search-list/${searchWord}${preSearchWord ? '/' + preSearchWord : ''}`;
@@ -320,8 +320,8 @@ export const PatchProductRequest = async (productId: number | string, formData: 
     return result;
 };
 
-export const GetProductRequest = async (productId: number | string) => {
-    const result = await axios.get(GET_PRODUCT_URL(productId))
+export const GetProductRequest = async (productId: number | string, type: string) => {
+    const result = await axios.get(GET_PRODUCT_URL(productId, type))
         .then(response => {
             const responseBody: ResponseDto = response.data;
             return responseBody;
