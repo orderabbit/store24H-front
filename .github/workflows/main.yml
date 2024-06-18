@@ -62,3 +62,4 @@ jobs:
           sudo docker build -t tdf .
           sudo docker create --name front-container -p 80:80 tdf:latest
           sudo docker start front-container
+          
