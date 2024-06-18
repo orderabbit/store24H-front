@@ -25,6 +25,7 @@ import './App.css';
 import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
+import Detail from 'views/product/detail';
 
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
         <Route path="/fail" element={<FailPage />} />
         <Route path="/orderItem/:userId" element={<OrderPage />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
-        {/* <Route path={DETAIL_PATH(':Number')} element={<Detail />} /> */}
+        <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />
         <Route path={WRITE_PATH()} element={<Write />}></Route>
       </Route>

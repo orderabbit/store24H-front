@@ -77,7 +77,7 @@ const SearchList: React.FC = () => {
           setProducts(fetchedProducts);
           const initialQuantities = fetchedProducts.reduce(
             (acc: { [key: number]: number }, product: Product) => {
-              acc[product.productId] = 1; // 초기 수량 1로 설정
+              acc[product.productId] = 1;
               return acc;
             },
             {}

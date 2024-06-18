@@ -43,21 +43,23 @@ export default function Update() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const accessToken = cookies.accessToken;
-        if (!accessToken) {
+        if (!ProductId) {
             navigate(MAIN_PATH());
             return;
         }
-        if (!ProductId) return;
         Promise.all([
             GetProductRequest(ProductId, 'primary'),
             GetProductRequest(ProductId, 'secondary')
-        ]).then(([primaryResponse, secondaryResponse]) => {
+        ])
+        .then(([primaryResponse, secondaryResponse]) => {
             getProductResponse(primaryResponse, secondaryResponse);
-        }).catch(error => {
+        })
+        .catch(error => {
             console.error('Error fetching product:', error);
         });
-    }, [ProductId]);
+    }, [Number]);
+    
+    
 
     const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
         if (!primaryResponse || !secondaryResponse) return;
@@ -92,6 +94,7 @@ export default function Update() {
         setImageUrls(productImageList);
         convertUrlsToFile(productImageList).then(productImageFileList => setProductImageFileList(productImageFileList));
         convertUrlsToFile(secondaryProductImageList).then(secondaryProductImageFileList => setSecondaryProductImageFileList(secondaryProductImageFileList));
+        
 
         if (!loginUser || loginUser.userId !== userId) {
             alert('권한이 없습니다.');
@@ -187,7 +190,6 @@ export default function Update() {
         setProductImageFileList(newBoardImageFileList);
     }
 
-
     const onSecondaryImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         const file = event.target.files[0];
@@ -233,6 +235,8 @@ export default function Update() {
             if (code !== 'SU') return;
             resetProduct();
             if (!loginUser) return;
+
+            alert('등록되었습니다.');
             navigate(MAIN_PATH());
         }
 
@@ -245,6 +249,7 @@ export default function Update() {
             if (code !== 'SU') return;
 
             if (!productId) return;
+            alert('수정되었습니다.');
             navigate(DETAIL_PATH(productId));
         }
 
