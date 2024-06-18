@@ -23,7 +23,7 @@ const errorHandler = (error: any) => {
     return responseBody;
 };
 
-const DOMAIN = 'http://localhost:4040';
+const DOMAIN = 'http://3.35.30.191:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 const SEARCH_MAP_URL = (query: string, lat: number, lng: number) => `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
