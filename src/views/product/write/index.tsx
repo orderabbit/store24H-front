@@ -285,9 +285,9 @@ export default function Write() {
                     </div>
 
                     <div className='product-write-icon-box'>
-                        <button className='icon-button' onClick={onImageUploadButtonClickHandler}></button>
+                        <button onClick={onImageUploadButtonClickHandler}>{'메인'}</button>
                         <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onImageChangeHandler} />
-                        <button className='icon-button' onClick={onSecondaryImageUploadButtonClickHandler}></button>
+                        <button onClick={onSecondaryImageUploadButtonClickHandler}>{'상세정보'}</button>
                         <input ref={secondaryImageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onSecondaryImageChangeHandler} />
                     </div>
                     <div className='product-write-images-box'>
