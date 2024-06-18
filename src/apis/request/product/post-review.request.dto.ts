@@ -1,3 +1,3 @@
 export default interface PostReviewRequestDto {
-    content: string;
+    review: string;
 };

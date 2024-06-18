@@ -1,6 +1,6 @@
-import PostProductRequestDto from "./post-board.request.dto";
-import PostReviewRequestDto from "./post-comment.request.dto";
-import PatchProductRequestDto from "./patch-board.request.dto";
+import PostProductRequestDto from "./post-product.request.dto";
+import PostReviewRequestDto from "./post-review.request.dto";
+import PatchProductRequestDto from "./patch-product.request.dto";
 
 export type {
     PostProductRequestDto,
