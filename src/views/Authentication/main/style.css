@@ -13,13 +13,12 @@
     position: absolute;
     height: 100%;
     margin-left: 10px;
-    z-index: 3;
 }
 
 .overlay-box{
     display: flex;
     width: 30vw;
-    z-index: 3;
+    z-index: 2;
     transition: transform 0.1s ease-in-out;
     border-radius: 10%;
     background-color: rgba(140, 243, 157, 0.712);
@@ -64,14 +63,14 @@
     transform: translateX(100%);
 } 
 
-.log-io-container.right-panel-active .overlay-in {
+.log-io-container.first-active .overlay-in {
     opacity: 0;
 }
 
-.log-io-container.right-panel-active .overlay-out {
+.log-io-container.first-active .overlay-out {
     opacity: 1;
 }
 
-.log-io-container.right-panel-active .open-button {
+.log-io-container.first-active .open-button {
     transform: translateX(7%);
 }
