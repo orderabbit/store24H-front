@@ -34,7 +34,6 @@ jobs:
 
     - name: Build
       run: |
-        echo Build.
         npm run build
 
     - name: AWS 인증하기
@@ -45,7 +44,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Deploy to Lightsail
-      uses: orderabbit/store24h-front@v1
       with:
         host: ${{ secrets.LIGHTSAIL_HOST }}
         username: ${{ secrets.LIGHTSAIL_USERNAME }}
