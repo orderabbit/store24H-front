@@ -26,16 +26,8 @@ jobs:
       with:
         node-version: 14
 
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
     - name: Install dependencies
-      run: npm install
+      run: sudo npm install --save
 
     - name: 타입스크립트 설치
       run: npm install typescript
