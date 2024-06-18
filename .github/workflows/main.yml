@@ -53,7 +53,7 @@ jobs:
         ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
 
     - name: Copy build files to Lightsail
-      run: |
+      run: 
         scp -o StrictHostKeyChecking=no -i lightsail.pem -r build/libs/*.jar ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/home/${{ secrets.LIGHTSAIL_USER }}/app
   
     - name: Deploy on Lightsail
