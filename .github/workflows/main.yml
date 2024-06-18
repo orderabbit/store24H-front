@@ -27,7 +27,7 @@ jobs:
         node-version: 14
 
     - name: Install dependencies
-      run: sudo npm install --save
+      run: npm install
 
     - name: 타입스크립트 설치
       run: npm install typescript
