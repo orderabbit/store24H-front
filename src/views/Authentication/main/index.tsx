@@ -15,8 +15,8 @@ export default function LogIN_OUT() {
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>
             <img style={{position: "absolute", objectFit: "cover",
-                         width: "100%", height: "100%"}} src={airport}/>
-            <div className={`log-io-container ${isActive ? 'right-panel-active' : ''}`}>
+                     width: "100%", height: "100%"}} src={airport}/>
+            <div className={`log-io-container ${isActive ? 'first-active' : ''}`}>
                 {signin_html()}
                 {signup_html()}
                 <div className="overlay-container">

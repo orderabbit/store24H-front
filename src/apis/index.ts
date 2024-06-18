@@ -24,7 +24,7 @@ const errorHandler = (error: any) => {
     return responseBody;
 };
 
-const DOMAIN = 'http://localhost:4040';
+const DOMAIN = 'http://3.35.30.191:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 const FILE_DOMAIN = `${DOMAIN}/file`;
 const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };

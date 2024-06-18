@@ -21,21 +21,25 @@ jobs:
     - name: 해당 브런치로 체크아웃
       uses: actions/checkout@v4
 
-    - name: 노드 설치
+    - name: node 설치
       uses: actions/setup-node@v4
       with:
         node-version: 14
 
-    - name: Install dependencies
+    - name: npm 설치
       run: npm install
 
-    - name: 타입스크립트 설치
+    - name: typescript 설치
       run: npm install typescript
 
-    - name: Build
+    - name: 빌드
+      run: 
+        sudo npm run build
+        
+    - name: Add SSH key
       run: |
-        echo Build.
-        npm run build
+        echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
+        chmod 600 lightsail.pem
 
     - name: AWS 인증하기
       uses: aws-actions/configure-aws-credentials@v4
@@ -44,21 +48,19 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Deploy to Lightsail
-      uses: orderabbit/store24h-front@v1
-      with:
-        host: ${{ secrets.LIGHTSAIL_HOST }}
-        username: ${{ secrets.LIGHTSAIL_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: '*'
-        strip_components: 1
-        target: '/home/ubuntu/{project-name}'
-        script: |
-          cd /home/ubuntu/store24H-front
-          # 다음에 artifact 사용 가능
-          echo $artifact
-          sudo docker stop front-container
-          sudo docker rm front-container
-          sudo docker build -t tdf .
-          sudo docker create --name front-container -p 80:80 tdf:latest
-          sudo docker start front-container
+    - name: Add remote host to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Copy build files to Lightsail
+      run: 
+        scp -o StrictHostKeyChecking=no -i lightsail.pem -r build/libs/*.jar ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/home/${{ secrets.LIGHTSAIL_USER }}/app
+  
+    - name: Deploy on Lightsail
+      run: |
+        ssh -o StrictHostKeyChecking=no -i lightsail.pem ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} << 'EOF'
+        cd /home/${{ secrets.LIGHTSAIL_USER }}/app
+  
+         
+      
