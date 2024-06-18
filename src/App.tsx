@@ -2,7 +2,7 @@ import { getSignInUserRequest } from 'apis';
 import { ResponseDto } from 'apis/response';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import Test from 'components/map/test';
-import { TEST_PATH } from 'constant';
+import { DETAIL_PATH, SIGNIN_PATH, SIGNUP_PATH, TEST_PATH, UPDATE_PATH, USER_PATH, WRITE_PATH } from 'constant';
 import Container from 'layout/Container';
 import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
@@ -24,6 +24,7 @@ import SearchList from 'views/product/searchList';
 import './App.css';
 import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
+import Update from 'views/product/update';
 
 
 function App() {
@@ -55,20 +56,22 @@ function App() {
     <Routes>
       <Route element={<Container />}>
         {/* <Route path={MAIN_PATH()} element={<Map />}></Route> */}
-        <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth/>}></Route>
+        <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth />}></Route>
         <Route path={TEST_PATH()} element={<Test />}></Route>
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/cart" element={<CartList />} />
-        <Route path="/signin" element={<LogIN_OUT />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
+        <Route path={SIGNUP_PATH()} element={<SignUp />} />
         <Route path="/address" element={<AddressPage />} />
         <Route path='/checkout' element={<CheckoutPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
-        <Route path="/user/:userId" element={<MyPage />} />
         <Route path="/orderItem/:userId" element={<OrderPage />} />
-        <Route path='/product/write' element={<Write />}></Route>
+        <Route path={USER_PATH(':userId')} element={<MyPage />} />
+        {/* <Route path={DETAIL_PATH(':Number')} element={<Detail />} /> */}
+        <Route path={UPDATE_PATH(':Number')} element={<Update />} />
+        <Route path={WRITE_PATH()} element={<Write />}></Route>
       </Route>
     </Routes>
 

@@ -79,7 +79,7 @@ export default function Header() {
   useEffect(() => {
     const isMainPage = pathname === MAIN_PATH();
     setMainPage(isMainPage);
-    const isSearchPage = pathname.startsWith(SEARCH_PATH());
+    const isSearchPage = pathname.startsWith(SEARCH_PATH(''));
     setSearchPage(isSearchPage);
     const isPaymentPage = pathname.startsWith(PAYMENT_PATH());
     setPaymentPage(isPaymentPage);

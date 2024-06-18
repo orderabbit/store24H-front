@@ -1,16 +1,17 @@
-import { PatchProductRequest, PostProductRequest, fileUploadRequest } from 'apis';
+import { GetProductRequest, PatchProductRequest, PostProductRequest, fileUploadRequest } from 'apis';
 import { PatchProductRequestDto, PostProductRequestDto } from 'apis/request/product';
 import { ResponseDto } from 'apis/response';
-import { PatchProductResponseDto, PostProductResponseDto } from 'apis/response/product';
-import { MAIN_PATH, SIGNIN_PATH, USER_PATH } from 'constant';
+import { GetProductResponseDto, PatchProductResponseDto, PostProductResponseDto } from 'apis/response/product';
+import { DETAIL_PATH, MAIN_PATH, SIGNIN_PATH, USER_PATH, WRITE_PATH } from 'constant';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
 import useProductStore from 'stores/product.store';
 import './style.css';
+import { convertUrlsToFile } from 'utils';
 
-export default function Write() {
+export default function Update() {
 
     const productIdRef = useRef<HTMLTextAreaElement | null>(null);
     const titleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -21,6 +22,7 @@ export default function Write() {
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
 
+    const ProductId = Number(useParams()["Number"]);
 
     const { pathname } = useLocation();
     const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
@@ -46,8 +48,57 @@ export default function Write() {
             navigate(MAIN_PATH());
             return;
         }
-        resetProduct();
-    }, []);
+        if (!ProductId) return;
+        Promise.all([
+            GetProductRequest(ProductId, 'primary'),
+            GetProductRequest(ProductId, 'secondary')
+        ]).then(([primaryResponse, secondaryResponse]) => {
+            getProductResponse(primaryResponse, secondaryResponse);
+        }).catch(error => {
+            console.error('Error fetching product:', error);
+        });
+    }, [ProductId]);
+
+    const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
+        if (!primaryResponse || !secondaryResponse) return;
+
+        const primaryBody = primaryResponse as GetProductResponseDto;
+        const secondaryBody = secondaryResponse as GetProductResponseDto;
+
+        const { code: primaryCode } = primaryBody;
+        const { code: secondaryCode } = secondaryBody;
+
+        if (primaryCode === 'NB' || secondaryCode === 'NB') {
+            alert('존재하지 않습니다.');
+            navigate(MAIN_PATH());
+            return;
+        }
+        if (primaryCode === 'DBE' || secondaryCode === 'DBE') {
+            alert('데이터베이스 오류입니다.');
+            navigate(MAIN_PATH());
+            return;
+        }
+        if (primaryCode !== 'SU' || secondaryCode !== 'SU') {
+            return;
+        }
+        const { productId, title, content, lowPrice, category1, category2, productImageList, secondaryProductImageList, userId } = primaryBody;
+
+        setProductId(productId);
+        setTitle(title);
+        setContent(content);
+        setLowPrice(lowPrice);
+        setCategory1(category1);
+        setCategory2(category2);
+        setImageUrls(productImageList);
+        convertUrlsToFile(productImageList).then(productImageFileList => setProductImageFileList(productImageFileList));
+        convertUrlsToFile(secondaryProductImageList).then(secondaryProductImageFileList => setSecondaryProductImageFileList(secondaryProductImageFileList));
+
+        if (!loginUser || loginUser.userId !== userId) {
+            alert('권한이 없습니다.');
+            navigate(MAIN_PATH());
+            return;
+        }
+    };
 
     const onProductIdChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = event.target;
@@ -170,12 +221,9 @@ export default function Write() {
         setSecondaryProductImageFileList(newSecondaryImageFileList);
     }
 
-
-
     const UploadButton = () => {
 
         const { title, content, lowPrice, category1, category2 } = useProductStore();
-
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
             const { code } = responseBody;
@@ -183,9 +231,7 @@ export default function Write() {
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
             if (code !== 'SU') return;
-
             resetProduct();
-
             if (!loginUser) return;
             navigate(MAIN_PATH());
         }
@@ -199,7 +245,7 @@ export default function Write() {
             if (code !== 'SU') return;
 
             if (!productId) return;
-            navigate('/product/:productId');
+            navigate(DETAIL_PATH(productId));
         }
 
         const onUploadButtonClickHandler = async () => {
@@ -221,20 +267,21 @@ export default function Write() {
             for (const file of secondaryProductImageFileList) {
                 const data = new FormData();
                 data.append('file', file);
-        
+
                 const url = await fileUploadRequest(data);
                 if (url) secondaryProductImageList.push(url);
             }
-        
+
             if (productImageList.length > 0) {
                 image = productImageList[0];
             }
 
-            const isWritePage = pathname === '/product/write';
+            const isWritePage = pathname === WRITE_PATH();
             if (isWritePage) {
                 const requestBody: PostProductRequestDto = {
-                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList }
-                    console.log(requestBody);
+                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList
+                }
+                console.log(requestBody);
                 PostProductRequest(requestBody, accessToken).then(postBoardResponse);
             } else {
                 if (!productId) {
@@ -252,48 +299,48 @@ export default function Write() {
     }
 
     return (
-        <div id='product-write-wrapper'>
-            <div className='product-write-container'>
-                <div className='product-write-box'>
-                    <div className='product-write-title-box'>
-                        <textarea ref={productIdRef} className='product-write-title-textarea' rows={1} placeholder='productId' value={productId} onChange={onProductIdChangeHandler} />
+        <div id='product-update-wrapper'>
+            <div className='product-update-container'>
+                <div className='product-update-box'>
+                    <div className='product-update-title-box'>
+                        <textarea ref={productIdRef} className='product-update-title-textarea' rows={1} placeholder='productId' value={productId} onChange={onProductIdChangeHandler} />
                     </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={titleRef} className='product-write-title-textarea' rows={1} placeholder='title' value={title} onChange={onTitleChangeHandler} />
+                    <div className='product-update-title-box'>
+                        <textarea ref={titleRef} className='product-update-title-textarea' rows={1} placeholder='title' value={title} onChange={onTitleChangeHandler} />
                     </div>
-                    <div className='product-write-content-box'>
-                        <textarea ref={contentRef} className='product-write-content-textarea' placeholder='content' value={content} onChange={onContentChangeHandler} />
+                    <div className='product-update-content-box'>
+                        <textarea ref={contentRef} className='product-update-content-textarea' placeholder='content' value={content} onChange={onContentChangeHandler} />
                     </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={lowPriceRef} className='product-write-title-textarea' rows={1} placeholder='lowPrice' value={lowPrice} onChange={onLowPriceChangeHandler} />
+                    <div className='product-update-title-box'>
+                        <textarea ref={lowPriceRef} className='product-update-title-textarea' rows={1} placeholder='lowPrice' value={lowPrice} onChange={onLowPriceChangeHandler} />
                     </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={category1Ref} className='product-write-title-textarea' rows={1} placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
+                    <div className='product-update-title-box'>
+                        <textarea ref={category1Ref} className='product-update-title-textarea' rows={1} placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
                     </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={category2Ref} className='product-write-title-textarea' rows={1} placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
+                    <div className='product-update-title-box'>
+                        <textarea ref={category2Ref} className='product-update-title-textarea' rows={1} placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
                     </div>
 
-                    <div className='product-write-icon-box'>
+                    <div className='product-update-icon-box'>
                         <button onClick={onImageUploadButtonClickHandler}>{'메인'}</button>
                         <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onImageChangeHandler} />
                         <button onClick={onSecondaryImageUploadButtonClickHandler}>{'상세정보'}</button>
                         <input ref={secondaryImageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onSecondaryImageChangeHandler} />
                     </div>
-                    <div className='product-write-images-box'>
+                    <div className='product-update-images-box'>
                         {imageUrls.map((imageUrl, index) =>
-                            <div className='product-write-image-box' key={index}>
-                                <img className='product-write-image' src={imageUrl} />
+                            <div className='product-update-image-box' key={index}>
+                                <img className='product-update-image' src={imageUrl} />
                                 <div className='icon-button image-close' onClick={() => onImageCloseButtonClickHandler(index)}>
                                     <div className='icon close-icon'></div>
                                 </div>
                             </div>
                         )}
                     </div>
-                    <div className='product-write-images-box'>
+                    <div className='product-update-images-box'>
                         {secondaryImageUrls.map((imageUrl, index) =>
-                            <div className='product-write-image-box' key={index}>
-                                <img className='product-write-image' src={imageUrl} />
+                            <div className='product-update-image-box' key={index}>
+                                <img className='product-update-image' src={imageUrl} />
                                 <div className='icon-button image-close' onClick={() => onSecondaryImageCloseButtonClickHandler(index)}>
                                     <div className='icon close-icon'></div>
                                 </div>
