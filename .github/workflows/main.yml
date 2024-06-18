@@ -27,6 +27,7 @@ jobs:
         node-version: 14
 
     - name: npm 설치
+      run: npm install
 
     - name: typescript 설치
       run: npm install typescript
