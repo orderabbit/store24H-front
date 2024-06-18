@@ -34,7 +34,7 @@ jobs:
 
     - name: Build
       run: |
-        npm run build
+        sudo npm run build
         
     - name: Add SSH key
       run: |
