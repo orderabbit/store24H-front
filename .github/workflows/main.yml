@@ -13,54 +13,50 @@ env:
   AWS_REGION: ap-northeast-2
 
 jobs:
-  build:
+  deploy:
+    name: Build and deploy
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./build # github project내에 배포할 대상 프로젝트 디렉토리
     steps:
-
-    - name: 해당 브런치로 체크아웃
-      uses: actions/checkout@v4
-
-    - name: node 설치
-      uses: actions/setup-node@v4
-      with:
-        node-version: 14
-
-    - name: npm 설치
-      run: npm install
-
-    - name: typescript 설치
-      run: npm install typescript
-
-    - name: 빌드
-      run: 
-        sudo npm run build
+      - name: Checkout # 해당 working-directory checkout (트리깅 브랜치 최신버전)
+        uses: actions/checkout@v2
         
-    - name: Add SSH key
-      run: |
-        echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
-        chmod 600 lightsail.pem
+      - name: Install Utilities # 필수 유틸리티 다운로드 
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
 
-    - name: AWS 인증하기
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: ${{ env.AWS_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Install AWS Client # AWS SDK 다운로드 (LightSail 이미지 푸시 및 배포를 위함)
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install || true
+          aws --version
+          curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "lightsailctl"
+          sudo mv "lightsailctl" "/usr/local/bin/lightsailctl"
+          sudo chmod +x /usr/local/bin/lightsailctl
 
-    - name: Add remote host to known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+      - name: Configure AWS credentials # 입력된 IAM 사용자 액세스키 & 시크릿키 검증
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Copy build files to Lightsail
-      run: 
-        scp -o StrictHostKeyChecking=no -i lightsail.pem -r build/libs/*.jar ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/home/${{ secrets.LIGHTSAIL_USER }}/app
-  
-    - name: Deploy on Lightsail
-      run: |
-        ssh -o StrictHostKeyChecking=no -i lightsail.pem ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} << 'EOF'
-        cd /home/${{ secrets.LIGHTSAIL_USER }}/app
-  
-         
+      - name: Build Docker Image # Docker Buildkit 빌드
+        run: DOCKER_BUILDKIT=1 docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
+
+      - name: Push and Deploy # 이미지 푸시 및 배포
+        run: |
+          service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
+          aws lightsail push-container-image \
+            --region ${{ env.AWS_REGION }} \
+            --service-name ${service_name} \
+            --label ${service_name} \
+            --image ${service_name}:release
+          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
+          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
       
