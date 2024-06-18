@@ -7,7 +7,6 @@ export default interface ProductListItem {
     lowPrice: string;
     category1: string;
     category2: string;
-    writerNickName: string;
     writeDatetime: string;
-    writerId: string;
+    userId: string;
 }

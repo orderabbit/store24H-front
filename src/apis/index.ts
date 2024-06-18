@@ -26,6 +26,8 @@ const errorHandler = (error: any) => {
 
 const DOMAIN = 'http://localhost:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
+const FILE_DOMAIN = `${DOMAIN}/file`;
+const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
 
 const SEARCH_MAP_URL = (query: string, lat: number, lng: number) => `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
 
@@ -60,6 +62,8 @@ const GET_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/d
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
 const GET_SEARCH_PRODUCT_LIST_URL = (searchWord: string, preSearchWord: string | null) => `${API_DOMAIN}/product/search-list/${searchWord}${preSearchWord ? '/' + preSearchWord : ''}`;
+
+const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 
 export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
     try {
@@ -369,5 +373,17 @@ export const GetSearchProductListRequest = async (searchWord: string, preSearchW
             const responseBody: ResponseDto = error.response.data;
             return responseBody;
         });
+    return result;
+};
+
+export const fileUploadRequest = async (data: FormData) => {
+    const result = await axios.post(FILE_UPLOAD_URL(), data, multipartFormData)
+        .then(response => {
+            const responseBody: string = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            return null;
+        })
     return result;
 };

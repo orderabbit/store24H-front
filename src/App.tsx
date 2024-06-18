@@ -23,6 +23,7 @@ import Search from 'views/product/main';
 import SearchList from 'views/product/searchList';
 import './App.css';
 import OrderPage from 'views/orderlist';
+import Write from 'views/product/write';
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
         <Route path="/orderItem/:userId" element={<OrderPage />} />
+        <Route path='/product/write' element={<Write />}></Route>
       </Route>
     </Routes>
 
