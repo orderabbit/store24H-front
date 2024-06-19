@@ -75,24 +75,33 @@ ALTER TABLE payment
     FOREIGN KEY (customer_id)
     REFERENCES user (user_id);
 
--- Active: 1718072729694@@127.0.0.1@3306@teamproject
+
 CREATE VIEW product_list_view
 AS
 SELECT 
+    P.id AS id,
     P.product_id AS product_id,
     P.title AS title,
+    P.content AS content,
     P.low_price AS low_price,
     P.write_datetime AS write_datetime,
     P.category1 AS category1,
     P.category2 AS category2,
     P.category3 AS category3,
-    MAX(I.image) AS title_image,
+    (SELECT I.image 
+     FROM image I 
+     WHERE I.product_id = P.product_id AND I.image_type = 'primary'
+     LIMIT 1) AS title_image,
+     (SELECT I.image
+     FROM image I
+     WHERE I.product_id = P.product_id AND I.image_type = 'secondary'
+     ) AS secondary_image,
     U.user_id AS user_id
      FROM 
     product AS P
     INNER JOIN user AS U ON P.user_id = U.user_id
     LEFT JOIN image AS I ON P.product_id = I.product_id
-    GROUP BY P.product_id;
+    GROUP BY P.id;
 
         
       
