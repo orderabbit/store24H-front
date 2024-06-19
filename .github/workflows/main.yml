@@ -5,58 +5,69 @@ on:
     branches: ['main', 'release']
   pull_request:
     branches: ['main', 'release']
-
+    
 env:
   LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
   LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
-  LIGHTSAIL_USERNAME: ubuntu
+  LIGHTSAIL_USERNAME: ubunutu
   AWS_REGION: ap-northeast-2
 
 jobs:
-  deploy:
-    name: Build and deploy
+  build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./build # github project내에 배포할 대상 프로젝트 디렉토리
+
     steps:
-      - name: Checkout # 해당 working-directory checkout (트리깅 브랜치 최신버전)
-        uses: actions/checkout@v2
-        
-      - name: Install Utilities # 필수 유틸리티 다운로드 
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq unzip
+      - name: 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'adopt'
 
-      - name: Install AWS Client # AWS SDK 다운로드 (LightSail 이미지 푸시 및 배포를 위함)
+      - name: 권한
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install || true
-          aws --version
-          curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "lightsailctl"
-          sudo mv "lightsailctl" "/usr/local/bin/lightsailctl"
-          sudo chmod +x /usr/local/bin/lightsailctl
+          chmod +x gradlew
 
-      - name: Configure AWS credentials # 입력된 IAM 사용자 액세스키 & 시크릿키 검증
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - name: AWS 인증하기
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Build Docker Image # Docker Buildkit 빌드
-        run: DOCKER_BUILDKIT=1 docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
+      - name: Deploy Prod use SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ env.LIGHTSAIL_HOST }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          source: "./build/libs/*.jar"
+          target: "/home/ubuntu/store24H-front"
+          strip_components: 2
+          
+      - name: Transfer Deploy Script use SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ env.LIGHTSAIL_HOST }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          source: "run.sh"
+          target: "/home/ubuntu/script"
 
-      - name: Push and Deploy # 이미지 푸시 및 배포
-        run: |
-          service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
-          aws lightsail push-container-image \
-            --region ${{ env.AWS_REGION }} \
-            --service-name ${service_name} \
-            --label ${service_name} \
-            --image ${service_name}:release
-          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.app.image = $image' container.template.json > container.json
-          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+      - name: Execute Server Init Script
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ env.LIGHTSAIL_HOST }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          script_stop: true
+          script: chmod +x /home/ubuntu/script/deploy.sh && sh /home/ubuntu/script/deploy.sh
       
