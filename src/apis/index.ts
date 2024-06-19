@@ -4,7 +4,7 @@ import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import {PatchAnswerRequestDto, PostAnswerRequestDto, GetAnswerRequestDto} from "./request/answer";
@@ -34,9 +34,6 @@ const DOMAIN = 'http://3.35.30.191:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 const FILE_DOMAIN = `${DOMAIN}/file`;
 const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
-
-const SEARCH_MAP_URL = (query: string, lat: number, lng: number) => `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
-
 
 const GET_ALL_ANSWER_URL = () => `${API_DOMAIN}/question/answer/list`;
 const POST_ANSWER_URL = () => `${API_DOMAIN}/question/answer`;
@@ -84,16 +81,6 @@ const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/$
 const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
-
-export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
-    try {
-        const response = await axios.get<SearchMapResponseDto>(SEARCH_MAP_URL(query, lat, lng), {});
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching map data:', error);
-        throw error;
-    }
-};
 
 export const SnsSignInRequest = async (requestBody: SignInRequestDto, type: 'kakao' | 'naver' | 'google') => {
     const result = await axios.post(SNS_SIGN_IN_URL(type), requestBody)

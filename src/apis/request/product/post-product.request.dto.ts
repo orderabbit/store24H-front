@@ -6,6 +6,7 @@ export default interface PostProductRequestDto {
     lowPrice: string;
     category1: string;
     category2: string;
+    category3: string;
     productImageList: string[];
     secondaryProductImageList: string[];
 };

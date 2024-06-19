@@ -19,6 +19,7 @@ export default function Write() {
     const lowPriceRef = useRef<HTMLInputElement | null>(null);
     const category1Ref = useRef<HTMLInputElement | null>(null);
     const category2Ref = useRef<HTMLInputElement | null>(null);
+    const category3Ref = useRef<HTMLInputElement | null>(null);
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -31,6 +32,7 @@ export default function Write() {
     const { lowPrice, setLowPrice } = useProductStore();
     const { category1, setCategory1 } = useProductStore();
     const { category2, setCategory2 } = useProductStore();
+    const { category3, setCategory3 } = useProductStore();
     const { productImageFileList, setProductImageFileList } = useProductStore();
     const { secondaryProductImageFileList, setSecondaryProductImageFileList } = useProductStore();
     const { resetProduct } = useProductStore();
@@ -103,6 +105,15 @@ export default function Write() {
         if (!category2Ref.current) return;
         category2Ref.current.style.height = 'auto';
         category2Ref.current.style.height = `${category2Ref.current.scrollHeight}px`;
+    };
+
+    const onCategory3ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setCategory3(value);
+
+        if (!category3Ref.current) return;
+        category3Ref.current.style.height = 'auto';
+        category3Ref.current.style.height = `${category3Ref.current.scrollHeight}px`;
     };
 
     const onImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -186,10 +197,10 @@ export default function Write() {
             if (code === 'VF') alert('모두 입력하세요.');
             if (code === 'DPI') alert('중복된 상품번호입니다.');
             if (code !== 'SU') return;
-
             resetProduct();
-
             if (!loginUser) return;
+
+            alert('등록되었습니다.');
             navigate(MAIN_PATH());
         }
 
@@ -237,7 +248,7 @@ export default function Write() {
             const isWritePage = pathname === '/product/write';
             if (isWritePage) {
                 const requestBody: PostProductRequestDto = {
-                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList
+                    productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
                 }
                 console.log(requestBody);
                 PostProductRequest(requestBody, accessToken).then(postBoardResponse);
@@ -245,7 +256,7 @@ export default function Write() {
                 if (!productId) {
                     alert('존재하지 않는 상품입니다.');
                 } else {
-                    const requestBody: PatchProductRequestDto = { productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList }
+                    const requestBody: PatchProductRequestDto = { productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList }
                     PatchProductRequest(productId, requestBody, accessToken).then(patchBoardResponse);
                 }
             }
@@ -326,7 +337,7 @@ export default function Write() {
                         <div className='product-write-content-box'>
                         <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
                         <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                        <input className='product-write-content-inputarea' placeholder='category3' />
+                        <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
                         </div>
                     </li>
                 </ul>

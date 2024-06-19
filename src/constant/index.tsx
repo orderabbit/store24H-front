@@ -8,8 +8,6 @@ export const SIGNIN_PATH = () => '/signin';
 export const SIGNUP_PATH = () => '/signup';
 export const SEARCH_MAP_PATH = () => '/map';
 export const PAYMENT_PATH = () => '/payment';
-
-
 export const SEARCH_PATH = (searchWord: string) => `/product/search/${searchWord}`;
 export const DETAIL_PATH = (Number: string | number) => `/product/detail/${Number}`;
 export const WRITE_PATH = () => '/product/write';

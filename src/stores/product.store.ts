@@ -8,6 +8,7 @@ interface ProductStore {
     lowPrice: string;
     category1: string;
     category2: string;
+    category3: string;
     userId: string;
     productImageFileList: File[];
     secondaryProductImageFileList: File[];
@@ -18,6 +19,7 @@ interface ProductStore {
     setLowPrice: (lowPrice: string) => void;
     setCategory1: (category1: string) => void;
     setCategory2: (category2: string) => void;
+    setCategory3: (category3: string) => void;
     setUserId: (userId: string) => void;
     setProductImageFileList: (productImageFileList: File[]) => void;
     setSecondaryProductImageFileList: (secondaryProductImageFileList: File[]) => void;
@@ -32,6 +34,7 @@ const useProductStore = create<ProductStore>(set => ({
     lowPrice: '',
     category1: '',
     category2: '',
+    category3: '',
     userId: '',
     productImageFileList: [],
     secondaryProductImageFileList: [],
@@ -42,6 +45,7 @@ const useProductStore = create<ProductStore>(set => ({
     setLowPrice: (lowPrice) => set(state => ({ ...state, lowPrice})),
     setCategory1: (category1) => set(state => ({ ...state, category1})),
     setCategory2: (category2) => set(state => ({ ...state, category2})),
+    setCategory3: (category3) => set(state => ({ ...state, category3})),
     setUserId: (userId) => set(state => ({ ...state, userId})),
     setProductImageFileList: (productImageFileList) => set(state => ({ ...state, productImageFileList})),
     setSecondaryProductImageFileList: (secondaryProductImageFileList) => set(state => ({ ...state, secondaryProductImageFileList})),
@@ -53,6 +57,7 @@ const useProductStore = create<ProductStore>(set => ({
         lowPrice: '',
         category1: '',
         category2: '',
+        category3: '',
         userId: '',
         boardImageFileList: []}))
 }));

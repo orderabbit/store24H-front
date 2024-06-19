@@ -1,8 +1,6 @@
 import { getSignInUserRequest } from 'apis';
 import { ResponseDto } from 'apis/response';
 import { GetSignInUserResponseDto } from 'apis/response/user';
-import Test from 'components/map/test';
-
 import { DETAIL_PATH, MAIN_PATH, SIGNIN_PATH, SIGNUP_PATH, TEST_PATH, UPDATE_PATH, USER_PATH, WRITE_PATH } from 'constant';
 import Container from 'layout/Container';
 import React, { useEffect } from 'react';
@@ -66,9 +64,7 @@ function App() {
   return (
     <Routes>
       <Route element={<Container />}>
-        {/* <Route path={MAIN_PATH()} element={<Map />}></Route> */}
         <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth />}></Route>
-        <Route path={TEST_PATH()} element={<Test />}></Route>
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/contact" element={<QuestionHome />} />
@@ -80,6 +76,7 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
+        
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
