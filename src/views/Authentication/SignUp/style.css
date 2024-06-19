@@ -33,19 +33,22 @@
 
 .sign-up-box{
     display: flex;
-    background-color: #ffffff;
-    padding: 40px;
+    background-color: #e6e5e593;
+    position: relative;
     width: 30vw;
     height: 75%;
-    opacity: 0;
-    gap: 0px;
-
-    position: relative;
     top: 0;
     left: 0;
+
+    gap: 0px;
+    transform: scale(0.4);
+    padding: 40px;
+    border-radius: 20px;
     z-index: 2;
-    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
-    overflow: hidden;
+    opacity: 0;
+
+    transition: all 0.3s;
+    transition-delay: scale 0.2s;
 }
 
 .sign-up-title{
@@ -119,6 +122,16 @@
     gap: 16px;
 }
 
+.log-io-container.first-active .sign-up-box {
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 1;
+}
+
+.log-io-container.first-active .sign-up-box {
+    transform: scale(1.2) translateX(-50%);
+}
+
 .auth-consent-box {
     display: flex;
     align-items: center;
@@ -126,7 +139,7 @@
 }
 
 .auth-check-box {
-    cursor: pointer;
+    cursor: pointer; 
 
     width: 24px;
     height: 24px;
@@ -154,9 +167,4 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 140%;
-}
-
-.log-io-container.right-panel-active .sign-up-box {
-    transform: translateX(-100%);
-    opacity: 1; 
 }

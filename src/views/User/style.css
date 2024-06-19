@@ -20,7 +20,7 @@
   }
 
 .sign-in-box{
-    background-color: #ffffff;
+    background-color: #e6e5e593;
     padding: 40px;
     width: 30vw;
     height: 75%;
@@ -28,7 +28,8 @@
     gap: 0px;
     transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 1;
-    z-index: 3;
+    z-index: 2;
+    border-radius: 20px;
 }
 
 .sign-in-title {
@@ -60,7 +61,10 @@
     
 }
 
-
+.log-io-container.first-active .sign-in-box {
+  transform: translateX(100%);
+  opacity: 0;
+}
 
 .sign-info{
     display: flex; /* Flexbox를 사용하여 요소들을 가로로 배열합니다. */
@@ -109,10 +113,6 @@
     
 }
 
-.log-io-container.right-panel-active .sign-in-box {
-    transform: translateX(100%);
-    opacity: 0;
-}
 .modal {
     display: block; 
     position: fixed; 

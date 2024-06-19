@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  GetListProductRequest,
   GetProductListRequest,
-  GetProductRequest,
-  PostProductRequest,
+  PostCartRequest
 } from "apis";
 import "./style.css";
 import axios from "axios";
-import { SaveProductRequestDto } from "apis/request";
 import { useCookies } from "react-cookie";
 import Pagination from "components/Pagination";
 import { useLoginUserStore } from "stores";
+import { SaveCartRequestDto } from "apis/request";
 
 interface Product {
   productId: number;
@@ -50,7 +50,7 @@ const SearchList: React.FC = () => {
     const fetchProducts = async () => {
       if (searchKeyword) {
         try {
-          const response = await GetProductRequest(searchKeyword);
+          const response = await GetListProductRequest(searchKeyword);
           console.log(response.data.items);
           let fetchedProducts = response.data.items;
           if (sortByPriceAsc) {
@@ -77,7 +77,7 @@ const SearchList: React.FC = () => {
           setProducts(fetchedProducts);
           const initialQuantities = fetchedProducts.reduce(
             (acc: { [key: number]: number }, product: Product) => {
-              acc[product.productId] = 1; // 초기 수량 1로 설정
+              acc[product.productId] = 1;
               return acc;
             },
             {}
@@ -101,7 +101,7 @@ const SearchList: React.FC = () => {
 
   const saveProductClickHandler = async (product: Product) => {
     const accessToken = cookies.accessToken;
-    const formData: SaveProductRequestDto = {
+    const formData: SaveCartRequestDto = {
       productId: product.productId,
       title: product.title,
       link: product.link,
@@ -112,8 +112,13 @@ const SearchList: React.FC = () => {
       count: quantities[product.productId] || 1,
     };
     try {
+<<<<<<< HEAD
       const response = await PostProductRequest(formData, accessToken);
       if (response.data.code === "SU") {
+=======
+      const response = await PostCartRequest(formData, accessToken);
+      if (response.code === "SU") {
+>>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
         alert("상품이 저장되었습니다.");
         if (!loginUser) return;
         const productListResponse = await GetProductListRequest(
@@ -144,7 +149,7 @@ const SearchList: React.FC = () => {
       return;
     }
     const accessToken = cookies.accessToken;
-    const formData: SaveProductRequestDto = {
+    const formData: SaveCartRequestDto = {
       productId: product.productId,
       title: product.title,
       link: product.link,
@@ -156,8 +161,13 @@ const SearchList: React.FC = () => {
     };
 
     try {
+<<<<<<< HEAD
       const response = await PostProductRequest(formData, accessToken);
       if (response.data.code === "SU") {
+=======
+      const response = await PostCartRequest(formData, accessToken);
+      if (response.code === "SU") {
+>>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
         navigate("/address", { state: { selectedProduct: product } });
       }
       if (response.data.code === "AF") alert("로그인이 필요합니다.");

@@ -3,7 +3,7 @@ import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { useLoginUserStore } from "stores";
 import { useCookies } from "react-cookie";
-import { GetProductListRequest, postPaymentRequest } from "apis";
+import { GetProductListRequest, postOrderListRequest, postPaymentRequest } from "apis";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 const selector = "#payment-widget";
@@ -79,10 +79,35 @@ export function CheckoutPage(): JSX.Element {
         alert("로그인이 필요합니다.");
         return;
       }
+
+      const orderItems = selectedProducts.map((product: any) => ({
+        title: product.title,
+        link: product.link,
+        image: product.image,
+        totalPrice: parseFloat(product.lowPrice) * product.count,
+        category1: product.category1,
+        category2: product.category2,
+        count: product.count,
+      }));
+
+      const orderData = {
+        orderId: nanoid().trim(),
+        userId: loginUser.userId,
+        items: orderItems,
+      };
+
+      // 주문 정보 저장
+      const orderResponse = await postOrderListRequest(orderData);
+      console.log("orderResponse", orderResponse);
+      if (!orderResponse) {
+        alert("주문 정보를 저장하는데 실패했습니다.");
+        return;
+      }
+
       const selectedProductIds = selectedProducts.map((product: { productId: number }) => product.productId);
       await paymentWidget?.requestPayment({
         orderId: nanoid().trim(),
-        orderName: "토스 티셔츠 외 2건",
+        orderName: "주문",
         customerId: loginUser.userId,
         customerName: loginUser.nickname,
         customerEmail: loginUser.email,

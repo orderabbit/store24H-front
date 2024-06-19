@@ -239,10 +239,7 @@ export default function MyPage() {
                 {isMyPage ? (
                   <>
                     <div className="user-top-info-nickname">{nickname}</div>
-                    <div
-                      className="icon-box"
-                      onClick={onNicknameEditButtonClickHandler}
-                    >
+                    <div className="icon-box" onClick={onNicknameEditButtonClickHandler}>
                       <div className="icon-edit-icon">변경</div>
                     </div>
                   </>
@@ -261,13 +258,8 @@ export default function MyPage() {
                 <div className="sign-info-content">
                   <div className="sign-in-content-input">••••••••</div>
                   {!isSocialUser && (
-                  <div
-                    className="icon-box"
-                    onClick={onPasswordEditButtonClickHandler}
-                  >
-                    
+                  <div className="icon-box" onClick={onPasswordEditButtonClickHandler}>
                     <div className="icon-edit-icon">변경</div>
-                  
                   </div>
                   )}
                 </div>
@@ -291,12 +283,7 @@ export default function MyPage() {
                 <label style={{ display: "flex", alignItems: "center" }}>
                   <div className="modal-title-cnt">변경 닉네임 :</div>
                   <div className="modal-content-cnt">
-                    <input
-                      type="text"
-                      value={changeNickname}
-                      onChange={onNicknameChangeHandler}
-                      style={{ width: "70%", height: 22.5 }}
-                    />
+                    <input type="text" value={changeNickname} onChange={onNicknameChangeHandler} style={{ width: "70%", height: 22.5 }} />
                   </div>
                 </label>
               </div>
@@ -310,12 +297,7 @@ export default function MyPage() {
                   중복되는 닉네임입니다.
                 </div>
               )}
-              <div
-                className="modal-button-store"
-                onClick={handelNicknameSubmit}
-              >
-                저장
-              </div>
+              <div className="modal-button-store" onClick={handelNicknameSubmit}>저장</div>
             </div>
           </div>
         </div>
@@ -334,12 +316,7 @@ export default function MyPage() {
                     현재 비밀번호 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input
-                      type="password"
-                      value={currentPassword}
-                      onChange={onCurrentPasswordChangeHandler}
-                      style={{ width: "70%", height: 22.5 }}
-                    />
+                    <input type="password" value={currentPassword} onChange={onCurrentPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
                   </div>
                 </label>
               </div>
@@ -349,12 +326,7 @@ export default function MyPage() {
                     변경 비밀번호 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input
-                      type="password"
-                      value={newPassword}
-                      onChange={onNewPasswordChangeHandler}
-                      style={{ width: "70%", height: 22.5 }}
-                    />
+                    <input type="password" value={newPassword} onChange={onNewPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
                   </div>
                 </label>
               </div>
@@ -364,12 +336,7 @@ export default function MyPage() {
                     비밀번호 확인 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={onConfirmPasswordChangeHandler}
-                      style={{ width: "70%", height: 22.5 }}
-                    />
+                    <input type="password" value={confirmPassword} onChange={onConfirmPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
                   </div>
                 </label>
               </div>
@@ -393,12 +360,7 @@ export default function MyPage() {
                   비밀번호가 일치하지 않습니다.
                 </div>
               )}
-              <div
-                className="modal-button-store-password"
-                onClick={handlePasswordSubmit}
-              >
-                저장
-              </div>
+              <div className="modal-button-store-password" onClick={handlePasswordSubmit}>저장</div>
             </div>
           </div>
         </div>

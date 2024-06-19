@@ -5,7 +5,6 @@ import nicknameCheckRequestDto from "apis/request/auth/nickname-check.request.dt
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "apis/response/auth";
 import nicknameCheckResponseDto from "apis/response/auth/nickname-check.response.dto";
 import InputBox from "components/InputBox";
-import SignBox from "components/SignBox";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseBody } from "types";
@@ -13,6 +12,7 @@ import { ResponseCode } from "types/enums";
 import './style.css';
 import { SIGNIN_PATH } from "constant";
 import React from "react";
+import SignBox from "components/SignBox";
 
 export default function SignUp() {
 
@@ -22,6 +22,7 @@ export default function SignUp() {
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
+   
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -45,7 +46,7 @@ export default function SignUp() {
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
-
+   
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
@@ -333,7 +334,6 @@ export default function SignUp() {
                         </div>
                         <div className='sign-up-content-button-box'>
                             <div className={signUpButtonClass + ' full-width'} onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
-                            <div className='text-link-lg full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
                         </div>
                     </div>
                 </div>

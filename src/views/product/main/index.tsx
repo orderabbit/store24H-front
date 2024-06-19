@@ -40,6 +40,7 @@ const Search: React.FC = () => {
                         />
                         <button type="submit" className="btn btn-primary">검색</button>
                     </div>
+                    <button onClick={() => navigate('/product/write')}>상품등록</button>
                 </form>
             </div>
         </div>

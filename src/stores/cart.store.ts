@@ -8,6 +8,7 @@ interface Product {
     lowPrice: string;
     category1: string;
     category2: string;
+    userId: string;
 }
 interface CartStore {
     products: Product[];
