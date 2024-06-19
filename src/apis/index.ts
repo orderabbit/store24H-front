@@ -7,15 +7,10 @@ import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryReque
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import {PatchAnswerRequestDto, PostAnswerRequestDto,GetAnswerRequestDto} from "./request/answer";
-import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto,
-    PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
+import {PatchAnswerRequestDto, PostAnswerRequestDto, GetAnswerRequestDto} from "./request/answer";
+import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
 import {PatchQuestionRequestDto, PostQuestionRequestDto,GetQuestionRequestDto} from "./request/question";
-import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto,
-        PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
-
-
-
+import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
@@ -86,7 +81,7 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
-const GET_SEARCH_PRODUCT_LIST_URL = (searchWord: string, preSearchWord: string | null) => `${API_DOMAIN}/product/search-list/${searchWord}${preSearchWord ? '/' + preSearchWord : ''}`;
+const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 
@@ -526,8 +521,8 @@ export const PostReviewRequest = async (productId: number | string, formData: Po
     return result;
 };
 
-export const GetSearchProductListRequest = async (searchWord: string, preSearchWord: string | null) => {
-    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(searchWord, preSearchWord))
+export const GetSearchProductListRequest = async (category1: string, category2: string | null, category3: string | null) => {
+    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(category1, category2, category3))
         .then(response => {
             const responseBody: ResponseDto = response.data;
             return responseBody;
