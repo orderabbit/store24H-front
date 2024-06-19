@@ -2,7 +2,7 @@ import { deleteQuestionRequest, getAllQuestionRequest } from 'apis';
 import { DeleteQuestionResponseDto } from 'apis/response/question';
 
 import ResponseDto from 'apis/response/response.dto';
-import { UPDATE_PATH, WRITE_PATH } from 'constant';
+
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,7 +29,7 @@ const QuestionList: React.FC = () => {
         setPosts(questions);
         setLoading(false);
       } catch (error) {
-        console.error('질문 목록을 가져오는 중 오류가 발생했습니다:', error);
+        console.error('문의 목록을 가져오는 중 오류가 발생했습니다:', error);
       }
     };
 
@@ -37,12 +37,13 @@ const QuestionList: React.FC = () => {
   }, []);
 
   const writePathClickHandler = () => {
-    navigator(WRITE_PATH());
+    navigator("/contact/write ");
   }
+  
 
   const deletePostClickHandler = (questionId: number | string) => {
     if (!questionId) {
-      alert('질문 번호가 없습니다.');
+      alert('해당 문의가 없습니다.');
       return;
     };
     deleteQuestionRequest(questionId).then(deleteQuestionResponse);
@@ -50,7 +51,7 @@ const QuestionList: React.FC = () => {
 
   const deleteQuestionResponse = (responseBody: DeleteQuestionResponseDto | ResponseDto | null) => {
     if (responseBody && responseBody.data.code === 'SU') {
-      alert('삭제되었습니다.');
+      alert('해당 문의가 삭제되었습니다.');
       setPosts(posts.filter(post => post.questionId !== deletingQuestionId));
     } else {
       alert('삭제 실패');
@@ -59,7 +60,7 @@ const QuestionList: React.FC = () => {
   }
 
   const updatePostClickHandler = (questionId: number | string) => {
-    navigator(UPDATE_PATH(questionId));
+    navigator("/contact/update/${questionId}");
   }
 
   // if (loading) {
@@ -67,19 +68,19 @@ const QuestionList: React.FC = () => {
   // }
 
   return (
-    <div className='main-contents-box'>
-      <h2>질문</h2>
-      <button onClick={writePathClickHandler}>작성</button>
+    <div className="inquire-main">
+      <h2 className="inquire-main-title">1대1 문의 내역</h2>
+      <div className="inquire-button"><button onClick={writePathClickHandler}>1대1 문의하기</button></div>
       {posts.length === 0 ? (
-        <div>문의내역이 없습니다.</div>
+        <div className="inquire-nothing">1대1 문의내역이 없습니다.</div>
       ) : (
-        <div className='main-current-contents'>
+        <div className='inquire-result-title'>
           {posts.map(post => (
             <li key={post.questionId}>
               <div onClick={() => navigator(`/question/${post.questionId}`)}>{post.title}</div>
-              <div>{post.userId}</div>
-              <button onClick={() => deletePostClickHandler(post.questionId)}>삭제</button>
-              <button onClick={() => updatePostClickHandler(post.questionId)}>수정</button>
+              <div className="inquire-result-userId">{post.userId}</div>
+              {/* <div className="inquire-delete"><button onClick={() => deletePostClickHandler(post.questionId)}>삭제</button></div> */}
+              {/* <div className="inquire-update"><button onClick={() => updatePostClickHandler(post.questionId)}>수정</button></div> */}
             </li>
           ))}
         </div>

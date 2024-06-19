@@ -67,8 +67,8 @@ export default function Update() {
         const primaryBody = primaryResponse as GetProductResponseDto;
         const secondaryBody = secondaryResponse as GetProductResponseDto;
 
-        const { code: primaryCode } = primaryBody;
-        const { code: secondaryCode } = secondaryBody;
+        const { code: primaryCode } = primaryBody.data;
+        const { code: secondaryCode } = secondaryBody.data;
 
         if (primaryCode === 'NB' || secondaryCode === 'NB') {
             alert('존재하지 않습니다.');
@@ -228,7 +228,7 @@ export default function Update() {
         const { title, content, lowPrice, category1, category2 } = useProductStore();
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
@@ -242,7 +242,7 @@ export default function Update() {
 
         const patchBoardResponse = (responseBody: PatchProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU' || code === 'NB' || code === 'NP') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');

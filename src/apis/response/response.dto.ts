@@ -7,4 +7,5 @@ export default interface ResponseDto{
     success: boolean;
     status: string;
     data: any;
+    code : string;
 }

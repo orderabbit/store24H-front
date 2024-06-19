@@ -11,16 +11,18 @@ export default function Update() {
     const [postRequest, setPostRequest] = useState<PostQuestionRequestDto>({
         title: '',
         content: '',
-        userId: ''
+        userId: '',
+        type:'',
+        email:'',
     });
 
     useEffect(() => {
         const fetchQuestionDetails = async () => {
             try {
                 const response = await getQuestionRequest(questionId);
-                if ('title' in response && 'content' in response&& 'userId' in response) {
-                    const { title, content,userId } = response;
-                    setPostRequest({ title, content,userId });
+                if ('title' in response && 'content' in response&& 'userId' in response&& 'type' in response&& 'email' in response) {
+                    const { title, content,userId,type,email } = response;
+                    setPostRequest({ title, content,userId,type,email });
                 } else {
                     alert('질문 정보를 불러오는 데 실패했습니다.');
                 }
@@ -57,7 +59,7 @@ export default function Update() {
 
     return (
         <div>
-            <h2>질문 수정하기</h2>
+            <h2>문의 내역 수정하기</h2>
             <input
                 type="text"
                 name="title"

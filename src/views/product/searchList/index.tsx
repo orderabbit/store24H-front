@@ -112,13 +112,8 @@ const SearchList: React.FC = () => {
       count: quantities[product.productId] || 1,
     };
     try {
-<<<<<<< HEAD
-      const response = await PostProductRequest(formData, accessToken);
-      if (response.data.code === "SU") {
-=======
       const response = await PostCartRequest(formData, accessToken);
-      if (response.code === "SU") {
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
+      if (response.data.code === "SU") {
         alert("상품이 저장되었습니다.");
         if (!loginUser) return;
         const productListResponse = await GetProductListRequest(
@@ -161,13 +156,8 @@ const SearchList: React.FC = () => {
     };
 
     try {
-<<<<<<< HEAD
-      const response = await PostProductRequest(formData, accessToken);
-      if (response.data.code === "SU") {
-=======
       const response = await PostCartRequest(formData, accessToken);
-      if (response.code === "SU") {
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
+      if (response.data.code === "SU") {
         navigate("/address", { state: { selectedProduct: product } });
       }
       if (response.data.code === "AF") alert("로그인이 필요합니다.");

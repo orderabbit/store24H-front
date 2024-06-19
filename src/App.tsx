@@ -26,6 +26,7 @@ import './App.css';
 import QuestionHome from 'views/inquire/user/question/main';
 import QuestionWrite from 'views/inquire/user/question/write';
 import QuestionUpdate from 'views/inquire/user/question/update';
+import QuestionDetail from 'views/inquire/user/question/datail';
 import AnswerHome from 'views/inquire/admin/answer/main';
 import AnswerWrite from 'views/inquire/admin/answer/write';
 import AnswerUpdate from 'views/inquire/admin/answer/update';
@@ -45,7 +46,7 @@ function App() {
   const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto | null) => {
 
     if (!responseBody) return;
-    const { code } = responseBody.data;
+    const { code } = responseBody;
 
     if (code === 'AF' || code === 'NU' || code === 'DBE') {
       resetLoginUser();
@@ -72,6 +73,9 @@ function App() {
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
         <Route path="/contact" element={<QuestionHome />} />
+        <Route path="/contact/write" element={<QuestionWrite />} />
+        <Route path="/contact/:questionId" element={<QuestionDetail />} />
+        <Route path="/contact/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
         <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />
