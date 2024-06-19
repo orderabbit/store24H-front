@@ -40,6 +40,11 @@ jobs:
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
           chmod 600 lightsail.pem
 
+      - name: Add remote host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+
       - name: AWS 인증하기
         uses: aws-actions/configure-aws-credentials@v4
         with:
