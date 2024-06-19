@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, formToJSON } from "axios";
+//import { SaveProductRequestDto } from "./request";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
@@ -6,13 +7,14 @@ import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryReque
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import {PatchAnswerRequestDto, PostAnswerRequestDto} from "./request/answer";
+import {PatchAnswerRequestDto, PostAnswerRequestDto, GetAnswerRequestDto} from "./request/answer";
 import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
-import {PatchQuestionRequestDto, PostQuestionRequestDto} from "./request/question";
+import {PatchQuestionRequestDto, PostQuestionRequestDto,GetQuestionRequestDto} from "./request/question";
 import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
+
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
