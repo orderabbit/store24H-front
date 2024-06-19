@@ -8,16 +8,17 @@ import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
 import useProductStore from 'stores/product.store';
+import uploadPhotoIcon from '../../../images/free-icon-camera-15629883.png';
 import './style.css';
 
 export default function Write() {
 
-    const productIdRef = useRef<HTMLTextAreaElement | null>(null);
-    const titleRef = useRef<HTMLTextAreaElement | null>(null);
-    const contentRef = useRef<HTMLTextAreaElement | null>(null);
-    const lowPriceRef = useRef<HTMLTextAreaElement | null>(null);
-    const category1Ref = useRef<HTMLTextAreaElement | null>(null);
-    const category2Ref = useRef<HTMLTextAreaElement | null>(null);
+    const productIdRef = useRef<HTMLInputElement | null>(null);
+    const titleRef = useRef<HTMLInputElement | null>(null);
+    const contentRef = useRef<HTMLInputElement | null>(null);
+    const lowPriceRef = useRef<HTMLInputElement | null>(null);
+    const category1Ref = useRef<HTMLInputElement | null>(null);
+    const category2Ref = useRef<HTMLInputElement | null>(null);
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -37,6 +38,7 @@ export default function Write() {
     const [cookies, setCookies] = useCookies();
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [secondaryImageUrls, setSecondaryImageUrls] = useState<string[]>([]);
+    
 
     const navigate = useNavigate();
 
@@ -49,7 +51,7 @@ export default function Write() {
         resetProduct();
     }, []);
 
-    const onProductIdChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onProductIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setProductId(value);
 
@@ -58,7 +60,7 @@ export default function Write() {
         productIdRef.current.style.height = `${productIdRef.current.scrollHeight}px`;
     };
 
-    const onTitleChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onTitleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setTitle(value);
 
@@ -67,7 +69,7 @@ export default function Write() {
         titleRef.current.style.height = `${titleRef.current.scrollHeight}px`;
     };
 
-    const onContentChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onContentChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setContent(value);
 
@@ -76,7 +78,7 @@ export default function Write() {
         contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
     };
 
-    const onLowPriceChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onLowPriceChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setLowPrice(value);
 
@@ -85,7 +87,7 @@ export default function Write() {
         lowPriceRef.current.style.height = `${lowPriceRef.current.scrollHeight}px`;
     };
 
-    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setCategory1(value);
 
@@ -94,7 +96,7 @@ export default function Write() {
         category1Ref.current.style.height = `${category1Ref.current.scrollHeight}px`;
     };
 
-    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setCategory2(value);
 
@@ -257,43 +259,47 @@ export default function Write() {
     return (
         <div id='product-write-wrapper'>
             <div className='product-write-container'>
-                <div className='product-write-box'>
-                    <div className='product-write-title-box'>
-                        <textarea ref={productIdRef} className='product-write-title-textarea' rows={1} placeholder='productId' value={productId} onChange={onProductIdChangeHandler} />
-                    </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={titleRef} className='product-write-title-textarea' rows={1} placeholder='title' value={title} onChange={onTitleChangeHandler} />
-                    </div>
-                    <div className='product-write-content-box'>
-                        <textarea ref={contentRef} className='product-write-content-textarea' placeholder='content' value={content} onChange={onContentChangeHandler} />
-                    </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={lowPriceRef} className='product-write-title-textarea' rows={1} placeholder='lowPrice' value={lowPrice} onChange={onLowPriceChangeHandler} />
-                    </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={category1Ref} className='product-write-title-textarea' rows={1} placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
-                    </div>
-                    <div className='product-write-title-box'>
-                        <textarea ref={category2Ref} className='product-write-title-textarea' rows={1} placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                    </div>
-
-                    <div className='product-write-icon-box'>
-                        <button onClick={onImageUploadButtonClickHandler}>{'메인'}</button>
-                        <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onImageChangeHandler} />
-                        <button onClick={onSecondaryImageUploadButtonClickHandler}>{'상세정보'}</button>
-                        <input ref={secondaryImageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onSecondaryImageChangeHandler} />
-                    </div>
+                <h2 className='write-product-title'>상품 등록</h2>
+                <ul className='product-write-box'>
+                    <li className='product-write-title-box'>
+                        <div>상품번호</div>
+                        <div className='product-write-content-box'>
+                            <input ref={productIdRef} className='product-write-content-inputarea' placeholder='상품번호를 입력해주세요' value={productId} onChange={onProductIdChangeHandler} />
+                        </div>
+                    </li>
+                    <li className='product-write-title-box'>
+                        <div>상품명</div>
+                        <div className='product-write-content-box'>
+                            <input ref={titleRef} className='product-write-content-inputarea' placeholder='상품명을 입력해주세요' value={title} onChange={onTitleChangeHandler} />
+                        </div>
+                    </li>
+                    <li className='product-write-icon-box'>
+                        <div>상품이미지</div>
+                        <div className='product-write-content-box'>
+                            <div className='product-write-content-image-button'>
+                                <button onClick={onImageUploadButtonClickHandler}>
+                                    <img src={uploadPhotoIcon} alt="대표 이미지 등록" className="icon" />
+                                        {'대표 이미지 등록'}
+                                </button>
+                                <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onImageChangeHandler} />
+                                <button onClick={onSecondaryImageUploadButtonClickHandler}>
+                                    <img src={uploadPhotoIcon} alt="대표 이미지 등록" className="icon" />
+                                        {'이미지 등록'}
+                                </button>
+                                <input ref={secondaryImageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onSecondaryImageChangeHandler} />
+                            </div>
+                        </div>
+                    </li>
                     <div className='product-write-images-box'>
                         {imageUrls.map((imageUrl, index) =>
                             <div className='product-write-image-box' key={index}>
+                                <div className="representative-image-label">대표 이미지</div>
                                 <img className='product-write-image' src={imageUrl} />
                                 <div className='icon-button image-close' onClick={() => onImageCloseButtonClickHandler(index)}>
                                     <div className='icon close-icon'></div>
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className='product-write-images-box'>
                         {secondaryImageUrls.map((imageUrl, index) =>
                             <div className='product-write-image-box' key={index}>
                                 <img className='product-write-image' src={imageUrl} />
@@ -303,8 +309,28 @@ export default function Write() {
                             </div>
                         )}
                     </div>
-                </div>
-                <div>{<UploadButton />}</div>
+                    <li className='product-write-title-box'>
+                        <div>상품설명</div>
+                        <div className='product-write-content-box'>
+                            <input ref={contentRef} className='product-write-content-inputarea' placeholder='상품을 설명해주세요' value={content} onChange={onContentChangeHandler} />
+                        </div>
+                    </li>
+                    <li className='product-write-title-box'>
+                        <div>가격</div>
+                        <div className='product-write-content-box'>
+                            <input ref={lowPriceRef} className='product-write-content-inputarea-price' placeholder='가격을 입력해주세요' value={lowPrice} onChange={onLowPriceChangeHandler} />
+                        </div>
+                    </li>
+                    <li className='product-write-title-box'>
+                        <div>카테고리</div>
+                        <div className='product-write-content-box'>
+                        <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
+                        <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
+                        <input className='product-write-content-inputarea' placeholder='category3' />
+                        </div>
+                    </li>
+                </ul>
+                <div className='upload-button'>{<UploadButton />}</div>
             </div>
         </div>
     );
