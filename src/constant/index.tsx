@@ -9,3 +9,5 @@ export const SIGNIN_PATH = () => '/signin';
 export const SIGNUP_PATH = () => '/signup';
 export const SEARCH_MAP_PATH = () => '/map';
 export const PAYMENT_PATH = () => '/payment';
+export const UPDATE_PATH = (Number: number | string) => `update/${Number}`;
+export const WRITE_PATH = () => `write`;
