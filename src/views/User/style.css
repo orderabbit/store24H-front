@@ -8,28 +8,25 @@
 }
 
 .sign-in-container {
-    flex-direction: row;
+    display: flex;
     /*background-color: #ffffff;*/ /* 배경색 흰색 */
     /*border: 2px solid #4ff55c;*/ /* 테두리 선 색상 녹색으로 설정 */
     color: #00020a; /* 폰트 색상 파란색으로 설정 */
-    display: flex;
-    width: 800px;
-    height: 800px; /* 높이 300px로 설정 */
-    justify-content: center;
-    align-items: center;
+    height: 75%; /* 높이 300px로 설정 */
+    width: 424px;
+    flex-direction: row;
+    margin-right: 40px;
+    transition: transform 1s ease-in-out;
   }
 
 .sign-in-box{
-    background-color: #e6e5e593;
     padding: 40px;
-    width: 30vw;
-    height: 75%;
     display: flex;
     gap: 0px;
-    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    transition-delay: 0.5s;
     opacity: 1;
-    z-index: 2;
     border-radius: 20px;
+    transform: translateX(7%);
 }
 
 .sign-in-title {
@@ -61,9 +58,13 @@
     
 }
 
-.log-io-container.first-active .sign-in-box {
+.log-io-container.first-active .sign-in-container {
   transform: translateX(100%);
+}
+
+.log-io-container.first-active .sign-in-box {
   opacity: 0;
+  z-index: 2;
 }
 
 .sign-info{
