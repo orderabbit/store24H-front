@@ -31,6 +31,9 @@ jobs:
       - name: typescript 설치
         run: npm install typescript
 
+      - name: test
+        run : ssh -p 22 3.35.30.191
+
       - name: 빌드
         run: 
           sudo npm run build
@@ -44,6 +47,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+
+          
           
       - name: AWS 인증하기
         uses: aws-actions/configure-aws-credentials@v4
