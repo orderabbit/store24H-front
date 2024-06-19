@@ -1,32 +1,18 @@
-<<<<<<< HEAD
 import axios, { AxiosResponse, formToJSON } from "axios";
-import { SaveProductRequestDto } from "./request";
-=======
-import axios, { AxiosResponse } from "axios";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-<<<<<<< HEAD
-import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
-import {PatchAnswerRequestDto, PostAnswerRequestDto,GetAnswerRequestDto} from "./request/answer";
-import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto,
-    PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
-import {PatchQuestionRequestDto, PostQuestionRequestDto,GetQuestionRequestDto} from "./request/question";
-import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto,
-        PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
-
-
-
-=======
+import {PatchAnswerRequestDto, PostAnswerRequestDto} from "./request/answer";
+import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
+import {PatchQuestionRequestDto, PostQuestionRequestDto} from "./request/question";
+import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
@@ -93,7 +79,7 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
-const GET_SEARCH_PRODUCT_LIST_URL = (searchWord: string, preSearchWord: string | null) => `${API_DOMAIN}/product/search-list/${searchWord}${preSearchWord ? '/' + preSearchWord : ''}`;
+const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 
@@ -300,7 +286,6 @@ export const postPaymentRequest = async (paymentData: any) => {
     return result;
 };
 
-<<<<<<< HEAD
 export const getAllAnswerRequest = async () => {
     const result = await axios.get(GET_ALL_ANSWER_URL())
     .then(response => {
@@ -440,7 +425,6 @@ export const patchQuestionRequest = async(questionId : number| string , requestB
 }
 
 
-=======
 export const postOrderListRequest = async (orderData: SaveOrderListRequestDto): Promise<ResponseDto | null> => {
     try {
         const response = await axios.post<ResponseDto>(POST_ORDER_LIST_URL(), orderData);
@@ -535,8 +519,8 @@ export const PostReviewRequest = async (productId: number | string, formData: Po
     return result;
 };
 
-export const GetSearchProductListRequest = async (searchWord: string, preSearchWord: string | null) => {
-    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(searchWord, preSearchWord))
+export const GetSearchProductListRequest = async (category1: string, category2: string | null, category3: string | null) => {
+    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(category1, category2, category3))
         .then(response => {
             const responseBody: ResponseDto = response.data;
             return responseBody;
@@ -560,4 +544,3 @@ export const fileUploadRequest = async (data: FormData) => {
         })
     return result;
 };
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
