@@ -1,18 +1,12 @@
-<<<<<<< HEAD
 import axios, { AxiosResponse, formToJSON } from "axios";
-import { SaveProductRequestDto } from "./request";
-=======
-import axios, { AxiosResponse } from "axios";
+//import { SaveProductRequestDto } from "./request";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-<<<<<<< HEAD
-import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
 import {PatchAnswerRequestDto, PostAnswerRequestDto,GetAnswerRequestDto} from "./request/answer";
 import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto,
     PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
@@ -22,11 +16,10 @@ import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionRespons
 
 
 
-=======
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
+
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
 };
@@ -300,7 +293,6 @@ export const postPaymentRequest = async (paymentData: any) => {
     return result;
 };
 
-<<<<<<< HEAD
 export const getAllAnswerRequest = async () => {
     const result = await axios.get(GET_ALL_ANSWER_URL())
     .then(response => {
@@ -440,7 +432,6 @@ export const patchQuestionRequest = async(questionId : number| string , requestB
 }
 
 
-=======
 export const postOrderListRequest = async (orderData: SaveOrderListRequestDto): Promise<ResponseDto | null> => {
     try {
         const response = await axios.post<ResponseDto>(POST_ORDER_LIST_URL(), orderData);
@@ -560,4 +551,3 @@ export const fileUploadRequest = async (data: FormData) => {
         })
     return result;
 };
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
