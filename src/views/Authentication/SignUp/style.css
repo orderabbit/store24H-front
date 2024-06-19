@@ -18,6 +18,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 1s ease-in-out;
+    transform: translateX(-100%);
 }
 
 /*
@@ -33,22 +35,16 @@
 
 .sign-up-box{
     display: flex;
-    background-color: #e6e5e593;
     position: relative;
-    width: 30vw;
     height: 75%;
     top: 0;
     left: 0;
 
     gap: 0px;
-    transform: scale(0.4);
     padding: 40px;
     border-radius: 20px;
-    z-index: 2;
     opacity: 0;
-
-    transition: all 0.3s;
-    transition-delay: scale 0.2s;
+    transition-delay: 0.5s;
 }
 
 .sign-up-title{
@@ -122,14 +118,13 @@
     gap: 16px;
 }
 
-.log-io-container.first-active .sign-up-box {
-    transform: translateX(-50%);
-    z-index: 2;
-    opacity: 1;
+.log-io-container.first-active .sign-up-container {
+    transform: translateX(-7%);
 }
 
 .log-io-container.first-active .sign-up-box {
-    transform: scale(1.2) translateX(-50%);
+    z-index: 2;
+    opacity: 1;
 }
 
 .auth-consent-box {

@@ -1,30 +1,37 @@
+.sign-container {
+    display: flex;
+    justify-content: center;
+}
+
 .log-io-container{
     display: flex;
+    background-color: rgba(235, 235, 235, 0.534);
+    height: 75%;
+    bottom: 0;
+
     flex-direction: row;
     align-items: center;
-    height: 65%;
-    bottom: 0;
-    transform: translateY(10%);
     
+    transform: translateY(12%);
 }
 
 .overlay-container{
     display: flex;
     position: absolute;
-    height: 100%;
-    margin-left: 10px;
+    height: 105%;
 }
 
 .overlay-box{
     display: flex;
-    width: 30vw;
-    z-index: 2;
-    transition: transform 0.1s ease-in-out;
-    border-radius: 10%;
-    background-color: rgba(140, 243, 157, 0.712);
-    flex-direction: row-reverse;
+    background-image: url('images/loginchange.jpg');
+    background-size: cover;
+    width: 434px;
+    z-index: 3;
     top: 100px;
 
+    transition: transform 1s ease-in-out;
+    flex-direction: row-reverse;
+    transform: translateX(110%);
 }
 
 .overlay {
@@ -57,10 +64,11 @@
     z-index: 3;
     border-radius: 0, 10%, 10%, 0%;
     transition: transform 0.2s ease-in-out;
+    justify-content: flex-start;
 }
 
-.log-io-container .overlay-box {
-    transform: translateX(100%);
+.log-io-container.first-active .overlay-box {
+    transform: translateX(-7%);
 } 
 
 .log-io-container.first-active .overlay-in {
@@ -72,5 +80,4 @@
 }
 
 .log-io-container.first-active .open-button {
-    transform: translateX(7%);
 }
