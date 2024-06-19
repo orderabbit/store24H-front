@@ -73,7 +73,7 @@ const CartList: React.FC = () => {
                     productId,
                     cookies.accessToken
                 );
-                if (response?.data.code === "SU") {
+                if (response?.code === "SU") {
                     alert("삭제되었습니다.");
                     const newProducts = products.filter(
                         (product) => product.productId !== productId
