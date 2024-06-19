@@ -7,6 +7,7 @@ export interface OrderItem {
     image: string;
     category1: string;
     category2: string;
+    category3: string;
     count: number;
     totalPrice: string;
   }

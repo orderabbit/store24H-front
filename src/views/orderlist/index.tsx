@@ -10,6 +10,7 @@ interface OrderItem {
   image: string;
   category1: string;
   category2: string;
+  category3: string;
   count: number;
   totalPrice: string;
 }
@@ -19,7 +20,7 @@ const OrderDetailPage: React.FC = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
   useEffect(() => {
-    if(!userId) return;
+    if (!userId) return;
     const fetchOrderList = async () => {
       const response = await getOrderListRequest(userId);
       console.log(response);
