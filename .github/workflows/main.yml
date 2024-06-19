@@ -36,7 +36,7 @@ jobs:
           sudo npm run build
 
       - name: Deploy Prod use SCP
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.3
         with:
           username: ubuntu
           host: ${{ secrets.LIGHTSAIL_HOST }}
@@ -46,7 +46,7 @@ jobs:
           strip_components: 2
           
       - name: Transfer Deploy Script use SCP
-        uses: appleboy/scp-action@0.1.3
+        uses: appleboy/scp-action@v0.1.3
         with:
           username: ubuntu
           host: ${{ env.LIGHTSAIL_HOST }}
@@ -55,7 +55,7 @@ jobs:
           target: "/home/ubuntu/script"
 
       - name: Execute Server Init Script
-        uses: appleboy/ssh-action@0.1.3
+        uses: appleboy/ssh-action@v0.1.3
         with:
           username: ubuntu
           host: ${{ env.LIGHTSAIL_HOST }}
