@@ -12,7 +12,7 @@ import { ResponseCode } from "types/enums";
 import './style.css';
 import { SIGNIN_PATH } from "constant";
 import React from "react";
-import SignBox from "components/signBox";
+import SignBox from "components/SignBox";
 
 export default function SignUp() {
 
