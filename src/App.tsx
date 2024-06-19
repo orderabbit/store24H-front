@@ -2,11 +2,8 @@ import { getSignInUserRequest } from 'apis';
 import { ResponseDto } from 'apis/response';
 import { GetSignInUserResponseDto } from 'apis/response/user';
 import Test from 'components/map/test';
-<<<<<<< HEAD
-import { MAIN_PATH, TEST_PATH, UPDATE_PATH, WRITE_PATH } from 'constant';
-=======
-import { DETAIL_PATH, SIGNIN_PATH, SIGNUP_PATH, TEST_PATH, UPDATE_PATH, USER_PATH, WRITE_PATH } from 'constant';
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
+
+import { DETAIL_PATH, MAIN_PATH, SIGNIN_PATH, SIGNUP_PATH, TEST_PATH, UPDATE_PATH, USER_PATH, WRITE_PATH } from 'constant';
 import Container from 'layout/Container';
 import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
@@ -26,7 +23,6 @@ import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
 import SearchList from 'views/product/searchList';
 import './App.css';
-<<<<<<< HEAD
 import QuestionHome from 'views/inquire/user/question/main';
 import QuestionWrite from 'views/inquire/user/question/write';
 import QuestionUpdate from 'views/inquire/user/question/update';
@@ -36,12 +32,10 @@ import AnswerUpdate from 'views/inquire/admin/answer/update';
 
 
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';
-=======
 import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
 
 
 function App() {
@@ -85,18 +79,15 @@ function App() {
         <Route path='/checkout' element={<CheckoutPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
-<<<<<<< HEAD
         <Route path="/user/:userId" element={<MyPage />} />
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
-=======
         <Route path="/orderItem/:userId" element={<OrderPage />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />
         <Route path={WRITE_PATH()} element={<Write />}></Route>
->>>>>>> c66924b2dee4c32e87d0c732939068061fe5b4a0
       </Route>
     </Routes>
 
