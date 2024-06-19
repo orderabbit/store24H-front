@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, formToJSON } from "axios";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
@@ -6,6 +6,10 @@ import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryReque
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
+import {PatchAnswerRequestDto, PostAnswerRequestDto} from "./request/answer";
+import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
+import {PatchQuestionRequestDto, PostQuestionRequestDto} from "./request/question";
+import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
@@ -30,6 +34,20 @@ const FILE_DOMAIN = `${DOMAIN}/file`;
 const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
 
 const SEARCH_MAP_URL = (query: string, lat: number, lng: number) => `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
+
+
+const GET_ALL_ANSWER_URL = () => `${API_DOMAIN}/question/answer/list`;
+const POST_ANSWER_URL = () => `${API_DOMAIN}/question/answer`;
+const PATCH_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/${answerId}`;
+const GET_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/detail/${answerId}`;
+const DELETE_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/delete/${answerId}`;
+
+const GET_ALL_QUESTION_URL = () => `${API_DOMAIN}/question/list`;
+const POST_QUESTION_URL = () => `${API_DOMAIN}/question`;
+const PATCH_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/${questionId}`;
+const GET_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/detail/${questionId}`;
+const DELETE_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/delete/${questionId}`;
+
 
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
@@ -267,6 +285,145 @@ export const postPaymentRequest = async (paymentData: any) => {
         })
     return result;
 };
+
+export const getAllAnswerRequest = async () => {
+    const result = await axios.get(GET_ALL_ANSWER_URL())
+    .then(response => {
+        const responseBody : GetAllAnswerResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+
+};
+
+export const getAnswerRequest = async (answerId : number|string) => {
+    const result = await axios.get(GET_ANSWER_URL(answerId))
+    .then(response => {
+        const responseBody: GetAnswerResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        const responseBody : ResponseDto = error.response.data;
+        return responseBody;
+    });
+    return result;
+};
+
+export const postAnswerRequest = async (requestBody : PostAnswerRequestDto) => {
+    const result = await axios.post(POST_ANSWER_URL(),requestBody)
+    .then(response => {
+        const responseBody: PostAnswerResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        const responseBody : ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+}
+
+
+export const deleteAnswerRequest = async (answerId : number| string) => {
+    const result = await axios.delete(DELETE_ANSWER_URL(answerId))
+    .then(response => {
+        const responseBody : DeleteAnswerResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.data;
+        return responseBody;
+    });
+    return result;
+};
+export const patchAnswerRequest = async(answerId : number| string , requestBody: PatchAnswerRequestDto) => {
+    const result = await axios.patch(PATCH_ANSWER_URL(answerId),requestBody)
+    .then(response => {
+        const responseBody : PatchAnswerResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+}
+
+export const getAllQuestionRequest = async () => {
+    const result = await axios.get(GET_ALL_QUESTION_URL())
+    .then(response => {
+        const responseBody : GetAllQuestionResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+
+};
+
+export const getQuestionRequest = async (questionId : number|string) => {
+    const result = await axios.get(GET_QUESTION_URL(questionId))
+    .then(response => {
+        const responseBody: GetQuestionResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        const responseBody : ResponseDto = error.response.data;
+        return responseBody;
+    });
+    return result;
+};
+
+export const postQuestionRequest = async (requestBody : PostQuestionRequestDto) => {
+    const result = await axios.post(POST_QUESTION_URL(),requestBody)
+    .then(response => {
+        const responseBody: PostQuestionResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        const responseBody : ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+}
+
+
+export const deleteQuestionRequest = async (questionId : number| string) => {
+    const result = await axios.delete(DELETE_QUESTION_URL(questionId))
+    .then(response => {
+        const responseBody : DeleteQuestionResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.data;
+        return responseBody;
+    });
+    return result;
+};
+export const patchQuestionRequest = async(questionId : number| string , requestBody: PatchQuestionRequestDto) => {
+    const result = await axios.patch(PATCH_QUESTION_URL(questionId),requestBody)
+    .then(response => {
+        const responseBody : PatchQuestionResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+}
+
 
 export const postOrderListRequest = async (orderData: SaveOrderListRequestDto): Promise<ResponseDto | null> => {
     try {

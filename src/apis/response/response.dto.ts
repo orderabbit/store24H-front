@@ -1,7 +1,8 @@
+import Answer from "types/interface/answer.interface";
 import { ResponseCode, ResponseMessage } from "types/enums";
 
 export default interface ResponseDto{
-    code: ResponseCode;
+    answer : Answer[];
     message: ResponseMessage;
     success: boolean;
     status: string;

@@ -40,7 +40,7 @@ export default function SearchList() {
             } else {
                 try {
                     const response = await GetSearchProductListRequest(category1, category2, category3);
-                    if(!response) return;
+                    if (!response) return;
                     console.log(response.data.items);
                     let fetchedProducts = response.data.items;
                     if (sortByPriceAsc) {
@@ -94,14 +94,16 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
+            secondaryProductImageList: product.secondaryProductImageList,
             lowPrice: product.lowPrice,
             category1: product.category1,
             category2: product.category2,
+            category3: product.category3,
             count: quantities[product.productId] || 1,
         };
         try {
             const response = await PostCartRequest(formData, accessToken);
-            if (response.code === "SU") {
+            if (response.data.code === "SU") {
                 alert("상품이 저장되었습니다.");
                 if (!loginUser) return;
                 const productListResponse = await GetProductListRequest(
@@ -111,9 +113,9 @@ export default function SearchList() {
                 const updatedCartCount = productListResponse.data.items.length;
                 triggerCartUpdateEvent(updatedCartCount);
             }
-            if (response.code === "DP") alert("이미 저장된 상품입니다.");
-            if (response.code === "DBE") alert("상품 저장에 실패했습니다.");
-            if (response.code === "AF") alert("로그인이 필요합니다.");
+            if (response.data.code === "DP") alert("이미 저장된 상품입니다.");
+            if (response.data.code === "DBE") alert("상품 저장에 실패했습니다.");
+            if (response.data.code === "AF") alert("로그인이 필요합니다.");
         } catch (error) {
             console.error("Error saving product", error);
         }
@@ -136,22 +138,25 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
+            secondaryProductImageList: product.secondaryProductImageList,
             lowPrice: product.lowPrice,
             category1: product.category1,
             category2: product.category2,
+            category3: product.category3,
             count: quantities[product.productId] || 1,
         };
 
         try {
             const response = await PostCartRequest(formData, accessToken);
-            if (response.code === "SU") {
+            if (response.data.code === "SU") {
                 navigate("/address", { state: { selectedProduct: product } });
             }
-            if (response.code === "AF") alert("로그인이 필요합니다.");
+            if (response.data.code === "AF") alert("로그인이 필요합니다.");
         } catch (error) {
             console.error("Error", error);
         }
     };
+
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();

@@ -16,10 +16,8 @@
 }
 
 .sign-in-box{
-    width: 380px;
     display: flex;
     flex-direction: column;
-
     z-index: 3;
     gap: 24px;
 }

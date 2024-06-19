@@ -5,11 +5,11 @@ on:
     branches: ['main', 'release']
   pull_request:
     branches: ['main', 'release']
-
+    
 env:
   LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
   LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
-  LIGHTSAIL_USERNAME: bitnami
+  LIGHTSAIL_USERNAME: ubuntu
   AWS_REGION: ap-northeast-2
 
 jobs:
@@ -17,50 +17,65 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 해당 브런치로 체크아웃
+        uses: actions/checkout@v4
 
-    - name: 해당 브런치로 체크아웃
-      uses: actions/checkout@v4
+      - name: node 설치
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.14.1
 
-    - name: node 설치
-      uses: actions/setup-node@v4
-      with:
-        node-version: 14
+      - name: npm 설치
+        run: npm install
 
-    - name: npm 설치
-      run: npm install
+      - name: typescript 설치
+        run: npm install typescript
 
-    - name: typescript 설치
-      run: npm install typescript
+      - name: 빌드
+        run: 
+          sudo npm run build
 
-    - name: 빌드
-      run: 
-        sudo npm run build
-        
-    - name: Add SSH key
-      run: |
-        echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
-        chmod 600 lightsail.pem
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
+          chmod 600 lightsail.pem
+      - name: Add remote host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+      - name: AWS 인증하기
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          
+      - name: Deploy Prod use SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          source: "./build"
+          target: "/home/ubuntu/store24H-front"
+          strip_components: 2
+          
+      - name: Transfer Deploy Script use SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ env.LIGHTSAIL_HOST }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          source: "run.sh"
+          target: "/home/ubuntu/script"
 
-    - name: AWS 인증하기
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-region: ${{ env.AWS_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Execute Server Init Script
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ env.LIGHTSAIL_HOST }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
 
-    - name: Add remote host to known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
-
-    - name: Copy build files to Lightsail
-      run: 
-        scp -o StrictHostKeyChecking=no -i lightsail.pem -r build/libs/*.jar ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/home/${{ secrets.LIGHTSAIL_USER }}/app
-  
-    - name: Deploy on Lightsail
-      run: |
-        ssh -o StrictHostKeyChecking=no -i lightsail.pem ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} << 'EOF'
-        cd /home/${{ secrets.LIGHTSAIL_USER }}/app
-  
-         
-      
+          script_stop: true
+          script: chmod +x /home/ubuntu/script/deploy.sh && sh /home/ubuntu/script/deploy.sh

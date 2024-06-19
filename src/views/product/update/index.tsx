@@ -51,15 +51,15 @@ export default function Update() {
             GetProductRequest(ProductId, 'primary'),
             GetProductRequest(ProductId, 'secondary')
         ])
-        .then(([primaryResponse, secondaryResponse]) => {
-            getProductResponse(primaryResponse, secondaryResponse);
-        })
-        .catch(error => {
-            console.error('Error fetching product:', error);
-        });
+            .then(([primaryResponse, secondaryResponse]) => {
+                getProductResponse(primaryResponse, secondaryResponse);
+            })
+            .catch(error => {
+                console.error('Error fetching product:', error);
+            });
     }, [Number]);
-    
-    
+
+
 
     const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
         if (!primaryResponse || !secondaryResponse) return;
@@ -67,8 +67,8 @@ export default function Update() {
         const primaryBody = primaryResponse as GetProductResponseDto;
         const secondaryBody = secondaryResponse as GetProductResponseDto;
 
-        const { code: primaryCode } = primaryBody;
-        const { code: secondaryCode } = secondaryBody;
+        const { code: primaryCode } = primaryBody.data;
+        const { code: secondaryCode } = secondaryBody.data;
 
         if (primaryCode === 'NB' || secondaryCode === 'NB') {
             alert('존재하지 않습니다.');
@@ -94,7 +94,7 @@ export default function Update() {
         setImageUrls(productImageList);
         convertUrlsToFile(productImageList).then(productImageFileList => setProductImageFileList(productImageFileList));
         convertUrlsToFile(secondaryProductImageList).then(secondaryProductImageFileList => setSecondaryProductImageFileList(secondaryProductImageFileList));
-        
+
 
         if (!loginUser || loginUser.userId !== userId) {
             alert('권한이 없습니다.');
@@ -228,7 +228,7 @@ export default function Update() {
         const { title, content, lowPrice, category1, category2 } = useProductStore();
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
@@ -242,7 +242,7 @@ export default function Update() {
 
         const patchBoardResponse = (responseBody: PatchProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU' || code === 'NB' || code === 'NP') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
