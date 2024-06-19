@@ -9,7 +9,7 @@ on:
 env:
   LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
   LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
-  LIGHTSAIL_USERNAME: ubunutu
+  LIGHTSAIL_USERNAME: ubuntu
   AWS_REGION: ap-northeast-2
 
 jobs:
@@ -34,6 +34,11 @@ jobs:
       - name: 빌드
         run: 
           sudo npm run build
+
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
+          chmod 600 lightsail.pem
 
       - name: AWS 인증하기
         uses: aws-actions/configure-aws-credentials@v4
