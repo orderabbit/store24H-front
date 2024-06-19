@@ -20,12 +20,12 @@ import { FailPage } from 'views/payment/FailPage';
 import { SuccessPage } from 'views/payment/SuccessPage';
 import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
-import SearchList from 'views/product/searchList';
 import './App.css';
 import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
+import SearchList from 'views/product/searchList';
 
 
 function App() {

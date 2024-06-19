@@ -13,6 +13,7 @@ enum ResponseMessage{
 
     DUPLICATE_NICKNAME = 'Duplicate nickname',
     DUPLICATED_PRODUCT = "Duplicate Product",
+    DUPLICATED_PRODUCT_ID = "Duplicate Product Id",
     NOT_EXISTED_USER = "Not Existed User",
     NOT_EXISTED_BOARD = 'Not Existed Board',
     

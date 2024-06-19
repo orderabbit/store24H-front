@@ -1,8 +1,7 @@
 export default interface SaveCartRequestDto {
-    productId: number;
+    productId: string;
     title: string;
-    link: string;
-    image: string;
+    productImageList: string[];
     lowPrice: string;
     category1: string;
     category2: string;
