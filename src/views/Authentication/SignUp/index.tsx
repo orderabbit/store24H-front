@@ -61,7 +61,7 @@ export default function SignUp() {
 
     const userIdCheckResponse = (responseBody: ResponseBody<userIdCheckResponseDto>) => {
         if (!responseBody) return;
-        const { code } = responseBody;
+        const { code } = responseBody.data;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디를 입력하세요.');
         if (code === ResponseCode.DUPLICATE_ID) {
             setUserIdError(true);
@@ -78,7 +78,7 @@ export default function SignUp() {
 
     const nicknameCheckResponse = (responseBody: ResponseBody<nicknameCheckResponseDto>) => {
         if (!responseBody) return;
-        const { code } = responseBody;
+        const { code } = responseBody.data;
         if (code === ResponseCode.VALIDATION_FAIL) alert('닉네임을 입력하세요.');
         if (code === ResponseCode.DUPLICATE_NICKNAME) {
             setNicknameError(true);
@@ -97,7 +97,7 @@ export default function SignUp() {
     const emailCertificationResponse = (responseBody: ResponseBody<EmailCertificationResponseDto>) => {
         if (!responseBody) return;
 
-        const { code } = responseBody;
+        const { code } = responseBody.data;
 
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디와 이메일을 모두 입력하세요.');
         if (code === ResponseCode.MAIL_FAIL || code === ResponseCode.DATABASE_ERROR) {
@@ -115,7 +115,7 @@ export default function SignUp() {
     const checkCertificationResponse = (responseBody: ResponseBody<CheckCertificationResponseDto>) => {
         if (!responseBody) return;
 
-        const { code } = responseBody;
+        const { code } = responseBody.data;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디, 이메일, 인증번호를 모두 입력하세요.');
         if (code === ResponseCode.CERTIFICATION_FAIL) {
             setCertificationNumberError(true);
@@ -133,7 +133,7 @@ export default function SignUp() {
     const signUpResponse = (responseBody: ResponseBody<SignUpResponseDto>) => {
         if (!responseBody) return;
 
-        const { code } = responseBody;
+        const { code } = responseBody.data;
         if (code === ResponseCode.VALIDATION_FAIL) alert('모든 값을 입력하세요.');
 
         navigate(SIGNIN_PATH());
