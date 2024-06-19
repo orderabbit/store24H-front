@@ -39,10 +39,12 @@ jobs:
         run: |
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
           chmod 600 lightsail.pem
+          
       - name: Add remote host to known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+          
       - name: AWS 인증하기
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -50,32 +52,4 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           
-      - name: Deploy Prod use SCP
-        uses: appleboy/scp-action@master
-        with:
-          username: ubuntu
-          host: ${{ secrets.LIGHTSAIL_HOST }}
-          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          source: "./build"
-          target: "/home/ubuntu/store24H-front"
-          strip_components: 2
-          
-      - name: Transfer Deploy Script use SCP
-        uses: appleboy/scp-action@master
-        with:
-          username: ubuntu
-          host: ${{ env.LIGHTSAIL_HOST }}
-          key: ${{ env.LIGHTSAIL_SSH_KEY }}
-          source: "run.sh"
-          target: "/home/ubuntu/script"
-
-      - name: Execute Server Init Script
-        uses: appleboy/ssh-action@master
-        with:
-          username: ubuntu
-          host: ${{ env.LIGHTSAIL_HOST }}
-          key: ${{ env.LIGHTSAIL_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-
-          script_stop: true
-          script: chmod +x /home/ubuntu/script/deploy.sh && sh /home/ubuntu/script/deploy.sh
+  
