@@ -187,7 +187,7 @@ export default function Write() {
 
     const UploadButton = () => {
 
-        const { title, content, lowPrice, category1, category2 } = useProductStore();
+        const { title, content, lowPrice, category1, category2, category3 } = useProductStore();
 
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
@@ -260,6 +260,7 @@ export default function Write() {
                     PatchProductRequest(productId, requestBody, accessToken).then(patchBoardResponse);
                 }
             }
+            
         }
 
         if (title && content && productImageFileList.length > 0)
