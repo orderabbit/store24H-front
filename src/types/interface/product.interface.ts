@@ -6,6 +6,7 @@ export default interface Product {
     category1: string;
     category2: string;
     category3: string;
+    count: number;
     productImageList: string[];
     secondaryProductImageList: string[];
     writeDatetime: string;
