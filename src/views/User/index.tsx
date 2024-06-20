@@ -55,7 +55,7 @@ export default function MyPage() {
     responseBody: GetUserResponseDto | ResponseDto | null
   ) => {
     if (!responseBody) return;
-    const { code } = responseBody.data;
+    const { code } = responseBody;
     if (code === "NU") alert("존재하지 않는 유저입니다.");
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") {
@@ -82,7 +82,7 @@ export default function MyPage() {
     setEmptyNicknameError(false);
 
     if (!responseBody) return;
-    const { code } = responseBody.data;
+    const { code } = responseBody;
     if (code === "VF") setEmptyNicknameError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
     if (code === "DN") setDuplicateNicknameError(true);

@@ -21,12 +21,11 @@ import { FailPage } from 'views/payment/FailPage';
 import { SuccessPage } from 'views/payment/SuccessPage';
 import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
-import SearchList from 'views/product/searchList';
 import './App.css';
 import QuestionHome from 'views/inquire/user/question/main';
 import QuestionWrite from 'views/inquire/user/question/write';
 import QuestionUpdate from 'views/inquire/user/question/update';
-import QuestionDetail from 'views/inquire/user/question/datail';
+import QuestionDetail from 'views/inquire/user/question/detail';
 import AnswerHome from 'views/inquire/admin/answer/main';
 import AnswerWrite from 'views/inquire/admin/answer/write';
 import AnswerUpdate from 'views/inquire/admin/answer/update';
@@ -37,6 +36,7 @@ import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
+import SearchList from 'views/product/searchList';
 
 
 function App() {
@@ -72,10 +72,10 @@ function App() {
         <Route path={TEST_PATH()} element={<Test />}></Route>
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
-        <Route path="/contact" element={<QuestionHome />} />
-        <Route path="/contact/write" element={<QuestionWrite />} />
-        <Route path="/contact/:questionId" element={<QuestionDetail />} />
-        <Route path="/contact/update/:questionId" element={<QuestionUpdate />} />
+        <Route path="/question" element={<QuestionHome />} />
+        <Route path="/question/write" element={<QuestionWrite />} />
+        <Route path="/question/detail/:questionId" element={<QuestionDetail />} />
+        <Route path="/question/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
         <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />

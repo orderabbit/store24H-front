@@ -117,8 +117,8 @@ export default function Header() {
     navigator(MAIN_PATH());
   };  
   
-  const onContactButtonClickHandler = () => {
-    navigator('/contact');
+  const onQuestionButtonClickHandler = () => {
+    navigator('/question');
   };
   
   const MyPageButton = () => {
@@ -172,7 +172,7 @@ export default function Header() {
             <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
           </>
         )}
-        <div className='auth-button' onClick={onContactButtonClickHandler}>고객센터</div>
+        <div className='auth-button' onClick={onQuestionButtonClickHandler}>고객센터</div>
       </div>
       <div className='header-container'>
         <div className='header-left-box'> 

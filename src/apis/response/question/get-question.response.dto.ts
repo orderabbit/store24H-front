@@ -3,5 +3,5 @@ import ResponseDto from "../response.dto";
 
 
 export default interface GetQuestionResponseDto extends ResponseDto, Question{
-    
+    questions : Question[];
 }

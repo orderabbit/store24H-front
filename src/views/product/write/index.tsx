@@ -182,6 +182,7 @@ export default function Write() {
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
+            if (code === 'DPI') alert('중복된 상품번호입니다.');
             if (code !== 'SU') return;
 
             resetProduct();
@@ -196,6 +197,7 @@ export default function Write() {
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU' || code === 'NB' || code === 'NP') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
+            if (code === 'DPI') alert('중복된 상품번호입니다.');
             if (code !== 'SU') return;
 
             if (!productId) return;
@@ -221,11 +223,11 @@ export default function Write() {
             for (const file of secondaryProductImageFileList) {
                 const data = new FormData();
                 data.append('file', file);
-        
+
                 const url = await fileUploadRequest(data);
                 if (url) secondaryProductImageList.push(url);
             }
-        
+
             if (productImageList.length > 0) {
                 image = productImageList[0];
             }
@@ -233,8 +235,9 @@ export default function Write() {
             const isWritePage = pathname === '/product/write';
             if (isWritePage) {
                 const requestBody: PostProductRequestDto = {
-                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList }
-                    console.log(requestBody);
+                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList
+                }
+                console.log(requestBody);
                 PostProductRequest(requestBody, accessToken).then(postBoardResponse);
             } else {
                 if (!productId) {

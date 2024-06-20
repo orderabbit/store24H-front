@@ -51,15 +51,15 @@ export default function Update() {
             GetProductRequest(ProductId, 'primary'),
             GetProductRequest(ProductId, 'secondary')
         ])
-        .then(([primaryResponse, secondaryResponse]) => {
-            getProductResponse(primaryResponse, secondaryResponse);
-        })
-        .catch(error => {
-            console.error('Error fetching product:', error);
-        });
+            .then(([primaryResponse, secondaryResponse]) => {
+                getProductResponse(primaryResponse, secondaryResponse);
+            })
+            .catch(error => {
+                console.error('Error fetching product:', error);
+            });
     }, [Number]);
-    
-    
+
+
 
     const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
         if (!primaryResponse || !secondaryResponse) return;
@@ -94,7 +94,7 @@ export default function Update() {
         setImageUrls(productImageList);
         convertUrlsToFile(productImageList).then(productImageFileList => setProductImageFileList(productImageFileList));
         convertUrlsToFile(secondaryProductImageList).then(secondaryProductImageFileList => setSecondaryProductImageFileList(secondaryProductImageFileList));
-        
+
 
         if (!loginUser || loginUser.userId !== userId) {
             alert('권한이 없습니다.');

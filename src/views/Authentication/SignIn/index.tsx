@@ -36,7 +36,7 @@ export default function SignIn() {
     const signInResponse = (responseBody: ResponseBody<SignInResponseDto>) => {
 
         if (!responseBody) return;
-        const { code } = responseBody.data;
+        const { code } = responseBody;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디와 비밀번호를 입력하세요.');
         if (code === ResponseCode.SING_IN_FAIL) setMessage('로그인 정보가 일치하지 않습니다.');
         if (code === ResponseCode.DATABASE_ERROR) alert('데이터베이스 오류입니다.');
@@ -144,25 +144,27 @@ export default function SignIn() {
     };
 
     return (
-        <div className="sign-in-box">
-            <div className='sign-in-content-box'>
-                <div className='sign-in-content-sns-sign-in-box'>
-                    <div className='sign-in-content-sns-sign-in-title'>{'sns 로그인'}</div>
-                    <div className='sign-in-content-sns-sign-in-button-box'>
-                        <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
-                        <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
-                        <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
+        <div className="sign-in-container">
+            <div className="sign-in-box">
+                <div className='sign-in-content-box'>
+                    <div className='sign-in-content-sns-sign-in-box'>
+                        <div className='sign-in-content-sns-sign-in-title'>{'sns 로그인'}</div>
+                        <div className='sign-in-content-sns-sign-in-button-box'>
+                            <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
+                            <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
+                            <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
+                        </div>
                     </div>
-                </div>
 
-                <div className='sign-in-content-input-box'>
-                    <div>
-                        <InputBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} onKeyDown={onIdKeyDownHandler} />
-                        <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type={passwordType} value={password} onChange={onPasswordChangeHandler} isErrorMessage message={message} onKeyDown={onPasswordKeyDownHandler} />
-                    </div>
-                    <div className='sign-in-content-button-box'>
-                        <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
-                        <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
+                    <div className='sign-in-content-input-box'>
+                        <div>
+                            <InputBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} onKeyDown={onIdKeyDownHandler} />
+                            <InputBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type={passwordType} value={password} onChange={onPasswordChangeHandler} isErrorMessage message={message} onKeyDown={onPasswordKeyDownHandler} />
+                        </div>
+                        <div className='sign-in-content-button-box'>
+                            <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
+                            <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,5 +177,3 @@ export default function SignIn() {
         </div>
     )
 }
-
-
