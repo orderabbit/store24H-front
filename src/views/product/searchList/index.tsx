@@ -27,22 +27,21 @@ export default function SearchList() {
     const navigate = useNavigate();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const query = new URLSearchParams(location.search);
-    const category1 = query.get("keyword");
-    const category2 = query.get("keyword");
-    const category3 = query.get("keyword");
+    const searchKeyword = query.get('keyword');
     const endIndex = startIndex + itemsPerPage;
     const displayedProducts = products.slice(startIndex, endIndex);
 
     useEffect(() => {
         const fetchProducts = async () => {
-            if (!category1 || !category2 || !category3) {
-                return;
-            } else {
+            if (!searchKeyword) alert("검색어를 입력해주세요.");
+            if (searchKeyword) {
                 try {
-                    const response = await GetSearchProductListRequest(category1, category2, category3);
+                    const response = await GetSearchProductListRequest(searchKeyword);
+                    console.log(response?.searchList);
                     if (!response) return;
-                    console.log(response.data.items);
-                    let fetchedProducts = response.data.items;
+
+                    console.log(response.searchList);
+                    let fetchedProducts = response.searchList;
                     if (sortByPriceAsc) {
                         fetchedProducts = fetchedProducts.sort(
                             (a: { lowPrice: string }, b: { lowPrice: string }) =>
@@ -77,9 +76,10 @@ export default function SearchList() {
                     console.error("Failed to fetch products", error);
                 }
             }
+
         };
         fetchProducts();
-    }, [category1, category2, category3, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+    }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -253,7 +253,7 @@ export default function SearchList() {
                     displayedProducts.map((product) => (
                         <li key={product.productId} className="product-item-list-group-item">
                             <div className="items-center">
-                                {product.productImageList.map((image) => (
+                                {product.productImageList && product.productImageList.map((image) => (
                                     <img key={image} className="product-detail-main-image" src={image} />
                                 ))}
                             </div>
@@ -263,7 +263,7 @@ export default function SearchList() {
                                 </a>
                                 <div className="item-info">
                                     <div>
-                                        {product.category1}/{product.category2}
+                                        {product.category1}/{product.category2}/{product.category3}
                                     </div>
                                 </div>
                             </div>

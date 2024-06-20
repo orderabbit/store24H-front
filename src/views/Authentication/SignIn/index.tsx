@@ -99,7 +99,7 @@ export default function SignIn() {
     const recoverPasswordResponse = (responseBody: ResponseBody<PasswordRecoveryResponseDto>) => {
         if (!responseBody) return;
 
-        const { code } = responseBody.data;
+        const { code } = responseBody;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             alert('올바른 이메일 형식이 아닙니다.');

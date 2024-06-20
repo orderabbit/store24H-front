@@ -23,12 +23,12 @@ export function SuccessPage() {
     async function confirm() {
       const response = await postPaymentRequest(requestData);
       if (!response) return;
-      if (response.data.code === "DBE") alert("데이터베이스 오류가 발생했습니다. 다시 시도해주세요.");
-      if (response.data.code === "VF") alert("결제 금액이 일치하지 않습니다.");
-      if (response.data.code === "DO") alert("이미 결제가 완료된 주문입니다.");
+      if (response.code === "DBE") alert("데이터베이스 오류가 발생했습니다. 다시 시도해주세요.");
+      if (response.code === "VF") alert("결제 금액이 일치하지 않습니다.");
+      if (response.code === "DO") alert("이미 결제가 완료된 주문입니다.");
 
-      if (response.data.code !== "SU") {
-        navigate(`/fail?message=${response.message}&code=${response.data.code}`);
+      if (response.code !== "SU") {
+        navigate(`/fail?message=${response.message}&code=${response.code}`);
         return;
       }
     }
