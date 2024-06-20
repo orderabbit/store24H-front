@@ -260,6 +260,7 @@ export default function Write() {
                     PatchProductRequest(productId, requestBody, accessToken).then(patchBoardResponse);
                 }
             }
+            
         }
 
         if (title && content && productImageFileList.length > 0)
