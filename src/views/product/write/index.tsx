@@ -248,11 +248,7 @@ export default function Write() {
             const isWritePage = pathname === '/product/write';
             if (isWritePage) {
                 const requestBody: PostProductRequestDto = {
-<<<<<<< HEAD
-                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList
-=======
                     productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
->>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
                 }
                 console.log(requestBody);
                 PostProductRequest(requestBody, accessToken).then(postBoardResponse);
