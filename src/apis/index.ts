@@ -80,7 +80,6 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
-// const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
 const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;

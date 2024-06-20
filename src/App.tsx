@@ -80,7 +80,7 @@ function App() {
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
-        <Route path="/orderItem/:userId" element={<OrderPage />} />
+        <Route path="/order/list/:userId" element={<OrderPage />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />
