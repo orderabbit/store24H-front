@@ -187,11 +187,11 @@ export default function Write() {
 
     const UploadButton = () => {
 
-        const { title, content, lowPrice, category1, category2 } = useProductStore();
+        const { title, content, lowPrice, category1, category2, category3 } = useProductStore();
 
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody.data;
+            const { code } = responseBody;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');

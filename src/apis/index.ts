@@ -14,6 +14,7 @@ import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionRespons
 import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
+import { GetSearchBoardListResponseDto } from "./response/product";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -30,7 +31,8 @@ const errorHandler = (error: any) => {
     return responseBody;
 };
 
-const DOMAIN = 'http://3.35.30.191:4040';
+// const DOMAIN = 'http://3.35.30.191:4040';
+const DOMAIN = 'http://localhost:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 const FILE_DOMAIN = `${DOMAIN}/file`;
 const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
@@ -78,7 +80,8 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
-const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
+// const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
+const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 
@@ -508,10 +511,10 @@ export const PostReviewRequest = async (productId: number | string, formData: Po
     return result;
 };
 
-export const GetSearchProductListRequest = async (category1: string, category2: string | null, category3: string | null) => {
-    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(category1, category2, category3))
+export const GetSearchProductListRequest = async (keyword: string) => {
+    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(keyword))
         .then(response => {
-            const responseBody: ResponseDto = response.data;
+            const responseBody: GetSearchBoardListResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {

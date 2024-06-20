@@ -138,10 +138,6 @@
     white-space: pre-wrap;
 }
 
-.product-detail-main-image {
-    width: 100%;
-}
-
 #board-detail-bottom {
     display: flex;
     flex-direction: column;

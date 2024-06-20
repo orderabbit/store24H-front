@@ -1,7 +1,10 @@
 import Answer from "types/interface/answer.interface";
 import { ResponseCode, ResponseMessage } from "types/enums";
+import ProductListItem from "types/interface/product-list-item.interface";
+import { Product } from "types/interface";
 
 export default interface ResponseDto{
+    searchList: Product[];
     answer : Answer[];
     message: ResponseMessage;
     success: boolean;
