@@ -238,24 +238,8 @@ export default function Update() {
 
     const UploadButton = () => {
 
-<<<<<<< HEAD
         const { title, content, lowPrice, category1, category2 } = useProductStore();
-        const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
-            if (!responseBody) return;
-            const { code } = responseBody.data;
-            if (code === 'DBE') alert('데이터베이스 오류입니다.');
-            if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
-            if (code === 'VF') alert('모두 입력하세요.');
-            if (code !== 'SU') return;
-            resetProduct();
-            if (!loginUser) return;
 
-            alert('등록되었습니다.');
-            navigate(MAIN_PATH());
-        }
-
-=======
->>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
         const patchBoardResponse = (responseBody: PatchProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
             const { code } = responseBody.data;
