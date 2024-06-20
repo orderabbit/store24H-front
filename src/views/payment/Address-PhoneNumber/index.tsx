@@ -45,7 +45,6 @@ const AddressPage = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Validation
     let isValid = true;
 
     if (name.trim() === "") {
@@ -172,7 +171,6 @@ const AddressPage = () => {
           <div className="address-store">
             <button type="submit">배송지 저장</button>
           </div>
-          
         </div>
       </div>
     </form>
