@@ -64,7 +64,6 @@ export default function MyPage() {
     }
     const { userId, nickname, email, profileImage, socialUser } =
       responseBody as GetUserResponseDto;
-      console.log(responseBody)
     setNickname(nickname);
     setEmail(email);
     setProfileImage(profileImage);
@@ -252,18 +251,18 @@ export default function MyPage() {
               <div className="sign-info-title">이메일</div>
               <div className="sign-info-content">{email}</div>
             </div>
-            
-              <div className="sign-info">
-                <div className="sign-info-title">비밀번호</div>
-                <div className="sign-info-content">
-                  <div className="sign-in-content-input">••••••••</div>
-                  {!isSocialUser && (
+
+            <div className="sign-info">
+              <div className="sign-info-title">비밀번호</div>
+              <div className="sign-info-content">
+                <div className="sign-in-content-input">••••••••</div>
+                {!isSocialUser && (
                   <div className="icon-box" onClick={onPasswordEditButtonClickHandler}>
                     <div className="icon-edit-icon">변경</div>
                   </div>
-                  )}
-                </div>
+                )}
               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -316,7 +315,7 @@ export default function MyPage() {
                     현재 비밀번호 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input type="password" value={currentPassword} onChange={onCurrentPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
+                    <input type="password" value={currentPassword} onChange={onCurrentPasswordChangeHandler} style={{ width: "70%", height: 22.5 }} />
                   </div>
                 </label>
               </div>
@@ -326,7 +325,7 @@ export default function MyPage() {
                     변경 비밀번호 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input type="password" value={newPassword} onChange={onNewPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
+                    <input type="password" value={newPassword} onChange={onNewPasswordChangeHandler} style={{ width: "70%", height: 22.5 }} />
                   </div>
                 </label>
               </div>
@@ -336,7 +335,7 @@ export default function MyPage() {
                     비밀번호 확인 :
                   </div>
                   <div className="modal-content-cnt-password">
-                    <input type="password" value={confirmPassword} onChange={onConfirmPasswordChangeHandler} style={{ width: "70%", height: 22.5 }}/>
+                    <input type="password" value={confirmPassword} onChange={onConfirmPasswordChangeHandler} style={{ width: "70%", height: 22.5 }} />
                   </div>
                 </label>
               </div>

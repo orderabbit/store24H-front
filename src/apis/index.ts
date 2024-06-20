@@ -4,9 +4,10 @@ import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto, SearchMapResponseDto } from "./response";
+import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
+<<<<<<< HEAD
 import { GetSignInUserResponseDto, GetUserResponseDto, PasswordRecoveryResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
 import {PatchAnswerRequestDto, PostAnswerRequestDto,GetAnswerRequestDto} from "./request/answer";
 import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto,
@@ -17,6 +18,16 @@ import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionRespons
 import { ResponseBody } from "types";
 import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
 
+=======
+import {PatchAnswerRequestDto, PostAnswerRequestDto, GetAnswerRequestDto} from "./request/answer";
+import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
+import {PatchQuestionRequestDto, PostQuestionRequestDto,GetQuestionRequestDto} from "./request/question";
+import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
+import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
+import { ResponseBody } from "types";
+import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
+import { GetSearchBoardListResponseDto } from "./response/product";
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -38,9 +49,6 @@ const DOMAIN = 'http://localhost:4040';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 const FILE_DOMAIN = `${DOMAIN}/file`;
 const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
-
-const SEARCH_MAP_URL = (query: string, lat: number, lng: number) => `${API_DOMAIN}/map/search?query=${query}&lat=${lat}&lng=${lng}`;
-
 
 const GET_ALL_ANSWER_URL = () => `${API_DOMAIN}/question/answer/list`;
 const POST_ANSWER_URL = () => `${API_DOMAIN}/question/answer`;
@@ -85,19 +93,13 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
+<<<<<<< HEAD
 const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
+=======
+const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
-
-export const SearchMapRequest = async (query: string, lat: number, lng: number): Promise<SearchMapResponseDto> => {
-    try {
-        const response = await axios.get<SearchMapResponseDto>(SEARCH_MAP_URL(query, lat, lng), {});
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching map data:', error);
-        throw error;
-    }
-};
 
 export const SnsSignInRequest = async (requestBody: SignInRequestDto, type: 'kakao' | 'naver' | 'google') => {
     const result = await axios.post(SNS_SIGN_IN_URL(type), requestBody)
@@ -526,10 +528,15 @@ export const PostReviewRequest = async (productId: number | string, formData: Po
     return result;
 };
 
+<<<<<<< HEAD
 export const GetSearchProductListRequest = async (category1: string, category2: string | null, category3: string | null) => {
     const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(category1, category2, category3))
+=======
+export const GetSearchProductListRequest = async (keyword: string) => {
+    const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(keyword))
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
         .then(response => {
-            const responseBody: ResponseDto = response.data;
+            const responseBody: GetSearchBoardListResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {

@@ -8,11 +8,11 @@ import "./style.css";
 interface Product {
     productId: number;
     title: string;
-    link: string;
-    image: string;
+    productImageList: string[];
     lowPrice: string;
     category1: string;
     category2: string;
+    category3: string;
     count: number;
 }
 
@@ -21,9 +21,7 @@ const CartList: React.FC = () => {
     const [cookies, setCookie] = useCookies();
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [checkedProducts, setCheckedProducts] = useState<{
-        [key: number | string]: boolean;
-    }>({});
+    const [checkedProducts, setCheckedProducts] = useState<{[key: number | string]: boolean;}>({});
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
     const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
@@ -40,10 +38,7 @@ const CartList: React.FC = () => {
     const fetchProducts = async () => {
         try {
             if (userId && cookies.accessToken) {
-                const response = await GetProductListRequest(
-                    userId,
-                    cookies.accessToken
-                );
+                const response = await GetProductListRequest(userId, cookies.accessToken);
                 setProducts(response.data.items);
                 const initialQuantities = response.data.items.reduce(
                     (acc: { [x: string]: number }, product: Product) => {
@@ -95,10 +90,6 @@ const CartList: React.FC = () => {
         }
     };
 
-    const formatPrice = (price: string) => {
-        return parseFloat(price).toLocaleString();
-    };
-
     const calculateTotalPrice = () => {
         return selectedProducts
             .reduce((total, product) => {
@@ -147,7 +138,7 @@ const CartList: React.FC = () => {
     };
 
     const decrementQuantity = (productId: number) => {
-        const currentQuantity = quantities[productId];
+        const currentQuantity = parseInt(quantities[productId].toString(), 10); // 정수로 변환
         if (currentQuantity > 1) {
             const updatedQuantities = {
                 ...quantities,
@@ -158,13 +149,15 @@ const CartList: React.FC = () => {
     };
 
     const incrementQuantity = (productId: number) => {
-        const currentQuantity = quantities[productId] || 0;
+        const currentQuantity = parseInt(quantities[productId]?.toString() || "0", 10); // 정수로 변환
         const updatedQuantities = {
             ...quantities,
             [productId]: currentQuantity + 1,
         };
         setQuantities(updatedQuantities);
     };
+
+
 
     const handleCheckout = () => {
         const selectedProductIds = selectedProducts.map(
@@ -178,6 +171,7 @@ const CartList: React.FC = () => {
     const calculateProductTotalPrice = (product: Product) => {
         const quantity = quantities[product.productId] || 1;
         const price = parseFloat(product.lowPrice);
+        console.log("price", price, "quantity", quantity);
         return (quantity * price).toLocaleString();
     };
 
@@ -207,12 +201,12 @@ const CartList: React.FC = () => {
                     <tbody>
                         <tr>
                             <td colSpan={7} style={{
-                                    height: "76px",
-                                    textAlign: "center",
-                                    fontSize: "24px",
-                                    color: "rgba(0, 0, 0, 0.4)",
-                                    fontWeight: "500",
-                                }}>
+                                height: "76px",
+                                textAlign: "center",
+                                fontSize: "24px",
+                                color: "rgba(0, 0, 0, 0.4)",
+                                fontWeight: "500",
+                            }}>
                                 장바구니에 담긴 상품이 없습니다.
                             </td>
                         </tr>
@@ -257,14 +251,12 @@ const CartList: React.FC = () => {
                                     />
                                 </td>
                                 <td>
-                                    <img src={product.image} alt={product.title} width="100" />
+                                    {product.productImageList && product.productImageList.map((image) => (
+                                        <img key={image} className="product-detail-main-image" src={image} />
+                                    ))}
                                 </td>
                                 <td>
-                                    <a
-                                        href={product.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
+                                    <a href={`/product/detail/${product.productId}`} target="_blank" rel="noopener noreferrer">
                                         {product.title}
                                     </a>
                                 </td>
