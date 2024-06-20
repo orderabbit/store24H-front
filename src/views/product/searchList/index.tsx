@@ -27,12 +27,28 @@ export default function SearchList() {
     const navigate = useNavigate();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const query = new URLSearchParams(location.search);
+<<<<<<< HEAD
+    const category1 = query.get("keyword");
+    const category2 = query.get("keyword");
+    const category3 = query.get("keyword");
+=======
     const searchKeyword = query.get('keyword');
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
     const endIndex = startIndex + itemsPerPage;
     const displayedProducts = products.slice(startIndex, endIndex);
 
     useEffect(() => {
         const fetchProducts = async () => {
+<<<<<<< HEAD
+            if (!category1 || !category2 || !category3) {
+                return;
+            } else {
+                try {
+                    const response = await GetSearchProductListRequest(category1, category2, category3);
+                    if (!response) return;
+                    console.log(response.data.items);
+                    let fetchedProducts = response.data.items;
+=======
             if (!searchKeyword) alert("검색어를 입력해주세요.");
             if (searchKeyword) {
                 try {
@@ -42,6 +58,7 @@ export default function SearchList() {
 
                     console.log(response.searchList);
                     let fetchedProducts = response.searchList;
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
                     if (sortByPriceAsc) {
                         fetchedProducts = fetchedProducts.sort(
                             (a: { lowPrice: string }, b: { lowPrice: string }) =>
@@ -76,10 +93,16 @@ export default function SearchList() {
                     console.error("Failed to fetch products", error);
                 }
             }
+<<<<<<< HEAD
+        };
+        fetchProducts();
+    }, [category1, category2, category3, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+=======
 
         };
         fetchProducts();
     }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -94,8 +117,13 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
+<<<<<<< HEAD
+            secondaryProductImageList: product.secondaryProductImageList,
+            lowPrice: product.lowPrice,
+=======
             lowPrice: product.lowPrice,
             totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
             category1: product.category1,
             category2: product.category2,
             category3: product.category3,
@@ -138,7 +166,11 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
+<<<<<<< HEAD
+            secondaryProductImageList: product.secondaryProductImageList,
+=======
             totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
             lowPrice: product.lowPrice,
             category1: product.category1,
             category2: product.category2,
@@ -253,7 +285,11 @@ export default function SearchList() {
                     displayedProducts.map((product) => (
                         <li key={product.productId} className="product-item-list-group-item">
                             <div className="items-center">
+<<<<<<< HEAD
+                                {product.productImageList.map((image) => (
+=======
                                 {product.productImageList && product.productImageList.map((image) => (
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
                                     <img key={image} className="product-detail-main-image" src={image} />
                                 ))}
                             </div>
@@ -263,7 +299,11 @@ export default function SearchList() {
                                 </a>
                                 <div className="item-info">
                                     <div>
+<<<<<<< HEAD
+                                        {product.category1}/{product.category2}
+=======
                                         {product.category1}/{product.category2}/{product.category3}
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
                                     </div>
                                 </div>
                             </div>

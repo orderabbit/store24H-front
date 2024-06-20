@@ -3,4 +3,6 @@ export default interface Question {
     title: string;
     content: string;
     userId : string;
+    type: string;
+    email : string;
 }

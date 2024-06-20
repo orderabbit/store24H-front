@@ -191,7 +191,7 @@ export default function Write() {
 
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');
@@ -248,7 +248,11 @@ export default function Write() {
             const isWritePage = pathname === '/product/write';
             if (isWritePage) {
                 const requestBody: PostProductRequestDto = {
+<<<<<<< HEAD
+                    productId, title, content, image, lowPrice, category1, category2, productImageList, secondaryProductImageList
+=======
                     productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
+>>>>>>> 54e8ad46bb364ce8abe4900687bbde0ffc16af87
                 }
                 console.log(requestBody);
                 PostProductRequest(requestBody, accessToken).then(postBoardResponse);
