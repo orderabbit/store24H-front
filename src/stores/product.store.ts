@@ -59,7 +59,9 @@ const useProductStore = create<ProductStore>(set => ({
         category2: '',
         category3: '',
         userId: '',
-        boardImageFileList: []}))
+        boardImageFileList: [],
+        productImageFileList: [],
+        secondaryProductImageFileList: []}))
 }));
 
 export default useProductStore;
