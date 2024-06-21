@@ -51,7 +51,7 @@ jobs:
           chmod 775 lightsail.pem
 
       - run:
-          scp -i /github/workspace/lightsail.pem /github/workspace/build ubuntu@3.35.30.191:/home/ubuntu/store24H-front/build
+          scp -i ./lightsail.pem /github/workspace/build ubuntu@3.35.30.191:/home/ubuntu/store24H-front/build
           
       - name: Add remote host to known_hosts
         run: |
