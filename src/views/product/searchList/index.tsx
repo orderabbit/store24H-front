@@ -76,10 +76,10 @@ export default function SearchList() {
                     console.error("Failed to fetch products", error);
                 }
             }
-
         };
         fetchProducts();
     }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -94,8 +94,9 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
-            secondaryProductImageList: product.secondaryProductImageList,
             lowPrice: product.lowPrice,
+            totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
+
             category1: product.category1,
             category2: product.category2,
             category3: product.category3,
@@ -138,7 +139,7 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
-            secondaryProductImageList: product.secondaryProductImageList,
+            totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
             lowPrice: product.lowPrice,
             category1: product.category1,
             category2: product.category2,
@@ -254,6 +255,7 @@ export default function SearchList() {
                         <li key={product.productId} className="product-item-list-group-item">
                             <div className="items-center">
                                 {product.productImageList && product.productImageList.map((image) => (
+
                                     <img key={image} className="product-detail-main-image" src={image} />
                                 ))}
                             </div>

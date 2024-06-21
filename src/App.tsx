@@ -23,6 +23,7 @@ import './App.css';
 import QuestionHome from 'views/inquire/user/question/main';
 import QuestionWrite from 'views/inquire/user/question/write';
 import QuestionUpdate from 'views/inquire/user/question/update';
+import QuestionDetail from 'views/inquire/user/question/detail';
 import AnswerHome from 'views/inquire/admin/answer/main';
 import AnswerWrite from 'views/inquire/admin/answer/write';
 import AnswerUpdate from 'views/inquire/admin/answer/update';
@@ -67,7 +68,10 @@ function App() {
         <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth />}></Route>
         <Route path="/" element={<Search />} />
         <Route path="/search" element={<SearchList />} />
-        <Route path="/contact" element={<QuestionHome />} />
+        <Route path="/question" element={<QuestionHome />} />
+        <Route path="/question/write" element={<QuestionWrite />} />
+        <Route path="/question/detail/:questionId" element={<QuestionDetail />} />
+        <Route path="/question/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
         <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />
@@ -80,7 +84,7 @@ function App() {
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
-        <Route path="/orderItem/:userId" element={<OrderPage />} />
+        <Route path="/order/list/:userId" element={<OrderPage />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />

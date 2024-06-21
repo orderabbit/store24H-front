@@ -7,14 +7,14 @@ import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryReque
 import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
-import {PatchAnswerRequestDto, PostAnswerRequestDto, GetAnswerRequestDto} from "./request/answer";
-import {DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
-import {PatchQuestionRequestDto, PostQuestionRequestDto,GetQuestionRequestDto} from "./request/question";
-import {DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
-import { GetSignInUserResponseDto, GetUserResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto, PasswordRecoveryResponseDto } from "./response/user";
-import { ResponseBody } from "types";
-import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
 import { GetSearchBoardListResponseDto } from "./response/product";
+import { GetSignInUserResponseDto, GetUserResponseDto, PasswordRecoveryResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
+import { ResponseBody } from "types";
+import { DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
+import { PatchAnswerRequestDto, PostAnswerRequestDto } from "./request/answer";
+import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
+import { DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
+import { PatchQuestionRequestDto, PostQuestionRequestDto } from "./request/question";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -45,9 +45,9 @@ const DELETE_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/questio
 
 const GET_ALL_QUESTION_URL = () => `${API_DOMAIN}/question/list`;
 const POST_QUESTION_URL = () => `${API_DOMAIN}/question`;
-const PATCH_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/${questionId}`;
-const GET_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/detail/${questionId}`;
-const DELETE_QUESTION_URL = (questionId : number | string) => `${API_DOMAIN}/question/delete/${questionId}`;
+const PATCH_QUESTION_URL = (questionId : number | string | undefined) => `${API_DOMAIN}/question/update/${questionId}`;
+const GET_QUESTION_URL = (questionId : number | string | undefined) => `${API_DOMAIN}/question/detail/${questionId}`;
+const DELETE_QUESTION_URL = (questionId : number | string | undefined) => `${API_DOMAIN}/question/delete/${questionId}`;
 
 
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
@@ -80,7 +80,6 @@ const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
 const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
-// const GET_SEARCH_PRODUCT_LIST_URL = (category1: string, category2: string | null, category3: string | null) => `${API_DOMAIN}/product/search-list/${category1}${category2 ? '/' + category2 : ''}${category3 ? '/' + category3 : ''}`;
 const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
@@ -362,14 +361,14 @@ export const getAllQuestionRequest = async () => {
 
 };
 
-export const getQuestionRequest = async (questionId : number|string) => {
+export const getQuestionRequest = async (questionId : number|string|undefined) => {
     const result = await axios.get(GET_QUESTION_URL(questionId))
     .then(response => {
         const responseBody: GetQuestionResponseDto = response.data;
         return responseBody;
     })
     .catch(error => {
-        const responseBody : ResponseDto = error.response.data;
+        const responseBody : ResponseDto = error.response;
         return responseBody;
     });
     return result;
@@ -389,7 +388,7 @@ export const postQuestionRequest = async (requestBody : PostQuestionRequestDto) 
 }
 
 
-export const deleteQuestionRequest = async (questionId : number| string) => {
+export const deleteQuestionRequest = async (questionId : number| string ) => {
     const result = await axios.delete(DELETE_QUESTION_URL(questionId))
     .then(response => {
         const responseBody : DeleteQuestionResponseDto = response.data;
@@ -402,7 +401,8 @@ export const deleteQuestionRequest = async (questionId : number| string) => {
     });
     return result;
 };
-export const patchQuestionRequest = async(questionId : number| string , requestBody: PatchQuestionRequestDto) => {
+
+export const patchQuestionRequest = async(questionId : number| string | undefined , requestBody: PatchQuestionRequestDto) => {
     const result = await axios.patch(PATCH_QUESTION_URL(questionId),requestBody)
     .then(response => {
         const responseBody : PatchQuestionResponseDto = response.data;

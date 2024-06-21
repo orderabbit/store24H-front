@@ -193,7 +193,7 @@ export default function Write() {
 
         const postBoardResponse = (responseBody: PostProductResponseDto | ResponseDto | null) => {
             if (!responseBody) return;
-            const { code } = responseBody;
+            const { code } = responseBody.data;
             if (code === 'DBE') alert('데이터베이스 오류입니다.');
             if (code === 'AF' || code === 'NU') navigate(SIGNIN_PATH());
             if (code === 'VF') alert('모두 입력하세요.');

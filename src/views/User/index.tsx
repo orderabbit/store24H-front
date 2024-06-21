@@ -81,7 +81,7 @@ export default function MyPage() {
     setEmptyNicknameError(false);
 
     if (!responseBody) return;
-    const { code } = responseBody.data;
+    const { code } = responseBody;
     if (code === "VF") setEmptyNicknameError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
     if (code === "DN") setDuplicateNicknameError(true);

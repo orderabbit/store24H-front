@@ -21,9 +21,7 @@ const CartList: React.FC = () => {
     const [cookies, setCookie] = useCookies();
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [checkedProducts, setCheckedProducts] = useState<{
-        [key: number | string]: boolean;
-    }>({});
+    const [checkedProducts, setCheckedProducts] = useState<{[key: number | string]: boolean;}>({});
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
     const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
@@ -173,6 +171,7 @@ const CartList: React.FC = () => {
     const calculateProductTotalPrice = (product: Product) => {
         const quantity = quantities[product.productId] || 1;
         const price = parseFloat(product.lowPrice);
+        console.log("price", price, "quantity", quantity);
         return (quantity * price).toLocaleString();
     };
 
