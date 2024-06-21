@@ -14,4 +14,5 @@ export interface OrderItem {
   
 export default interface GetOrderListResponseDto extends ResponseDto {
     orderItems: Product[];
+    orderDatetime: string;
 }

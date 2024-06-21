@@ -1,5 +1,5 @@
 export default interface Product {
-    productId: string;
+    productId: number;
     title: string;
     content: string;
     lowPrice: string;
@@ -10,6 +10,9 @@ export default interface Product {
     count: number;
     productImageList: string[];
     secondaryProductImageList: string[];
+    purchaseDate?: string;
     writeDatetime: string;
     userId: string;
+    orderId: string;
+    orderDatetime: string;
 }

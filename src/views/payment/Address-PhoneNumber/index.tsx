@@ -32,6 +32,7 @@ const AddressPage = () => {
   const navigate = useNavigate();
   const selectedProducts: Product[] = location.state.selectedProducts || [];
   const selectedProductIds: Product[] = location.state.selectedProductIds || [];
+  const totalPrice: string = location.state.totalPrice || "0";
 
   const handlePostcodeSearch = () => {
     new window.daum.Postcode({
@@ -79,7 +80,7 @@ const AddressPage = () => {
       setPhoneNumberError("휴대폰 번호를 입력해주세요.");
       isValid = false;
     } else {
-      // Check phone number format
+
       const regex = /^\d{3}-\d{3,4}-\d{4}$/;
       if (!regex.test(phoneNumber)) {
         setPhoneNumberError("휴대폰 번호 형식을 확인해주세요. ex) 010-1234-5678");
@@ -100,6 +101,7 @@ const AddressPage = () => {
           postcode,
           detailAddress,
           phoneNumber,
+          totalPrice,
         },
       });
     }
@@ -113,14 +115,14 @@ const AddressPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
+    <form onSubmit={handleSubmit} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="address-home">
         <div className="address-whole-title">배송지</div>
         <div className="address-whole">
-          
+
           <div className="address-title">받는 사람 :</div>
           <div className="address-content">
-            <input type="text" name="name" value={name} onChange={handleInputChange}  />
+            <input type="text" name="name" value={name} onChange={handleInputChange} />
             {nameError && <p className="error-message">{nameError}</p>}
           </div>
           <br />
@@ -178,4 +180,3 @@ const AddressPage = () => {
 };
 
 export default AddressPage;
- 

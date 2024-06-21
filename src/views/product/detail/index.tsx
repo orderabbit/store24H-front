@@ -37,8 +37,8 @@ export default function Detail() {
         const primaryBody = primaryResponse as GetProductResponseDto;
         const secondaryBody = secondaryResponse as GetProductResponseDto;
 
-        const { code: primaryCode } = primaryBody.data;
-        const { code: secondaryCode } = secondaryBody.data;
+        const { code: primaryCode } = primaryBody;
+        const { code: secondaryCode } = secondaryBody;
 
         if (primaryCode === "NB" || secondaryCode === "NB") {
             alert("존재하지 않습니다.");
@@ -69,7 +69,7 @@ export default function Detail() {
 
     const deleteProductResponse = (responseBody: DeleteProductResponseDto | ResponseDto | null) => {
         if (!responseBody) return;
-        const { code } = responseBody.data;
+        const { code } = responseBody;
         if (code === "VF") alert("잘못된 접근입니다.");
         if (code === "NU") alert("존재하지 않는 유저입니다.");
         if (code === "NB") alert("존재하지 않습니다.");
@@ -113,7 +113,6 @@ export default function Detail() {
                 console.error('Error fetching product:', error);
             });
     }, [Number]);
-
 
     if (!product) return <></>;
     return (

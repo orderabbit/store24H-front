@@ -37,8 +37,7 @@ export default function SearchList() {
             if (searchKeyword) {
                 try {
                     const response = await GetSearchProductListRequest(searchKeyword);
-                    console.log(response?.searchList);
-                    if (!response) return;
+                    if (!response?.searchList) return;
 
                     console.log(response.searchList);
                     let fetchedProducts = response.searchList;
@@ -96,7 +95,6 @@ export default function SearchList() {
             productImageList: product.productImageList,
             lowPrice: product.lowPrice,
             totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
-
             category1: product.category1,
             category2: product.category2,
             category3: product.category3,
@@ -163,14 +161,14 @@ export default function SearchList() {
         return parseFloat(price).toLocaleString();
     };
 
-    const incrementQuantity = (productId: string) => {
+    const incrementQuantity = (productId: number) => {
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
             [productId]: (prevQuantities[productId] || 1) + 1,
         }));
     };
 
-    const decrementQuantity = (productId: string) => {
+    const decrementQuantity = (productId: number) => {
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
             [productId]: Math.max((prevQuantities[productId] || 1) - 1, 1),

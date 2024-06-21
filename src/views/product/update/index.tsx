@@ -109,7 +109,7 @@ export default function Update() {
 
     const onProductIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        setProductId(value);
+        setProductId(parseInt(value, 10));
 
         if (!productIdRef.current) return;
         productIdRef.current.style.height = 'auto';

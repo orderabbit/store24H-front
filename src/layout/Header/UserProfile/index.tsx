@@ -34,7 +34,7 @@ export default function UserProfile({ isProfileOpen, setIsProfileOpen }: { isPro
     if(!loginUser){
       navigate(SIGNIN_PATH());
     }else {
-      navigate('/order/list');
+      navigate(`/order/list/${loginUser.userId}`);
     }
   };
 
