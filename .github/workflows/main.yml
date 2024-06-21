@@ -34,6 +34,7 @@ jobs:
       - name: 빌드
         run: 
           sudo npm run build
+          ls
 
       - name: executing remote ssh commands using key
         uses: appleboy/scp-action@master
