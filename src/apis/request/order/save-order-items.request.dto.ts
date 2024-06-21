@@ -1,4 +1,5 @@
 export default interface SaveOrderItemsRequestDto {
+    productId: string;
     title: string;
     productImageList: string[];
     lowPrice: string;
@@ -6,4 +7,5 @@ export default interface SaveOrderItemsRequestDto {
     category2: string;
     category3: string;
     count: string;
+    orderDatetime: Date;
 }

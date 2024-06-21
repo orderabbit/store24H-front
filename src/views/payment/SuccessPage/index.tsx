@@ -18,6 +18,7 @@ export function SuccessPage() {
       productIds: searchParams.get("productIds"),
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
+      paymentDatetime: searchParams.get("paymentDatetime"),
     };
 
     async function confirm() {

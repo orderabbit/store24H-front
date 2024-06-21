@@ -1,5 +1,5 @@
 export default interface PatchProductRequestDto {
-    productId: string;
+    productId: number;
     title: string;
     content: string;
     image: string;

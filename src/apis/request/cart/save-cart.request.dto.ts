@@ -1,5 +1,5 @@
 export default interface SaveCartRequestDto {
-    productId: string;
+    productId: number;
     title: string;
     productImageList: string[];
     lowPrice: string;
