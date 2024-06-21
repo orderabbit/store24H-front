@@ -36,7 +36,8 @@ export default function SignIn() {
     const signInResponse = (responseBody: ResponseBody<SignInResponseDto>) => {
 
         if (!responseBody) return;
-        const { code } = responseBody.data;
+        else{
+            const { code } = responseBody.data;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디와 비밀번호를 입력하세요.');
         if (code === ResponseCode.SING_IN_FAIL) setMessage('로그인 정보가 일치하지 않습니다.');
         if (code === ResponseCode.DATABASE_ERROR) alert('데이터베이스 오류입니다.');
@@ -50,6 +51,7 @@ export default function SignIn() {
         setCookie('accessToken', token, { expires, path: MAIN_PATH() });
         navigate(MAIN_PATH());
         alert('로그인 되었습니다.');
+        }
     };
 
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
