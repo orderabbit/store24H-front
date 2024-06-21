@@ -97,7 +97,7 @@ const QuestionDetail: React.FC = () => {
   if (!question) {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
-  const isUserAuthorized = loginUser && loginUser.userId ===question.userId;
+  const isUserAuthorized = loginUser && loginUser.userId === question.userId;
   return (
     <table className="inquire">
       <h2 className="inquire-title">문의 내역 상세보기</h2>
@@ -125,12 +125,12 @@ const QuestionDetail: React.FC = () => {
         </tr>
       </tbody>
       <button onClick={() => navigator("/question")}>취소</button>
-      {isUserAuthorized && (
-        <div>
-          <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
-          <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
-        </div>
-      )}
+      <div className="inquire-update">
+        <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
+      </div>
+      <div className="inquire-delete">
+        <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
+      </div>
     </table>
   );
 };

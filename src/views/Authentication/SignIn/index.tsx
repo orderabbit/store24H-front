@@ -51,7 +51,7 @@ export default function SignIn() {
         navigate(MAIN_PATH());
         alert('로그인 되었습니다.');
         }
-    };
+    
 
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;

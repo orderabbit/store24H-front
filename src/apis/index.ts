@@ -40,7 +40,7 @@ const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
 const GET_ALL_ANSWER_URL = () => `${API_DOMAIN}/question/answer/list`;
 const POST_ANSWER_URL = () => `${API_DOMAIN}/question/answer`;
 const PATCH_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/${answerId}`;
-const GET_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/detail/${answerId}`;
+const GET_ANSWER_URL = (questionId : number | string) => `${API_DOMAIN}/question/answer/detail/${questionId}`;
 const DELETE_ANSWER_URL = (answerId : number | string) => `${API_DOMAIN}/question/answer/delete/${answerId}`;
 
 const GET_ALL_QUESTION_URL = () => `${API_DOMAIN}/question/list`;
@@ -294,8 +294,8 @@ export const getAllAnswerRequest = async () => {
 
 };
 
-export const getAnswerRequest = async (answerId : number|string) => {
-    const result = await axios.get(GET_ANSWER_URL(answerId))
+export const getAnswerRequest = async (questionId : number|string) => {
+    const result = await axios.get(GET_ANSWER_URL(questionId))
     .then(response => {
         const responseBody: GetAnswerResponseDto = response.data;
         return responseBody;

@@ -1,4 +1,5 @@
 export default interface Question {
+    answers: boolean;
     questionId : number | string;
     title: string;
     content: string;
