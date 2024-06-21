@@ -50,8 +50,8 @@ export default function SignIn() {
         setCookie('accessToken', token, { expires, path: MAIN_PATH() });
         navigate(MAIN_PATH());
         alert('로그인 되었습니다.');
-        }
-    };
+    }
+
 
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -108,11 +108,11 @@ export default function SignIn() {
         }
         if (code === 'VF') alert('이메일을 입력하세요.');
         if (code === 'DBE') alert('데이터베이스 오류입니다.');
-        if (code === 'NU'){
+        if (code === 'NU') {
             setIsEmailError(true);
             setEmailMessage('가입되지 않은 이메일입니다.');
         }
-        if (code === 'SU'){
+        if (code === 'SU') {
             setIsEmailError(false);
             setEmailMessage('이메일 전송 완료');
         }
@@ -170,11 +170,11 @@ export default function SignIn() {
                 </div>
             </div>
             {showRecoveryBox && (
-                        <div className="recovery-password-box">
-                            <InputBox ref={emailRef} title="이메일" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
-                            <div className="primary-button-small recovery-password-button" onClick={handleRecoverPassword}>{'비밀번호 찾기'}</div>
-                        </div>
-                    )}
+                <div className="recovery-password-box">
+                    <InputBox ref={emailRef} title="이메일" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
+                    <div className="primary-button-small recovery-password-button" onClick={handleRecoverPassword}>{'비밀번호 찾기'}</div>
+                </div>
+            )}
         </div>
     )
 }
