@@ -114,17 +114,13 @@ export default function Detail() {
             });
     }, [Number]);
 
+
     if (!product) return <></>;
     return (
-        <div id="product-detail-top">
-            <div className="product-detail-top-header">
-                <div className="product-detail-title">{product.title}</div>
-                <div className="product-detail-top-sub-box">
-                    <div className="product-detail-write-info-box">
-                        <div className="product-detail-write-date">
-                            {getWriteDatetimeFormat()}
-                        </div>
-                    </div>
+        <div id="product-detail-wrapper">
+            <div className="product-detail-container">
+                <div className="product-top-header">
+                    <div className="product-detail-top-sub-box">
                     {isUser && (
                         <button onClick={onMoreButtonClickHandler}>{'more'}</button>
                     )}
@@ -145,17 +141,38 @@ export default function Detail() {
                             </div>
                         </div>
                     )}
+                    </div>
+                    <div className="product-detail-write-date">{getWriteDatetimeFormat()}</div>
                 </div>
-            </div>
-            <div className="divider"></div>
-            <div className="product-detail-top-main">
-                <div className="product-detail-main-text">{product.content}</div>
-                {product.productImageList.map((image) => (
-                    <img key={image} className="product-detail-main-image" src={image} />
-                ))}
-                {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
-                    <img key={image} className="product-detail-main-image" src={image} />
-                ))}
+                <div className="detail-top-content">
+                    <div className="product-detail-thumbnail">
+                        {product.productImageList.map((image) => (
+                        <img key={image} className="product-detail-main-image" src={image} />
+                        ))}
+                    </div>
+                    <div className="product-detail-info">
+                        <div className="product-detail-title">{product.title}</div>
+                        <div className="product-detail-main-text">{product.content}</div>
+                        <div className="product-detail-lowPrice">{product.lowPrice} 원</div>
+                        <div className="divider"></div>
+                        <div>등록자 : {product.userId}</div>
+                        <div className="product-detail-imagebar">
+                        {product.productImageList.map((image) => (
+                        <img key={image} className="product-detail-imagebar" src={image} />
+                        ))}
+                        {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
+                        <img key={image} className="product-detail-imagebar" src={image} />
+                        ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="detail-middle-content">
+                    <div className="product-detail-image">
+                        {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
+                        <img key={image} className="product-detail-middle-image" src={image} />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )
