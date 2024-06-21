@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteQuestionRequest, getQuestionRequest } from "apis";
 import Question from "types/interface/question.interface";
-import { UPDATE_PATH } from "constant";
+import { useLoginUserStore } from "stores";
 import { DeleteQuestionResponseDto } from "apis/response/question";
 import { ResponseDto } from "apis/response";
 import "./style.css";
@@ -11,9 +11,9 @@ const QuestionDetail: React.FC = () => {
   const { questionId } = useParams();
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(false);
   const [posts, setPosts] = useState<Question[]>([]);
   const navigator = useNavigate();
+  const {loginUser} = useLoginUserStore();
   const [deletingQuestionId, setDeletingQuestionId] = useState<number | null>(
     null
   );
@@ -97,7 +97,7 @@ const QuestionDetail: React.FC = () => {
   if (!question) {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
-
+  const isUserAuthorized = loginUser && loginUser.userId ===question.userId;
   return (
     <table className="inquire">
       <h2 className="inquire-title">문의 내역 상세보기</h2>
@@ -125,12 +125,12 @@ const QuestionDetail: React.FC = () => {
         </tr>
       </tbody>
       <button onClick={() => navigator("/question")}>취소</button>
-      <div className="inquire-update">
-        <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
-      </div>
-      <div className="inquire-delete">
-        <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
-      </div>
+      {isUserAuthorized && (
+        <div>
+          <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
+          <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
+        </div>
+      )}
     </table>
   );
 };

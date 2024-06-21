@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getQuestionRequest, patchQuestionRequest, postQuestionRequest } from "apis";
+import { getQuestionRequest, patchQuestionRequest} from "apis";
 import Question from "types/interface/question.interface";
 import { useLoginUserStore } from "stores";
-import { PatchQuestionRequestDto, PostQuestionRequestDto } from "apis/request/question";
+import { PostQuestionRequestDto } from "apis/request/question";
 
 export default function Update() {
   const params = useParams();
@@ -16,9 +16,8 @@ export default function Update() {
   const [email, setEmail] = useState("");
   const { loginUser } = useLoginUserStore();
   const [errorMessage, setErrorMessage] = useState("");
-  const [loggedInUserId, setLoggedInUserId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  
+  const [loggedInUserId, setLoggedInUserId] = useState("");
   const [question, setQuestion] = useState<Question | null>(null);
   const [postRequest, setPostRequest] = useState<PostQuestionRequestDto>({
     title: "",
@@ -28,23 +27,7 @@ export default function Update() {
     email: "",
   });
 
-  // useEffect(() => {
-  //     const fetchQuestionDetails = async () => {
-  //         try {
-  //             const response = await getQuestionRequest(questionId);
-  //             if ('title' in response && 'content' in response&& 'userId' in response&& 'type' in response&& 'email' in response) {
-  //                 const { title, content,userId,type,email } = response;
-  //                 setPostRequest({ title, content,userId,type,email });
-  //             } else {
-  //                 alert('질문 정보를 불러오는 데 실패했습니다.');
-  //             }
-  //         } catch (error) {
-  //             console.error('질문 정보를 불러오는 중 오류가 발생했습니다:', error);
-  //             alert('질문 정보를 불러오는 중 오류가 발생했습니다.');
-  //         }
-  //     };
-  //     fetchQuestionDetails();
-  // }, []);
+ 
   useEffect(() => {
     const userId = loginUser?.userId;
     if (!userId) return;
@@ -56,7 +39,6 @@ export default function Update() {
     const fetchQuestion = async () => {
       try {
         const response = await getQuestionRequest(questionId);
-        // console.log(response)
         const { title, content, userId, type, email } = response as Question;
         if (!title || !content || !userId || !type || !email) {
           throw new Error("Invalid response structure");
@@ -72,16 +54,7 @@ export default function Update() {
     fetchQuestion();
   }, [questionId]);
   
-  // const handleInputChange = (
-  //   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  // ) => {
-  //   const { name, value } = event.target;
-  //   setPostRequest((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
+  
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setPostRequest((prevState) => ({
@@ -137,43 +110,6 @@ export default function Update() {
       type: selectedType, // 실제 선택된 값으로 업데이트
     }));
   };
-  // const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-  //   setType(event.target.value);
-  //   setPostRequest((prevState) => ({
-  //     ...prevState,
-  //     type: event.target.value,
-  //   }));
-  // };
-  
-  // const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedType = event.target.value; // 숫자 형태의 값이 들어옴
-  //   let typeString = ""; // 변환된 문자열을 저장할 변수
-
-  //   switch (
-  //     selectedType // 선택된 값에 따라 문자열로 변환
-  //   ) {
-  //     case "1":
-  //       typeString = "문의 유형을 선택해주세요.";
-  //       break;
-  //     case "2":
-  //       typeString = "배송 /수령예정일 안내";
-  //       break;
-  //     case "3":
-  //       typeString = "주문 / 결제";
-  //       break;
-  //     case "4":
-  //       typeString = "회원정보 안내";
-  //       break;
-  //     case "5":
-  //       typeString = "반품 /교환/ 환불 안내";
-  //       break;
-  //     default:
-  //       typeString = ""; // 기본값 처리
-  //       break;
-  //   }
-
-  //   setType(selectedType); // 변환된 문자열을 state에 저장
-  // };
   const cancelClickHandler = () => {
     navigate("/question");
   };
@@ -192,24 +128,27 @@ export default function Update() {
         setErrorMessage("질문 수정 중 오류가 발생했습니다");
       }
   };
+
+  const getTypeString = (type: string) => {
+    switch (type) {
+      case "1":
+        return "문의 유형을 선택해주세요.";
+      case "2":
+        return "배송 /수령예정일 안내";
+      case "3":
+        return "주문 / 결제";
+      case "4":
+        return "회원정보 안내";
+      case "5":
+        return "반품 /교환/ 환불 안내";
+      default:
+        return "알 수 없는 유형";
+    }
+  };
+
   if (!question) {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
-//   const updatePost = async () => {
-//     try {
-//       const result = await patchQuestionRequest(questionId, postRequest);
-//       if (result && result.data.code === "SU") {
-//         alert("질문 수정 완료");
-//         navigate("/");
-//       } else {
-//         setErrorMessage("질문 수정 실패");
-//       }
-//     } catch (error) {
-//       console.error("질문 수정 중 오류가 발생했습니다:", error);
-//       setErrorMessage("질문 수정 중 오류가 발생했습니다");
-//     }
-//   };
-
   return (
     <tr className="inquire">
     <h2 className="inquire-title">1대1 문의 접수</h2>
@@ -220,7 +159,7 @@ export default function Update() {
       </tr>
       <tr>
       <th>문의유형</th>
-      <td>{question.type}</td>
+      <td>{getTypeString(question.type)}</td>
       <td>
         <label htmlFor="inquire"></label>
         <select id="inquire" value={type} onChange={handleTypeChange}>
