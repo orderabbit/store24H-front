@@ -11,12 +11,9 @@ const QuestionDetail: React.FC = () => {
   const { questionId } = useParams();
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState<Question[]>([]);
-  const navigator = useNavigate();
-  const {loginUser} = useLoginUserStore();
-  const [deletingQuestionId, setDeletingQuestionId] = useState<number | null>(
-    null
-  );
+  const navigate = useNavigate();
+  const { loginUser } = useLoginUserStore(); // 로그인한 사용자 정보를 가져옴
+  const [deletingQuestionId, setDeletingQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -40,34 +37,24 @@ const QuestionDetail: React.FC = () => {
 
   const updatePostClickHandler = (questionId: number | string | undefined) => {
     if (!questionId) return;
-    navigator(`/question/update/${questionId}`);
+    navigate(`/question/update/${questionId}`);
   };
- 
-  const getTypeString = (selectedType: string): string => {
-    let typeString = "";
 
+  const getTypeString = (selectedType: string): string => {
     switch (selectedType) {
       case "1":
-        typeString = "문의 유형을 선택해주세요.";
-        break;
+        return "문의 유형을 선택해주세요.";
       case "2":
-        typeString = "배송 /수령예정일 안내";
-        break;
+        return "배송 /수령예정일 안내";
       case "3":
-        typeString = "주문 / 결제";
-        break;
+        return "주문 / 결제";
       case "4":
-        typeString = "회원정보 안내";
-        break;
+        return "회원정보 안내";
       case "5":
-        typeString = "반품 /교환/ 환불 안내";
-        break;
+        return "반품 /교환/ 환불 안내";
       default:
-        typeString = ""; // 기본값 처리
-        break;
+        return "알 수 없는 유형";
     }
-
-    return typeString;
   };
 
   const deletePostClickHandler = (questionId: number | string | undefined) => {
@@ -77,13 +64,13 @@ const QuestionDetail: React.FC = () => {
     }
     deleteQuestionRequest(questionId).then(deleteQuestionResponse);
   };
+
   const deleteQuestionResponse = (
     responseBody: DeleteQuestionResponseDto | ResponseDto | null
   ) => {
     if (responseBody && responseBody.code === "SU") {
       alert("해당 문의가 삭제되었습니다.");
-      setPosts(posts.filter((post) => post.questionId !== deletingQuestionId));
-      navigator("/question");
+      navigate("/question");
     } else {
       alert("삭제 실패");
     }
@@ -97,41 +84,44 @@ const QuestionDetail: React.FC = () => {
   if (!question) {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
-  const isUserAuthorized = loginUser && loginUser.userId === question.userId;
-  return (
-    <table className="inquire">
-      <h2 className="inquire-title">문의 내역 상세보기</h2>
-      <tbody>
-        <tr>
-          <th>문의 ID</th>
-          <td>{question.userId}</td>
-        </tr>
-        <tr>
-          <th>문의유형</th>
-          <td>{getTypeString(question.type)}</td>
-        </tr>
 
-        <tr>
-          <th>제목</th>
-          <td>{question.title}</td>
-        </tr>
-        <tr>
-          <th>내용</th>
-          <td>{question.content}</td>
-        </tr>
-        <tr>
-          <th>이메일</th>
-          <td>{question.email}</td>
-        </tr>
-      </tbody>
-      <button onClick={() => navigator("/question")}>취소</button>
-      <div className="inquire-update">
-        <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
-      </div>
-      <div className="inquire-delete">
-        <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
-      </div>
-    </table>
+  const isUserAuthorized = loginUser && loginUser.userId === question.userId;
+
+  return (
+    <div className="inquire">
+      <h2 className="inquire-title">문의 내역 상세보기</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th>문의 ID</th>
+            <td>{question.userId}</td>
+          </tr>
+          <tr>
+            <th>문의유형</th>
+            <td>{getTypeString(question.type)}</td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td>{question.title}</td>
+          </tr>
+          <tr>
+            <th>내용</th>
+            <td>{question.content}</td>
+          </tr>
+          <tr>
+            <th>이메일</th>
+            <td>{question.email}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button onClick={() => navigate("/question")}>취소</button>
+      {isUserAuthorized && (
+        <div>
+          <button onClick={() => updatePostClickHandler(questionId)}>수정</button>
+          <button onClick={() => deletePostClickHandler(questionId)}>삭제</button>
+        </div>
+      )}
+    </div>
   );
 };
 
