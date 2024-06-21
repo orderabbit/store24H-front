@@ -1,6 +1,4 @@
-import { deleteQuestionRequest, getAllQuestionRequest } from 'apis';
-import { DeleteQuestionResponseDto } from 'apis/response/question';
-import ResponseDto from 'apis/response/response.dto';
+import { getAllQuestionRequest } from 'apis';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Question from 'types/interface/question.interface';
@@ -16,7 +14,6 @@ const QuestionList: React.FC = () => {
     const fetchPosts = async () => {
       try {
         const result = await getAllQuestionRequest();
-        console.log(result)
         if (!result) return;
         const { code, questions } = result;
         if (code === 'DBE') {
@@ -50,7 +47,12 @@ const QuestionList: React.FC = () => {
         <div className="inquire-result">
           {posts.map((post,index) => (
             <li className="inquire-result-main" key={post.questionId}>
-              <div className='inquire-result-title' onClick={() => navigator(`/question/detail/${post.questionId}`)}>{index + 1}. {post.title}</div>
+              <div className='inquire-result-title' onClick={() => navigator(`/question/detail/${post.questionId}`)}>
+                  {index + 1}. {post.title}
+                  {post.answers && Array.isArray(post.answers) && post.answers.length > 0 && (
+                  <span className="answer-count"> ({post.answers.length} 답변)</span>
+                )}
+              </div>
               <div className="inquire-result-userId">{post.userId}</div>
             </li>
           ))}

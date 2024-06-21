@@ -61,3 +61,8 @@ font-size : 25px;
     font-weight: 600;
 
 }
+.answer-count {
+    color: red;
+    margin-left: 5px;
+  }
+  
