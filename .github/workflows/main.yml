@@ -35,15 +35,7 @@ jobs:
         run: 
           sudo npm run build
 
-      - name: executing remote ssh commands using key
-        uses: appleboy/scp-action@master
-        with:
-          host: 3.35.30.191
-          username: ubuntu
-          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
-          port: 22
-          source: /github/workspace/build
-          target: /home/ubuntu/store24H-front/build
+      
 
       - name: Add SSH key
         run: |
