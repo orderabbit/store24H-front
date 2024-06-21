@@ -284,7 +284,7 @@ export default function Update() {
             if (!productId) {
                 alert('존재하지 않는 상품입니다.');
             } else {
-                const requestBody: PatchProductRequestDto = { productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList }
+                const requestBody: PatchProductRequestDto = { productId, title, content, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList }
                 PatchProductRequest(productId, requestBody, accessToken).then(patchBoardResponse);
             }
         }

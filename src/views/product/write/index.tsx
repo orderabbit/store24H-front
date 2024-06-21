@@ -40,7 +40,7 @@ export default function Write() {
     const [cookies, setCookies] = useCookies();
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [secondaryImageUrls, setSecondaryImageUrls] = useState<string[]>([]);
-    
+
 
     const navigate = useNavigate();
 
@@ -246,23 +246,11 @@ export default function Write() {
             if (productImageList.length > 0) {
                 image = productImageList[0];
             }
-
-            const isWritePage = pathname === '/product/write';
-            if (isWritePage) {
-                const requestBody: PostProductRequestDto = {
-                    productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
-                }
-                console.log(requestBody);
-                PostProductRequest(requestBody, accessToken).then(postBoardResponse);
-            } else {
-                if (!productId) {
-                    alert('존재하지 않는 상품입니다.');
-                } else {
-                    const requestBody: PatchProductRequestDto = { productId, title, content, image, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList }
-                    PatchProductRequest(productId, requestBody, accessToken).then(patchBoardResponse);
-                }
+            const requestBody: PostProductRequestDto = {
+                productId, title, content, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
             }
-            
+            console.log(requestBody);
+            PostProductRequest(requestBody, accessToken).then(postBoardResponse);
         }
 
         if (title && content && productImageFileList.length > 0)
@@ -293,12 +281,12 @@ export default function Write() {
                             <div className='product-write-content-image-button'>
                                 <button onClick={onImageUploadButtonClickHandler}>
                                     <img src={uploadPhotoIcon} alt="대표 이미지 등록" className="icon" />
-                                        {'대표 이미지 등록'}
+                                    {'대표 이미지 등록'}
                                 </button>
                                 <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onImageChangeHandler} />
                                 <button onClick={onSecondaryImageUploadButtonClickHandler}>
                                     <img src={uploadPhotoIcon} alt="대표 이미지 등록" className="icon" />
-                                        {'이미지 등록'}
+                                    {'이미지 등록'}
                                 </button>
                                 <input ref={secondaryImageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onSecondaryImageChangeHandler} />
                             </div>
@@ -338,9 +326,9 @@ export default function Write() {
                     <li className='product-write-title-box'>
                         <div>카테고리</div>
                         <div className='product-write-content-box'>
-                        <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
-                        <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                        <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
+                            <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
+                            <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
+                            <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
                         </div>
                     </li>
                 </ul>
