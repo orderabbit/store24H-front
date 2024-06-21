@@ -61,7 +61,7 @@ export default function SignUp() {
 
     const userIdCheckResponse = (responseBody: ResponseBody<userIdCheckResponseDto>) => {
         if (!responseBody) return;
-        const { code } = responseBody.data;
+        const { code } = responseBody.data.items;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디를 입력하세요.');
         if (code === ResponseCode.DUPLICATE_ID) {
             setUserIdError(true);
