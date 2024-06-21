@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { useLoginUserStore } from "stores";
-import { useCookies } from "react-cookie";
-import { GetProductListRequest, postOrderListRequest, postPaymentRequest } from "apis";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { postOrderListRequest } from "apis";
 import { Product } from "types/interface";
 
 const selector = "#payment-widget";
@@ -93,7 +92,6 @@ export function CheckoutPage(): JSX.Element {
         count: product.count,
       }));
 
-      console.log(new Date().toISOString())
       const orderData = {
         orderId: nanoid().trim(),
         userId: loginUser.userId,
@@ -127,7 +125,8 @@ export function CheckoutPage(): JSX.Element {
                       &customerPhone=${phoneNumber.trim()}
                       &productIds=${encodeURIComponent(JSON.stringify(selectedProductIds))}
                       &amount=${parseFloat(totalAmount.toString().trim())}
-                      &paymentKey=${clientKey}`,
+                      &paymentKey=${clientKey}
+                      &selectedProducts=${selectedProducts}`,
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {

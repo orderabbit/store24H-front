@@ -14,5 +14,6 @@ export default interface Product {
     writeDatetime: string;
     userId: string;
     orderId: string;
+    orderList: any;
     orderDatetime: string;
 }
