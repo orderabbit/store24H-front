@@ -16,9 +16,10 @@ export function CheckoutPage(): JSX.Element {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
+  const [paymentDate, setPaymentDate] = useState<string>(new Date().toISOString());
   const { loginUser } = useLoginUserStore();
   const location = useLocation();
-  const { selectedProducts, name, address, postcode, detailAddress, phoneNumber } = location.state || {};
+  const { selectedProducts, name, address, postcode, detailAddress, phoneNumber, totalPrice } = location.state || {};
 
   const paymentMethodsWidgetRef = useRef<any>(null);
 
@@ -31,7 +32,7 @@ export function CheckoutPage(): JSX.Element {
 
   useEffect(() => {
     if (selectedProducts && selectedProducts.length > 0) {
-      const total = selectedProducts.reduce((sum: number, product: { lowPrice: string; }) => sum + parseFloat(product.lowPrice), 0);
+      const total = selectedProducts.reduce((sum: number, product: { lowPrice: string; count: number; }) => sum + parseFloat(product.lowPrice) * product.count, 0);
       setTotalAmount(total);
     }
   }, [selectedProducts]);
@@ -80,9 +81,6 @@ export function CheckoutPage(): JSX.Element {
         alert("로그인이 필요합니다.");
         return;
       }
-
-      console.log("selectedProducts", selectedProducts);
-      console.log("totalAmount", totalAmount);  
       const orderItems = selectedProducts.map((product: Product) => ({
         productId: product.productId,
         title: product.title,
@@ -95,10 +93,12 @@ export function CheckoutPage(): JSX.Element {
         count: product.count,
       }));
 
+      console.log(new Date().toISOString())
       const orderData = {
         orderId: nanoid().trim(),
         userId: loginUser.userId,
         items: orderItems,
+        orderDatetime: new Date().toISOString(),
       };
 
       const orderResponse = await postOrderListRequest(orderData);
@@ -118,6 +118,7 @@ export function CheckoutPage(): JSX.Element {
         customerPhone: phoneNumber,
         customerAddress: `${postcode.trim()} ${address.trim()} ${detailAddress.trim()}`,
         amount: totalAmount,
+        paymentKey: clientKey,
         successUrl: `${window.location.origin}/success?orderId=${loginUser.userId}_${nanoid()}
                       &customerId=${loginUser.userId.trim()}
                       &customerName=${loginUser.nickname.trim()}
@@ -147,6 +148,9 @@ export function CheckoutPage(): JSX.Element {
           >
             결제하기
           </button>
+          <div>
+            <p>결제 날짜: {new Date(paymentDate).toLocaleString()}</p>
+          </div>
         </div>
       </div>
     </div>

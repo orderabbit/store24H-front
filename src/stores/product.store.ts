@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface ProductStore {
-    productId: string;
+    productId: number;
     title: string;
     content: string;
     image: string;
@@ -12,7 +12,7 @@ interface ProductStore {
     userId: string;
     productImageFileList: File[];
     secondaryProductImageFileList: File[];
-    setProductId: (productId: string) => void;
+    setProductId: (productId: number) => void;
     setTitle: (title: string) => void;
     setContent: (content: string) => void;
     setImage: (image: string) => void;
@@ -27,7 +27,7 @@ interface ProductStore {
 };
 
 const useProductStore = create<ProductStore>(set => ({
-    productId: '',
+    productId: 0,
     title: '',
     content: '',
     image: '',
@@ -50,7 +50,7 @@ const useProductStore = create<ProductStore>(set => ({
     setProductImageFileList: (productImageFileList) => set(state => ({ ...state, productImageFileList})),
     setSecondaryProductImageFileList: (secondaryProductImageFileList) => set(state => ({ ...state, secondaryProductImageFileList})),
     resetProduct: () => set(state => ({ ...state,
-        productId: '',
+        productId: 0,
         title: '',
         content: '',
         image: '',

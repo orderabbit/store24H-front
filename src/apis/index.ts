@@ -4,7 +4,7 @@ import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteCartResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
+import { DeleteCartResponseDto, DeleteOrderListResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSearchBoardListResponseDto } from "./response/product";
@@ -74,6 +74,7 @@ const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
 
 const POST_ORDER_LIST_URL = () => `${API_DOMAIN}/orders/saveOrderInfo`;
 const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${userId}`;
+const DELETE_ORDER_LIST_URL = (orderId: string) => `${API_DOMAIN}/orders/delete/${orderId}`;
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product`;
 const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}`;
@@ -438,6 +439,18 @@ export const getOrderListRequest = async (userId: string): Promise<GetOrderListR
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response.data as GetOrderListResponseDto;
+        }
+        return null;
+    }
+};
+
+export const deleteOrderListRequest = async (orderId: string): Promise<ResponseDto | null> => {
+    try {
+        const response = await axios.delete<DeleteOrderListResponseDto>(DELETE_ORDER_LIST_URL(orderId));
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data as ResponseDto;
         }
         return null;
     }
