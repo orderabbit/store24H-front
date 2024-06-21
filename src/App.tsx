@@ -24,9 +24,9 @@ import QuestionHome from 'views/inquire/user/question/main';
 import QuestionWrite from 'views/inquire/user/question/write';
 import QuestionUpdate from 'views/inquire/user/question/update';
 import QuestionDetail from 'views/inquire/user/question/detail';
-import AnswerHome from 'views/inquire/admin/answer/main';
-import AnswerWrite from 'views/inquire/admin/answer/write';
-import AnswerUpdate from 'views/inquire/admin/answer/update';
+// import AnswerHome from 'views/inquire/admin/answer/main';
+// import AnswerWrite from 'views/inquire/admin/answer/write';
+// import AnswerUpdate from 'views/inquire/admin/answer/update';
 
 
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';

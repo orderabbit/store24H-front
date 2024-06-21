@@ -309,6 +309,7 @@ export const getAnswerRequest = async (questionId : number|string) => {
 };
 
 export const postAnswerRequest = async (requestBody : PostAnswerRequestDto) => {
+    console.log(requestBody)
     const result = await axios.post(POST_ANSWER_URL(),requestBody)
     .then(response => {
         const responseBody: PostAnswerResponseDto = response.data;
