@@ -5,12 +5,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 export default function Container() {
 
-    const {pathname} = useLocation();
-
   return (
     <>
-        <Header />
-        <Outlet />
+      <Header />
+      <Outlet />
     </>
   )
 }

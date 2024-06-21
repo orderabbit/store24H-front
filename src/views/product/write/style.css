@@ -1,0 +1,150 @@
+.product-write-container {
+    margin-top: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;;
+    max-width: 1200px; /* 원하는 최대 너비 설정 */
+    margin-left: auto; /* 화면 가운데 정렬을 위해 왼쪽 마진을 자동으로 설정 */
+    margin-right: auto; /* 화면 가운데 정렬을 위해 오른쪽 마진을 자동으로 설정 */
+}
+
+.write-product-title {
+    height: 100px;
+    color: rgb(25, 25, 25);
+    font-style: initial;
+    font-size: 2rem;
+    font-weight: 800;
+    display: flex;
+    
+    align-items: center;
+    border-bottom: 2px solid rgb(25, 25, 25);
+}
+
+.product-write-box {
+    list-style-type: none; /* li 태그의 점표시 없애기 */
+    padding: 0;
+}
+
+.product-write-box li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.product-write-title-box div:first-child, 
+.product-write-content-box div:first-child,
+.product-write-icon-box div:first-child {
+    flex: 0 0 120px; /* 라벨의 너비 조정 */
+    font-weight: bold;
+}
+
+
+.product-write-content-box{
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.product-write-content-inputarea{
+    flex: 1;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.product-write-content-inputarea-price{
+    padding: 10px;
+    width: 306px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+.product-write-content-image-button {
+    display: flex;
+    gap: 10px;
+}
+
+
+.product-write-content-image-button button {
+    display: flex;
+    padding: 10px;
+    width: 150px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+}
+
+.product-write-content-image-button .icon {
+    width: 40px;
+    height: 40px; 
+    margin-bottom: 5px;
+}
+
+.product-write-image {
+    max-width: 300px;
+    max-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.product-write-images-box {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.product-write-image-box {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.icon-button.image-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+.representative-image-label {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+}
+
+.disable-button, .black-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.disable-button {
+    color: #ffffff;
+}
+
+.black-button {
+    background-color: #007bff;
+    color: #fff;
+}

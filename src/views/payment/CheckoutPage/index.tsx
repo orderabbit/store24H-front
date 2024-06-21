@@ -5,6 +5,7 @@ import { useLoginUserStore } from "stores";
 import { useCookies } from "react-cookie";
 import { GetProductListRequest, postOrderListRequest, postPaymentRequest } from "apis";
 import { useLocation, useSearchParams } from "react-router-dom";
+import { Product } from "types/interface";
 
 const selector = "#payment-widget";
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
@@ -80,13 +81,17 @@ export function CheckoutPage(): JSX.Element {
         return;
       }
 
-      const orderItems = selectedProducts.map((product: any) => ({
+      console.log("selectedProducts", selectedProducts);
+      console.log("totalAmount", totalAmount);  
+      const orderItems = selectedProducts.map((product: Product) => ({
+        productId: product.productId,
         title: product.title,
-        link: product.link,
-        image: product.image,
-        totalPrice: parseFloat(product.lowPrice) * product.count,
+        productImageList: product.productImageList,
+        amount: totalAmount,
+        lowPrice: product.lowPrice,
         category1: product.category1,
         category2: product.category2,
+        category3: product.category3,
         count: product.count,
       }));
 
@@ -96,7 +101,6 @@ export function CheckoutPage(): JSX.Element {
         items: orderItems,
       };
 
-      // 주문 정보 저장
       const orderResponse = await postOrderListRequest(orderData);
       console.log("orderResponse", orderResponse);
       if (!orderResponse) {

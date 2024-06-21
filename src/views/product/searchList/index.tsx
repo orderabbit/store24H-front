@@ -27,22 +27,21 @@ export default function SearchList() {
     const navigate = useNavigate();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const query = new URLSearchParams(location.search);
-    const category1 = query.get("keyword");
-    const category2 = query.get("keyword");
-    const category3 = query.get("keyword");
+    const searchKeyword = query.get('keyword');
     const endIndex = startIndex + itemsPerPage;
     const displayedProducts = products.slice(startIndex, endIndex);
 
     useEffect(() => {
         const fetchProducts = async () => {
-            if (!category1 || !category2 || !category3) {
-                return;
-            } else {
+            if (!searchKeyword) alert("검색어를 입력해주세요.");
+            if (searchKeyword) {
                 try {
-                    const response = await GetSearchProductListRequest(category1, category2, category3);
+                    const response = await GetSearchProductListRequest(searchKeyword);
+                    console.log(response?.searchList);
                     if (!response) return;
-                    console.log(response.data.items);
-                    let fetchedProducts = response.data.items;
+
+                    console.log(response.searchList);
+                    let fetchedProducts = response.searchList;
                     if (sortByPriceAsc) {
                         fetchedProducts = fetchedProducts.sort(
                             (a: { lowPrice: string }, b: { lowPrice: string }) =>
@@ -79,7 +78,8 @@ export default function SearchList() {
             }
         };
         fetchProducts();
-    }, [category1, category2, category3, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+    }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -94,8 +94,9 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
-            secondaryProductImageList: product.secondaryProductImageList,
             lowPrice: product.lowPrice,
+            totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
+
             category1: product.category1,
             category2: product.category2,
             category3: product.category3,
@@ -103,7 +104,7 @@ export default function SearchList() {
         };
         try {
             const response = await PostCartRequest(formData, accessToken);
-            if (response.data.code === "SU") {
+            if (response.code === "SU") {
                 alert("상품이 저장되었습니다.");
                 if (!loginUser) return;
                 const productListResponse = await GetProductListRequest(
@@ -113,9 +114,9 @@ export default function SearchList() {
                 const updatedCartCount = productListResponse.data.items.length;
                 triggerCartUpdateEvent(updatedCartCount);
             }
-            if (response.data.code === "DP") alert("이미 저장된 상품입니다.");
-            if (response.data.code === "DBE") alert("상품 저장에 실패했습니다.");
-            if (response.data.code === "AF") alert("로그인이 필요합니다.");
+            if (response.code === "DP") alert("이미 저장된 상품입니다.");
+            if (response.code === "DBE") alert("상품 저장에 실패했습니다.");
+            if (response.code === "AF") alert("로그인이 필요합니다.");
         } catch (error) {
             console.error("Error saving product", error);
         }
@@ -138,7 +139,7 @@ export default function SearchList() {
             productId: product.productId,
             title: product.title,
             productImageList: product.productImageList,
-            secondaryProductImageList: product.secondaryProductImageList,
+            totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
             lowPrice: product.lowPrice,
             category1: product.category1,
             category2: product.category2,
@@ -148,10 +149,10 @@ export default function SearchList() {
 
         try {
             const response = await PostCartRequest(formData, accessToken);
-            if (response.data.code === "SU") {
+            if (response.code === "SU") {
                 navigate("/address", { state: { selectedProduct: product } });
             }
-            if (response.data.code === "AF") alert("로그인이 필요합니다.");
+            if (response.code === "AF") alert("로그인이 필요합니다.");
         } catch (error) {
             console.error("Error", error);
         }
@@ -253,7 +254,8 @@ export default function SearchList() {
                     displayedProducts.map((product) => (
                         <li key={product.productId} className="product-item-list-group-item">
                             <div className="items-center">
-                                {product.productImageList.map((image) => (
+                                {product.productImageList && product.productImageList.map((image) => (
+
                                     <img key={image} className="product-detail-main-image" src={image} />
                                 ))}
                             </div>
@@ -263,7 +265,7 @@ export default function SearchList() {
                                 </a>
                                 <div className="item-info">
                                     <div>
-                                        {product.category1}/{product.category2}
+                                        {product.category1}/{product.category2}/{product.category3}
                                     </div>
                                 </div>
                             </div>
