@@ -50,6 +50,7 @@ export default function SignIn() {
         setCookie('accessToken', token, { expires, path: MAIN_PATH() });
         navigate(MAIN_PATH());
         alert('로그인 되었습니다.');
+        }
     };
 
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {

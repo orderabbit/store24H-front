@@ -31,9 +31,6 @@ jobs:
       - name: typescript 설치
         run: npm install typescript
 
-      - name: test
-        run : ssh -p 22 3.35.30.191
-
       - name: 빌드
         run: 
           sudo npm run build
@@ -41,15 +38,27 @@ jobs:
       - name: Add SSH key
         run: |
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
-          chmod 600 lightsail.pem
+          chmod 775 lightsail.pem
+
+      - run:
+          scp -i ./lightsail.pem /github/workspace/build ubuntu@3.35.30.191:/home/ubuntu/store24H-front/build
           
       - name: Add remote host to known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: executing remote ssh commands using key
+        uses: appleboy/scp-action@master
+        with:
+          host: 3.35.30.191
+          username: ubuntu
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          port: 22
+          source: /github/workspace/build
+          target: /home/ubuntu/store24H-front/build
 
-          
-          
+        
       - name: AWS 인증하기
         uses: aws-actions/configure-aws-credentials@v4
         with:

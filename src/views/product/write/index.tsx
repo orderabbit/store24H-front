@@ -135,6 +135,8 @@ export default function Write() {
 
     const onImageUploadButtonClickHandler = () => {
         if (!imageInputRef.current) return;
+        setImageUrls([]);
+        setProductImageFileList([]);
         imageInputRef.current.click();
     }
 
