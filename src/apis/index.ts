@@ -445,9 +445,9 @@ export const getOrderListRequest = async (userId: string): Promise<GetOrderListR
     }
 };
 
-export const deleteOrderListRequest = async (orderId: string): Promise<ResponseDto | null> => {
+export const deleteOrderListRequest = async (orderId: string, accessToken: string): Promise<ResponseDto | null> => {
     try {
-        const response = await axios.delete<DeleteOrderListResponseDto>(DELETE_ORDER_LIST_URL(orderId));
+        const response = await axios.delete<DeleteOrderListResponseDto>(DELETE_ORDER_LIST_URL(orderId), authorization(accessToken));
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

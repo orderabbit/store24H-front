@@ -35,10 +35,14 @@ const OrderDetailPage: React.FC = () => {
       const response = await getOrderListRequest(userId);
       console.log(response);
       if (response) {
-        const sortedOrderItems = response.orderItems.sort(
+        const sortedOrderItems = response.orderItems.map((item: Product) => ({
+          ...item,
+          orderId: item.orderList.orderId, // orderList에서 orderId를 가져옴
+          orderDatetime: item.orderList.orderDatetime,
+        })).sort(
           (a: Product, b: Product) => {
-            const dateA = new Date(a.orderList.orderDatetime.replace(/\./g, '/')).getTime();
-            const dateB = new Date(b.orderList.orderDatetime.replace(/\./g, '/')).getTime();
+            const dateA = new Date(a.orderDatetime.replace(/\./g, '/')).getTime();
+            const dateB = new Date(b.orderDatetime.replace(/\./g, '/')).getTime();
             return dateB - dateA;
           }
         );
@@ -48,7 +52,7 @@ const OrderDetailPage: React.FC = () => {
       }
     };
     fetchOrderList();
-  }, [userId]);
+  }, [userId, orderItems.length]);
 
   const triggerCartUpdateEvent = (cartCount: number) => {
     window.dispatchEvent(
@@ -137,7 +141,7 @@ const OrderDetailPage: React.FC = () => {
     }
     if (userId && cookies.accessToken) {
       try {
-        const response = await deleteOrderListRequest(product.orderId);
+        const response = await deleteOrderListRequest(product.orderId, cookies.accessToken);
         if (response?.code === "SU") {
           alert("삭제되었습니다.");
           const newOrderItems = orderItems.filter(
