@@ -132,14 +132,17 @@ export default function SearchList() {
         if (!window.confirm("구매하시겠습니까?")) {
             return;
         }
+
+        const selectedQuantity = quantities[product.productId] || 1; // 선택된 상품의 수량 가져오기
+
         const selectedProducts = [{
             ...product,
-            count: quantities[product.productId]
+            count: selectedQuantity // 수량 정보 설정
         }];
 
         const totalPrice = selectedProducts
             .reduce((total, product) => {
-                const quantity = quantities[product.productId];
+                const quantity = product.count; // 수량 정보를 가져오기 위해 count 사용
                 const price = parseFloat(product.lowPrice);
                 return total + quantity * price;
             }, 0)
@@ -149,6 +152,7 @@ export default function SearchList() {
             state: { selectedProducts, totalPrice },
         });
     };
+
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();
