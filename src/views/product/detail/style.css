@@ -1,17 +1,115 @@
-#board-detail-wrapper {
+#product-detail-wrapper {
     padding: 100px 0;
-
     display: flex;
     justify-content: center;
 }
 
-.product-detail-container {
-    width: 996px;
 
+.product-detail-container {
+    margin-top: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;;
+    width: 1200px;
+    margin-left: auto; /* 화면 가운데 정렬을 위해 왼쪽 마진을 자동으로 설정 */
+    margin-right: auto; /* 화면 가운데 정렬을 위해 오른쪽 마진을 자동으로 설정 */
+}
+
+.detail-top-content{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.product-top-header {
+    width:100%;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.product-detail-thumbnail {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-detail-thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-detail-info {
+    flex: 1;
+    max-width: 50%;
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
+
+.product-detail-title {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 140%;
+}
+
+.product-detail-main-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.product-detail-lowPrice {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff0000;
+
+}
+
+.product-detail-imagebar {
+    display: flex;
+    flex-wrap: nowwrap;
+    gap: 10px;
+    overflow-x: auto;
+    margin-top: auto;
+}
+.product-detail-bar-image {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.detail-middle-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.product-detail-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+}
+
+.product-detail-middle-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+}
+
+-----------
+
+
 
 #board-detail-top {
     display: flex;
@@ -35,6 +133,7 @@
 
 .product-detail-top-sub-box {
     position: relative;
+    text-align: right;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,9 +174,10 @@
 
 .product-detail-more-box {
     position: absolute;
+
     top: -81px;
 
-    right: 0px;
+    left: 0px;
 
     background-color: rgba(255, 255, 255, 1);
 

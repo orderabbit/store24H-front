@@ -1,13 +1,13 @@
 import { postAnswerRequest } from 'apis';
 import React, { ChangeEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Write() {
     const navigate = useNavigate();
     const [userId, setUserId] = useState('');
     const [content, setContent] = useState('');
-    const [questionId, setQuestionId] = useState('');
+    const questionId = useParams();
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleContentChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ export default function Write() {
   
     const uploadPostClickHandler = async () => {
         try {
-            const result = await postAnswerRequest({userId, content ,questionId});
+            const result = await postAnswerRequest({userId, content});
             if (result && result.data.code === 'SU') {
                 alert('댓글이 업로드되었습니다.');
                 navigate('/');
