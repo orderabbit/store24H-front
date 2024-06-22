@@ -132,30 +132,23 @@ export default function SearchList() {
         if (!window.confirm("구매하시겠습니까?")) {
             return;
         }
-        const accessToken = cookies.accessToken;
-        const formData: SaveCartRequestDto = {
-            productId: product.productId,
-            title: product.title,
-            productImageList: product.productImageList,
-            totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
-            lowPrice: product.lowPrice,
-            category1: product.category1,
-            category2: product.category2,
-            category3: product.category3,
-            count: quantities[product.productId] || 1,
-        };
+        const selectedProducts = [{
+            ...product,
+            count: quantities[product.productId]
+        }];
 
-        try {
-            const response = await PostCartRequest(formData, accessToken);
-            if (response.code === "SU") {
-                navigate("/address", { state: { selectedProduct: product } });
-            }
-            if (response.code === "AF") alert("로그인이 필요합니다.");
-        } catch (error) {
-            console.error("Error", error);
-        }
+        const totalPrice = selectedProducts
+            .reduce((total, product) => {
+                const quantity = quantities[product.productId];
+                const price = parseFloat(product.lowPrice);
+                return total + quantity * price;
+            }, 0)
+            .toLocaleString();
+
+        navigate("/address", {
+            state: { selectedProducts, totalPrice },
+        });
     };
-
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();

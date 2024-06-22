@@ -33,8 +33,16 @@ const OrderDetailPage: React.FC = () => {
     if (!userId) return;
     const fetchOrderList = async () => {
       const response = await getOrderListRequest(userId);
+      console.log(response);
       if (response) {
-        setOrderItems(response.orderItems);
+        const sortedOrderItems = response.orderItems.sort(
+          (a: Product, b: Product) => {
+            const dateA = new Date(a.orderList.orderDatetime.replace(/\./g, '/')).getTime();
+            const dateB = new Date(b.orderList.orderDatetime.replace(/\./g, '/')).getTime();
+            return dateB - dateA;
+          }
+        );
+        setOrderItems(sortedOrderItems);
       } else {
         setOrderItems([]);
       }
@@ -169,7 +177,7 @@ const OrderDetailPage: React.FC = () => {
                 ))}
               </div>
               <div>
-                <h2>{product.title}</h2>
+                <p>상품명: {product.title}</p>
                 <p>카테고리: {product.category1} / {product.category2} / {product.category3} </p>
                 <p>가격: ${product.lowPrice}</p>
                 <p>상품개수: {product.count}</p>
