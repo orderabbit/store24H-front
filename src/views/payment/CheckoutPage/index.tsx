@@ -13,8 +13,6 @@ const customerKey = nanoid();
 export function CheckoutPage(): JSX.Element {
   const [paymentWidget, setPaymentWidget] = useState<any>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string>("");
   const [paymentDate, setPaymentDate] = useState<string>(new Date().toISOString());
   const { loginUser } = useLoginUserStore();
   const location = useLocation();
@@ -22,12 +20,12 @@ export function CheckoutPage(): JSX.Element {
 
   const paymentMethodsWidgetRef = useRef<any>(null);
 
-  useEffect(() => {
-    const userId = loginUser?.userId;
-    if (!userId) return;
-    setUserId(userId);
-    setIsLoggedIn(true);
-  }, [loginUser]);
+  // useEffect(() => {
+  //   const userId = loginUser?.userId;
+  //   if (!userId) return;
+  //   setUserId(userId);
+  //   setIsLoggedIn(true);
+  // }, [loginUser]);
 
   useEffect(() => {
     if (selectedProducts && selectedProducts.length > 0) {
@@ -46,9 +44,8 @@ export function CheckoutPage(): JSX.Element {
         console.error("Error fetching payment widget:", error);
       }
     };
-
     fetchPaymentWidget();
-  }, [loginUser?.userId]);
+  }, [loginUser]);
 
   useEffect(() => {
     if (paymentWidget == null) {
@@ -130,7 +127,7 @@ export function CheckoutPage(): JSX.Element {
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
-      console.error("Error requesting payment:", error);
+      alert(error);
     }
   };
 

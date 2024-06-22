@@ -170,6 +170,11 @@ const CartList: React.FC = () => {
         }, 0)
         .toLocaleString();
 
+        if(selectedProducts.length === 0) {
+            alert("상품을 선택해주세요.");
+            return;
+        }
+
         navigate("/address", {
             state: { selectedProducts, selectedProductIds, totalPrice },
         });
