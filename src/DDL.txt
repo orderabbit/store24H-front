@@ -91,8 +91,8 @@ SELECT
     (SELECT I.image 
      FROM image I 
      WHERE I.product_id = P.product_id AND I.image_type = 'primary'
-     LIMIT 1) AS title_image,
-     (SELECT I.image
+     ) AS title_image,
+     (SELECT GROUP_CONCAT(I.image)
      FROM image I
      WHERE I.product_id = P.product_id AND I.image_type = 'secondary'
      ) AS secondary_image,
@@ -101,7 +101,7 @@ SELECT
     product AS P
     INNER JOIN user AS U ON P.user_id = U.user_id
     LEFT JOIN image AS I ON P.product_id = I.product_id
-    GROUP BY P.id;
+    GROUP BY P.id;  
 
         
       
