@@ -20,13 +20,6 @@ export function CheckoutPage(): JSX.Element {
 
   const paymentMethodsWidgetRef = useRef<any>(null);
 
-  // useEffect(() => {
-  //   const userId = loginUser?.userId;
-  //   if (!userId) return;
-  //   setUserId(userId);
-  //   setIsLoggedIn(true);
-  // }, [loginUser]);
-
   useEffect(() => {
     if (selectedProducts && selectedProducts.length > 0) {
       const total = selectedProducts.reduce((sum: number, product: { lowPrice: string; count: number; }) => sum + parseFloat(product.lowPrice) * product.count, 0);
@@ -96,12 +89,8 @@ export function CheckoutPage(): JSX.Element {
         orderDatetime: new Date().toISOString(),
       };
 
-      const orderResponse = await postOrderListRequest(orderData);
-      console.log("orderResponse", orderResponse);
-      if (!orderResponse) {
-        alert("주문 정보를 저장하는데 실패했습니다.");
-        return;
-      }
+      const selectedProductsString = JSON.stringify(selectedProducts);
+      const encodedSelectedProducts = encodeURIComponent(selectedProductsString);
 
       const selectedProductIds = selectedProducts.map((product: { productId: number }) => product.productId);
       await paymentWidget?.requestPayment({
@@ -114,7 +103,8 @@ export function CheckoutPage(): JSX.Element {
         customerAddress: `${postcode.trim()} ${address.trim()} ${detailAddress.trim()}`,
         amount: totalAmount,
         paymentKey: clientKey,
-        successUrl: `${window.location.origin}/success?orderId=${loginUser.userId}_${nanoid()}
+        successUrl: `${window.location.origin}/success?
+                      orderId=${orderData.orderId}
                       &customerId=${loginUser.userId.trim()}
                       &customerName=${loginUser.nickname.trim()}
                       &customerEmail=${loginUser.email}
@@ -123,7 +113,10 @@ export function CheckoutPage(): JSX.Element {
                       &productIds=${encodeURIComponent(JSON.stringify(selectedProductIds))}
                       &amount=${parseFloat(totalAmount.toString().trim())}
                       &paymentKey=${clientKey}
-                      &selectedProducts=${selectedProducts}`,
+                      &selectedProducts=${encodedSelectedProducts}
+                      &items=${orderData.items}
+                      &orderDatetime=${orderData.orderDatetime}`,
+
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {

@@ -108,16 +108,22 @@ const CartList: React.FC = () => {
         const isChecked = !checkedProducts[productId];
         const product = products.find((product) => product.productId === productId);
         if (isChecked && product) {
-            setSelectedProducts((prevSelectedProducts) => [
-                ...prevSelectedProducts,
-                product,
-            ]);
+            setSelectedProducts((prevSelectedProducts) =>
+                prevSelectedProducts.some((p) => p.productId === productId)
+                    ? prevSelectedProducts.map((p) =>
+                        p.productId === productId
+                            ? { ...p, count: quantities[productId] }
+                            : p
+                    )
+                    : [...prevSelectedProducts, { ...product, count: quantities[productId] }]
+            );
         } else {
             setSelectedProducts((prevSelectedProducts) =>
                 prevSelectedProducts.filter((p) => p.productId !== productId)
             );
         }
     };
+
 
     const handleAllCheckboxChange = () => {
         const newIsAllChecked = !isAllChecked;
@@ -145,8 +151,15 @@ const CartList: React.FC = () => {
                 [productId]: currentQuantity - 1,
             };
             setQuantities(updatedQuantities);
+
+            setSelectedProducts((prevSelectedProducts) =>
+                prevSelectedProducts.map((p) =>
+                    p.productId === productId ? { ...p, count: currentQuantity - 1 } : p
+                )
+            );
         }
     };
+
 
     const incrementQuantity = (productId: number) => {
         const currentQuantity = parseInt(quantities[productId]?.toString() || "0", 10); // 정수로 변환
@@ -155,22 +168,25 @@ const CartList: React.FC = () => {
             [productId]: currentQuantity + 1,
         };
         setQuantities(updatedQuantities);
+
+        setSelectedProducts((prevSelectedProducts) =>
+            prevSelectedProducts.map((p) =>
+                p.productId === productId ? { ...p, count: currentQuantity + 1 } : p
+            )
+        );
     };
 
     const handleCheckout = () => {
-        const selectedProductIds = selectedProducts.map(
-            (product) => product.productId
-        );
-
+        const selectedProductIds = selectedProducts.map((product) => product.productId);
         const totalPrice = selectedProducts
-        .reduce((total, product) => {
-            const quantity = quantities[product.productId];
-            const price = parseFloat(product.lowPrice);
-            return total + quantity * price;
-        }, 0)
-        .toLocaleString();
+            .reduce((total, product) => {
+                const quantity = quantities[product.productId];
+                const price = parseFloat(product.lowPrice);
+                return total + quantity * price;
+            }, 0)
+            .toLocaleString();
 
-        if(selectedProducts.length === 0) {
+        if (selectedProducts.length === 0) {
             alert("상품을 선택해주세요.");
             return;
         }
@@ -179,6 +195,7 @@ const CartList: React.FC = () => {
             state: { selectedProducts, selectedProductIds, totalPrice },
         });
     };
+
 
     const calculateProductTotalPrice = (product: Product) => {
         const quantity = quantities[product.productId] || 1;

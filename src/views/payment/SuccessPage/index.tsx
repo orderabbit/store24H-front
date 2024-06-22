@@ -1,11 +1,31 @@
-import { postPaymentRequest } from "apis";
-import React from "react";
+import { postOrderListRequest, postPaymentRequest } from "apis";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLoginUserStore } from "stores";
+import { Product } from "types/interface";
 
 export function SuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const { loginUser } = useLoginUserStore();
+  const selectedProductsParam = searchParams.get("selectedProducts");
+  const orderDatetime = searchParams.get("orderDatetime");
+
+  let selectedProducts: Product[] = [];
+
+  if (selectedProductsParam) {
+    selectedProducts = JSON.parse(selectedProductsParam);
+  }
+
+  useEffect(() => {
+    if (selectedProducts && selectedProducts.length > 0) {
+      const total = selectedProducts.reduce((sum: number, product: { lowPrice: string; count: number; }) => sum + parseFloat(product.lowPrice) * product.count, 0);
+      setTotalAmount(total);
+    }
+  }, [selectedProducts]);
 
   useEffect(() => {
     const requestData = {
@@ -27,7 +47,6 @@ export function SuccessPage() {
       if (response.code === "DBE") alert("데이터베이스 오류가 발생했습니다. 다시 시도해주세요.");
       if (response.code === "VF") alert("결제 금액이 일치하지 않습니다.");
       if (response.code === "DO") alert("이미 결제가 완료된 주문입니다.");
-
       if (response.code !== "SU") {
         navigate(`/fail?message=${response.message}&code=${response.code}`);
         return;
@@ -35,6 +54,40 @@ export function SuccessPage() {
     }
     confirm();
   }, []);
+
+  useEffect(() => {
+    const saveOrderInfo = async () => {
+      if (loginUser == null) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      const orderItems = selectedProducts.map((product: Product) => ({
+        productId: product.productId,
+        title: product.title,
+        productImageList: product.productImageList,
+        amount: totalAmount,
+        lowPrice: product.lowPrice,
+        category1: product.category1,
+        category2: product.category2,
+        category3: product.category3,
+        count: product.count,
+      }));
+
+      const orderData = {
+        orderId: nanoid().trim(),
+        userId: loginUser.userId,
+        items: orderItems,
+        orderDatetime: orderDatetime
+      };
+
+      const orderResponse = await postOrderListRequest(orderData);
+      if (!orderResponse) {
+        alert("주문 정보를 저장하는데 실패했습니다.");
+        return;
+      }
+    };
+    saveOrderInfo();
+  }, [navigate, searchParams]);
 
   return (
     <div className="result wrapper">
