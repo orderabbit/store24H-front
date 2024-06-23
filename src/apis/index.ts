@@ -4,7 +4,7 @@ import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
-import { DeleteCartResponseDto, DeleteOrderListResponseDto, GetOrderListResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
+import { DeleteCartResponseDto, DeleteOrderListResponseDto, GetOrderListResponseDto, GetPaymentResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSearchBoardListResponseDto } from "./response/product";
@@ -71,6 +71,7 @@ const DELETE_CART_URL = (productId: number) => `${API_DOMAIN}/cart/delete/${prod
 const GET_SEARCH_PRODUCT_URL = (keyword: string) => `${API_DOMAIN}/cart/search?keyword=${keyword}`;
 
 const POST_PAYMENT_URL = () => `${API_DOMAIN}/payment/savePaymentInfo`;
+const GET_PAYMENT_URL = (orderId: string) => `${API_DOMAIN}/payment/getPaymentInfo/${orderId}`;
 
 const POST_ORDER_LIST_URL = () => `${API_DOMAIN}/orders/saveOrderInfo`;
 const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${userId}`;
@@ -217,8 +218,6 @@ export const recoveryPasswordRequest = async (requestBody: PasswordRecoveryReque
     }
 };
 
-
-
 export const PostCartRequest = async (formData: SaveCartRequestDto, accessToken: string): Promise<SaveCartResponseDto> => {
     const result = await axios.post(POST_CART_URL(), formData, authorization(accessToken))
         .then(response => {
@@ -270,6 +269,20 @@ export const postPaymentRequest = async (paymentData: any) => {
     const result = await axios.post(POST_PAYMENT_URL(), paymentData)
         .then(response => {
             const responseBody: PostPaymentResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
+};
+
+export const getPaymentRequest = async (orderId: string) => {
+    const result = await axios.get(GET_PAYMENT_URL(orderId))
+        .then(response => {
+            const responseBody: GetPaymentResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {

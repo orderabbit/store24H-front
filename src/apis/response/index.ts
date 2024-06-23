@@ -5,6 +5,7 @@ import DeleteCartResponseDto from "./cart/delete-cart.response.dto";
 import SaveOrderListResponseDto from "./order/save-order-list.response.dto";
 import GetOrderListResponseDto from "./order/get-order-list.response.dto";
 import DeleteOrderListResponseDto from "./order/delete-order-list.response.dto";
+import GetPaymentResponseDto from "./payment/get-payment.response.dto";
 
 export type {
     ResponseDto,
@@ -13,5 +14,6 @@ export type {
     DeleteCartResponseDto,
     SaveOrderListResponseDto,
     GetOrderListResponseDto,
-    DeleteOrderListResponseDto
+    DeleteOrderListResponseDto,
+    GetPaymentResponseDto
 };

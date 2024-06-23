@@ -35,6 +35,7 @@ import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
 import SearchList from 'views/product/searchList';
+import OrderDetail from 'views/orderdetail';
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
         <Route path="/order/list/:userId" element={<OrderPage />} />
+        <Route path="/order/detail/:orderId" element={<OrderDetail />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />

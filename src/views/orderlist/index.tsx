@@ -2,7 +2,7 @@ import { GetProductListRequest, PostCartRequest, deleteOrderListRequest, getOrde
 import { SaveCartRequestDto } from 'apis/request';
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { User } from 'types/interface';
 
 interface Product {
@@ -28,6 +28,7 @@ const OrderDetailPage: React.FC = () => {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [cookies, setCookies] = useCookies();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userId) return;
@@ -94,7 +95,6 @@ const OrderDetailPage: React.FC = () => {
       console.error("Error saving product", error);
     }
   };
-
 
   const handleCheckboxChange = (productId: number) => {
     setCheckedProducts((prevCheckedProducts) => ({
@@ -169,6 +169,29 @@ const OrderDetailPage: React.FC = () => {
     return quantity * parseFloat(product.lowPrice);
   };
 
+  const calculateDeliveryDate = (orderDate: string) => {
+    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+    const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
+    const deliveryDateObj = new Date(orderDateObj);
+    deliveryDateObj.setDate(orderDateObj.getDate() + 2);
+    const month = deliveryDateObj.getMonth() + 1;
+    const day = deliveryDateObj.getDate();
+    const dayOfWeek = daysOfWeek[deliveryDateObj.getDay()];
+    return `${month}/${day}(${dayOfWeek}) 도착예정`;
+  };
+
+  const formatOrderDate = (orderDatetime: string) => {
+    const date = new Date(orderDatetime.replace(/\./g, '/'));
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+    const day = date.getDate();
+    return `${year}. ${month}. ${day} 주문`;
+  };
+
+  const handleOrderDetailClick = (product: Product) => {
+    navigate(`/order/detail/${product.orderId}`, { state: { product } });
+  };
+
   return (
     <div>
       {orderItems.length > 0 ? (
@@ -176,19 +199,37 @@ const OrderDetailPage: React.FC = () => {
           {orderItems.map((product, index) => (
             <li key={index}>
               <div>
+                <p>{calculateDeliveryDate(product.orderDatetime)}</p>
                 {product.productImageList && product.productImageList.map((image, imgIndex) => (
                   <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
                 ))}
               </div>
               <div>
+                <p>구매 날짜: {formatOrderDate(product.orderList.orderDatetime)}</p>
                 <p>상품명: {product.title}</p>
-                <p>카테고리: {product.category1} / {product.category2} / {product.category3} </p>
+                {/* <p>카테고리: {product.category1} / {product.category2} / {product.category3} </p> */}
                 <p>가격: ${product.lowPrice}</p>
                 <p>상품개수: {product.count}</p>
                 <p>총 가격: {calculateProductTotalPrice(product)} 원</p>
-                <p>구매 날짜: {product.orderList.orderDatetime}</p>
+                <button onClick={() => handleOrderDetailClick(product)}>주문상세보기</button>
               </div>
-              <button onClick={() => saveProductClickHandler(product)}>재구매</button>
+              <div>
+                <div className="cart-quantity-wrapper">
+                  <div className="quantity-selector">
+                    <div className="icon-button" onClick={() => decrementQuantity(product.productId)}>
+                      <div className="icon quantity-minus-icon"></div>
+                    </div>
+                    <span>{quantities[product.productId] || product.count}</span>
+                    <div className="icon-button" onClick={() => incrementQuantity(product.productId)}>
+                      <div className="icon quantity-plus-icon"></div>
+                    </div>
+                  </div>
+                </div>
+                <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
+                <div className="icon-button">
+                  <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
@@ -197,52 +238,6 @@ const OrderDetailPage: React.FC = () => {
           주문 내역이 없습니다.
         </div>
       )}
-      <div style={{ width: "100%" }}>
-        <table>
-          {orderItems.map((product, index) => (
-            <tbody key={index}>
-              <tr>
-                <td className="checkbox" style={{ verticalAlign: "middle" }}>
-                  <input
-                    type="checkbox"
-                    checked={checkedProducts[product.productId] || false}
-                    onChange={() => handleCheckboxChange(product.productId)}
-                  />
-                </td>
-                <td>
-                  {product.productImageList && product.productImageList.map((image, imgIndex) => (
-                    <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
-                  ))}
-                </td>
-                <td>
-                  <a href={`/product/detail/${product.productId}`} target="_blank" rel="noopener noreferrer">
-                    {product.title}
-                  </a>
-                </td>
-                <td>
-                  <div className="cart-quantity-wrapper">
-                    <div className="quantity-selector">
-                      <div className="icon-button" onClick={() => decrementQuantity(product.productId)}>
-                        <div className="icon quantity-minus-icon"></div>
-                      </div>
-                      <span>{product.count}</span>
-                      <div className="icon-button" onClick={() => incrementQuantity(product.productId)}>
-                        <div className="icon quantity-plus-icon"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>{calculateProductTotalPrice(product)} 원</td>
-                <td>
-                  <div className="icon-button">
-                    <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          ))}
-        </table>
-      </div>
     </div>
   );
 };
