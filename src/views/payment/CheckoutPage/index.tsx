@@ -102,6 +102,7 @@ export function CheckoutPage(): JSX.Element {
         customerAddress: `${postcode.trim()} ${address.trim()} ${detailAddress.trim()}`,
         amount: totalAmount,
         paymentKey: clientKey,
+        paymentDatetime: new Date().toISOString(),
         successUrl: `${window.location.origin}/success?
                       orderId=${orderData.orderId}
                       &customerId=${loginUser.userId.trim()}

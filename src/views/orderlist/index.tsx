@@ -169,23 +169,28 @@ const OrderDetailPage: React.FC = () => {
     return quantity * parseFloat(product.lowPrice);
   };
 
-  const calculateDeliveryDate = (orderDate: string) => {
+  const formatOrderDate = (orderDatetime: string) => {
+    const date = new Date(orderDatetime.replace(/\./g, '/'));
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}. ${month}. ${day} 주문`;
+  };
+
+  const checkArrivalStatus = (orderDate: string) => {
     const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
     const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
     const deliveryDateObj = new Date(orderDateObj);
     deliveryDateObj.setDate(orderDateObj.getDate() + 2);
-    const month = deliveryDateObj.getMonth() + 1;
-    const day = deliveryDateObj.getDate();
-    const dayOfWeek = daysOfWeek[deliveryDateObj.getDay()];
-    return `${month}/${day}(${dayOfWeek}) 도착예정`;
-  };
-
-  const formatOrderDate = (orderDatetime: string) => {
-    const date = new Date(orderDatetime.replace(/\./g, '/'));
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
-    const day = date.getDate();
-    return `${year}. ${month}. ${day} 주문`;
+  
+    const currentDateTime = new Date();
+    const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
+  
+    if (deliveryDateObj.getTime() === currentDate.getTime()) {
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 완료`;
+    } else {
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 예정`;
+    }
   };
 
   const handleOrderDetailClick = (product: Product) => {
@@ -199,7 +204,7 @@ const OrderDetailPage: React.FC = () => {
           {orderItems.map((product, index) => (
             <li key={index}>
               <div>
-                <p>{calculateDeliveryDate(product.orderDatetime)}</p>
+                <p>{checkArrivalStatus(product.orderDatetime)}</p>
                 {product.productImageList && product.productImageList.map((image, imgIndex) => (
                   <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
                 ))}
@@ -214,7 +219,7 @@ const OrderDetailPage: React.FC = () => {
                 <button onClick={() => handleOrderDetailClick(product)}>주문상세보기</button>
               </div>
               <div>
-                <div className="cart-quantity-wrapper">
+                {/* <div className="cart-quantity-wrapper">
                   <div className="quantity-selector">
                     <div className="icon-button" onClick={() => decrementQuantity(product.productId)}>
                       <div className="icon quantity-minus-icon"></div>
@@ -224,7 +229,7 @@ const OrderDetailPage: React.FC = () => {
                       <div className="icon quantity-plus-icon"></div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
                 <div className="icon-button">
                   <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
