@@ -4,6 +4,12 @@ import Question from "types/interface/question.interface";
 import { Product } from "types/interface";
 
 export default interface ResponseDto{
+    customerName: string;
+    customerPhone: string;
+    customerEmail: string;
+    customerAddress: string;
+    customerPostcode: string;
+    amount: number;
     searchList: Product[];
     answer : Answer[];
     questions : Question[];

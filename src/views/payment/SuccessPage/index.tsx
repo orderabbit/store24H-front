@@ -34,6 +34,7 @@ export function SuccessPage() {
       customerName: searchParams.get("customerName"),
       customerEmail: searchParams.get("customerEmail"),
       customerPhone: searchParams.get("customerPhone"),
+      customerPostcode: searchParams.get("customerPostcode"),
       customerAddress: searchParams.get("customerAddress"),
       productIds: searchParams.get("productIds"),
       amount: searchParams.get("amount"),
@@ -74,7 +75,7 @@ export function SuccessPage() {
       }));
 
       const orderData = {
-        orderId: nanoid().trim(),
+        orderId: searchParams.get("orderId"),
         userId: loginUser.userId,
         items: orderItems,
         orderDatetime: orderDatetime

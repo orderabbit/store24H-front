@@ -3,7 +3,6 @@ import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { useLoginUserStore } from "stores";
 import { useLocation } from "react-router-dom";
-import { postOrderListRequest } from "apis";
 import { Product } from "types/interface";
 
 const selector = "#payment-widget";
@@ -106,9 +105,10 @@ export function CheckoutPage(): JSX.Element {
         successUrl: `${window.location.origin}/success?
                       orderId=${orderData.orderId}
                       &customerId=${loginUser.userId.trim()}
-                      &customerName=${loginUser.nickname.trim()}
                       &customerEmail=${loginUser.email}
-                      &customerAddress= ${name.trim()} ${postcode.trim()} ${address.trim()} ${detailAddress.trim()}
+                      &customerName=${name.trim()}
+                      &customerPostcode=${postcode.trim()}
+                      &customerAddress= ${address.trim()} ${detailAddress.trim()}
                       &customerPhone=${phoneNumber.trim()}
                       &productIds=${encodeURIComponent(JSON.stringify(selectedProductIds))}
                       &amount=${parseFloat(totalAmount.toString().trim())}
@@ -123,6 +123,8 @@ export function CheckoutPage(): JSX.Element {
       alert(error);
     }
   };
+
+  console.log()
 
   return (
     <div className="wrapper">
