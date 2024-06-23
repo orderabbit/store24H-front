@@ -13,19 +13,7 @@ export default function UserProfile({ isProfileOpen, setIsProfileOpen }: { isPro
   const navigate = useNavigate();
   const { loginUser, resetLoginUser, setLoginUser } = useLoginUserStore(); // 사용자 정보
   const [cookies, setCookie] = useCookies();
-  // const [isHovering, setIsHovering] = useState<boolean>(false); // 프로필 버튼 위에 마우스 호버링
 
-  // const handleMouseEnter = () => {
-  //   setIsHovering(true);
-  //   setIsProfileOpen(true);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setIsHovering(false);
-  //   if(!isProfileOpen) {
-  //     setIsProfileOpen(false);
-  //   }
-  // };
   const handleProfileButtonClick = () => {
     setIsProfileOpen(!isProfileOpen);
   };
@@ -70,8 +58,8 @@ export default function UserProfile({ isProfileOpen, setIsProfileOpen }: { isPro
   },[isProfileOpen, setIsProfileOpen]);
 
   return (
+    <div className="profile-container">
     <div id="profilebar" ref={outside} className={`profilebar ${isProfileOpen ? 'open' : ''}`}>
-      <div className="profile">
         <div className="profile-info">
           <ul>
             <>
