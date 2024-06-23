@@ -138,29 +138,9 @@ export default function Header() {
     );
   };
 
-  const handleMouseEnter = () => {
-    // setIsHovering(true);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    // setIsHovering(false);
-    // 마우스가 햄버거 버튼 위에 있지 않고, 사이드바가 열린 상태에서만 사이드바를 닫음, (토글클릭으로 수정예정)
-    // if (!isHovering && isOpen) {
-      setIsOpen(false);
-    // }
-  };
-
-  const handleProfileMouseEnter = () => {
-    setIsProfileOpen(true); // 프로필 아이콘에 마우스 호버 시 프로필 사이드바 열기
-  };
-
-  const handleProfileMouseLeave = () => {
-    setIsProfileOpen(false); // 프로필 아이콘에서 마우스 떠나면 프로필 사이드바 닫기
-  };
-
   return (
     <div id='header'>
+      <div className="top-bar-container">
       <div className='top-bar'>
         {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>로그인</div>}
         {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
@@ -173,6 +153,7 @@ export default function Header() {
           </>
         )}
         <div className='auth-button' onClick={onQuestionButtonClickHandler}>고객센터</div>
+      </div>
       </div>
       <div className='header-container'>
         <div className='header-left-box'> 

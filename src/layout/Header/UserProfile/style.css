@@ -1,11 +1,17 @@
-#profilebar {
-  z-index: 5; /* 프로필 사이드바가 다른 요소 위에 정상적으로 보이도록 z-index 설정 */
-  position: fixed;
-  top: 150px; /* 헤더 바 아래에 위치하도록 조정 */
-  right: 20%; /* 헤더 오른쪽에 위치 */
+.profile-container {
+  position: relative;
+  display: inline-block; /* 수정: flex → inline-block */
+}
+
+.profilebar {
+  z-index: 100; /* 다른 요소 위에 나타나도록 z-index 설정 */
+  position: absolute; /* 절대 위치로 설정 */
+  top: 35px; /* 프로필 아이콘 아래에 위치하도록 조정 */
+  left: 1050px; /* 오른쪽 정렬 */
   padding: 10px;
+  width: 120px;
+  height: 160px;
   border: 1px solid #ced4da;
-  /* border-radius: 10px; */
   background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
   visibility: hidden; /* 기본적으로 숨김 */
@@ -13,12 +19,12 @@
   transition: visibility 0s, opacity 0.3s ease-in-out; /* 애니메이션 효과 추가 */
 }
 
-#profilebar.open {
+.profilebar.open {
   visibility: visible; /* 열린 상태일 때 보이게 설정 */
   opacity: 1; /* 열린 상태일 때 불투명하게 설정 */
 }
 
-#profilebar .profile-info {
+.profilebar .profile-info {
   color: black;
   display: flex;
   flex-direction: column;
@@ -27,14 +33,14 @@
   cursor: pointer;
 }
 
-#profilebar ul {
+.profilebar ul {
   list-style-type: none; /* 목록 점 표시 제거 */
   padding: 0;
 }
 
-#profilebar li {
+.profilebar li {
   width: 100%;
-  padding: 5px;
+  padding: 10px; /* 수정: padding 값을 10px로 변경 */
   margin-bottom: 4px;
   text-align: center;
   font-size: 14px;
@@ -43,7 +49,7 @@
   transition: background-color 0.3s ease, color 0.3s ease, text-decoration 0.3s ease; /* 호버링 애니메이션 효과 추가 */
 }
 
-#profilebar li:hover {
+.profilebar li:hover {
   background-color: #f0f0f0; /* 호버링 시 배경색 변경 */
   color: #007bff; /* 호버링 시 텍스트 색상 변경 */
   text-decoration: underline; /* 호버링 시 밑줄 추가 */

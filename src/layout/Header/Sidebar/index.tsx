@@ -50,21 +50,15 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
   },[]);
 
   return (
+    <div className='sidebar-container'>
     <div id="sidebar" ref={outside} className={isOpen ? 'open' : ''}>
-      {/* 닫기 토글버튼 혹시나 이미지 이용시 해당코드사용 */}
-      {/* <img
-        src="img/close.png"
-        alt="Close"
-        className="close"
-        onClick={toggleSide}
-      /> */}
       <button
         className="close"
         onClick={toggleSide}
       >
         Close
       </button>
-      <ul>
+      <ul className='sidebar-list'>
       {Object.keys(categoryIcons).map((category, index) => (
           <li key={index} onClick={() => handleCategoryClick(category)}>
             <img src={categoryIcons[category]} alt={category} className="category-icon" />
@@ -72,7 +66,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
           </li>
         ))}
       </ul>
-      {/* <span className="exit-menu">Exit</span> */}
+    </div>
     </div>
   );
 }

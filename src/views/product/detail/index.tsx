@@ -173,6 +173,9 @@ export default function Detail() {
                         ))}
                     </div>
                 </div>
+                <div className="detail-bottom-content">
+                    {/* 여기에 하단 댓글,문의등 함수 top: 상품정보 middle : 상품 사진나열, bottom: 댓글,문의 등등 */}
+                </div>
             </div>
         </div>
     )
