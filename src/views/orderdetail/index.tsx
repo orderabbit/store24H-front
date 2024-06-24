@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
+import orderDetailImage from 'images/order-detail.png';
 import './style.css';
 
 interface Product {
@@ -39,9 +40,8 @@ export default function OrderDetail() {
         const fetchOrderList = async () => {
             if (!orderId) return;
             const response = await getPaymentRequest(orderId);
-            console.log(response);
             setPaymentInfo(response);
-            
+
         };
         fetchOrderList();
     }, [loginUser, orderItems]);
@@ -115,70 +115,102 @@ export default function OrderDetail() {
         }
     };
 
-    if(!paymentInfo) return <></>;
+    const formatPrice = (price: string) => {
+        return parseFloat(price).toLocaleString();
+    };
+
+    const formatTotalPrice = (price: string, additionalAmount: number) => {
+        const finalPrice = parseFloat(price) + additionalAmount;
+        return finalPrice.toLocaleString();
+    };
+
+    console.log(formatPrice(product.lowPrice));
+    if (!paymentInfo) return <></>;
     return (
         <div className="orderList-container">
             <div className="orderList-title">주문 상세</div>
-                <div className="orderList-content">
+            <div className="orderList-leftTitle">
+                {formatOrderDate(product.orderDatetime)} <div className="orderdetail-orderId">주문번호 {product.orderId}</div>
+            </div>
+            <div className="orderList-content">
                 <div className="orderList-product-list">
                     <div className="orderList-product-item">
-                    <ul className="orderList-product-info">
-                    <div className="orderList-leftTitle">
-                        {formatOrderDate(product.orderDatetime)} <div className="orderdetail-orderId">주문번호 {product.orderId}</div>
-                        </div>
-                        <li>
-                            <div className="orderList-leftInfo">
-                                <div className="orderList-leftsubTitle">
-                                    {calculateDeliveryDate(product.orderDatetime)}
-                                </div>
-                                <div className="orderList-leftContent">
-                                    <div className="orderList-leftThumbnail">
-                                        {product.productImageList && product.productImageList.map((image, imgIndex) => (
-                                        <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
-                                        ))}
+                        <ul className="orderList-product-info">
+                            {/* <div className="orderList-leftTitle">
+                                {formatOrderDate(product.orderDatetime)} <div className="orderdetail-orderId">주문번호 {product.orderId}</div>
+                            </div> */}
+                            <li>
+                                <div className="orderList-leftInfo">
+                                    <div className="orderList-leftsubTitle">
+                                        {calculateDeliveryDate(product.orderDatetime)}
                                     </div>
-                                    <div className="orderList-left-product-info">
-                                        <div className="orderList-left-product-info-title">
-                                            <p className="orderList-product-title">{product.title}</p>
+                                    <div className="orderList-leftContent">
+                                        <div className="orderList-leftThumbnail">
+                                            {product.productImageList && product.productImageList.map((image, imgIndex) => (
+                                                <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
+                                            ))}
                                         </div>
-                                        <div className="orderList-left-product-info-content">
-                                            <p>{product.lowPrice} 원</p>
-                                            <p>{product.count} 개</p>
-                                            <p>총 가격: {paymentInfo.amount}원</p>
+                                        <div className="orderList-left-product-info">
+                                            <div className="orderList-left-product-info-title">
+                                                <p className="orderList-product-title">{product.title}</p>
+                                            </div>
+                                            <div className="orderList-left-product-info-content">
+                                                <p>{formatPrice(product.lowPrice)} 원</p>
+                                                <p>{product.count} 개</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="orderList-rightInfo">
-                                <div className="orderList-button-container">
-                                    <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
-                                    <button>리뷰 작성하기</button>
-                                    <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
+                                <div className="orderList-rightInfo">
+                                    <div className="orderList-button-container">
+                                        <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
+                                        <button>리뷰 작성하기</button>
+                                        <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <div className="orderdetail-container">
+                                <div className="orderdetail-paymentTitle">배송 정보</div>
+                                <div className="divider"></div>
+                                <div className="orderdetail-info-container">
+                                    <div className="orderdetail-leftInfo">
+                                        <p>받는 사람</p>
+                                        <p>연락처</p>
+                                        <p>이메일</p>
+                                        <p>받는 주소</p>
+                                    </div>
+                                    <div className="orderdetail-rightInfo">
+                                        <p>{paymentInfo.customerName}</p>
+                                        <p>{paymentInfo.customerPhone}</p>
+                                        <p>{paymentInfo.customerEmail}</p>
+                                        <p>{paymentInfo.customerPostcode} {paymentInfo.customerAddress}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                        <div className="orderdetail-container">
-                            <div className="orderdetail-paymentTitle">배송 정보</div>
-                            <div className="divider"></div>
-                            <div className="orderdetail-info-container">
-                                <div className="orderdetail-leftInfo">
-                                    <p>받는 사람</p>
-                                    <p>연락처</p>
-                                    <p>이메일</p>
-                                    <p>받는 주소</p>
+                            <div className="orderdetail-container">
+                                <div className="orderdetail-paymentTitle">결제 정보</div>
+                                <div className="divider"></div>
+                                <div className="orderdetail-info-container">
+                                    <div className="orderdetail-leftInfo">
+                                        <p>총 상품가격</p>
+                                        <p>배송비</p>
+                                        <p>총 결제 금액</p>
+                                        <p>결제 일시</p>
+                                    </div>
+                                    <div className="orderdetail-rightInfo">
+                                        <p>{formatPrice(paymentInfo.amount)} 원</p>
+                                        <p>2500 원</p>
+                                        <p>{formatTotalPrice(paymentInfo.amount, 2500)} 원</p>
+                                        <p>{product.orderDatetime}</p>
+                                    </div>
                                 </div>
-                                <div className="orderdetail-rightInfo">
-                                    <p>{paymentInfo.customerName}</p>
-                                    <p>{paymentInfo.customerPhone}</p>
-                                    <p>{paymentInfo.customerEmail}</p>
-                                    <p>{paymentInfo.customerPostcode} {paymentInfo.customerAddress}</p>
-                                </div>
-                                {/* 기타 필요한 정보 출력 */}
                             </div>
-                        </div>
-                    </ul>
+                        </ul>
                     </div>
                 </div>
+            </div>
+            <div className="image-container">
+                <img src={orderDetailImage} className="resizable-image" />
             </div>
         </div>
     )
