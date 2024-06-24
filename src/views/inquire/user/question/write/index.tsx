@@ -32,7 +32,13 @@ export default function Write() {
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    const emailValue = event.target.value; 
+    setEmail(emailValue);
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(emailValue)){setErrorMessage("이메일 형식을 지켜서 입력해주세요.");}
+    else {setErrorMessage("")}
+
   };
   const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = event.target.value; // 숫자 형태의 값이 들어옴
@@ -66,10 +72,26 @@ export default function Write() {
 
   const uploadPostClickHandler = async () => {
     try {
+      // 필수 입력 값 체크
+      if (!title || !content || !email) {
+        let errorMessageText = "";
+       if (!title) {
+          errorMessageText += "제목을 입력해주세요. ";
+        }
+        if (!content) {
+          errorMessageText += "내용을 입력해주세요. ";
+        }
+        if (!email) {
+          errorMessageText += "이메일을 입력해주세요. ";
+        }
+        alert(errorMessageText.trim()); // 필수 입력 필드가 비어 있을 경우 경고창 표시
+        return;
+      }
+  
       const requestBody = { title, content, userId, type, email };
       console.log(requestBody);
       const result = await postQuestionRequest(requestBody);
-
+  
       if (result && result.code === "SU") {
         alert("해당 문의가 업로드되었습니다.");
         navigate("/question");
@@ -81,6 +103,7 @@ export default function Write() {
       setErrorMessage("해당 문의 업로드 중 오류가 발생했습니다");
     }
   };
+  
   const cancelClickHandler = () => {
     navigate("/question");
   };
@@ -89,7 +112,7 @@ export default function Write() {
     <table className="inquire-write">
   <thead>
     <tr>
-      <th><h2 className="inquire-write-title">1대1 문의 접수</h2></th>
+      <th className="inquire-write-title">1대1 문의 접수</th>
     </tr>
   </thead>
   <tbody>
@@ -154,6 +177,11 @@ export default function Write() {
       <td className="inquire-write-upload" onClick={uploadPostClickHandler}>문의 접수
       </td>
     </div>
+    {errorMessage && (
+    <tr>
+      <td colSpan={2} style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</td>
+    </tr>
+  )}
   </tfoot>
 </table>
 
