@@ -1,0 +1,219 @@
+.orderList-container {
+    width:1000px;
+    margin: 20px;
+    margin-top: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;;
+    max-width: 1200px; /* 원하는 최대 너비 설정 */
+    margin-left: auto; /* 화면 가운데 정렬을 위해 왼쪽 마진을 자동으로 설정 */
+    margin-right: auto; /* 화면 가운데 정렬을 위해 오른쪽 마진을 자동으로 설정 */
+}
+  
+.orderList-title {
+font-size: 30px;
+font-weight: 600;
+margin-bottom: 20px;
+}
+
+.orderdetail-orderId {
+margin-left: 30px;
+font-size: 24px;
+font-weight: 100;
+margin-bottom: 15px;
+}
+
+.orderList-content {
+display: flex;
+flex-direction: column;
+}
+
+.orderList-product-list {
+list-style-type: none;
+padding: 0;
+}
+
+.orderList-product-item {
+border: 1px solid #ddd;
+padding: 20px;
+margin-bottom: 10px;
+}
+
+.orderList-product-info {
+list-style-type: none;
+padding: 0;
+}
+
+.orderList-product-info li {
+width: 100%;
+display: flex;
+border-bottom: 1px solid #eee;
+padding: 20px;
+margin-left: 20px;
+margin-bottom: 50px;
+}
+
+.orderList-leftInfo, .orderList-rightInfo {
+vertical-align: top;
+}
+
+.orderList-leftInfo {
+flex:7;
+padding-right: 30px;
+}
+.orderList-left-product-info {
+display: flex;
+flex-direction: column;
+}
+
+.orderList-left-product-info-title {
+font-size: 24px;
+font-weight: 500;
+margin-bottom: 15px;
+}
+
+.orderList-left-product-info-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.orderList-left-product-info-content p {
+margin: 0;
+width: 120px;
+}
+
+.orderList-product-totalPrice {
+text-align: right;
+}
+
+.orderList-left-product-info-content{
+justify-content: space-between;
+}
+
+.orderList-left-product-info-content p {
+margin: 5px 0;
+}
+
+.orderList-rightInfo {
+flex: 3; /* 우측 td가 30% 차지 */
+display: flex; /* 내부 요소들을 가로로 나열하기 위해 필요 */
+justify-content: flex-end; /* 내부 요소들을 우측으로 정렬 */
+}
+
+.orderList-leftTitle {
+display: flex;
+font-size: 24px;
+font-weight: bold;
+margin-left: 15px;
+}
+
+.orderList-leftsubTitle {
+font-size: 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.icon-button {
+cursor: pointer;
+}
+
+.orderList-leftContent {
+display: flex;
+margin-top: 10px;
+}
+
+.orderList-leftThumbnail {
+margin-right: 20px;
+}
+.orderList-leftThumbnail img {
+width: 100px;
+height: 100px;
+object-fit: cover;
+}
+
+.orderList-product-main-image {
+width: 80px;
+height: 80px;
+object-fit: cover;
+}
+
+.orderList-left-product-info p {
+margin: 5px 0;
+}
+
+
+.orderList-button-container {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+
+.orderList-button-container button {
+display: block; /* 버튼을 블록 요소로 설정하여 가로 방향으로 쌓임 */
+width: 250px; /* 버튼이 부모 요소 너비를 꽉 채우도록 설정 */
+padding: 10px;
+font-size: 14px;
+cursor: pointer;
+background-color: #f5f5f5;
+border: 1px solid #ddd;
+border-radius: 4px;
+transition: background-color 0.3s;
+text-align: center; /* 텍스트를 가운데 정렬 */
+}
+
+.orderList-button-container button:hover {
+background-color: #e0e0e0;
+}
+
+.list-no-result {
+height: 76px;
+text-align: center;
+font-size: 24px;
+color: rgba(0, 0, 0, 0.4);
+font-weight: 500;
+}
+
+.divider {
+border-bottom: 2px solid #000;
+margin-bottom: 20px;
+}
+.orderdetail-container{
+margin-left: 15px;
+
+}
+
+.orderdetail-paymentTitle {
+font-size: 18px;
+font-weight: bold;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+
+.divider {
+border-bottom: 2px solid #000;
+margin-bottom: 20px;
+}
+
+.orderdetail-info-container {
+display: flex;
+justify-content: flex-start;
+gap:20px;
+}
+
+.orderdetail-leftInfo {
+width: 150px;
+}
+
+.orderdetail-rightInfo {
+flex: 2;
+text-align: left;
+}
+
+.orderdetail-leftInfo p,
+.orderdetail-rightInfo p {
+margin-bottom: 10px;
+}
+

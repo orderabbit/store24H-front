@@ -69,9 +69,6 @@ export default function UserProfile({ isProfileOpen, setIsProfileOpen }: { isPro
             <li onClick={onProfileButtonClickHandler}>
               내 정보 변경
             </li>
-            <li onClick={onCartListIconClickHandler}>
-              장바구니
-            </li>
             </>
           </ul>       
         </div>
