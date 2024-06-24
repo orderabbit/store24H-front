@@ -183,10 +183,10 @@ const OrderDetailPage: React.FC = () => {
     const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
     const deliveryDateObj = new Date(orderDateObj);
     deliveryDateObj.setDate(orderDateObj.getDate() + 2);
-  
+
     const currentDateTime = new Date();
     const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
-  
+
     if (deliveryDateObj.getTime() === currentDate.getTime()) {
       return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 완료`;
     } else {
@@ -199,63 +199,67 @@ const OrderDetailPage: React.FC = () => {
   };
   const onQuestionButtonClickHandler = () => {
     navigate('/question');
+  };
+
+  const formatPrice = (price: string) => {
+    return parseFloat(price).toLocaleString();
 };
 
   return (
     <div className="orderList-container">
       <div className="orderList-title">주문 목록</div>
-        <div className="orderList-content">
-          <div className="orderList-product-list">
-            <div className="orderList-product-item">
-          {orderItems.length > 0 ? (
-            <ul className="orderList-product-info">
-              {orderItems.map((product, index) => (
-                <li key={index}>
-                  <div className="orderList-leftInfo">
-                  <div className="orderList-leftTitle">{formatOrderDate(product.orderList.orderDatetime)}</div>
-                  <div className="orderList-leftsubTitle">
-                    {checkArrivalStatus(product.orderDatetime)}
-                    <div className="icon-button">
-                      <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
-                    </div>
-                  </div>
-                  <div className="orderList-leftContent">
-                    <div className="orderList-leftThumbnail">
-                    {product.productImageList && product.productImageList.map((image, imgIndex) => (
-                      <img key={`${product.productId}-${imgIndex}`} className="orderList-product-main-image" src={image} alt="product" />
-                    ))}
-                    </div>
-                    <div className="orderList-left-product-info">
-                      <div className="orderList-left-product-info-title">
-                        <p className="orderList-product-title">{product.title}</p>
+      <div className="orderList-content">
+        <div className="orderList-product-list">
+          <div className="orderList-product-item">
+            {orderItems.length > 0 ? (
+              <ul className="orderList-product-info">
+                {orderItems.map((product, index) => (
+                  <li key={index}>
+                    <div className="orderList-leftInfo">
+                      <div className="orderList-leftTitle">{formatOrderDate(product.orderList.orderDatetime)}</div>
+                      <div className="orderList-leftsubTitle">
+                        {checkArrivalStatus(product.orderDatetime)}
+                        <div className="icon-button">
+                          <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
+                        </div>
                       </div>
-                      <div className="orderList-left-product-info-content">
-                        <p className="orderList-product-price">{product.lowPrice} 원</p>
-                        <p className="orderList-product-count">{product.count} 개</p>
-                        <p className="orderList-product-totalPrice">총 가격: {calculateProductTotalPrice(product)} 원</p>
+                      <div className="orderList-leftContent">
+                        <div className="orderList-leftThumbnail">
+                          {product.productImageList && product.productImageList.map((image, imgIndex) => (
+                            <img key={`${product.productId}-${imgIndex}`} className="orderList-product-main-image" src={image} alt="product" />
+                          ))}
+                        </div>
+                        <div className="orderList-left-product-info">
+                          <div className="orderList-left-product-info-title">
+                            <p className="orderList-product-title">{product.title}</p>
+                          </div>
+                          <div className="orderList-left-product-info-content">
+                            <p className="orderList-product-price">{formatPrice(product.lowPrice)} 원</p>
+                            <p className="orderList-product-count">{product.count} 개</p>
+                            <p className="orderList-product-totalPrice">총 가격: {calculateProductTotalPrice(product)} 원</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  </div>
-                  <div className="orderList-rightInfo">
-                    <div className="orderList-button-container">
-                      <button className="orderList-detail-button" onClick={() => handleOrderDetailClick(product)}>주문상세보기</button>
-                      <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
-                      <button>리뷰 작성하기</button>
-                      <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
-                  </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="list-no-result" style={{ height: "76px", textAlign: "center", fontSize: "24px", color: "rgba(0, 0, 0, 0.4)", fontWeight: "500", }}>
-              주문 내역이 없습니다.
-            </div>
-          )}
-            </div>
+                    <div className="orderList-rightInfo">
+                      <div className="orderList-button-container">
+                        <button className="orderList-detail-button" onClick={() => handleOrderDetailClick(product)}>주문상세보기</button>
+                        <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
+                        <button>리뷰 작성하기</button>
+                        <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="list-no-result" style={{ height: "76px", textAlign: "center", fontSize: "24px", color: "rgba(0, 0, 0, 0.4)", fontWeight: "500", }}>
+                주문 내역이 없습니다.
+              </div>
+            )}
           </div>
         </div>
+      </div>
     </div>
   );
 };

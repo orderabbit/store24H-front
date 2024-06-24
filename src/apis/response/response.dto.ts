@@ -9,7 +9,7 @@ export default interface ResponseDto{
     customerEmail: string;
     customerAddress: string;
     customerPostcode: string;
-    amount: number;
+    amount: string;
     searchList: Product[];
     answer : Answer[];
     questions : Question[];
