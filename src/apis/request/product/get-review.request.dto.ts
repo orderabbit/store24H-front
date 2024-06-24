@@ -1,4 +1,4 @@
-export default interface PostReviewRequestDto {
+export default interface GetReviewRequestDto {
     reviewNumber: number;
     userId: string;
     productId: number;

@@ -1,17 +1,17 @@
 .star-full-image {
-    background-image: url("./star_review.png"); /* 이미지 파일 경로 설정 */
+    background-image: url("images/star_review.png"); /* 이미지 파일 경로 설정 */
   }
   
   .star-blank-image {
-    background-image: url("./star_blank.png"); /* 이미지 파일 경로 설정 */
+    background-image: url("images/star_blank.png"); /* 이미지 파일 경로 설정 */
   }
   
   .like-image {
-    background-image: url("./pngegg.png");
+    background-image: url("images/pngegg.png");
   }
   
   .dislike-image {
-    background-image: url("./pngwing.com.png");
+    background-image: url("images/pngwing.com.png");
   }
   
   .star-setting {

@@ -1,10 +1,11 @@
 import "./style.css";
-import "./style.list.componenet.css";
+import "./style.list.component.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { PostReviewRequestDto } from "apis/request/product";
+import { GetReviewRequestDto } from "apis/request/product";
+import { PostReviewResponseDto } from "apis/response/product";
 
-const Review:React.FC<PostReviewRequestDto> = (props) => {
+const Review:React.FC<GetReviewRequestDto> = (props) => {
   const trueStars = Array.from({ length: props.rates }, (_, index) => ({
     key: `${props.reviewNumber}-${index + 1}`,
     image: "/star_review.png",
@@ -26,9 +27,9 @@ const Review:React.FC<PostReviewRequestDto> = (props) => {
       const reviewNumber = props.reviewNumber;
       const isActive = () => { 
         if( isLike =="true") return likeActive; return dislikeActive; }
-      const response = await axios.patch("http://3.35.30.191:4040/${reviewNumber}/feels", 
+      const response = await axios.patch(`http://3.35.30.191:4040/${reviewNumber}/feels`, 
         {isLike, isActive});
-        
+
       if (isLike === "true") {
         setLikeActive(!likeActive);
       } else {
@@ -84,16 +85,22 @@ const Review:React.FC<PostReviewRequestDto> = (props) => {
 };
 
 
-export default function reviewList(productId: number) {
+export default function ReviewList(productId: number) {
   const [starSelectIndex, setStarSelectIndex] = useState(1);
   const [review_content, setReview_content] = useState("");
+
+  const formData ={
+    review: review_content,
+    rates: starSelectIndex,
+    userId: 1
+};
   
   const [rate, setRate] = useState(
     Array.from({ length: 5 }, (_, index) => index + 1)
   );
-  const [review_list, setReview_list] = useState<PostReviewRequestDto[]>([]);
+  const [review_list, setReview_list] = useState<GetReviewRequestDto[]>([]);
   const sliceReviewList = () => { 
-    if(reviewList.length < 1) 
+    if(review_list.length < 1) 
         return [];
     return review_list.slice(0, review_list.length -1)
   };
@@ -101,10 +108,11 @@ export default function reviewList(productId: number) {
   const starClickEvent = (index: number) => {
     setStarSelectIndex(index + 1);
   };
-  const submitClickEvent = () => {
-    console.log(review_content);
-    console.log(starSelectIndex);
-    console.log("account_id");
+  const submitClickEvent = async () => {
+   try {
+        const response = await axios.post(`http://3.35.30.191:4040/api/v1/product/${productId}/review`, {formData, productId});
+        console.log(response.data);
+    } catch (err) {}
   };
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReview_content(e.target.value);
@@ -114,11 +122,10 @@ export default function reviewList(productId: number) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://3.35.30.191:4040/${productId}/review-list");
+        const response = await axios.get(`http://3.35.30.191:4040/api/v1/product/${productId}/review-list`);
         setReview_list(response.data);
       } catch (err) {}
     };
-
     fetchData(); // 비동기 함수 호출
   }, []);
 

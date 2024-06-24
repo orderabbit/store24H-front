@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
+import ReviewList from 'views/product/review';
 
 const Search: React.FC = () => {
     const [keyword, setKeyword] = useState('');
@@ -42,6 +43,9 @@ const Search: React.FC = () => {
                     </div>
                     <button onClick={() => navigate('/product/write')}>상품등록</button>
                 </form>
+                <div>
+                    {ReviewList(1)}
+                </div>
             </div>
         </div>
     );

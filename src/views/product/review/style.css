@@ -39,7 +39,7 @@
   }
   
   .full-star-button {
-    background-image: url("/star_review.png"); /* 이미지 파일 경로 설정 */
+    background-image: url("images/star_review.png"); /* 이미지 파일 경로 설정 */
     background-repeat: no-repeat;
     background-size: cover; /* 이미지를 요소에 맞게 cover로 설정 */
     width: 50px; /* 버튼의 너비 설정 */
@@ -50,7 +50,7 @@
   }
   
   .blank-star-button {
-    background-image: url("/star_blank.png"); /* 이미지 파일 경로 설정 */
+    background-image: url("images/star_blank.png"); /* 이미지 파일 경로 설정 */
     background-repeat: no-repeat;
     background-size: cover; /* 이미지를 요소에 맞게 cover로 설정 */
     width: 50px; /* 버튼의 너비 설정 */
