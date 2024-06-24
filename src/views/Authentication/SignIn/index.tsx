@@ -20,7 +20,6 @@ export default function SignIn() {
     const userIdRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
-
     const [isEmailError, setIsEmailError] = useState<boolean>(false);
     const [cookie, setCookie] = useCookies();
     const [email, setEmail] = useState<string>('');
@@ -30,7 +29,6 @@ export default function SignIn() {
     const [showRecoveryBox, setShowRecoveryBox] = useState(false);
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [message, setMessage] = useState<string>('');
-
     const navigate = useNavigate();
 
     const signInResponse = (responseBody: ResponseBody<SignInResponseDto>) => {

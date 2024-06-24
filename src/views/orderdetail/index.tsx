@@ -3,8 +3,9 @@ import { SaveCartRequestDto } from 'apis/request';
 import { GetPaymentResponseDto } from 'apis/response';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
+import './style.css';
 
 interface Product {
     orderList: any;
@@ -32,6 +33,7 @@ export default function OrderDetail() {
     const location = useLocation();
     const product = location.state.product as Product;
     const quantities = product.count;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOrderList = async () => {
@@ -76,6 +78,10 @@ export default function OrderDetail() {
         );
     };
 
+    const onQuestionButtonClickHandler = () => {
+        navigate('/question');
+    };
+
     const saveProductClickHandler = async (product: Product) => {
         const accessToken = cookies.accessToken;
         const formData: SaveCartRequestDto = {
@@ -111,32 +117,67 @@ export default function OrderDetail() {
 
     if(!paymentInfo) return <></>;
     return (
-        <div>
-            <h1>주문 상세</h1>
-            <div>
-                <div>
-                    <p>{calculateDeliveryDate(product.orderDatetime)}</p>
-                    {product.productImageList && product.productImageList.map((image, imgIndex) => (
-                        <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
-                    ))}
-                </div>
-                <p>구매 날짜: {formatOrderDate(product.orderDatetime)}</p>
-                <p>주문 번호: {product.orderId}</p>
-                <p>상품명: {product.title}</p>
-                {/* <p>카테고리: {product.category1} / {product.category2} / {product.category3} </p> */}
-                <p>가격: ${product.lowPrice}</p>
-                <p>상품개수: {product.count}개</p>
-            </div>
-            <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
-            <div>
-                <div>
-                    <h2>Payment Information</h2>
-                    <p>받는 사람: {paymentInfo.customerName}</p>
-                    <p>연락처: {paymentInfo.customerPhone}</p>
-                    <p>이메일: {paymentInfo.customerEmail}</p>
-                    <p>받는주소: {paymentInfo.customerPostcode} {paymentInfo.customerAddress}</p>
-                    <p>Amount: {paymentInfo.amount}원</p>
-                    {/* 기타 필요한 정보 출력 */}
+        <div className="orderList-container">
+            <div className="orderList-title">주문 상세</div>
+                <div className="orderList-content">
+                <div className="orderList-product-list">
+                    <div className="orderList-product-item">
+                    <ul className="orderList-product-info">
+                    <div className="orderList-leftTitle">
+                        {formatOrderDate(product.orderDatetime)} <div className="orderdetail-orderId">주문번호 {product.orderId}</div>
+                        </div>
+                        <li>
+                            <div className="orderList-leftInfo">
+                                <div className="orderList-leftsubTitle">
+                                    {calculateDeliveryDate(product.orderDatetime)}
+                                </div>
+                                <div className="orderList-leftContent">
+                                    <div className="orderList-leftThumbnail">
+                                        {product.productImageList && product.productImageList.map((image, imgIndex) => (
+                                        <img key={`${product.productId}-${imgIndex}`} className="product-detail-main-image" src={image} alt="product" />
+                                        ))}
+                                    </div>
+                                    <div className="orderList-left-product-info">
+                                        <div className="orderList-left-product-info-title">
+                                            <p className="orderList-product-title">{product.title}</p>
+                                        </div>
+                                        <div className="orderList-left-product-info-content">
+                                            <p>{product.lowPrice} 원</p>
+                                            <p>{product.count} 개</p>
+                                            <p>총 가격: {paymentInfo.amount}원</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="orderList-rightInfo">
+                                <div className="orderList-button-container">
+                                    <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
+                                    <button>리뷰 작성하기</button>
+                                    <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
+                                </div>
+                            </div>
+                        </li>
+                        <div className="orderdetail-container">
+                            <div className="orderdetail-paymentTitle">배송 정보</div>
+                            <div className="divider"></div>
+                            <div className="orderdetail-info-container">
+                                <div className="orderdetail-leftInfo">
+                                    <p>받는 사람</p>
+                                    <p>연락처</p>
+                                    <p>이메일</p>
+                                    <p>받는 주소</p>
+                                </div>
+                                <div className="orderdetail-rightInfo">
+                                    <p>{paymentInfo.customerName}</p>
+                                    <p>{paymentInfo.customerPhone}</p>
+                                    <p>{paymentInfo.customerEmail}</p>
+                                    <p>{paymentInfo.customerPostcode} {paymentInfo.customerAddress}</p>
+                                </div>
+                                {/* 기타 필요한 정보 출력 */}
+                            </div>
+                        </div>
+                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
