@@ -1,0 +1,115 @@
+.star-full-image {
+    background-image: url("./star_review.png"); /* 이미지 파일 경로 설정 */
+  }
+  
+  .star-blank-image {
+    background-image: url("./star_blank.png"); /* 이미지 파일 경로 설정 */
+  }
+  
+  .like-image {
+    background-image: url("./pngegg.png");
+  }
+  
+  .dislike-image {
+    background-image: url("./pngwing.com.png");
+  }
+  
+  .star-setting {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover; /* 이미지를 요소에 맞게 cover로 설정 */
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    margin-right: 1px;
+  
+    flex-direction: row;
+  }
+  
+  .like-button-setting {
+    background-color: rgba(236, 236, 236, 0.764);
+    width: 30px;
+    height: 30px;
+    margin-right: 2px;
+  
+    border: none;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .like-image-setting {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover; /* 이미지를 요소에 맞게 cover로 설정 */
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+  
+    margin-right: 1px;
+    transform: scale(1);
+    transition: all 1.5s;
+    border: none;
+    object-fit: contain;
+  
+    flex-direction: row;
+  }
+  
+  .like-button-setting:hover {
+    cursor: pointer;
+  }
+  
+  .el-review-star-container {
+    display: flex;
+    padding-bottom: 10px;
+  }
+  
+  .el-review-account-container {
+    display: flex;
+    margin-left: 30px;
+  }
+  
+  .like-container {
+    display: flex;
+    margin-left: auto;
+  }
+  
+  @keyframes like-effect {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes dislike-effect {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .like-active {
+    background-color: rgba(150, 150, 255, 0.771);
+  }
+  
+  .dislike-active {
+    background-color: rgba(255, 126, 126, 0.806);
+  }
+  
+  .like-animation {
+    animation: like-effect 0.5s ease-in-out;
+  }
+  
+  .dislike-animation {
+    animation: dislike-effect 0.5s ease-in-out;
+  }
+  
