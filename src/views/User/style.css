@@ -85,8 +85,8 @@
   flex-shrink: 0;
   border-color: #bcbfc6;
   color: #777;
-  background-color: #fafbf6;
-  background-image: linear-gradient(#fff, #f1f1f1);
+  /* background-color: #fafbf6; */
+  /* background-image: linear-gradient(#fff, #f1f1f1); */
   /* box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.2); */
 }
 

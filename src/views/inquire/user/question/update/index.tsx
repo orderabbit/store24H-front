@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getQuestionRequest, patchQuestionRequest} from "apis";
+import { getQuestionRequest, patchQuestionRequest } from "apis";
 import Question from "types/interface/question.interface";
 import { useLoginUserStore } from "stores";
 import { PostQuestionRequestDto } from "apis/request/question";
+import "./style.css"
 
 export default function Update() {
   const params = useParams();
-  const {questionId} = useParams();
+  const { questionId } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -27,7 +28,6 @@ export default function Update() {
     email: "",
   });
 
- 
   useEffect(() => {
     const userId = loginUser?.userId;
     if (!userId) return;
@@ -44,7 +44,7 @@ export default function Update() {
           throw new Error("Invalid response structure");
         }
         setQuestion(response as Question | null);
-        setPostRequest({title, content, userId ,type ,email});
+        setPostRequest({ title, content, userId, type, email });
       } catch (error) {
         console.error("질문 정보를 불러오는 중 오류가 발생했습니다:", error);
         alert("질문 정보를 불러오는 중 오류가 발생했습니다.");
@@ -53,8 +53,7 @@ export default function Update() {
 
     fetchQuestion();
   }, [questionId]);
-  
-  
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setPostRequest((prevState) => ({
@@ -62,7 +61,7 @@ export default function Update() {
       title: event.target.value,
     }));
   };
-  
+
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
     setPostRequest((prevState) => ({
@@ -70,7 +69,7 @@ export default function Update() {
       content: event.target.value,
     }));
   };
-  
+
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     setPostRequest((prevState) => ({
@@ -81,7 +80,7 @@ export default function Update() {
   const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = event.target.value; // 선택된 값이 숫자 형태로 들어옴
     let typeString = ""; // 변환된 문자열을 저장할 변수
-  
+
     switch (selectedType) {
       case "1":
         typeString = "문의 유형을 선택해주세요.";
@@ -102,7 +101,7 @@ export default function Update() {
         typeString = ""; // 기본값 처리
         break;
     }
-  
+
     // state 업데이트
     setType(selectedType);
     setPostRequest((prevState) => ({
@@ -114,19 +113,18 @@ export default function Update() {
     navigate("/question");
   };
   const uploadPostClickHandler = async () => {
-    
     try {
-        const result = await patchQuestionRequest(questionId, postRequest);
-        if (result && result.code === "SU") { 
-          alert("질문 수정 완료");
-          navigate("/question");
-        } else {
-          setErrorMessage("질문 수정 실패");
-        }
-      } catch (error) {
-        console.error("질문 수정 중 오류가 발생했습니다:", error);
-        setErrorMessage("질문 수정 중 오류가 발생했습니다");
+      const result = await patchQuestionRequest(questionId, postRequest);
+      if (result && result.code === "SU") {
+        alert("질문 수정 완료");
+        navigate("/question");
+      } else {
+        setErrorMessage("질문 수정 실패");
       }
+    } catch (error) {
+      console.error("질문 수정 중 오류가 발생했습니다:", error);
+      setErrorMessage("질문 수정 중 오류가 발생했습니다");
+    }
   };
 
   const getTypeString = (type: string) => {
@@ -150,65 +148,81 @@ export default function Update() {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
   return (
-    <tr className="inquire">
-    <h2 className="inquire-title">1대1 문의 접수</h2>
-    <tr>
-      <tr>
-      <th>문의 ID</th>
-      <td>{question.userId}</td>
-      </tr>
-      <tr>
-      <th>문의유형</th>
-      <td>{getTypeString(question.type)}</td>
-      <td>
-        <label htmlFor="inquire"></label>
-        <select id="inquire" value={type} onChange={handleTypeChange}>
-          <option value="1">문의 유형을 선택해주세요.</option>
-          <option value="2">배송 /수령예정일 안내</option>
-          <option value="3">주문 / 결제</option>
-          <option value="4">회원정보 안내</option>
-          <option value="5">반품 /교환/ 환불 안내</option>
-        </select>
-      </td>
-      </tr>
-      <tr>
-      <th>제목</th>
-      <td>{question.title}</td>
-      <td>
-      <input
-          type="text"
-          placeholder="제목을 입력해주세요."
-          value={title}
-          onChange={handleTitleChange}
-        />
-        </td>
-      </tr>
-        <tr>
-        <th>내용</th>
-        <td>{question.content}</td>
-        <td>
-        <textarea
-          placeholder="내용을 입력해주세요."
-          value={content}
-          onChange={handleContentChange}
-        />
-      </td>
+    <div className="inquire-update-enter">
+      <h2 className="inquire-update-enter-title">1대1 문의 접수</h2>
+      <table className="inquire-update">
+      <tbody>
+        <tr className="inquire-update-combine">
+          <th className="inquire-update-title">문의 ID</th>
+          <td className="inquire-update-content">{question.userId}</td>
         </tr>
-      <tr>
-    <th>이메일</th>
-    <td>{question.email}</td>
-    <td>
-      <input
-        type="text"
-        placeholder="이메일을 입력해주세요."
-        value={email}
-        onChange={handleEmailChange}
-      />
-    </td>
-    </tr>
-    </tr>
-    <button onClick={cancelClickHandler}>취소</button>
-    <button onClick={uploadPostClickHandler}>문의 접수</button>
-    </tr>
+        <tr className="inquire-update-combine">
+          <th className="inquire-update-title">문의유형</th>
+          <td className="inquire-update-content">
+            {getTypeString(question.type)}
+          </td>
+          <td className="inquire-update-update">
+            <label htmlFor="inquire"></label>
+            <select id="inquire" value={type} onChange={handleTypeChange} style={{ width: "550px", height: 40, borderRadius: 5, textIndent: "10px"  }}>
+              <option value="1">문의 유형을 선택해주세요.</option>
+              <option value="2">배송 /수령예정일 안내</option>
+              <option value="3">주문 / 결제</option>
+              <option value="4">회원정보 안내</option>
+              <option value="5">반품 /교환/ 환불 안내</option>
+            </select>
+          </td>
+        </tr>
+        <tr className="inquire-update-combine">
+          <th className="inquire-update-title">제목</th>
+          <td className="inquire-update-content">{question.title}</td>
+          <td className="inquire-update-update">
+            <input
+              type="text"
+              placeholder="제목을 입력해주세요."
+              value={title}
+              onChange={handleTitleChange}
+              style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
+            />
+          </td>
+        </tr>
+        <tr className="inquire-update-combine-content">
+          <th className="inquire-update-title-content">내용</th>
+          <td className="inquire-update-content-content">{question.content}</td>
+          <td className="inquire-update-update-content">
+            <textarea
+              placeholder="문의 유형을 먼저 선택 후 내용을 입력해주세요."
+              value={content}
+              onChange={handleContentChange}
+              style={{ width: "700px", height: 350 , borderRadius: 5, textIndent: "10px", resize: "none"  }}
+            />
+          </td>
+        </tr>
+        <tr className="inquire-update-combine">
+          <th className="inquire-update-title">이메일</th>
+          <td className="inquire-update-content">{question.email}</td>
+          <td className="inquire-update-update">
+            <input
+              type="text"
+              placeholder="연락 받으실 이메일을 입력해주세요."
+              value={email}
+              onChange={handleEmailChange}
+              style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
+            />
+          </td>
+        </tr>
+        <tr>
+          <div className="inquire-update-cancel" onClick={cancelClickHandler}>
+            취소
+          </div>
+          <div
+            className="inquire-update-upload"
+            onClick={uploadPostClickHandler}
+          >
+            문의 수정
+          </div>
+        </tr>
+      </tbody>
+    </table>
+    </div>
   );
 }
