@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="footer-content">
           <div className="footer-navigate" onClick={onLogoClickHandler}><img className="footer-logo" src={logoIcon} alt="logo" /></div>
-          <div>(주)코리아IT편의점 주식회사 대표이사 최민규 / 주소: 서울특별시 강남구 논현로 508 (역삼동, IT타워)
+          <div>(주)코리아IT편의점 주식회사 대표이사 장민규 부대표 최판규 / 주소: 서울특별시 강남구 논현로 508 (역삼동, IT타워)
             사업자 등록번호 : 11-5652-123066
           </div>
           <div>전자상거래등에서의 소비자보호에 관한 법률에 따라 기업은행과 채무지급보증 계약을 체결하여 고객님의 결제금액에 대해 안전거래를 보장하고 있습니다.</div>

@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8394222-374f-4892-a542-bd43b94cc96f" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/apis/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/apis/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/User/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/User/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/User/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/User/style.css" afterDir="false" />
-    </list>
+    <list default="true" id="c8394222-374f-4892-a542-bd43b94cc96f" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
