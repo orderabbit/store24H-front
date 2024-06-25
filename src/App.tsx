@@ -30,12 +30,13 @@ import QuestionDetail from 'views/inquire/question/detail';
 
 
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';
-import OrderPage from 'views/orderlist';
+import OrderPage from 'views/order/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
 import SearchList from 'views/product/searchList';
-import OrderDetail from 'views/orderdetail';
+import OrderDetail from 'views/order/orderdetail';
+import ReviewWrite from 'views/review/write';
 
 
 function App() {
@@ -81,7 +82,9 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
-        
+        <Route path="/product/review" element={<ReviewWrite productId={0} onSuccess={function (): void {
+          throw new Error('Function not implemented.');
+        } } />} />
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
