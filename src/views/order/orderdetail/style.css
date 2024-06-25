@@ -186,11 +186,13 @@
 }
 
 .list-no-result {
+    display: flex;
     height: 76px;
-    text-align: center;
+    justify-content: center;
     font-size: 24px;
     color: rgba(0, 0, 0, 0.4);
     font-weight: 500;
+    align-items: center;
 }
 
 .divider {
