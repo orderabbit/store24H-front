@@ -25,6 +25,7 @@ const QuestionDetail: React.FC = () => {
     null
   );
   const [userId, setUserId] = useState("");
+  const [role, setRole] = useState<string>("");
   const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,8 +40,11 @@ const QuestionDetail: React.FC = () => {
 
   useEffect(() => {
     const userId = loginUser?.userId;
-    if (!userId) return;
+    const role = loginUser?.role;
+    console.log("userId", userId, "role", role);
+    if (!userId || !role) return;
     setUserId(userId);
+    setRole(role);
     setIsLoggedIn(true);
   }, [loginUser]);
 
@@ -254,10 +258,13 @@ const QuestionDetail: React.FC = () => {
           </div>
         </>
       )}
+      
       <div className="inquire-answer-write">
+      {role === "ROLE_ADMIN" && (
         <div className="inquire-answer-button" onClick={toggleAnswerSection}>
           답변 작성
         </div>
+        )}
         {answerVisible && (
           <div className="modal-overlay-answer">
             <div className="modal-content-answer" style={{ textAlign: "left" }}>

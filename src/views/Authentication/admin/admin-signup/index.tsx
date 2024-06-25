@@ -1,8 +1,8 @@
 
-import { SNS_SIGN_IN_URL, checkCertificationRequest, emailCertificationRequest, userIdCheckRequest, nicknameCheckRequest, signupRequest } from "apis";
+import { SNS_SIGN_IN_URL, checkCertificationRequest, emailCertificationRequest, userIdCheckRequest, nicknameCheckRequest, signupRequest, adminSignUpRequest } from "apis";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "apis/request/auth";
 import nicknameCheckRequestDto from "apis/request/auth/nickname-check.request.dto";
-import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "apis/response/auth";
+import { AdminSignUpResponseDto, CheckCertificationResponseDto, EmailCertificationResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "apis/response/auth";
 import nicknameCheckResponseDto from "apis/response/auth/nickname-check.response.dto";
 import InputBox from "components/InputBox";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
@@ -13,8 +13,9 @@ import './style.css';
 import { SIGNIN_PATH } from "constant";
 import React from "react";
 import SignBox from "components/SignBox";
+import AdminSignUpRequestDto from "apis/request/auth/admin-sign-up.request.dto";
 
-export default function SignUp() {
+export default function AdminSignUp() {
 
     const userIdRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
@@ -22,6 +23,7 @@ export default function SignUp() {
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
+    const secretKeyRef = useRef<HTMLInputElement | null>(null);
 
 
     const [userId, setUserId] = useState<string>('');
@@ -30,6 +32,7 @@ export default function SignUp() {
     const [passwordCheck, setPasswordCheck] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [certificationNumber, setCertificationNumber] = useState<string>('');
+    const [secretKey, setSecretKey] = useState<string>('');
     const [agreedPersonal, setAgreenPersonal] = useState<boolean>(false);
 
     const [isUserIdError, setUserIdError] = useState<boolean>(false);
@@ -38,6 +41,7 @@ export default function SignUp() {
     const [isPasswordCheckError, setPasswordCheckError] = useState<boolean>(false);
     const [isEmailError, setEmailError] = useState<boolean>(false);
     const [isCertificationNumberError, setCertificationNumberError] = useState<boolean>(false);
+    const [isSecretKeyError, setSecretKeyError] = useState<boolean>(false);
     const [isAgreedPersonalError, setAgreedPersonalError] = useState<boolean>(false);
 
     const [userIdMessage, setUserIdMessage] = useState<string>('');
@@ -46,12 +50,14 @@ export default function SignUp() {
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
+    const [SecretKeyMessage, setSecretKeyMessage] = useState<string>('');
 
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
+    const [isSecretKeyCheck, setSecretKeyCheck] = useState<boolean>(false);
 
-    const signUpButtonClass = userId && password && nickname && passwordCheck && email && certificationNumber ?
+    const signUpButtonClass = userId && password && nickname && passwordCheck && email && certificationNumber && secretKey ?
         'primary-button-lg' : 'disable-button-lg';
 
     const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
@@ -130,12 +136,19 @@ export default function SignUp() {
         setCertificationCheck(true);
     };
 
-    const signUpResponse = (responseBody: ResponseBody<SignUpResponseDto>) => {
+    const adminSignUpResponse = (responseBody: ResponseBody<AdminSignUpResponseDto>) => {
         if (!responseBody) return;
-
         const { code } = responseBody;
         if (code === ResponseCode.VALIDATION_FAIL) alert('모든 값을 입력하세요.');
-
+        if (code === ResponseCode.DO_NOT_HAVE_PERMISSION) {
+            setSecretKeyError(true);
+            setSecretKeyMessage('시크릿 키가 일치하지 않습니다.');
+            setSecretKeyCheck(false);
+        }
+        if (responseBody.code !== ResponseCode.SUCCESS) return;
+        setSecretKeyError(false);
+        setSecretKeyMessage('시크릿 키가 확인되었습니다.');
+        setSecretKeyCheck(true);
         navigate(SIGNIN_PATH());
         alert('회원가입이 완료되었습니다.');
     };
@@ -154,7 +167,6 @@ export default function SignUp() {
         setNicknameCheck(false);
     };
 
-
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setPassword(value);
@@ -167,7 +179,6 @@ export default function SignUp() {
         setPasswordCheckMessage('');
     };
 
-
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setEmail(value);
@@ -179,6 +190,13 @@ export default function SignUp() {
         setCertificationNumber(value);
         setCertificationNumberMessage('');
         setCertificationCheck(false);
+    };
+
+    const onSecretKeyChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setSecretKey(value);
+        setSecretKeyMessage('');
+        setSecretKeyCheck(false);
     };
 
     const onIdButtenClickHandler = () => {
@@ -228,8 +246,7 @@ export default function SignUp() {
     }
 
     const onSignUpButtonClickHandler = () => {
-
-        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber) return;
+        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber || !secretKey) return;
         if (!isUserIdCheck) {
             alert('중복 확인은 필수입니다.');
             return;
@@ -254,20 +271,9 @@ export default function SignUp() {
             return;
         }
 
-        const requestBody: SignUpRequestDto = { userId, nickname, password, email, certificationNumber, agreedPersonal };
-        signupRequest(requestBody).then(signUpResponse)
+        const requestBody: AdminSignUpRequestDto = { userId, nickname, password, email, certificationNumber, agreedPersonal, secretKey};
+        adminSignUpRequest(requestBody).then(adminSignUpResponse)
     };
-
-    const onSignInButtonClickHandler = () => {
-        navigate(SIGNIN_PATH());
-    };
-
-    const onSnsSignInButtonClickHandler = (type: 'kakao' | 'naver' | 'google') => {
-
-        console.log(SNS_SIGN_IN_URL(type));
-        window.location.href = SNS_SIGN_IN_URL(type);
-    };
-
 
     const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
@@ -305,18 +311,10 @@ export default function SignUp() {
     <div className='sign-up-image'></div>
     <div className='sign-up-container'>*/}
     return (
-        <div className='sign-up-container'>
-            <div className='sign-up-box'>
+        <div className='admin-sign-up-container'>
+            <div className='admin-sign-up-box'>
                 <div className='sign-up-title'>{'?'}</div>
                 <div className='sign-up-content-box'>
-                    <div className='sign-up-content-sns-sign-in-box'>
-                        <div className='sign-up-content-sns-sign-in-title'>{'sns 회원가입'}</div>
-                        <div className='sign-up-content-sns-sign-in-button-box'>
-                            <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
-                            <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
-                            <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
-                        </div>
-                    </div>
                     <div className='sign-up-content-divider'></div>
                     <div className='sign-up-content-input-box'>
                         <SignBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} isErrorMessage={isUserIdError} message={userIdMessage} buttonTitle='중복 확인' onButtonClick={onIdButtenClickHandler} onKeyDown={onIdKeyDownHandler} />
@@ -325,6 +323,7 @@ export default function SignUp() {
                         <SignBox ref={passwordCheckRef} title='비밀번호 확인' placeholder='비밀번호를 입력해주세요' type='password' value={passwordCheck} onChange={onPasswordCheckChangeHandler} isErrorMessage={isPasswordCheckError} message={passwordCheckMessage} onKeyDown={onPasswordCheckKeyDownHandler} />
                         <SignBox ref={emailRef} title='이메일' placeholder='이메일 주소를 입력해주세요' type='text' value={email} onChange={onEmailChangeHandler} isErrorMessage={isEmailError} message={EmailMessage} buttonTitle='이메일 인증' onButtonClick={onEmailButtenClickHandler} onKeyDown={onEmailKeyDownHandler} />
                         <SignBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
+                        <SignBox ref={secretKeyRef} title='시크릿 키' placeholder='시크릿 키를 입력해주세요' type='text' value={secretKey} onChange={onSecretKeyChangeHandler} isErrorMessage={isSecretKeyError} message={SecretKeyMessage} />
                     </div>
                     <div className="auth-consent-box">
                         <div className="auth-check-box" onClick={onAgreedPersonalClickHandler}>
@@ -333,7 +332,7 @@ export default function SignUp() {
                         <div className={isAgreedPersonalError ? "auth-consent-title-error" : "auth-consent-title"}>{'개인정보동의'}</div>
                         <div className="auth-consent-link">{'더보기 >'}</div>
                     </div>
-                    <div className='sign-up-content-button-box'>
+                    <div className='admin-sign-up-content-button-box'>
                         <div className={signUpButtonClass + ' full-width'} onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
                     </div>
                 </div>

@@ -35,6 +35,7 @@ import SearchList from 'views/product/searchList';
 import ReviewWrite from 'views/review/write';
 import OrderPage from 'views/order/orderlist';
 import OrderDetail from 'views/order/orderdetail';
+import AdminSignUp from 'views/Authentication/admin/admin-signup';
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
         <Route path="/question/detail/:questionId" element={<QuestionDetail />} />
         <Route path="/question/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
+        <Route path="/admin-signup" element={<AdminSignUp />} />
         <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />
         <Route path="/address" element={<AddressPage />} />
