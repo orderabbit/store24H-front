@@ -5,17 +5,17 @@ import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoginUserStore } from "stores";
 import "./style.css";
-import { getUserRequest, patchNicknameRequest, patchPasswordRequest } from "apis";
-import { PatchNicknameRequestDto, PatchPasswordRequestDto } from "apis/request/user";
-import { GetUserResponseDto, PatchNicknameResponseDto, PatchPasswordResponseDto } from "apis/response/user";
+import { getUserRequest, patchNicknameRequest, patchPasswordRequest, withdrawUserRequest } from "apis";
+import { PatchNicknameRequestDto, PatchPasswordRequestDto, WithdrawalUserRequestDto } from "apis/request/user";
+import { GetUserResponseDto, PatchNicknameResponseDto, PatchPasswordResponseDto, WithdrawalUserResponseDto } from "apis/response/user";
 
 export default function MyPage() {
   const [isMyPage, setMyPage] = useState<boolean>(false);
-  const [cookies] = useCookies(["accessToken"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
   const { userId } = useParams();
   const navigator = useNavigate();
 
-  const { loginUser } = useLoginUserStore();
+  const { loginUser, resetLoginUser } = useLoginUserStore();
   const [isSocialUser, setIsSocialUser] = useState<boolean>(false);
   const [isNicknameChange, setNicknameChange] = useState<boolean>(false);
 
@@ -36,6 +36,8 @@ export default function MyPage() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isNicknameModalOpen, setNicknameModalOpen] = useState<boolean>(false);
   const [isPasswordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
+  const [isWithdrawalModalOpen, setWithdrawalModalOpen] = useState<boolean>(false);
+  const [withdrawalPassword, setWithdrawalPassword] = useState<string>("");
 
   const getUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null
@@ -56,6 +58,21 @@ export default function MyPage() {
     setIsSocialUser(socialUser);
     const isMyPage = userId === loginUser?.userId;
     setMyPage(isMyPage);
+  };
+  
+  const WithdrawalUserResponse = (
+    responseBody: WithdrawalUserResponseDto | ResponseDto | null
+  ) => {
+    if (!cookies.accessToken) return;
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === "NU") alert("존재하지 않는 유저입니다.");
+    if (code === "AF") alert("인증에 실패했습니다.");
+    if (code === "DBE") alert("데이터베이스 오류입니다.");
+    if (code !== "SU") return;
+    alert("회원탈퇴 되었습니다.");
+    logout();
+    navigator(MAIN_PATH());
   };
 
   const patchNicknameResponse = (
@@ -200,6 +217,29 @@ export default function MyPage() {
     setDuplicatePasswordError(false);
   };
 
+
+  const onWithdrawalButtonClickHandler = () => {
+    setWithdrawalModalOpen(true);
+  };
+
+  const handleWithdrawalSubmit = () => {
+    if (!userId || !withdrawalPassword) return;
+    const requestBody: WithdrawalUserRequestDto = { userId: userId, password: withdrawalPassword };
+    withdrawUserRequest(userId, requestBody).then(WithdrawalUserResponse);
+  };
+
+
+  const closeWithdrawalModal = () => {
+    setWithdrawalModalOpen(false);
+    setWithdrawalPassword("");
+  };
+
+  const logout = () => {
+    removeCookie("accessToken", { path: "/" });
+    resetLoginUser();
+  };
+  
+
   useEffect(() => {
     if (!userId) return;
     getUserRequest(userId, cookies.accessToken).then(getUserResponse);
@@ -207,19 +247,19 @@ export default function MyPage() {
 
   if (!userId) return <></>;
   return (
-    <div className="sign-in-container">
-      <div className="sign-in-box">
-        <div className="sign-in-title">회원정보 수정</div>
-        <div className="sign-in-content-box">
-          <div className="sign-info">
-            <div className="sign-info-title">
+    <div className="setprofile-in-container">
+      <div className="setprofile-in-box">
+        <div className="setprofile-in-title">회원정보 수정</div>
+        <div className="setprofile-in-content-box">
+          <div className="setprofile-info">
+            <div className="setprofile-info-title">
               <div>아이디</div>
             </div>
-            <div className="sign-info-content">{userId}</div>
+            <div className="setprofile-info-content">{userId}</div>
           </div>
-          <div className="sign-info">
-            <div className="sign-info-title">닉네임</div>
-            <div className="sign-info-content">
+          <div className="setprofile-info">
+            <div className="setprofile-info-title">닉네임</div>
+            <div className="setprofile-info-content">
               {isMyPage ? (
                 <>
                   <div className="user-top-info-nickname">{nickname}</div>
@@ -233,26 +273,33 @@ export default function MyPage() {
               )}
             </div>
           </div>
-          <div className="sign-info">
-            <div className="sign-info-title">
+          <div className="setprofile-info">
+            <div className="setprofile-info-title">
               <div>이메일 주소</div>
             </div>
-            <div className="sign-info-content">{email}</div>
+            <div className="setprofile-info-content">{email}</div>
           </div>
-          <div className="sign-info">
-            <div className="sign-info-title">
+          <div className="setprofile-info">
+            <div className="setprofile-info-title">
               <div>비밀번호</div>
             </div>
-            <div className="sign-info-content">
+            <div className="setprofile-info-content">
               <div className="user-top-info-nickname">{"********"}</div>
               {isMyPage && !isSocialUser && (
                 <div className="icon-box" onClick={onPasswordEditButtonClickHandler}>
-                  <button className="icon-edit-icon">비밀번호 변경</button>
+                  <div className="icon-edit-icon">비밀번호 변경</div>
                   {/* 테두리 있는버전 */}
                 </div>
               )}
             </div>
           </div>
+          {isMyPage && (
+          <div className="setprofile-in-content-box">
+            <button className="withdrawal-btn" onClick={onWithdrawalButtonClickHandler}>
+              회원 탈퇴
+            </button>
+          </div>
+          )}
         </div>
       </div>
 
@@ -264,25 +311,25 @@ export default function MyPage() {
             <div className="modal-content-box">
               <input
                 type="text"
-                className="sign-in-input"
+                className="setprofile-in-input"
                 placeholder="변경할 닉네임"
                 value={changeNickname}
                 onChange={onNicknameChangeHandler}
               />
               {emptyNicknameError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   변경할 닉네임을 입력해 주세요.
                 </div>
               )}
               {duplicateNicknameError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   이미 사용 중인 닉네임입니다.
                 </div>
               )}
-              <button className="sign-in-button" onClick={handleNicknameSubmit}>
+              <button className="setprofile-in-button" onClick={handleNicknameSubmit}>
                 닉네임 변경
               </button>
-              <button className="sign-in-button" onClick={closeNicknameModal}>
+              <button className="setprofile-in-button" onClick={closeNicknameModal}>
                 취소
               </button>
             </div>
@@ -298,50 +345,83 @@ export default function MyPage() {
             <div className="modal-content-box">
               <input
                 type="password"
-                className="sign-in-input"
+                className="setprofile-in-input"
                 placeholder="현재 비밀번호"
                 value={currentPassword}
                 onChange={onCurrentPasswordChangeHandler}
               />
               <input
                 type="password"
-                className="sign-in-input"
+                className="setprofile-in-input"
                 placeholder="새 비밀번호"
                 value={newPassword}
                 onChange={onNewPasswordChangeHandler}
               />
               <input
                 type="password"
-                className="sign-in-input"
+                className="setprofile-in-input"
                 placeholder="새 비밀번호 확인"
                 value={confirmPassword}
                 onChange={onConfirmPasswordChangeHandler}
               />
               {matchCurrentPasswordError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   현재 비밀번호가 일치하지 않습니다.
                 </div>
               )}
               {passwordMatchError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   새 비밀번호가 일치하지 않습니다.
                 </div>
               )}
               {emptyPasswordError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   모든 필드를 입력해 주세요.
                 </div>
               )}
               {duplicatePasswordError && (
-                <div className="sign-in-error-message">
+                <div className="setprofile-in-error-message">
                   새 비밀번호가 현재 비밀번호와 동일합니다.
                 </div>
               )}
-              <button className="sign-in-button" onClick={handlePasswordSubmit}>
+              <button className="setprofile-in-button" onClick={handlePasswordSubmit}>
                 비밀번호 변경
               </button>
-              <button className="sign-in-button" onClick={closePasswordModal}>
+              <button className="setprofile-in-button" onClick={closePasswordModal}>
                 취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* 회원 탈퇴 모달 */}
+      {isWithdrawalModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">회원 탈퇴</div>
+            <div className="modal-content-box">
+              <input
+              type="password"
+              className="setprofile-in-input"
+              placeholder="비밀번호를 입력하세요."
+              value={withdrawalPassword}
+              onChange={(e) => setWithdrawalPassword(e.target.value)}
+              />
+              {matchCurrentPasswordError && (
+                <div className="setprofile-in-error-message">
+                  현재 비밀번호가 일치하지 않습니다.
+                </div>
+              )}
+              {emptyPasswordError && (
+                <div className="setprofile-in-error-message">
+                  비밀번호를 입력해 주세요.
+                </div>
+              )}
+              <button className="setprofile-in-button" onClick={closeWithdrawalModal}>
+                취소
+              </button>
+              <button className="withdrawal-button" onClick={handleWithdrawalSubmit}>
+                탈퇴하기
               </button>
             </div>
           </div>

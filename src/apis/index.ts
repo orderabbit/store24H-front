@@ -3,7 +3,7 @@ import axios, { AxiosResponse, formToJSON } from "axios";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
 import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
-import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto } from "./request/user";
+import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto, WithdrawalUserRequestDto } from "./request/user";
 import { DeleteCartResponseDto, DeleteOrderListResponseDto, GetOrderListResponseDto, GetPaymentResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
 import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
@@ -64,7 +64,7 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const GET_USER_URL = (userId: string) => `${API_DOMAIN}/user/${userId}`;
 const PATCH_PASSWORD_URL = (userId: string) => `${API_DOMAIN}/user/change-password/${userId}`;
 const RECOVER_PASSWORD_URL = () => `${API_DOMAIN}/user/recovery-password`;
-const WIDTHDRAWAL_USER_URL = (userId: number | string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
+const WIDTHDRAWAL_USER_URL = (userId: string) => `${API_DOMAIN}/user/withdrawal/${userId}`;
 
 const POST_CART_URL = () => `${API_DOMAIN}/cart/save`;
 const GET_CART_LIST_URL = (userId: string) => `${API_DOMAIN}/cart/list/${userId}`;
@@ -196,19 +196,21 @@ export const patchPasswordRequest = async (userId: string, requestBody: PatchPas
     return result;
 };
 
-export const withdrawUserRequest = async (userId: number | string, accessToken: string) => {
-    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), authorization(accessToken))
+export const withdrawUserRequest = async (userId: string, requestBody: WithdrawalUserRequestDto): Promise<ResponseBody<WithdrawalUserResponseDto>> => {
+    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), {
+        params: requestBody,
+      })
         .then(response => {
-            const responseBody: WithdrawalUserResponseDto = response.data;
-            return responseBody;
+          const responseBody: ResponseDto = response.data;
+          return responseBody;
         })
         .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.data;
-            return responseBody;
+          if (!error.response) return null;
+          const responseBody: ResponseDto = error.response.data;
+          return responseBody;
         });
-    return result;
-};
+      return result;
+    };
 
 export const recoveryPasswordRequest = async (requestBody: PasswordRecoveryRequestDto): Promise<ResponseBody<PasswordRecoveryResponseDto>> => {
     try {
@@ -530,7 +532,6 @@ export const DeleteProductRequest = async (productId: number | string, accessTok
     return result;
 };
 
-
 export const postReviewRequest = async (requestBody: PostReviewRequestDto, accessToken: string) => {
     console.log(requestBody)
     const result = await axios.post(POST_REVIEW_URL(), requestBody, authorization(accessToken))
@@ -546,23 +547,6 @@ export const postReviewRequest = async (requestBody: PostReviewRequestDto, acces
     return result;
 };
 
-
-
-// export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
-//     const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
-//         .then(response => {
-//             const responseBody: ResponseDto = response.data;
-//             return responseBody;
-//         })
-//         .catch(error => {
-//             if (!error.response) return null;
-//             const responseBody: ResponseDto = error.response.data;
-//             return responseBody;
-//         });
-//     return result;
-// };
-
-
 export const getAllReviewRequest = async (productId: string) => {
     const result = await axios.get(GET_ALL_REVIEW_URL(productId))
         .then(response => {
@@ -577,21 +561,6 @@ export const getAllReviewRequest = async (productId: string) => {
     return result;
 
 };
-
-
-// export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
-//     const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
-//         .then(response => {
-//             const responseBody: ResponseDto = response.data;
-//             return responseBody;
-//         })
-//         .catch(error => {
-//             if (!error.response) return null;
-//             const responseBody: ResponseDto = error.response.data;
-//             return responseBody;
-//         });
-//     return result;
-// };
 
 export const GetSearchProductListRequest = async (keyword: string) => {
     const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(keyword))

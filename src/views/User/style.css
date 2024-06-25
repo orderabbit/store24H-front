@@ -1,5 +1,5 @@
 /* 기본 스타일 */
-.sign-in-container {
+.setprofile-in-container {
   margin-top: 100px;
   padding-left: 5%;
   padding-right: 5%;
@@ -12,7 +12,7 @@
   flex-direction: row;
 }
 
-.sign-in-box {
+.setprofile-in-box {
   padding: 40px;
   display: flex;
   margin-top: 20px;
@@ -23,7 +23,7 @@
   transform: translateX(7%);
 }
 
-.sign-in-title {
+.setprofile-in-title {
   color: rgba(64, 64, 64, 1);
   display: flex;
   justify-content: flex-start;
@@ -34,14 +34,14 @@
   border-bottom: 2px solid rgb(25, 25, 25);
 }
 
-.sign-in-content-box {
+.setprofile-in-content-box {
   display: flex;
   flex-direction: column;
   gap: 0;
   height: 100%;
 }
 
-.sign-info {
+.setprofile-info {
   display: flex;
   font-style: initial;
   font-size: 15px;
@@ -50,15 +50,15 @@
   height: 75px;
 }
 
-.sign-info-title,
-.sign-info-content {
+.setprofile-info-title,
+.setprofile-info-content {
   text-align: center;
   align-items: center;
   display: flex;
   align-items: center;
 }
 
-.sign-info-title {
+.setprofile-info-title {
   padding-left: 2%;
   height: 75px;
   width: 150px;
@@ -72,7 +72,7 @@
   font-weight: 800;
 }
 
-.sign-info-content {
+.setprofile-info-content {
   padding-left: 5%;
   width: 200px;
 }
@@ -124,7 +124,7 @@
   flex-direction: column;
 }
 
-.sign-in-input {
+.setprofile-in-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -134,7 +134,7 @@
   font-size: 14px;
 }
 
-.sign-in-button {
+.setprofile-in-button {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
@@ -145,8 +145,19 @@
   cursor: pointer;
   font-size: 14px;
 }
+.withdrawal-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: red;
+    color: rgb(14, 13, 13);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-.sign-in-error-message {
+.setprofile-in-error-message {
   color: red;
   margin-top: 5px;
   font-size: 12px;
@@ -169,4 +180,10 @@
 .matchCurrent-error-message {
   letter-spacing: 1px;
   color: red;
+}
+
+.withdrawal-button-container {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
 }
