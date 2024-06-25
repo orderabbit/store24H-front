@@ -177,19 +177,6 @@ export default function Write() {
             navigate(MAIN_PATH());
         }
 
-        const patchBoardResponse = (responseBody: PatchProductResponseDto | ResponseDto | null) => {
-            if (!responseBody) return;
-            const { code } = responseBody.data;
-            if (code === 'DBE') alert('데이터베이스 오류입니다.');
-            if (code === 'AF' || code === 'NU' || code === 'NB' || code === 'NP') navigate(SIGNIN_PATH());
-            if (code === 'VF') alert('모두 입력하세요.');
-            if (code === 'DPI') alert('중복된 상품번호입니다.');
-            if (code !== 'SU') return;
-
-            if (!productId) return;
-            navigate('/product/:productId');
-        }
-
         const onUploadButtonClickHandler = async () => {
             const accessToken = cookies.accessToken;
             if (!accessToken) return;
@@ -220,7 +207,6 @@ export default function Write() {
             const requestBody: PostProductRequestDto = {
                 productId, title, content, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
             }
-            console.log(requestBody);
             PostProductRequest(requestBody, accessToken).then(postBoardResponse);
         }
 
@@ -340,14 +326,6 @@ export default function Write() {
                             <input ref={lowPriceRef} className='product-write-content-inputarea-price' placeholder='가격을 입력해주세요' value={lowPrice} onChange={onLowPriceChangeHandler} />
                         </div>
                     </li>
-                    {/* <li className='product-write-title-box'>
-                        <div>카테고리</div>
-                        <div className='product-write-content-box'>
-                            <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
-                            <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                            <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
-                        </div>
-                    </li> */}
                     <li className='product-write-title-box'>
                         <div>카테고리</div>
                         <div className='product-write-content-box'>

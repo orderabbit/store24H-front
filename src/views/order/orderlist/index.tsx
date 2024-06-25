@@ -21,7 +21,7 @@ interface Product {
   orderDatetime: string;
 }
 
-const OrderDetailPage: React.FC = () => {
+const OrderPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [orderItems, setOrderItems] = useState<Product[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
@@ -282,4 +282,4 @@ const OrderDetailPage: React.FC = () => {
   );
 };
 
-export default OrderDetailPage;
+export default OrderPage;

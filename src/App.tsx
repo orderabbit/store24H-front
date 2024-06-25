@@ -27,16 +27,14 @@ import QuestionDetail from 'views/inquire/user/question/detail';
 // import AnswerHome from 'views/inquire/admin/answer/main';
 // import AnswerWrite from 'views/inquire/admin/answer/write';
 // import AnswerUpdate from 'views/inquire/admin/answer/update';
-
-
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';
-import OrderPage from 'views/order/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
 import SearchList from 'views/product/searchList';
-import OrderDetail from 'views/order/orderdetail';
 import ReviewWrite from 'views/review/write';
+import OrderPage from 'views/order/orderlist';
+import OrderDetail from 'views/order/orderdetail';
 
 
 function App() {
