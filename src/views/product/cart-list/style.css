@@ -59,6 +59,16 @@
     text-align: center;
 }
 
+.no-result {
+    display: flex;
+    height: 76px;
+    justify-content: center;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 500;
+    align-items: center;
+}
+
 
 .cart-list-buy{
     border: 3px solid  #ffffff; /* 테두리 선 색상 녹색으로 설정 */
