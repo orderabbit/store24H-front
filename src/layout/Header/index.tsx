@@ -6,11 +6,13 @@ import Sidebar from 'layout/Header/Sidebar';
 import UserProfile from 'layout/Header/UserProfile';
 import profileIcon from '../../images/free-icon-profile-3106921.png';
 import cartListIcon from '../../images/free-icon-shopping-cart-3144456.png';
+import logoIcon from '../../images/free-icon-convenience-store-11790581.png';
 import { GetProductListRequest } from 'apis';
-
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
 import React from 'react';
+import { imageListClasses } from '@mui/material';
+
 
 interface Product {
   productId: number;
@@ -173,7 +175,7 @@ export default function Header() {
             <div className='icon-box'>
               <div className='icon logo-dark-icon'></div>
             </div>
-            <div className='header-logo'>{'logo'}</div>
+            <div className='header-logo'><img src={logoIcon} alt="logo" /></div>
           </div>
           <div className='header-right-box'>
             {<MyPageButton />}
