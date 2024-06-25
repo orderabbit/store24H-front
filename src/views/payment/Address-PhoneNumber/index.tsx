@@ -123,18 +123,18 @@ const AddressPage = () => {
 
           <div className="address-title">받는 사람 :</div>
           <div className="address-content">
-            <input type="text" name="name" value={name} onChange={handleInputChange} />
+            <input type="text" name="name" value={name} onChange={handleInputChange}  style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }} />
             {nameError && <p className="error-message">{nameError}</p>}
           </div>
           <br />
           <div className="address-title">우편번호 :</div>
           <div className="address-content">
-            <input type="text" value={postcode} readOnly />
+            <input type="text" value={postcode} readOnly style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }}/>
             <button
               className="Find-postal-code"
               type="button"
-              onClick={handlePostcodeSearch}
-            >
+              onClick={handlePostcodeSearch} 
+              >
               우편번호 찾기
             </button>
             {postcodeError && <p className="error-message">{postcodeError}</p>}
@@ -142,7 +142,7 @@ const AddressPage = () => {
           <br />
           <div className="address-title">주소 :</div>
           <div className="address-content">
-            <input type="text" value={address} readOnly />
+            <input type="text" value={address} readOnly style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }}/>
             {addressError && <p className="error-message">{addressError}</p>}
           </div>
 
@@ -154,6 +154,7 @@ const AddressPage = () => {
               name="detailAddress"
               value={detailAddress}
               onChange={handleInputChange}
+              style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }}
             />
             {detailAddressError && <p className="error-message">{detailAddressError}</p>}
           </div>
@@ -166,14 +167,15 @@ const AddressPage = () => {
               name="phoneNumber"
               value={phoneNumber}
               onChange={handleInputChange}
+              style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }}
             />
             {phoneNumberError && <p className="error-message">{phoneNumberError}</p>}
           </div>
 
           <br />
-          <div className="address-store">
-            <button type="submit">배송지 저장</button>
-          </div>
+            <div className="address-store-mom">
+            <button className="address-store" type="submit">배송지 저장</button>
+            </div>
         </div>
       </div>
     </form>

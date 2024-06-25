@@ -148,7 +148,7 @@ export default function Header() {
           {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
           {isLogin && (
             <>
-              <div className='auth-button'>
+              <div>
                 <span className='nickname'>{loginUser?.nickname}님</span>
               </div>
               <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
