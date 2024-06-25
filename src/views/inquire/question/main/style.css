@@ -53,7 +53,7 @@ font-size : 25px;
 .inquire-result-title{
     display: flex; /* Flexbox 사용 */
     width: 500px;
-   
+    cursor: pointer; /* 마우스 커서 모양 설정 */
 }
 .inquire-result-userId{
     display: flex; /* Flexbox 사용 */
