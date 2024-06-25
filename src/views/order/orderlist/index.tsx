@@ -194,6 +194,10 @@ const OrderDetailPage: React.FC = () => {
     }
   };
 
+  const titleClickHandler = (productId: number) => {
+    navigate(`/product/detail/${productId}`);
+  }
+
   const handleOrderDetailClick = (product: Product) => {
     navigate(`/order/detail/${product.orderId}`, { state: { product } });
   };
@@ -203,7 +207,21 @@ const OrderDetailPage: React.FC = () => {
 
   const formatPrice = (price: string) => {
     return parseFloat(price).toLocaleString();
-};
+  };
+
+  const calculateDeliveryStatus = (orderDatetime: string) => {
+    const currentDate = new Date();
+    const orderDate = new Date(orderDatetime.replace(/\./g, '/'));
+    const diffTime = Math.abs(currentDate.getTime() - orderDate.getTime());
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+
+    if (diffHours < 8) return "결제완료";
+    if (diffHours < 16) return "상품준비중";
+    if (diffHours < 24) return "배송시작";
+    if (diffHours < 32) return "배송중";
+    if (diffHours < 40) return "배송완료";
+    return "배송완료";
+  };
 
   return (
     <div className="orderList-container">
@@ -216,8 +234,8 @@ const OrderDetailPage: React.FC = () => {
                 {orderItems.map((product, index) => (
                   <li key={index}>
                     <div className="orderList-leftInfo">
-                      <div className="orderList-leftTitle">{formatOrderDate(product.orderList.orderDatetime)}</div>
                       <div className="orderList-leftsubTitle">
+                        <div className="orderList-deliveryStatus">{calculateDeliveryStatus(product.orderDatetime)}</div>
                         {checkArrivalStatus(product.orderDatetime)}
                         <div className="icon-button">
                           <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
@@ -231,7 +249,7 @@ const OrderDetailPage: React.FC = () => {
                         </div>
                         <div className="orderList-left-product-info">
                           <div className="orderList-left-product-info-title">
-                            <p className="orderList-product-title">{product.title}</p>
+                            <p className="orderList-product-title" onClick={() => titleClickHandler(product.productId)}>{product.title}</p>
                           </div>
                           <div className="orderList-left-product-info-content">
                             <p className="orderList-product-price">{formatPrice(product.lowPrice)} 원</p>

@@ -124,7 +124,40 @@ export default function OrderDetail() {
         return finalPrice.toLocaleString();
     };
 
-    console.log(formatPrice(product.lowPrice));
+    const titleClickHandler = (productId: number) => {
+        navigate(`/product/detail/${productId}`);
+    }
+
+    const calculateDeliveryStatus = (orderDatetime: string) => {
+        const currentDate = new Date();
+        const orderDate = new Date(orderDatetime.replace(/\./g, '/'));
+        const diffTime = Math.abs(currentDate.getTime() - orderDate.getTime());
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+
+        if (diffHours < 8) return "결제완료";
+        if (diffHours < 16) return "상품준비중";
+        if (diffHours < 24) return "배송시작";
+        if (diffHours < 32) return "배송중";
+        if (diffHours < 40) return "배송완료";
+        return "배송완료";
+    };
+
+    const checkArrivalStatus = (orderDate: string) => {
+        const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+        const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
+        const deliveryDateObj = new Date(orderDateObj);
+        deliveryDateObj.setDate(orderDateObj.getDate() + 2);
+
+        const currentDateTime = new Date();
+        const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
+
+        if (deliveryDateObj.getTime() === currentDate.getTime()) {
+            return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 완료`;
+        } else {
+            return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 예정`;
+        }
+    };
+
     if (!paymentInfo) return <></>;
     return (
         <div className="orderList-container">
@@ -136,13 +169,11 @@ export default function OrderDetail() {
                 <div className="orderList-product-list">
                     <div className="orderList-product-item">
                         <ul className="orderList-product-info">
-                            {/* <div className="orderList-leftTitle">
-                                {formatOrderDate(product.orderDatetime)} <div className="orderdetail-orderId">주문번호 {product.orderId}</div>
-                            </div> */}
                             <li>
                                 <div className="orderList-leftInfo">
                                     <div className="orderList-leftsubTitle">
-                                        {calculateDeliveryDate(product.orderDatetime)}
+                                        <div className="orderList-deliveryStatus">{calculateDeliveryStatus(product.orderDatetime)}</div>
+                                        {checkArrivalStatus(product.orderDatetime)}
                                     </div>
                                     <div className="orderList-leftContent">
                                         <div className="orderList-leftThumbnail">
@@ -152,7 +183,7 @@ export default function OrderDetail() {
                                         </div>
                                         <div className="orderList-left-product-info">
                                             <div className="orderList-left-product-info-title">
-                                                <p className="orderList-product-title">{product.title}</p>
+                                                <p className="orderList-product-title" onClick={() => titleClickHandler(product.productId)}>{product.title}</p>
                                             </div>
                                             <div className="orderList-left-product-info-content">
                                                 <p>{formatPrice(product.lowPrice)} 원</p>

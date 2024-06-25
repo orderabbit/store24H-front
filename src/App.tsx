@@ -30,12 +30,12 @@ import QuestionDetail from 'views/inquire/user/question/detail';
 
 
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';
-import OrderPage from 'views/orderlist';
+import OrderPage from 'views/order/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
 import SearchList from 'views/product/searchList';
-import OrderDetail from 'views/orderdetail';
+import OrderDetail from 'views/order/orderdetail';
 
 
 function App() {
