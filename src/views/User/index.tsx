@@ -247,7 +247,7 @@ export default function MyPage() {
                 <div className="sign-info-content">
                   <div className="user-top-info-nickname">{"********"}</div>
                   <div className="icon-box" onClick={onPasswordEditButtonClickHandler}>
-                    <button className="icon-edit-icon">비밀번호 변경</button>
+                    <div className="icon-edit-icon">비밀번호 변경</div>
                     {/* 테두리 있는버전 */}
                   </div>
                 </div>
