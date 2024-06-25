@@ -21,7 +21,7 @@ interface Product {
   orderDatetime: string;
 }
 
-const OrderDetailPage: React.FC = () => {
+const OrderPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [orderItems, setOrderItems] = useState<Product[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
@@ -271,7 +271,7 @@ const OrderDetailPage: React.FC = () => {
                 ))}
               </ul>
             ) : (
-              <div className="list-no-result" style={{ height: "76px", textAlign: "center", fontSize: "24px", color: "rgba(0, 0, 0, 0.4)", fontWeight: "500", }}>
+              <div className="list-no-result">
                 주문 내역이 없습니다.
               </div>
             )}
@@ -282,4 +282,4 @@ const OrderDetailPage: React.FC = () => {
   );
 };
 
-export default OrderDetailPage;
+export default OrderPage;

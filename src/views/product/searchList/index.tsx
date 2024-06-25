@@ -239,7 +239,7 @@ export default function SearchList() {
             </div >
             {
                 products.length === 0 && (
-                    <div className="list-no-result" style={{ height: "76px", textAlign: "center", fontSize: "24px", color: "rgba(0, 0, 0, 0.4)", fontWeight: "500", }}>
+                    <div className="list-no-result">
                         검색 결과가 없습니다.
                     </div>
                 )
