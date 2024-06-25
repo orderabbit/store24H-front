@@ -14,8 +14,13 @@ export default function Write() {
   const [email, setEmail] = useState("");
   const { loginUser } = useLoginUserStore();
   const [errorMessage, setErrorMessage] = useState("");
-  const [loggedInUserId, setLoggedInUserId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState("");
+  const [contentError, setContentError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [typeError, setTypeError] = useState("");
+
+
 
   useEffect(() => {
     const userId = loginUser?.userId;
@@ -26,9 +31,11 @@ export default function Write() {
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    if (event.target.value) setTitleError("");
   };
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
+    if (event.target.value) setContentError("");
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,28 +75,38 @@ export default function Write() {
     }
 
     setType(selectedType); // 변환된 문자열을 state에 저장
+    if(selectedType != "1") setTypeError("");
   };
 
   const uploadPostClickHandler = async () => {
-    try {
-      // 필수 입력 값 체크
-      if (!title || !content || !email) {
-        let errorMessageText = "";
-       if (!title) {
-          errorMessageText += "제목을 입력해주세요. ";
-        }
-        if (!content) {
-          errorMessageText += "내용을 입력해주세요. ";
-        }
-        if (!email) {
-          errorMessageText += "이메일을 입력해주세요. ";
-        }
-        alert(errorMessageText.trim()); // 필수 입력 필드가 비어 있을 경우 경고창 표시
-        return;
+      let hasError = false;
+
+      if(!title){
+        setTitleError("제목을 입력해주세요.");
+        hasError = true;
       }
-  
+      if(!content){
+        setContentError("내용을 입력해주세요.");
+        hasError = true;
+      }
+      if(!email){
+        setEmailError("이메일을 입력해주세요.");
+        hasError = true;
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)){
+          setEmailError("email 형식으로 입력해주세요.");
+          hasError = true;
+        }
+      }
+      if(!type || type === "1"){
+        setTypeError("문의 유형을 입력해주세요.");
+        hasError = true;
+      }
+      if(hasError) return;
+
+      try{
       const requestBody = { title, content, userId, type, email };
-      console.log(requestBody);
       const result = await postQuestionRequest(requestBody);
   
       if (result && result.code === "SU") {
@@ -131,6 +148,7 @@ export default function Write() {
           <option value="4">회원정보 안내</option>
           <option value="5">반품 /교환/ 환불 안내</option>
         </select>
+        {typeError && <div style={{ color : 'red'}}>{typeError}</div>}
       </td>
     </div>
     <div  className="inquire-write-tr">
@@ -143,18 +161,19 @@ export default function Write() {
           onChange={handleTitleChange}
           style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
         />
+        {titleError && <div style={{ color : 'red'}}>{titleError}</div>}
       </td>
     </div>
     <div  className="inquire-write-tr-content">
       <th className="inquire-write-left-content">내용</th>
       <td className="inquire-write-right-content">
         <textarea
-
           placeholder="문의 유형을 먼저 선택 후 내용을 입력해주세요."
           value={content}
           onChange={handleContentChange}
           style={{ width: "700px", height: 400 , borderRadius: 5, textIndent: "10px" }}
         />
+        {contentError && <div style={{ color : 'red'}}>{contentError}</div>}
       </td>
     </div>
     <div className="inquire-write-tr">
@@ -167,6 +186,7 @@ export default function Write() {
           onChange={handleEmailChange}
           style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px"  }}
         />
+        {emailError && <div style={{ color : 'red'}}>{emailError}</div>}
       </td>
     </div>
   </tbody>
@@ -177,11 +197,7 @@ export default function Write() {
       <td className="inquire-write-upload" onClick={uploadPostClickHandler}>문의 접수
       </td>
     </div>
-    {errorMessage && (
-    <tr>
-      <td colSpan={2} style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</td>
-    </tr>
-  )}
+    
   </tfoot>
 </table>
 
