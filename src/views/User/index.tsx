@@ -38,6 +38,8 @@ export default function MyPage() {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState<boolean>(false);
   const [isWithdrawalModalOpen, setWithdrawalModalOpen] = useState<boolean>(false);
   const [withdrawalPassword, setWithdrawalPassword] = useState<string>("");
+  const [emptyWithdrawalPasswordError, setEmptyWithdrawalPasswordError] = useState<boolean>(false);
+  const [withdrawalPasswordMatchError, setWithdrawalPasswordMatchError] = useState<boolean>(false);
 
   const getUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null
@@ -223,15 +225,28 @@ export default function MyPage() {
   };
 
   const handleWithdrawalSubmit = () => {
-    if (!userId || !withdrawalPassword) return;
+    setEmptyWithdrawalPasswordError(false);
+    setWithdrawalPasswordMatchError(false);
+
+    if (withdrawalPassword === "") {
+      setEmptyWithdrawalPasswordError(true);
+      return;
+    }
+    if (withdrawalPassword !== currentPassword) {
+      setWithdrawalPasswordMatchError(true);
+      return;
+    }
+    if(!userId || !withdrawalPassword) return;
     const requestBody: WithdrawalUserRequestDto = { userId: userId, password: withdrawalPassword };
-    withdrawUserRequest(userId, requestBody).then(WithdrawalUserResponse);
+    withdrawUserRequest(userId!, requestBody,).then(WithdrawalUserResponse);
   };
 
 
   const closeWithdrawalModal = () => {
     setWithdrawalModalOpen(false);
     setWithdrawalPassword("");
+    setEmptyWithdrawalPasswordError(false);
+    setWithdrawalPasswordMatchError(false);
   };
 
   const logout = () => {
@@ -243,7 +258,7 @@ export default function MyPage() {
   useEffect(() => {
     if (!userId) return;
     getUserRequest(userId, cookies.accessToken).then(getUserResponse);
-  }, [userId, isNicknameChange]);
+  }, [userId, isNicknameChange, cookies.accessToken]);
 
   if (!userId) return <></>;
   return (
@@ -294,10 +309,10 @@ export default function MyPage() {
             </div>
           </div>
           {isMyPage && (
-          <div className="setprofile-in-content-box">
-            <button className="withdrawal-btn" onClick={onWithdrawalButtonClickHandler}>
+          <div className="setprofile-withdrawal-box">
+            <div className="setprofile-withdrawal-button" onClick={onWithdrawalButtonClickHandler}>
               회원 탈퇴
-            </button>
+            </div>
           </div>
           )}
         </div>
@@ -407,21 +422,21 @@ export default function MyPage() {
               value={withdrawalPassword}
               onChange={(e) => setWithdrawalPassword(e.target.value)}
               />
-              {matchCurrentPasswordError && (
-                <div className="setprofile-in-error-message">
-                  현재 비밀번호가 일치하지 않습니다.
-                </div>
-              )}
-              {emptyPasswordError && (
+              {emptyWithdrawalPasswordError && (
                 <div className="setprofile-in-error-message">
                   비밀번호를 입력해 주세요.
+                </div>
+              )}
+              {withdrawalPasswordMatchError && (
+                <div className="setprofile-in-error-message">
+                  비밀번호가 일치하지 않습니다.
                 </div>
               )}
               <button className="setprofile-in-button" onClick={closeWithdrawalModal}>
                 취소
               </button>
               <button className="withdrawal-button" onClick={handleWithdrawalSubmit}>
-                탈퇴하기
+                탈퇴
               </button>
             </div>
           </div>

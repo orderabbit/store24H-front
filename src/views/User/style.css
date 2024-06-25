@@ -1,6 +1,7 @@
 /* 기본 스타일 */
 .setprofile-in-container {
-  margin-top: 100px;
+  margin: 40px;
+  margin-left: 160px;
   padding-left: 5%;
   padding-right: 5%;
   text-align: left;
@@ -8,20 +9,10 @@
   width: 1000px;
   background-color: #ffffff;
   color: #00020a;
-  height: 300px;
+  height: 600px;
   flex-direction: row;
 }
 
-.setprofile-in-box {
-  padding: 40px;
-  display: flex;
-  margin-top: 20px;
-  gap: 0;
-  transition-delay: 0.5s;
-  opacity: 1;
-  border-radius: 20px;
-  transform: translateX(7%);
-}
 
 .setprofile-in-title {
   color: rgba(64, 64, 64, 1);
@@ -145,10 +136,26 @@
   cursor: pointer;
   font-size: 14px;
 }
+.setprofile-withdrawal-box {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+}
+
+.setprofile-withdrawal-button {
+  padding: 2px;
+  background-color: #f8f8f8;
+  color: #888;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+
+
 .withdrawal-button {
     width: 100%;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     background-color: red;
     color: rgb(14, 13, 13);
     border: none;
