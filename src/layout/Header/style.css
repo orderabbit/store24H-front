@@ -26,10 +26,10 @@
   color: #000;
   font-size: 14px;
   margin-left: 10px;
-  cursor: pointer;
   margin-bottom: 30px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .auth-button .nickname {

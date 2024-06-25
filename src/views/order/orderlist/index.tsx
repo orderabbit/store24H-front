@@ -271,7 +271,7 @@ const OrderPage: React.FC = () => {
                 ))}
               </ul>
             ) : (
-              <div className="list-no-result" style={{ height: "76px", textAlign: "center", fontSize: "24px", color: "rgba(0, 0, 0, 0.4)", fontWeight: "500", }}>
+              <div className="list-no-result">
                 주문 내역이 없습니다.
               </div>
             )}
