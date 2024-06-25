@@ -206,7 +206,7 @@ const CartList: React.FC = () => {
     return (
         <div className="container">
             <div>
-                <h2>Product List</h2>
+                <h3>장바구니</h3>
             </div>
             {products.length === 0 ? (
                 <table className="table">
@@ -228,19 +228,21 @@ const CartList: React.FC = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <div style={{
-                                width: "1100px",
-                                display: "flex",
-                                height: "76px",
-                                textAlign: "center",
-                                fontSize: "24px",
-                                color: "rgba(0, 0, 0, 0.4)",
-                                fontWeight: "500",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}>
-                                장바구니에 담긴 상품이 없습니다.
-                            </div>
+                            <td>
+                                <div style={{
+                                    width: "1100px",
+                                    display: "flex",
+                                    height: "76px",
+                                    textAlign: "center",
+                                    fontSize: "24px",
+                                    color: "rgba(0, 0, 0, 0.4)",
+                                    fontWeight: "500",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}>
+                                    장바구니에 담긴 상품이 없습니다.
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot style={{ alignItems: 'center' }}>
@@ -249,7 +251,7 @@ const CartList: React.FC = () => {
                                 총 가격: {calculateTotalPrice()} 원
                             </td>
                             <td>
-                                <button style={{ width: "90px" }} className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
+                                <button style={{ width: "110px" }} className="cart-list-buy" onClick={handleCheckout}>구매하기</button>
                             </td>
                         </tr>
                     </tfoot>
