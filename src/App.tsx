@@ -81,7 +81,7 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
-        
+        {/* <Route path="/product/review" element={<ReviewWrite />} /> */}
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}

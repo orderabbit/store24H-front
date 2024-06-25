@@ -12,7 +12,9 @@ import { GetSignInUserResponseDto, GetUserResponseDto, PasswordRecoveryResponseD
 import { ResponseBody } from "types";
 import { DeleteAnswerResponseDto, GetAllAnswerResponseDto, GetAnswerResponseDto, PatchAnswerResponseDto, PostAnswerResponseDto } from "./response/answer";
 import { PatchAnswerRequestDto, PostAnswerRequestDto } from "./request/answer";
-import { PatchProductRequestDto, PostProductRequestDto, PostReviewRequestDto } from "./request/product";
+import { PatchProductRequestDto, PostProductRequestDto } from "./request/product";
+import { PostReviewRequestDto } from "./request/review";
+import { GetAllReviewResponseDto, GetReviewResponseDto, PostReviewResponseDto } from "./response/review";
 import { DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { PatchQuestionRequestDto, PostQuestionRequestDto } from "./request/question";
 
@@ -81,7 +83,10 @@ const POST_PRODUCT_URL = () => `${API_DOMAIN}/product`;
 const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}`;
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
-const POST_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}/review`;
+
+const POST_REVIEW_URL = () => `${API_DOMAIN}/product/review`;
+const GET_ALL_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/review/product/${productId}`;
+
 const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
@@ -526,19 +531,68 @@ export const DeleteProductRequest = async (productId: number | string, accessTok
     return result;
 };
 
-export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
-    const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
-        .then(response => {
-            const responseBody: ResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            if (!error.response) return null;
-            const responseBody: ResponseDto = error.response.data;
-            return responseBody;
-        });
+
+export const postReviewRequest = async (requestBody : PostReviewRequestDto, accessToken: string) => {
+    console.log(requestBody)
+    const result = await axios.post(POST_REVIEW_URL(),requestBody, authorization(accessToken))
+    .then(response => {
+        const responseBody: PostReviewResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        // if (!error.response) return null;
+        const responseBody : ResponseDto = error.response.data;
+        return responseBody;
+    })
     return result;
 };
+
+
+
+// export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
+//     const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
+//         .then(response => {
+//             const responseBody: ResponseDto = response.data;
+//             return responseBody;
+//         })
+//         .catch(error => {
+//             if (!error.response) return null;
+//             const responseBody: ResponseDto = error.response.data;
+//             return responseBody;
+//         });
+//     return result;
+// };
+
+
+export const getAllReviewRequest = async (productId: string) => {
+    const result = await axios.get(GET_ALL_REVIEW_URL(productId))
+    .then(response => {
+        const responseBody : GetAllReviewResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if(!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+    return result;
+
+};
+
+
+// export const PostReviewRequest = async (productId: number | string, formData: PostReviewRequestDto, accessToken: string) => {
+//     const result = await axios.post(POST_REVIEW_URL(productId), formData, authorization(accessToken))
+//         .then(response => {
+//             const responseBody: ResponseDto = response.data;
+//             return responseBody;
+//         })
+//         .catch(error => {
+//             if (!error.response) return null;
+//             const responseBody: ResponseDto = error.response.data;
+//             return responseBody;
+//         });
+//     return result;
+// };
 
 export const GetSearchProductListRequest = async (keyword: string) => {
     const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(keyword))
