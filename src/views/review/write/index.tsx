@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useLoginUserStore } from 'stores';
 import { postReviewRequest } from 'apis';
 import { PostReviewRequestDto } from 'apis/request/review';
-import useReviewStore from './stores/useReviewStore'; // Zustand 스토어
+import useReviewStore from 'stores/review.store';
 
 interface ReviewWriteProps {
   productId: number; // 상품 ID
@@ -51,7 +51,7 @@ const ReviewWrite: React.FC<ReviewWriteProps> = ({ productId, onSuccess }) => {
 
   return (
     <div className= "review-write-container" >
-    <h2>리뷰 작성 < /h2>
+    <h2>리뷰 작성 </h2>
       < div className = "review-form" >
         <input
           type="text"
@@ -59,9 +59,9 @@ const ReviewWrite: React.FC<ReviewWriteProps> = ({ productId, onSuccess }) => {
   onChange = { handleReviewContentChange }
   placeholder = "리뷰를 작성해주세요..."
     />
-    <button onClick={ handleSubmitReview }> 리뷰 작성 완료 < /button>
-      < /div>
-      < /div>
+    <button onClick={ handleSubmitReview }> 리뷰 작성 완료 </button>
+      </div>
+      </div>
   );
 };
 
