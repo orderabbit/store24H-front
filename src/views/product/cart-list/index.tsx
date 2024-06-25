@@ -228,19 +228,21 @@ const CartList: React.FC = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <div style={{
-                                width: "1100px",
-                                display: "flex",
-                                height: "76px",
-                                textAlign: "center",
-                                fontSize: "24px",
-                                color: "rgba(0, 0, 0, 0.4)",
-                                fontWeight: "500",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}>
-                                장바구니에 담긴 상품이 없습니다.
-                            </div>
+                            <td>
+                                <div style={{
+                                    width: "1100px",
+                                    display: "flex",
+                                    height: "76px",
+                                    textAlign: "center",
+                                    fontSize: "24px",
+                                    color: "rgba(0, 0, 0, 0.4)",
+                                    fontWeight: "500",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}>
+                                    장바구니에 담긴 상품이 없습니다.
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot style={{ alignItems: 'center' }}>
