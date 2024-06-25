@@ -6,8 +6,8 @@
   z-index: 5;
   padding: 12px;
   border-radius: 15px 0px 0 15px;
-  color: #F2F3F8;
-  background-color: #007BFF;
+  color: black;
+  background-color: #00C73C;
   height: 450px; /* 사이드바의 높이를 100%로 설정 */
   width: 0; /* 초기에는 사이드바가 접혀있기 때문에 너비를 0으로 설정 */
   top: 40px; /* 배치위치, 부모 요소에 맞게 설정 */
@@ -25,7 +25,7 @@
 #sidebar .close {
   cursor: pointer;
   outline: none;
-  color: #F2F3F8;
+  color: black;
   position: absolute; /* 절대적 위치 설정 */
   top: 12px; /* 닫기 버튼의 위치 */
   right: 12px; /* 닫기 버튼의 위치 */
@@ -34,7 +34,7 @@
 .sidebar-list {
   list-style: none;
   padding: 0;
-  background-color: #007BFF;
+  background-color: #00C73C;
   margin: 20px 0;
 }
 
@@ -48,6 +48,7 @@
 
 #sidebar ul li:hover {
   text-decoration: underline;
+  color: #007bff;
 }
 
 .category-icon {

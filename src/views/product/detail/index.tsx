@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
 import { Product } from 'types/interface';
+import orderCautionImg from '../../../images/order-caution.png';
 import './style.css';
 
 export default function Detail() {
@@ -171,6 +172,7 @@ export default function Detail() {
                         {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
                         <img key={image} className="product-detail-middle-image" src={image} />
                         ))}
+                        <img className="order-caution-image" src={orderCautionImg} alt="order-caution"/>
                     </div>
                 </div>
                 <div className="detail-bottom-content">
