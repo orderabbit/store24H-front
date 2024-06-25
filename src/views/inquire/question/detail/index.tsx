@@ -159,7 +159,7 @@ const QuestionDetail: React.FC = () => {
   };
 
   const handleAnswerContentChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setAnswerContent(event.target.value);
     setContent(event.target.value);
@@ -263,15 +263,15 @@ const QuestionDetail: React.FC = () => {
             <div className="modal-content-answer" style={{ textAlign: "left" }}>
               <div className="modal-title-answer">답변 작성</div>
               <div className="modal-content-box-answer">
-                <input
-                  type="text"
+                <textarea
+                  placeholder="문의 내용에 대한 답변을 입력해주세요."
                   value={answerContent}
                   onChange={handleAnswerContentChange}
                   style={{
                     width: "450px",
                     height: 300,
                     borderRadius: 5,
-                    textIndent: "10px",
+                    padding: "15px",
                   }}
                 />
                 <div className="inquire-answer-upload">
@@ -287,12 +287,12 @@ const QuestionDetail: React.FC = () => {
         <div className="replies-section">
           {answers.length > 0 ? (
             <div>
-              <h3 className="replies-title">문의 답변</h3>
+              <h3 className="replies-title">답변</h3>
               <ul>
                 {answers.map((answer, index) => (
                   <li key={index}>
                     <span className="answer-user-id">
-                      ID ({answer.userId} )
+                      작성자 ({answer.userId} )
                     </span>{" "}
                     : {answer.content}
                   </li>
