@@ -26,10 +26,10 @@
   color: #000;
   font-size: 14px;
   margin-left: 10px;
-  cursor: pointer;
   margin-bottom: 30px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .auth-button .nickname {
@@ -59,9 +59,9 @@
     cursor: pointer;
 }
 
-.header-logo {
+.header-logo img{
     color: rgba(0, 0, 0, 1);
-
+    width: 60px;
     font-family: 'GimhaeGaya';
     font-size: 20px;
     font-weight: 400;

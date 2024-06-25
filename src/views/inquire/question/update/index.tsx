@@ -17,6 +17,10 @@ export default function Update() {
   const [email, setEmail] = useState("");
   const { loginUser } = useLoginUserStore();
   const [errorMessage, setErrorMessage] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [contentError, setContentError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [typeError, setTypeError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedInUserId, setLoggedInUserId] = useState("");
   const [question, setQuestion] = useState<Question | null>(null);
@@ -56,6 +60,7 @@ export default function Update() {
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    if (event.target.value) setTitleError("");
     setPostRequest((prevState) => ({
       ...prevState,
       title: event.target.value,
@@ -64,6 +69,7 @@ export default function Update() {
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
+    if (event.target.value) setContentError("");
     setPostRequest((prevState) => ({
       ...prevState,
       content: event.target.value,
@@ -72,6 +78,11 @@ export default function Update() {
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(event.target.value)){
+      setEmailError("email 형식으로 입력해주세요.");
+    } else{
+    setEmailError("");}
     setPostRequest((prevState) => ({
       ...prevState,
       email: event.target.value,
@@ -104,20 +115,47 @@ export default function Update() {
 
     // state 업데이트
     setType(selectedType);
+    if(selectedType != "1") setTypeError("");
     setPostRequest((prevState) => ({
       ...prevState,
       type: selectedType, // 실제 선택된 값으로 업데이트
     }));
   };
-  const cancelClickHandler = () => {
-    navigate("/question");
+  const cancelClickHandler = (questionId : number | string | undefined) => {
+    if(!questionId) return;
+    navigate(`/question/detail/${questionId}`);
   };
+
   const uploadPostClickHandler = async () => {
+    let hasError = false;
+    if(!title){
+      setTitleError("제목을 입력해주세요.");
+      hasError = true;
+    }
+    if(!content){
+      setContentError("내용을 입력해주세요.");
+      hasError = true;
+    }
+    if(!email){
+      setEmailError("이메일을 입력해주세요.");
+      hasError = true;
+    } else{
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)){
+        setEmailError("email 형식으로 입력해주세요.");
+        hasError = true;
+      }
+    }
+    if(!type || type === "1"){
+      setTypeError("문의 유형을 입력해주세요.");
+      hasError = true;
+    }
+    if(hasError) return;
     try {
       const result = await patchQuestionRequest(questionId, postRequest);
       if (result && result.code === "SU") {
         alert("질문 수정 완료");
-        navigate("/question");
+        navigate(`/question/detail/${questionId}`);
       } else {
         setErrorMessage("질문 수정 실패");
       }
@@ -126,6 +164,7 @@ export default function Update() {
       setErrorMessage("질문 수정 중 오류가 발생했습니다");
     }
   };
+
 
   const getTypeString = (type: string) => {
     switch (type) {
@@ -170,6 +209,7 @@ export default function Update() {
               <option value="4">회원정보 안내</option>
               <option value="5">반품 /교환/ 환불 안내</option>
             </select>
+            {typeError && <div style={{ color: 'red' }}>{typeError}</div>}
           </td>
         </tr>
         <tr className="inquire-update-combine">
@@ -183,6 +223,7 @@ export default function Update() {
               onChange={handleTitleChange}
               style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
             />
+              {titleError && <div style={{ color: 'red' }}>{titleError}</div>}
           </td>
         </tr>
         <tr className="inquire-update-combine-content">
@@ -195,6 +236,7 @@ export default function Update() {
               onChange={handleContentChange}
               style={{ width: "700px", height: 350 , borderRadius: 5, textIndent: "10px", resize: "none"  }}
             />
+            {contentError && <div style={{ color: 'red' }}>{contentError}</div>}
           </td>
         </tr>
         <tr className="inquire-update-combine">
@@ -208,10 +250,11 @@ export default function Update() {
               onChange={handleEmailChange}
               style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
             />
+            {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
           </td>
         </tr>
         <tr>
-          <div className="inquire-update-cancel" onClick={cancelClickHandler}>
+          <div className="inquire-update-cancel" onClick={() => cancelClickHandler(questionId)}>
             취소
           </div>
           <div
@@ -223,6 +266,7 @@ export default function Update() {
         </tr>
       </tbody>
     </table>
+    {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
     </div>
   );
 }

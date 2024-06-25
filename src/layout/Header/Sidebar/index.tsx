@@ -2,23 +2,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
 
-import foodIcon from '../../../images/free-icon-font-utensils-5069194.png';
-import sportsIcon from '../../../images/free-icon-font-snowboarding-6628045.png';
-import cosmeticsIcon from '../../../images/free-icon-font-lipstick-3914854.png';
-import fashionIcon from '../../../images/free-icon-font-shirt-long-sleeve-12442253.png';
+import foodIcon from '../../../images/free-icon-font-utensils.png';
+import juiceIcon from '../../../images/free-icon-font-mug-hot-alt-6349378.png';
+import snackIcon from '../../../images/free-icon-font-candy-alt-6349013.png';
 import lifestyleIcon from '../../../images/free-icon-relax-157830.png';
-import electronicsIcon from '../../../images/free-icon-font-dryer-11739985.png';
-import furnitureIcon from '../../../images/free-icon-font-bed-alt-7857147.png';
+import brushIcon from '../../../images/free-icon-font-broom-3917049.png';
+import showerIcon from '../../../images/free-icon-font-shower-11740046.png';
+import penIcon from '../../../images/free-icon-font-pencil-3917636.png';
 
 
 const categoryIcons: { [key: string]: string } = {
-  '식품': foodIcon,
-  '스포츠': sportsIcon,
-  '화장품': cosmeticsIcon,
-  '패션': fashionIcon,
-  '생활': lifestyleIcon,
-  '가전': electronicsIcon,
-  '가구': furnitureIcon
+  '음식': foodIcon,
+  '음료': juiceIcon,
+  '과자': snackIcon,
+  '생활용품': lifestyleIcon,
+  '욕실용품': brushIcon,
+  '청소용품': showerIcon,
+  '문구': penIcon
 }
 
 export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
@@ -41,13 +41,17 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handlerOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handlerOutside);
+    } else {
+      document.removeEventListener('mousedown', handlerOutside);
+    }
 
     return () => {
       document.removeEventListener('mousedown', handlerOutside);
     };
+  }, [isOpen]);
 
-  },[]);
 
   return (
     <div className='sidebar-container'>

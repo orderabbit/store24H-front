@@ -20,22 +20,21 @@ import { SuccessPage } from 'views/payment/SuccessPage';
 import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
 import './App.css';
-import QuestionHome from 'views/inquire/user/question/main';
-import QuestionWrite from 'views/inquire/user/question/write';
-import QuestionUpdate from 'views/inquire/user/question/update';
-import QuestionDetail from 'views/inquire/user/question/detail';
+import QuestionHome from 'views/inquire/question/main';
+import QuestionWrite from 'views/inquire/question/write';
+import QuestionUpdate from 'views/inquire/question/update';
+import QuestionDetail from 'views/inquire/question/detail';
 // import AnswerHome from 'views/inquire/admin/answer/main';
 // import AnswerWrite from 'views/inquire/admin/answer/write';
 // import AnswerUpdate from 'views/inquire/admin/answer/update';
-
-
 // import { MAIN_PATH, WRITE_PATH, UPDATE_PATH } from './constants';
-import OrderPage from 'views/orderlist';
 import Write from 'views/product/write';
 import Update from 'views/product/update';
 import Detail from 'views/product/detail';
 import SearchList from 'views/product/searchList';
-import OrderDetail from 'views/orderdetail';
+import ReviewWrite from 'views/review/write';
+import OrderPage from 'views/order/orderlist';
+import OrderDetail from 'views/order/orderdetail';
 
 
 function App() {
@@ -82,7 +81,9 @@ function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/fail" element={<FailPage />} />
         <Route path="/user/:userId" element={<MyPage />} />
-        
+        <Route path="/product/review" element={<ReviewWrite productId={0} onSuccess={function (): void {
+          throw new Error('Function not implemented.');
+        } } />} />
         {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
       <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}

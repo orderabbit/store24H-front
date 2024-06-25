@@ -44,7 +44,7 @@ const Search: React.FC = () => {
                     <button onClick={() => navigate('/product/write')}>상품등록</button>
                 </form>
                 <div>
-                    {ReviewList(1)}
+                    {ReviewList("1")}
                 </div>
             </div>
         </div>

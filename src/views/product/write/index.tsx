@@ -17,9 +17,9 @@ export default function Write() {
     const titleRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLInputElement | null>(null);
     const lowPriceRef = useRef<HTMLInputElement | null>(null);
-    const category1Ref = useRef<HTMLInputElement | null>(null);
-    const category2Ref = useRef<HTMLInputElement | null>(null);
-    const category3Ref = useRef<HTMLInputElement | null>(null);
+    const category1Ref = useRef<HTMLSelectElement | null>(null);
+    const category2Ref = useRef<HTMLSelectElement | null>(null);
+    const category3Ref = useRef<HTMLSelectElement | null>(null);
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -87,33 +87,6 @@ export default function Write() {
         if (!lowPriceRef.current) return;
         lowPriceRef.current.style.height = 'auto';
         lowPriceRef.current.style.height = `${lowPriceRef.current.scrollHeight}px`;
-    };
-
-    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setCategory1(value);
-
-        if (!category1Ref.current) return;
-        category1Ref.current.style.height = 'auto';
-        category1Ref.current.style.height = `${category1Ref.current.scrollHeight}px`;
-    };
-
-    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setCategory2(value);
-
-        if (!category2Ref.current) return;
-        category2Ref.current.style.height = 'auto';
-        category2Ref.current.style.height = `${category2Ref.current.scrollHeight}px`;
-    };
-
-    const onCategory3ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setCategory3(value);
-
-        if (!category3Ref.current) return;
-        category3Ref.current.style.height = 'auto';
-        category3Ref.current.style.height = `${category3Ref.current.scrollHeight}px`;
     };
 
     const onImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -185,8 +158,6 @@ export default function Write() {
         setSecondaryProductImageFileList(newSecondaryImageFileList);
     }
 
-
-
     const UploadButton = () => {
 
         const { title, content, lowPrice, category1, category2, category3 } = useProductStore();
@@ -204,19 +175,6 @@ export default function Write() {
 
             alert('등록되었습니다.');
             navigate(MAIN_PATH());
-        }
-
-        const patchBoardResponse = (responseBody: PatchProductResponseDto | ResponseDto | null) => {
-            if (!responseBody) return;
-            const { code } = responseBody.data;
-            if (code === 'DBE') alert('데이터베이스 오류입니다.');
-            if (code === 'AF' || code === 'NU' || code === 'NB' || code === 'NP') navigate(SIGNIN_PATH());
-            if (code === 'VF') alert('모두 입력하세요.');
-            if (code === 'DPI') alert('중복된 상품번호입니다.');
-            if (code !== 'SU') return;
-
-            if (!productId) return;
-            navigate('/product/:productId');
         }
 
         const onUploadButtonClickHandler = async () => {
@@ -249,7 +207,6 @@ export default function Write() {
             const requestBody: PostProductRequestDto = {
                 productId, title, content, lowPrice, category1, category2, category3, productImageList, secondaryProductImageList
             }
-            console.log(requestBody);
             PostProductRequest(requestBody, accessToken).then(postBoardResponse);
         }
 
@@ -257,6 +214,54 @@ export default function Write() {
             return <div className='black-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>;
         return <div className='disable-button'>{'업로드'}</div>;
     }
+
+    const categoryOptions: Record<string, Record<string, string[]>> = {
+        "식품": {
+            "음료": ["커피", "탄산음료", "에너지음료", "기타음료"],
+            "음식": ["냉장/냉동", "과일/채소"],
+            "과자": ["과자", "젤리", "초콜릿", "사탕"]
+        },
+        "생활용품": {
+            "욕실용품": ["샴푸", "칫솔"],
+            "의료용품": ["감기약", "멀미약"],
+            "청소용품": ["비누", "세제", "솔", "휴지"]
+        },
+        "문구": {
+            "필기용품": ["색연필", "연필", "지우개", "볼펜"]
+        }
+        // Add more options as needed
+    };
+
+    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { value } = event.target;
+        setCategory1(value);
+        if (value) {
+            setCategoryOptions2(Object.keys(categoryOptions[value] || {}));
+            setCategoryOptions3([]);
+        } else {
+            setCategoryOptions2([]);
+            setCategoryOptions3([]);
+        }
+    };
+
+    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { value } = event.target;
+        setCategory2(value);
+        if (category1) {
+            setCategoryOptions3(categoryOptions[category1][value] || []);
+        } else {
+            setCategoryOptions3([]);
+        }
+    };
+
+    const onCategory3ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { value } = event.target;
+        setCategory3(value);
+    };
+
+
+    const [categoryOptions2, setCategoryOptions2] = useState<string[]>([]);
+    const [categoryOptions3, setCategoryOptions3] = useState<string[]>([]);
 
     return (
         <div id='product-write-wrapper'>
@@ -326,9 +331,24 @@ export default function Write() {
                     <li className='product-write-title-box'>
                         <div>카테고리</div>
                         <div className='product-write-content-box'>
-                            <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
-                            <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                            <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
+                            <select ref={category1Ref} className='product-write-content-select' value={category1} onChange={onCategory1ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {Object.keys(categoryOptions).map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
+                            <select ref={category2Ref} className='product-write-content-select' value={category2} onChange={onCategory2ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {categoryOptions2.map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
+                            <select ref={category3Ref} className='product-write-content-select' value={category3} onChange={onCategory3ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {categoryOptions3.map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
                         </div>
                     </li>
                 </ul>

@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useLoginUserStore } from "stores";
 import { Product } from "types/interface";
+import "./style.css";
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function SuccessPage() {
   const { loginUser } = useLoginUserStore();
   const selectedProductsParam = searchParams.get("selectedProducts");
   const orderDatetime = searchParams.get("orderDatetime");
-
+  
   let selectedProducts: Product[] = [];
 
   if (selectedProductsParam) {
@@ -105,7 +106,7 @@ export function SuccessPage() {
           searchParams.get("amount")
         ).toLocaleString()}원`}</p>
         <p>{`paymentKey: ${searchParams.get("paymentKey")}`}</p>
-        <button className="mt-[5px] btn btn-warning" onClick={() => navigate("/")}>메인페이지</button>
+        <button className="success-main-page" onClick={() => navigate("/")}>메인페이지</button>
       </div>
     </div>
   );

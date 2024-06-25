@@ -6,11 +6,13 @@ import Sidebar from 'layout/Header/Sidebar';
 import UserProfile from 'layout/Header/UserProfile';
 import profileIcon from '../../images/free-icon-profile-3106921.png';
 import cartListIcon from '../../images/free-icon-shopping-cart-3144456.png';
+import logoIcon from '../../images/free-icon-convenience-store-11790581.png';
 import { GetProductListRequest } from 'apis';
-
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
 import React from 'react';
+import { imageListClasses } from '@mui/material';
+
 
 interface Product {
   productId: number;
@@ -24,8 +26,8 @@ interface Product {
 
 
 export default function Header() {
-  const[isOpen, setIsOpen] = useState<boolean>(false);
-  const[isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const toggleSide = () => {  // 햄버거 버튼 클릭 토글 (미사용)
     setIsOpen(!isOpen);
   };
@@ -38,7 +40,7 @@ export default function Header() {
   const [cookies, setCookie] = useCookies();
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [ cartListCount, setCartListCount ] = useState<number>(0);
+  const [cartListCount, setCartListCount] = useState<number>(0);
 
   const [isLogin, setLogin] = useState<boolean>(false);
   const [isMainPage, setMainPage] = useState<boolean>(false);
@@ -58,7 +60,7 @@ export default function Header() {
         console.error('Failed to fetch products', error);
       }
     };
-  
+
     fetchProducts();
   }, [loginUser, cookies.accessToken]);
 
@@ -67,15 +69,15 @@ export default function Header() {
       const customEvent = event as CustomEvent<{ cartCount: number }>;
       setCartListCount(customEvent.detail.cartCount);
     };
-  
+
     window.addEventListener('cartUpdate', handleCartUpdate);
-    
+
     return () => {
       window.removeEventListener('cartUpdate', handleCartUpdate);
     };
   }, []);
-  
-  
+
+
   useEffect(() => {
     const isMainPage = pathname === MAIN_PATH();
     setMainPage(isMainPage);
@@ -96,9 +98,9 @@ export default function Header() {
   }
 
   const onCartListIconClickHandler = () => {
-    if(!loginUser){
+    if (!loginUser) {
       navigator(SIGNIN_PATH());
-    }else {
+    } else {
       navigator('/cart');
     }
   };
@@ -110,17 +112,17 @@ export default function Header() {
   const onSignInButtonClickHandler = () => {
     navigator(SIGNIN_PATH());
   };
-  
+
   const onSignOutButtonClickHandler = () => {
     resetLoginUser();
     setCookie('accessToken', '', { path: MAIN_PATH(), expires: new Date() })
     navigator(MAIN_PATH());
-  };  
-  
+  };
+
   const onQuestionButtonClickHandler = () => {
     navigator('/question');
   };
-  
+
   const MyPageButton = () => {
 
 
@@ -141,28 +143,28 @@ export default function Header() {
   return (
     <div id='header'>
       <div className="top-bar-container">
-      <div className='top-bar'>
-        {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>로그인</div>}
-        {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
-        {isLogin && (
-          <>
-            <div className='auth-button' onClick={onProfileIconClickHandler}>
-              <span className='nickname'>{loginUser?.nickname}님</span>
-            </div>
-            <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
-          </>
-        )}
-        <div className='auth-button' onClick={onQuestionButtonClickHandler}>고객센터</div>
-      </div>
+        <div className='top-bar'>
+          {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>로그인</div>}
+          {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
+          {isLogin && (
+            <>
+              <div>
+                <span className='nickname'>{loginUser?.nickname}님</span>
+              </div>
+              <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
+            </>
+          )}
+          <div className='auth-button' onClick={onQuestionButtonClickHandler}>고객센터</div>
+        </div>
       </div>
       <div className='header-container'>
-        <div className='header-left-box'> 
+        <div className='header-left-box'>
           {/* onClick={toggleSide} 시에는 클릭시 사이드바 나옴 , onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} => 마우스 호버링 */}
           {/* 카테고리 로고, 햄버거버튼*/}
           <div className='category-logo'>
-          <div className={`hamburger ${isOpen ? 'active' : ''}`} onClick={toggleSide}>
-            <span></span>
-          </div>
+            <div className={`hamburger ${isOpen ? 'active' : ''}`} onClick={toggleSide}>
+              <span></span>
+            </div>
           </div>
         </div>
         {/* 사이드바 */}
@@ -173,13 +175,13 @@ export default function Header() {
             <div className='icon-box'>
               <div className='icon logo-dark-icon'></div>
             </div>
-            <div className='header-logo'>{'logo'}</div>
+            <div className='header-logo'><img src={logoIcon} alt="logo" /></div>
           </div>
           <div className='header-right-box'>
-          {<MyPageButton />}
+            {<MyPageButton />}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

@@ -7,5 +7,5 @@ export default interface GetPaymentResponseDto extends ResponseDto{
     customerEmail: string;
     customerAddress: string;
     customerPostcode: string;
-    amount: number;
+    amount: string;
 }
