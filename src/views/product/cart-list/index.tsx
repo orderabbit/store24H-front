@@ -206,7 +206,7 @@ const CartList: React.FC = () => {
     return (
         <div className="container">
             <div>
-                <h2>Product List</h2>
+                <h3>장바구니</h3>
             </div>
             {products.length === 0 ? (
                 <table className="table">
@@ -249,7 +249,7 @@ const CartList: React.FC = () => {
                                 총 가격: {calculateTotalPrice()} 원
                             </td>
                             <td>
-                                <button style={{ width: "90px" }} className="mt-[5px] btn btn-warning" onClick={handleCheckout}>구매하기</button>
+                                <button style={{ width: "110px" }} className="cart-list-buy" onClick={handleCheckout}>구매하기</button>
                             </td>
                         </tr>
                     </tfoot>
