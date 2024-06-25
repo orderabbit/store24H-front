@@ -1,11 +1,11 @@
 import axios, { AxiosResponse, formToJSON } from "axios";
 //import { SaveProductRequestDto } from "./request";
 import { SaveCartRequestDto, SaveOrderListRequestDto } from "./request";
-import { CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
+import { AdminSignInRequestDto, CheckCertificationRequestDto, EmailCertificationRequestDto, SignInRequestDto, SignUpRequestDto, userIdCheckRequestDto } from "./request/auth";
 import nicknameCheckRequestDto from "./request/auth/nickname-check.request.dto";
 import { PatchNicknameRequestDto, PatchPasswordRequestDto, PasswordRecoveryRequestDto, WithdrawalUserRequestDto } from "./request/user";
 import { DeleteCartResponseDto, DeleteOrderListResponseDto, GetOrderListResponseDto, GetPaymentResponseDto, PostPaymentResponseDto, ResponseDto, SaveCartResponseDto } from "./response";
-import { CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
+import { AdminSignInResponseDto, AdminSignUpResponseDto, CheckCertificationResponseDto, EmailCertificationResponseDto, SignInResponseDto, SignUpResponseDto, userIdCheckResponseDto } from "./response/auth";
 import nicknameCheckResponseDto from "./response/auth/nickname-check.response.dto";
 import { GetSearchBoardListResponseDto } from "./response/product";
 import { GetSignInUserResponseDto, GetUserResponseDto, PasswordRecoveryResponseDto, PatchNicknameResponseDto, WithdrawalUserResponseDto } from "./response/user";
@@ -17,6 +17,7 @@ import { PostReviewRequestDto } from "./request/review";
 import { GetAllReviewResponseDto, GetReviewResponseDto, PostReviewResponseDto } from "./response/review";
 import { DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { PatchQuestionRequestDto, PostQuestionRequestDto } from "./request/question";
+import AdminSignUpRequestDto from "./request/auth/admin-sign-up.request.dto";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -52,6 +53,8 @@ const GET_QUESTION_URL = (questionId: number | string | undefined) => `${API_DOM
 const DELETE_QUESTION_URL = (questionId: number | string | undefined) => `${API_DOMAIN}/question/delete/${questionId}`;
 
 export const SNS_SIGN_IN_URL = (type: 'kakao' | 'naver' | 'google') => `${API_DOMAIN}/auth/oauth2/${type}`;
+const ADMIN_SIGN_IN_URL = () => `${API_DOMAIN}/auth/admin-sign-in`;
+const ADMIN_SIGN_UP_URL = () => `${API_DOMAIN}/auth/admin-sign-up`;
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 const ID_CHECK_URL = () => `${API_DOMAIN}/auth/userId-check`;
@@ -95,6 +98,27 @@ export const SnsSignInRequest = async (requestBody: SignInRequestDto, type: 'kak
         .then(responseHandler<SignInRequestDto>)
         .catch(errorHandler);
     return result;
+};
+
+export const adminSignInRequest = async (requestBody: AdminSignInRequestDto) => {
+    const result = await axios.post(ADMIN_SIGN_IN_URL(), requestBody)
+        .then(responseHandler<AdminSignInResponseDto>)
+        .catch(errorHandler);
+    return result;
+};
+
+export const adminSignUpRequest = async (requestBody: AdminSignUpRequestDto) => {
+    const result = await axios.post(ADMIN_SIGN_UP_URL(), requestBody)
+    .then(response => {
+        const responseBody: AdminSignUpResponseDto = response.data;
+        return responseBody;
+    })
+    .catch(error => {
+        if (!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        return responseBody;
+    })
+return result;
 };
 
 export const signInRequest = async (requestBody: SignInRequestDto) => {
