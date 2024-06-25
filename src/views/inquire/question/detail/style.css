@@ -159,7 +159,7 @@ ul {
 .inquire-answer-upload {
   cursor: pointer;
   text-align: center;
-  margin-top: -350px;
+  margin-top: -360px;
   position: absolute;
   right: 38.5%; /* 화면 오른쪽에서 전체 너비의 20% 위치에 배치 */
     border: 3px solid  #ffffff; /* 테두리 선 색상 녹색으로 설정 */
@@ -173,7 +173,7 @@ ul {
 .inquire-answer-cancel {
   cursor: pointer;
   text-align: center;
-  margin-top: -350px;
+  margin-top: -360px;
   position: absolute;
   right: 43.5%; /* 화면 오른쪽에서 전체 너비의 20% 위치에 배치 */
   border: 3px solid  #ffffff; /* 테두리 선 색상 녹색으로 설정 */
