@@ -291,8 +291,7 @@ const QuestionDetail: React.FC = () => {
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-          </div>
+          
         )}
         <div className="replies-section">
           {answers.length > 0 ? (
@@ -313,8 +312,6 @@ const QuestionDetail: React.FC = () => {
             <p className="inquire-answer-result">
               해당 문의에 대한 답변이 없습니다.
             </p>
-=======
->>>>>>> bde2b3384f6ac3054374e486ed5fe8912e384276
           )}
           <div className="replies-section">
             {answers.length > 0 ? (
@@ -339,6 +336,7 @@ const QuestionDetail: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
