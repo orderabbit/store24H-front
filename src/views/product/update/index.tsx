@@ -18,15 +18,12 @@ export default function Update() {
     const titleRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLInputElement | null>(null);
     const lowPriceRef = useRef<HTMLInputElement | null>(null);
-    const category1Ref = useRef<HTMLInputElement | null>(null);
-    const category2Ref = useRef<HTMLInputElement | null>(null);
-    const category3Ref = useRef<HTMLInputElement | null>(null);
+    const category1Ref = useRef<HTMLSelectElement | null>(null);
+    const category2Ref = useRef<HTMLSelectElement | null>(null);
+    const category3Ref = useRef<HTMLSelectElement | null>(null);
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
-
     const ProductId = Number(useParams()["Number"]);
-
-    const { pathname } = useLocation();
     const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
     const { productId, setProductId } = useProductStore();
     const { title, setTitle } = useProductStore();
@@ -35,6 +32,8 @@ export default function Update() {
     const { category1, setCategory1 } = useProductStore();
     const { category2, setCategory2 } = useProductStore();
     const { category3, setCategory3 } = useProductStore();
+    const [categoryOptions2, setCategoryOptions2] = useState<string[]>([]);
+    const [categoryOptions3, setCategoryOptions3] = useState<string[]>([]);
     const { productImageFileList, setProductImageFileList } = useProductStore();
     const { secondaryProductImageFileList, setSecondaryProductImageFileList } = useProductStore();
     const { resetProduct } = useProductStore();
@@ -62,7 +61,14 @@ export default function Update() {
             });
     }, [Number]);
 
-
+    useEffect(() => {
+        const accessToken = cookies.accessToken;
+        if (!accessToken) {
+            navigate(MAIN_PATH());
+            return;
+        }
+        resetProduct();
+    }, []);
 
     const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
         if (!primaryResponse || !secondaryResponse) return;
@@ -70,8 +76,8 @@ export default function Update() {
         const primaryBody = primaryResponse as GetProductResponseDto;
         const secondaryBody = secondaryResponse as GetProductResponseDto;
 
-        const { code: primaryCode } = primaryBody.data;
-        const { code: secondaryCode } = secondaryBody.data;
+        const { code: primaryCode } = primaryBody;
+        const { code: secondaryCode } = secondaryBody;
 
         if (primaryCode === 'NB' || secondaryCode === 'NB') {
             alert('존재하지 않습니다.');
@@ -143,33 +149,32 @@ export default function Update() {
         lowPriceRef.current.style.height = `${lowPriceRef.current.scrollHeight}px`;
     };
 
-    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onCategory1ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
         const { value } = event.target;
         setCategory1(value);
-
-        if (!category1Ref.current) return;
-        category1Ref.current.style.height = 'auto';
-        category1Ref.current.style.height = `${category1Ref.current.scrollHeight}px`;
+        if (value) {
+            setCategoryOptions2(Object.keys(categoryOptions[value] || {}));
+            setCategoryOptions3([]);
+        } else {
+            setCategoryOptions2([]);
+            setCategoryOptions3([]);
+        }
     };
 
-    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onCategory2ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
         const { value } = event.target;
         setCategory2(value);
-
-        if (!category2Ref.current) return;
-        category2Ref.current.style.height = 'auto';
-        category2Ref.current.style.height = `${category2Ref.current.scrollHeight}px`;
+        if (category1) {
+            setCategoryOptions3(categoryOptions[category1][value] || []);
+        } else {
+            setCategoryOptions3([]);
+        }
     };
 
-    const onCategory3ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onCategory3ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
         const { value } = event.target;
         setCategory3(value);
-
-        if (!category3Ref.current) return;
-        category3Ref.current.style.height = 'auto';
-        category3Ref.current.style.height = `${category3Ref.current.scrollHeight}px`;
     };
-
     const onImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         const file = event.target.files[0];
@@ -294,10 +299,27 @@ export default function Update() {
         return <div className='disable-button'>{'업로드'}</div>;
     }
 
+    const categoryOptions: Record<string, Record<string, string[]>> = {
+        "식품": {
+            "음료": ["커피", "탄산음료", "에너지음료", "기타음료"],
+            "음식": ["냉장/냉동", "과일/채소"],
+            "과자": ["과자", "젤리", "초콜릿", "사탕"]
+        },
+        "생활용품": {
+            "욕실용품": ["샴푸", "칫솔"],
+            "의료용품": ["감기약", "멀미약"],
+            "청소용품": ["비누", "세제", "솔", "휴지"]
+        },
+        "문구": {
+            "필기용품": ["색연필", "연필", "지우개", "볼펜"]
+        }
+        // Add more options as needed
+    };
+
     return (
         <div id='product-write-wrapper'>
             <div className='product-write-container'>
-                <h2 className='write-product-title'>상품 등록</h2>
+                <h2 className='write-product-title'>상품 수정</h2>
                 <ul className='product-write-box'>
                     <li className='product-write-title-box'>
                         <div>상품번호</div>
@@ -362,9 +384,24 @@ export default function Update() {
                     <li className='product-write-title-box'>
                         <div>카테고리</div>
                         <div className='product-write-content-box'>
-                            <input ref={category1Ref} className='product-write-content-inputarea' placeholder='category1' value={category1} onChange={onCategory1ChangeHandler} />
-                            <input ref={category2Ref} className='product-write-content-inputarea' placeholder='category2' value={category2} onChange={onCategory2ChangeHandler} />
-                            <input ref={category3Ref} className='product-write-content-inputarea' placeholder='category3' value={category3} onChange={onCategory3ChangeHandler} />
+                            <select ref={category1Ref} className='product-write-content-select' value={category1} onChange={onCategory1ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {Object.keys(categoryOptions).map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
+                            <select ref={category2Ref} className='product-write-content-select' value={category2} onChange={onCategory2ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {categoryOptions2.map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
+                            <select ref={category3Ref} className='product-write-content-select' value={category3} onChange={onCategory3ChangeHandler}>
+                                <option value=''>카테고리를 선택해주세요</option>
+                                {categoryOptions3.map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
                         </div>
                     </li>
                 </ul>
