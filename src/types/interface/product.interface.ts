@@ -8,6 +8,7 @@ export default interface Product {
     category2: string;
     category3: string;
     count: number;
+    titleImage: string[];
     productImageList: string[];
     secondaryProductImageList: string[];
     purchaseDate?: string;
@@ -16,4 +17,5 @@ export default interface Product {
     orderId: string;
     orderList: any;
     orderDatetime: string;
+    items: any;
 }

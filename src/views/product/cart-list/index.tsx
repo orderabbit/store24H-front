@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DeleteCartRequest, GetProductListRequest } from "apis";
+import { DeleteCartRequest, GetCartListRequest, GetProductListRequest } from "apis";
 import useLoginUserStore from "stores/login-user.store";
 import { useCookies } from "react-cookie";
 import "./style.css";
@@ -38,7 +38,7 @@ const CartList: React.FC = () => {
     const fetchProducts = async () => {
         try {
             if (userId && cookies.accessToken) {
-                const response = await GetProductListRequest(userId, cookies.accessToken);
+                const response = await GetCartListRequest(userId, cookies.accessToken);
                 setProducts(response.data.items);
                 const initialQuantities = response.data.items.reduce(
                     (acc: { [x: string]: number }, product: Product) => {

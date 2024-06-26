@@ -7,7 +7,7 @@ import UserProfile from 'layout/Header/UserProfile';
 import profileIcon from '../../images/free-icon-profile-3106921.png';
 import cartListIcon from '../../images/free-icon-shopping-cart-3144456.png';
 import logoIcon from '../../images/free-icon-convenience-store-11790581.png';
-import { GetProductListRequest } from 'apis';
+import { GetCartListRequest, GetProductListRequest } from 'apis';
 import './style.css';
 import useLoginUserStore from 'stores/login-user.store';
 import React from 'react';
@@ -53,7 +53,7 @@ export default function Header() {
     const fetchProducts = async () => {
       try {
         if (loginUser?.userId && cookies.accessToken) {
-          const response = await GetProductListRequest(loginUser.userId, cookies.accessToken);
+          const response = await GetCartListRequest(loginUser.userId, cookies.accessToken);
           setCartListCount(response.data.items.length); // 상품 리스트 길이로 업데이트
         }
       } catch (error) {

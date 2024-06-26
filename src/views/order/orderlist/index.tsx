@@ -1,15 +1,10 @@
-import {
-  GetProductListRequest,
-  PostCartRequest,
-  deleteOrderListRequest,
-  getOrderListRequest,
-} from "apis";
-import { SaveCartRequestDto } from "apis/request";
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate, useParams } from "react-router-dom";
-import { User } from "types/interface";
-import "./style.css";
+import { GetCartListRequest, GetProductListRequest, PostCartRequest, deleteOrderListRequest, getOrderListRequest } from 'apis';
+import { SaveCartRequestDto } from 'apis/request';
+import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate, useParams } from 'react-router-dom';
+import { User } from 'types/interface';
+import './style.css';
 
 interface Product {
   orderList: any;
@@ -94,7 +89,7 @@ const OrderPage: React.FC = () => {
       if (response.code === "SU") {
         alert("상품이 저장되었습니다.");
         if (!loginUser) return;
-        const productListResponse = await GetProductListRequest(
+        const productListResponse = await GetCartListRequest(
           loginUser?.userId,
           accessToken
         );

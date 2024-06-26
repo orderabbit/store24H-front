@@ -12,8 +12,8 @@ export default function Container() {
       <Header />
       <div className="content">
       <Outlet />
-      </div>
       <Footer />
+      </div>
       </div>
     </>
   )

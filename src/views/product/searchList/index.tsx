@@ -1,4 +1,4 @@
-import { GetProductListRequest, GetSearchProductListRequest, PostCartRequest } from 'apis';
+import { GetCartListRequest, GetProductListRequest, GetSearchProductListRequest, PostCartRequest } from 'apis';
 import { SaveCartRequestDto } from 'apis/request';
 import Pagination from 'components/Pagination';
 import React, { useEffect, useState } from 'react'
@@ -105,7 +105,7 @@ export default function SearchList() {
             if (response.code === "SU") {
                 alert("상품이 저장되었습니다.");
                 if (!loginUser) return;
-                const productListResponse = await GetProductListRequest(
+                const productListResponse = await GetCartListRequest(
                     loginUser?.userId,
                     accessToken
                 );
@@ -129,6 +129,10 @@ export default function SearchList() {
     };
 
     const buyProductClickHandler = async (product: Product) => {
+        if(loginUser == null) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
         if (!window.confirm("구매하시겠습니까?")) {
             return;
         }
@@ -152,7 +156,6 @@ export default function SearchList() {
             state: { selectedProducts, totalPrice },
         });
     };
-
 
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();
@@ -218,7 +221,7 @@ export default function SearchList() {
 
     return (
         <div className="list-search-container">
-            <h2 className="list-page-title"> 검색 목록</h2>
+            <h2 className="list-page-title"> 상품 목록</h2>
             <div className="list-search-box">
                 <form onSubmit={handleSearch} className="list-search-blank">
                     <div className="list-search-bar">
@@ -250,7 +253,6 @@ export default function SearchList() {
                         <li key={product.productId} className="product-item-list-group-item">
                             <div className="items-center">
                                 {product.productImageList && product.productImageList.map((image) => (
-
                                     <img key={image} className="product-detail-main-image" src={image} />
                                 ))}
                             </div>

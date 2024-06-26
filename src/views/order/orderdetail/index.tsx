@@ -1,4 +1,4 @@
-import { GetProductListRequest, PostCartRequest, getOrderListRequest, getPaymentRequest } from 'apis';
+import { GetCartListRequest, GetProductListRequest, PostCartRequest, getOrderListRequest, getPaymentRequest } from 'apis';
 import { SaveCartRequestDto } from 'apis/request';
 import { GetPaymentResponseDto } from 'apis/response';
 import React, { useEffect, useState } from 'react'
@@ -100,7 +100,7 @@ export default function OrderDetail() {
             if (response.code === "SU") {
                 alert("상품이 저장되었습니다.");
                 if (!loginUser) return;
-                const productListResponse = await GetProductListRequest(
+                const productListResponse = await GetCartListRequest(
                     loginUser?.userId,
                     accessToken
                 );

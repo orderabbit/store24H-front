@@ -206,89 +206,92 @@ const QuestionDetail: React.FC = () => {
   const isUserAuthorized = loginUser && loginUser.userId === question.userId;
 
   return (
-    <div className="question-detail-container">
-      <h2 className="inquire-title">문의 내역 상세보기</h2>
-      <table className="inquire">
-        <tbody>
-          <tr className="inquire-detail-combine">
-            <th className="inquire-detail-title">문의 ID</th>
-            <td className="inquire-detail-content">{question.userId}</td>
-          </tr>
-          <tr className="inquire-detail-combine">
-            <th className="inquire-detail-title">문의유형</th>
-            <td className="inquire-detail-content">
-              {getTypeString(question.type)}
-            </td>
-          </tr>
-          <tr className="inquire-detail-combine">
-            <th className="inquire-detail-title">제목</th>
-            <td className="inquire-detail-content">{question.title}</td>
-          </tr>
-          <tr className="inquire-detail-combine-content">
-            <th className="inquire-detail-title-content">내용</th>
-            <td className="inquire-detail-content-content">
-              {question.content}
-            </td>
-          </tr>
-          <tr className="inquire-detail-combine">
-            <th className="inquire-detail-title">이메일</th>
-            <td className="inquire-detail-content">{question.email}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div
-        className="inquire-detail-cancel"
-        onClick={() => navigator("/question")}
-      >
-        취소
-      </div>
-      {isUserAuthorized && (
-        <>
-          <div
-            className="inquire-detail-update"
-            onClick={() => updatePostClickHandler(questionId)}
-          >
-            수정
-          </div>
-          <div
-            className="inquire-detail-delete"
-            onClick={() => deletePostClickHandler(questionId)}
-          >
-            삭제
-          </div>
-        </>
-      )}
-      
-      <div className="inquire-answer-write">
-      {role === "ROLE_ADMIN" && (
-        <div className="inquire-answer-button" onClick={toggleAnswerSection}>
-          답변 작성
+    <div id="question-detail-wrapper">
+      <div className="question-detail-container">
+        <h2 className="inquire-title">문의 내역 상세보기</h2>
+        <table className="inquire">
+          <tbody>
+            <tr className="inquire-detail-combine">
+              <th className="inquire-detail-title">문의 ID</th>
+              <td className="inquire-detail-content">{question.userId}</td>
+            </tr>
+            <tr className="inquire-detail-combine">
+              <th className="inquire-detail-title">문의유형</th>
+              <td className="inquire-detail-content">
+                {getTypeString(question.type)}
+              </td>
+            </tr>
+            <tr className="inquire-detail-combine">
+              <th className="inquire-detail-title">제목</th>
+              <td className="inquire-detail-content">{question.title}</td>
+            </tr>
+            <tr className="inquire-detail-combine-content">
+              <th className="inquire-detail-title-content">내용</th>
+              <td className="inquire-detail-content-content">
+                {question.content}
+              </td>
+            </tr>
+            <tr className="inquire-detail-combine">
+              <th className="inquire-detail-title">이메일</th>
+              <td className="inquire-detail-content">{question.email}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          className="inquire-detail-cancel"
+          onClick={() => navigator("/question")}
+        >
+          취소
         </div>
+        {isUserAuthorized && (
+          <>
+            <div
+              className="inquire-detail-update"
+              onClick={() => updatePostClickHandler(questionId)}
+            >
+              수정
+            </div>
+            <div
+              className="inquire-detail-delete"
+              onClick={() => deletePostClickHandler(questionId)}
+            >
+              삭제
+            </div>
+          </>
         )}
-        {answerVisible && (
-          <div className="modal-overlay-answer">
-            <div className="modal-content-answer" style={{ textAlign: "left" }}>
-              <div className="modal-title-answer">답변 작성</div>
-              <div className="modal-content-box-answer">
-                <textarea
-                  placeholder="문의 내용에 대한 답변을 입력해주세요."
-                  value={answerContent}
-                  onChange={handleAnswerContentChange}
-                  style={{
-                    width: "450px",
-                    height: 300,
-                    borderRadius: 5,
-                    padding: "15px",
-                  }}
-                />
-                <div className="inquire-answer-upload">
-                  <div onClick={uploadAnswerClickHandler}>업로드</div>
-                </div>
-                <div className="inquire-answer-cancel">
-                  <div onClick={toggleAnswerSection}>취소</div>
+
+        <div className="inquire-answer-write">
+          {role !== "ROLE_ADMIN" && (
+            <div className="inquire-answer-button" onClick={toggleAnswerSection}>
+              답변 작성
+            </div>
+          )}
+          {answerVisible && (
+            <div className="modal-overlay-answer">
+              <div className="modal-content-answer" style={{ textAlign: "left" }}>
+                <div className="modal-title-answer">답변 작성</div>
+                <div className="modal-content-box-answer">
+                  <textarea
+                    placeholder="문의 내용에 대한 답변을 입력해주세요."
+                    value={answerContent}
+                    onChange={handleAnswerContentChange}
+                    style={{
+                      width: "450px",
+                      height: 300,
+                      borderRadius: 5,
+                      padding: "15px",
+                    }}
+                  />
+                  <div className="inquire-answer-upload">
+                    <div onClick={uploadAnswerClickHandler}>업로드</div>
+                  </div>
+                  <div className="inquire-answer-cancel">
+                    <div onClick={toggleAnswerSection}>취소</div>
+                  </div>
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
           </div>
         )}
         <div className="replies-section">
@@ -310,7 +313,30 @@ const QuestionDetail: React.FC = () => {
             <p className="inquire-answer-result">
               해당 문의에 대한 답변이 없습니다.
             </p>
+=======
+>>>>>>> bde2b3384f6ac3054374e486ed5fe8912e384276
           )}
+          <div className="replies-section">
+            {answers.length > 0 ? (
+              <div>
+                <h3 className="replies-title">답변</h3>
+                <ul>
+                  {answers.map((answer, index) => (
+                    <li key={index}>
+                      <span className="answer-user-id">
+                        작성자 ({answer.userId} )
+                      </span>{" "}
+                      : {answer.content}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="inquire-answer-result">
+                해당 문의에 대한 답변이 없습니다.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
