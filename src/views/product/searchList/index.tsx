@@ -39,7 +39,6 @@ export default function SearchList() {
                     const response = await GetSearchProductListRequest(searchKeyword);
                     if (!response?.searchList) return;
 
-                    console.log(response.searchList);
                     let fetchedProducts = response.searchList;
                     if (sortByPriceAsc) {
                         fetchedProducts = fetchedProducts.sort(

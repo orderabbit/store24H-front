@@ -14,7 +14,7 @@ export function SuccessPage() {
   const { loginUser } = useLoginUserStore();
   const selectedProductsParam = searchParams.get("selectedProducts");
   const orderDatetime = searchParams.get("orderDatetime");
-  
+
   let selectedProducts: Product[] = [];
 
   if (selectedProductsParam) {
@@ -74,14 +74,12 @@ export function SuccessPage() {
         category3: product.category3,
         count: product.count,
       }));
-
       const orderData = {
         orderId: searchParams.get("orderId"),
         userId: loginUser.userId,
         items: orderItems,
         orderDatetime: orderDatetime
       };
-
       const orderResponse = await postOrderListRequest(orderData);
       if (!orderResponse) {
         alert("주문 정보를 저장하는데 실패했습니다.");

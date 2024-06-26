@@ -19,17 +19,9 @@ export default function Detail() {
     const [cookies, setCookies] = useCookies();
     const [isUser, setUser] = useState<boolean>(false);
     const [product, setProduct] = useState<Product | null>(null);
-
     const navigator = useNavigate();
-
     const onMoreButtonClickHandler = () => {
         setShowMore(!showMore);
-    };
-
-    const getWriteDatetimeFormat = () => {
-        if (!product) return "";
-        const date = dayjs(product.writeDatetime);
-        return date.format("YYYY. MM. DD.");
     };
 
     const getProductResponse = (primaryResponse: GetProductResponseDto | ResponseDto | null, secondaryResponse: GetProductResponseDto | ResponseDto | null) => {
@@ -115,7 +107,6 @@ export default function Detail() {
             });
     }, [Number]);
 
-
     if (!product) return <></>;
     return (
         <div id="product-detail-wrapper">
@@ -144,7 +135,6 @@ export default function Detail() {
                             </div>
                         )}
                     </div>
-                    <div className="product-detail-write-date">{getWriteDatetimeFormat()}</div>
                 </div>
                 <div className="detail-top-content">
                     <div className="product-detail-thumbnail">

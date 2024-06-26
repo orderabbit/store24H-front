@@ -16,7 +16,6 @@ export function CheckoutPage(): JSX.Element {
   const { loginUser } = useLoginUserStore();
   const location = useLocation();
   const { selectedProducts, name, address, postcode, detailAddress, phoneNumber, totalPrice } = location.state || {};
-
   const paymentMethodsWidgetRef = useRef<any>(null);
 
   useEffect(() => {
@@ -55,11 +54,9 @@ export function CheckoutPage(): JSX.Element {
 
   useEffect(() => {
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
-
     if (paymentMethodsWidget == null) {
       return;
     }
-
     paymentMethodsWidget.updateAmount(totalAmount);
   }, [totalAmount]);
 
@@ -80,7 +77,6 @@ export function CheckoutPage(): JSX.Element {
         category3: product.category3,
         count: product.count,
       }));
-
       const orderData = {
         orderId: nanoid().trim(),
         userId: loginUser.userId,
@@ -117,15 +113,12 @@ export function CheckoutPage(): JSX.Element {
                       &selectedProducts=${encodedSelectedProducts}
                       &items=${orderData.items}
                       &orderDatetime=${orderData.orderDatetime}`,
-
         failUrl: `${window.location.origin}/fail`,
       });
     } catch (error) {
       alert(error);
     }
   };
-
-  console.log()
 
   return (
     <div className="wrapper">
