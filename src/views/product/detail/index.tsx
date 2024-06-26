@@ -122,33 +122,34 @@ export default function Detail() {
             <div className="product-detail-container">
                 <div className="product-top-header">
                     <div className="product-detail-top-sub-box">
-                    {isUser && (
-                        <button onClick={onMoreButtonClickHandler}>{'more'}</button>
-                    )}
-                    {showMore && (
-                        <div className="product-detail-more-box">
-                            <div
-                                className="product-detail-update-button"
-                                onClick={onUpdateButtonClickHandler}
-                            >
-                                {"수정"}
+                        {isUser && (
+                            <div className='icon-button'>
+                                <div className='icon more-icon' onClick={onMoreButtonClickHandler}></div>
                             </div>
-                            <div className="divider"></div>
-                            <div
-                                className="product-detail-delete-button"
-                                onClick={onDeleteButtonClickHandler}
-                            >
-                                {"삭제"}
+                        )}
+                        {showMore && (
+                            <div className="product-detail-more-box">
+                                <div
+                                    className="product-detail-update-button"
+                                    onClick={onUpdateButtonClickHandler}
+                                >
+                                    {"수정"}
+                                </div>
+                                <div
+                                    className="product-detail-delete-button"
+                                    onClick={onDeleteButtonClickHandler}
+                                >
+                                    {"삭제"}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                     </div>
                     <div className="product-detail-write-date">{getWriteDatetimeFormat()}</div>
                 </div>
                 <div className="detail-top-content">
                     <div className="product-detail-thumbnail">
                         {product.productImageList.map((image) => (
-                        <img key={image} className="product-detail-main-image" src={image} />
+                            <img key={image} className="product-detail-main-image" src={image} />
                         ))}
                     </div>
                     <div className="product-detail-info">
@@ -158,21 +159,21 @@ export default function Detail() {
                         <div className="divider"></div>
                         <div>등록자 : {product.userId}</div>
                         <div className="product-detail-imagebar">
-                        {product.productImageList.map((image) => (
-                        <img key={image} className="product-detail-imagebar" src={image} />
-                        ))}
-                        {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
-                        <img key={image} className="product-detail-imagebar" src={image} />
-                        ))}
+                            {product.productImageList.map((image) => (
+                                <img key={image} className="product-detail-imagebar" src={image} />
+                            ))}
+                            {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
+                                <img key={image} className="product-detail-imagebar" src={image} />
+                            ))}
                         </div>
                     </div>
                 </div>
                 <div className="detail-middle-content">
                     <div className="product-detail-image">
                         {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
-                        <img key={image} className="product-detail-middle-image" src={image} />
+                            <img key={image} className="product-detail-middle-image" src={image} />
                         ))}
-                        <img className="order-caution-image" src={orderCautionImg} alt="order-caution"/>
+                        <img className="order-caution-image" src={orderCautionImg} alt="order-caution" />
                     </div>
                 </div>
                 <div className="detail-bottom-content">

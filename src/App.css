@@ -24,7 +24,7 @@
   cursor: pointer;
 }
 
-.primary-button-lg{
+.primary-button-lg {
   border-radius: 6px;
   padding: 8px 24px;
 
@@ -45,7 +45,7 @@
   cursor: pointer;
 }
 
-.primary-button-small{
+.primary-button-small {
   border-radius: 6px;
   padding: 8px 24px;
 
@@ -66,7 +66,7 @@
   cursor: pointer;
 }
 
-.disable-button-lg{
+.disable-button-lg {
   border-radius: 6px;
   padding: 8px 24px;
 
@@ -87,7 +87,7 @@
   cursor: default;
 }
 
-.text-link-lg{
+.text-link-lg {
   box-sizing: border-box;
 
   display: inline-flex;
@@ -103,7 +103,7 @@
   cursor: pointer;
 }
 
-.text-link-lg-right{
+.text-link-lg-right {
   box-sizing: border-box;
 
   display: inline-flex;
@@ -119,19 +119,19 @@
   cursor: pointer;
 }
 
-.text-link-lg:hover{
+.text-link-lg:hover {
   color: rgba(40, 40, 40, 1);
 }
 
-.primary-button-lg:hover{
+.primary-button-lg:hover {
   opacity: 0.95;
 }
 
-.full-width{
+.full-width {
   width: 100%;
 }
 
-.kakao-sign-in-button{
+.kakao-sign-in-button {
   width: 56px;
   height: 56px;
 
@@ -142,7 +142,7 @@
   cursor: pointer;
 }
 
-.naver-sign-in-button{
+.naver-sign-in-button {
   width: 56px;
   height: 56px;
 
@@ -153,7 +153,7 @@
   cursor: pointer;
 }
 
-.google-sign-in-button{
+.google-sign-in-button {
   width: 56px;
   height: 56px;
 
@@ -345,6 +345,10 @@
   background-image: url(images/close.png);
 }
 
+.more-icon {
+  background-image: url(images/more.png);
+}
+
 
 
 /* body {
@@ -352,68 +356,76 @@
   background-color: rgba(200, 200, 200, 0.5);
 } */
 .p {
-padding: 0;
-margin: 0;
-font-family: Toss Product Sans, -apple-system, BlinkMacSystemFont,
-  Bazier Square, Noto Sans KR, Segoe UI, Apple SD Gothic Neo, Roboto,
-  Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-  Segoe UI Symbol, Noto Color Emoji;
-color: #4e5968;
-word-break: keep-all;
-word-wrap: break-word;
+  padding: 0;
+  margin: 0;
+  font-family: Toss Product Sans, -apple-system, BlinkMacSystemFont,
+    Bazier Square, Noto Sans KR, Segoe UI, Apple SD Gothic Neo, Roboto,
+    Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol, Noto Color Emoji;
+  color: #4e5968;
+  word-break: keep-all;
+  word-wrap: break-word;
 }
+
 .h4 {
-font-size: 20px;
-font-weight: 700;
-color: #333D4B;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333D4B;
 }
+
 .wrapper {
-max-width: 800px;
-margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
+
 .button {
-color: #f9fafb;
-background-color: #3182f6;
-margin: 0;
-font-size: 15px;
-font-weight: 400;
-line-height: 18px;
-white-space: nowrap;
-text-align: center;
-/* vertical-align: middle; */
-cursor: pointer;
-border: 0 solid transparent;
-user-select: none;
-transition: background 0.2s ease, color 0.1s ease;
-text-decoration: none;
-border-radius: 7px;
-padding: 11px 16px;
+  color: #f9fafb;
+  background-color: #3182f6;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: none;
+  user-select: none;
+  transition: background 0.2s ease, color 0.1s ease;
+  text-decoration: none;
+  border-radius: 7px;
+  padding: 11px 16px;
 }
+
 .button:hover {
-color: #fff;
-background-color: #1b64da;
+  color: #fff;
+  background-color: #1b64da;
 }
+
 .title {
-margin: 0 0 4px;
-font-size: 24px;
-font-weight: 600;
-color: #4e5968;
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #4e5968;
 }
+
 .result {
-flex-direction: column;
-align-items: center;
-text-align: center;
-text-wrap: balance;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-wrap: balance;
 }
+
 .box_section {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgb(0 0 0 / 5%), 0 6px 6px rgb(0 0 0 / 40%);
-  padding: 40px 30px 50px 30px; 
-  margin-top:30px; 
-  margin-bottom:50px; 
+  padding: 40px 30px 50px 30px;
+  margin-top: 30px;
+  margin-bottom: 50px;
   color: #333D4B
 }
+
 :root {
   --checkable-size: 20px;
   --checkable-input-top: 3px;
@@ -486,7 +498,8 @@ text-wrap: balance;
   cursor: pointer
 }
 
-.checkable__input:after,.checkable__input:before {
+.checkable__input:after,
+.checkable__input:before {
   content: "";
   position: absolute
 }
@@ -502,7 +515,7 @@ text-wrap: balance;
   border: 2px solid #d1d6db;
   background-color: #fff;
   background-color: white;
-  transition: border-color .1s ease,background-color .1s ease
+  transition: border-color .1s ease, background-color .1s ease
 }
 
 .checkable__input:after {
@@ -539,32 +552,36 @@ text-wrap: balance;
   outline: 0
 }
 
-.checkable__input:focus:before,.checkable__input:hover:before {
+.checkable__input:focus:before,
+.checkable__input:hover:before {
   background-color: #e8f3ff;
   background-color: #e8f3ff;
   border-color: #3182f6;
   border-color: #3182f6
 }
 
-.checkable__input:checked:before,.checkable__input[type=checkbox]:indeterminate:before {
+.checkable__input:checked:before,
+.checkable__input[type=checkbox]:indeterminate:before {
   border-color: #3182f6;
   border-color: #3182f6;
   background-color: #3182f6;
   background-color: #3182f6
 }
 
-.checkable__input:checked:after,.checkable__input[type=checkbox]:indeterminate:after {
+.checkable__input:checked:after,
+.checkable__input[type=checkbox]:indeterminate:after {
   opacity: 1
 }
 
 .checkable__input:disabled:before {
   background-color: #f2f4f6;
   background-color: var(--grey100);
-  border-color: rgba(0,23,51,.02);
+  border-color: rgba(0, 23, 51, .02);
   border-color: var(--greyOpacity50)
 }
 
-.checkable__input:disabled:checked:before,.checkable__input:disabled[type=checkbox]:indeterminate:before {
+.checkable__input:disabled:checked:before,
+.checkable__input:disabled[type=checkbox]:indeterminate:before {
   background-color: #e5e8eb;
   background-color: var(--grey200);
   border-color: #e5e8eb;
