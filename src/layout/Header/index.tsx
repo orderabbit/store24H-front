@@ -1,4 +1,4 @@
-import { MAIN_PATH, PAYMENT_PATH, SEARCH_PATH, SIGNIN_PATH, USER_PATH } from 'constant';
+import { MAIN_PATH, PAYMENT_PATH, SEARCH_PATH, SIGNIN_PATH, SIGNUP_PATH, USER_PATH } from 'constant';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -113,6 +113,10 @@ export default function Header() {
     navigator(SIGNIN_PATH());
   };
 
+  const onSignUpButtonClickHandler = () => {
+    navigator(SIGNUP_PATH());
+};
+
   const onSignOutButtonClickHandler = () => {
     resetLoginUser();
     setCookie('accessToken', '', { path: MAIN_PATH(), expires: new Date() })
@@ -145,7 +149,7 @@ export default function Header() {
       <div className="top-bar-container">
         <div className='top-bar'>
           {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>로그인</div>}
-          {!isLogin && <div className='auth-button' onClick={onSignInButtonClickHandler}>회원가입</div>}
+          {!isLogin && <div className='auth-button' onClick={onSignUpButtonClickHandler}>회원가입</div>}
           {isLogin && (
             <>
               <div>

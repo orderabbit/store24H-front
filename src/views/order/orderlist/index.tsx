@@ -25,9 +25,7 @@ const OrderPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [orderItems, setOrderItems] = useState<Product[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [checkedProducts, setCheckedProducts] = useState<{
-    [key: number | string]: boolean;
-  }>({});
+  const [checkedProducts, setCheckedProducts] = useState<{[key: number | string]: boolean;}>({});
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [cookies, setCookies] = useCookies();
@@ -104,50 +102,6 @@ const OrderPage: React.FC = () => {
     }
   };
 
-  const handleCheckboxChange = (productId: number) => {
-    setCheckedProducts((prevCheckedProducts) => ({
-      ...prevCheckedProducts,
-      [productId]: !prevCheckedProducts[productId],
-    }));
-    const isChecked = !checkedProducts[productId];
-    const product = orderItems.find(
-      (product) => product.productId === productId
-    );
-    if (isChecked && product) {
-      setSelectedProducts((prevSelectedProducts) => [
-        ...prevSelectedProducts,
-        product,
-      ]);
-    } else {
-      setSelectedProducts((prevSelectedProducts) =>
-        prevSelectedProducts.filter((p) => p.productId !== productId)
-      );
-    }
-  };
-
-  const decrementQuantity = (productId: number) => {
-    const currentQuantity = parseInt(quantities[productId].toString(), 10); // 정수로 변환
-    if (currentQuantity > 1) {
-      const updatedQuantities = {
-        ...quantities,
-        [productId]: currentQuantity - 1,
-      };
-      setQuantities(updatedQuantities);
-    }
-  };
-
-  const incrementQuantity = (productId: number) => {
-    const currentQuantity = parseInt(
-      quantities[productId]?.toString() || "0",
-      10
-    ); // 정수로 변환
-    const updatedQuantities = {
-      ...quantities,
-      [productId]: currentQuantity + 1,
-    };
-    setQuantities(updatedQuantities);
-  };
-
   const deleteButtonClickHandler = async (product: Product) => {
     if (!window.confirm("삭제하시겠습니까?")) {
       return;
@@ -183,14 +137,6 @@ const OrderPage: React.FC = () => {
   const calculateProductTotalPrice = (product: Product) => {
     const quantity = product.count;
     return quantity * parseFloat(product.lowPrice);
-  };
-
-  const formatOrderDate = (orderDatetime: string) => {
-    const date = new Date(orderDatetime.replace(/\./g, "/"));
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${year}. ${month}. ${day} 주문`;
   };
 
   const checkArrivalStatus = (orderDate: string) => {

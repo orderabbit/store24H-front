@@ -16,7 +16,6 @@ import SignBox from "components/SignBox";
 import AdminSignUpRequestDto from "apis/request/auth/admin-sign-up.request.dto";
 
 export default function AdminSignUp() {
-
     const userIdRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -24,7 +23,6 @@ export default function AdminSignUp() {
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
     const secretKeyRef = useRef<HTMLInputElement | null>(null);
-
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -34,7 +32,6 @@ export default function AdminSignUp() {
     const [certificationNumber, setCertificationNumber] = useState<string>('');
     const [secretKey, setSecretKey] = useState<string>('');
     const [agreedPersonal, setAgreenPersonal] = useState<boolean>(false);
-
     const [isUserIdError, setUserIdError] = useState<boolean>(false);
     const [isNicknameError, setNicknameError] = useState<boolean>(false);
     const [isPasswordError, setPasswordError] = useState<boolean>(false);
@@ -43,7 +40,6 @@ export default function AdminSignUp() {
     const [isCertificationNumberError, setCertificationNumberError] = useState<boolean>(false);
     const [isSecretKeyError, setSecretKeyError] = useState<boolean>(false);
     const [isAgreedPersonalError, setAgreedPersonalError] = useState<boolean>(false);
-
     const [userIdMessage, setUserIdMessage] = useState<string>('');
     const [NicknameMessage, setNicknameMessage] = useState<string>('');
     const [passwordMessage, setPasswordMessage] = useState<string>('');
@@ -51,7 +47,6 @@ export default function AdminSignUp() {
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
     const [SecretKeyMessage, setSecretKeyMessage] = useState<string>('');
-
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
@@ -76,7 +71,6 @@ export default function AdminSignUp() {
         }
         if (code === ResponseCode.DATABASE_ERROR) alert('데이터베이스 오류입니다.');
         if (code !== ResponseCode.SUCCESS) return;
-
         setUserIdError(false);
         setUserIdMessage('사용 가능한 아이디 입니다.');
         setUserIdCheck(true);
@@ -93,7 +87,6 @@ export default function AdminSignUp() {
         }
         if (code === ResponseCode.DATABASE_ERROR) alert('데이터베이스 오류입니다.');
         if (code !== ResponseCode.SUCCESS) return;
-
         setNicknameError(false);
         setNicknameMessage('사용 가능한 닉네임 입니다.');
         setNicknameCheck(true);
@@ -102,9 +95,7 @@ export default function AdminSignUp() {
 
     const emailCertificationResponse = (responseBody: ResponseBody<EmailCertificationResponseDto>) => {
         if (!responseBody) return;
-
         const { code } = responseBody;
-
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디와 이메일을 모두 입력하세요.');
         if (code === ResponseCode.MAIL_FAIL || code === ResponseCode.DATABASE_ERROR) {
             setEmailError(true);
@@ -120,7 +111,6 @@ export default function AdminSignUp() {
 
     const checkCertificationResponse = (responseBody: ResponseBody<CheckCertificationResponseDto>) => {
         if (!responseBody) return;
-
         const { code } = responseBody;
         if (code === ResponseCode.VALIDATION_FAIL) alert('아이디, 이메일, 인증번호를 모두 입력하세요.');
         if (code === ResponseCode.CERTIFICATION_FAIL) {
@@ -130,7 +120,6 @@ export default function AdminSignUp() {
         }
         if (code === ResponseCode.DATABASE_ERROR) alert('데이터베이스 오류입니다.');
         if (code !== ResponseCode.SUCCESS) return;
-
         setCertificationNumberError(false);
         setCertificationNumberMessage('인증번호가 확인되었습니다.');
         setCertificationCheck(true);
@@ -202,40 +191,31 @@ export default function AdminSignUp() {
     const onIdButtenClickHandler = () => {
         if (!userId) return;
         const requestBody: userIdCheckRequestDto = { userId };
-
         userIdCheckRequest(requestBody).then(userIdCheckResponse);
     };
 
     const onNicknameButtenClickHandler = () => {
         if (!nickname) return;
         const requestBody: nicknameCheckRequestDto = { nickname };
-
         nicknameCheckRequest(requestBody).then(nicknameCheckResponse);
     };
 
     const onEmailButtenClickHandler = () => {
         if (!userId || !email) return;
-
         const checkedEmail = emailPattern.test(email);
-
         if (!checkedEmail) {
             setEmailError(true);
             setEmailMessage('이메일 형식이 아닙니다.');
             return;
         }
-
         const requestBody: EmailCertificationRequestDto = { userId, email };
         emailCertificationRequest(requestBody).then(emailCertificationResponse);
-
         setEmailError(false);
         setEmailMessage('이메일 전송중...');
     };
 
-
     const onCertificationNumberButtenClickHandler = () => {
-
         if (!userId || !email || !certificationNumber) return;
-
         const requestBody: CheckCertificationRequestDto = { userId, email, certificationNumber };
         checkCertificationRequest(requestBody).then(checkCertificationResponse);
     };
@@ -270,7 +250,6 @@ export default function AdminSignUp() {
             alert('이메일 인증은 필수입니다.');
             return;
         }
-
         const requestBody: AdminSignUpRequestDto = { userId, nickname, password, email, certificationNumber, agreedPersonal, secretKey};
         adminSignUpRequest(requestBody).then(adminSignUpResponse)
     };
@@ -307,9 +286,6 @@ export default function AdminSignUp() {
         onCertificationNumberButtenClickHandler();
     };
 
-    {/*<div id='sign-up-wrapper'>
-    <div className='sign-up-image'></div>
-    <div className='sign-up-container'>*/}
     return (
         <div className='admin-sign-up-container'>
             <div className='admin-sign-up-box'>
@@ -339,6 +315,4 @@ export default function AdminSignUp() {
             </div>
         </div>
     );
-    {/*</div>
-    </div>*/}
 }

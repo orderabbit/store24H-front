@@ -21,9 +21,7 @@ const QuestionDetail: React.FC = () => {
   const [answers, setAnswers] = useState<Answer[]>([]);
   const navigator = useNavigate();
   const { loginUser } = useLoginUserStore();
-  const [deletingQuestionId, setDeletingQuestionId] = useState<number | null>(
-    null
-  );
+  const [deletingQuestionId, setDeletingQuestionId] = useState<number | null>(null);
   const [userId, setUserId] = useState("");
   const [role, setRole] = useState<string>("");
   const [content, setContent] = useState("");

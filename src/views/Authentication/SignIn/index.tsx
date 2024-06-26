@@ -62,10 +62,6 @@ export default function SignIn() {
         setMessage('');
     };
 
-    const onSignUpButtonClickHandler = () => {
-        navigate(SIGNUP_PATH());
-    };
-
     const onSignInButtonClickHandler = () => {
 
         if (!userId || !password) {
@@ -78,6 +74,10 @@ export default function SignIn() {
 
     const onSnsSignInButtonClickHandler = (type: 'kakao' | 'naver' | 'google') => {
         window.location.href = SNS_SIGN_IN_URL(type);
+    };
+
+    const onSignUpButtonClickHandler = () => {
+        navigate(SIGNUP_PATH());
     };
 
     const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -123,7 +123,6 @@ export default function SignIn() {
         }
         const requestBody: PasswordRecoveryRequestDto = { email };
         recoveryPasswordRequest(requestBody).then(recoverPasswordResponse);
-
         setIsEmailError(false);
         setEmailMessage('이메일 전송중...');
     };
@@ -153,7 +152,6 @@ export default function SignIn() {
                             <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
                         </div>
                     </div>
-
                     <div className='sign-in-content-input-box'>
                         <div>
                             <InputBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} onKeyDown={onIdKeyDownHandler} />
@@ -163,7 +161,6 @@ export default function SignIn() {
                             <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
                             <div className='sign-up-button full-width' onClick={onSignUpButtonClickHandler}>{'회원가입 하기'}</div>
                             <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
-
                         </div>
                     </div>
                 </div>

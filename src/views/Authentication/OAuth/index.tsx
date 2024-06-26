@@ -14,7 +14,6 @@ export default function OAuth() {
         const expires = new Date(now + Number(expirationTime) * 1000);
         setCookie('accessToken', token, { expires, path: '/' });
         navigate('/');
-        
     }, [token, expirationTime, setCookie, navigate]);
 
     return null;

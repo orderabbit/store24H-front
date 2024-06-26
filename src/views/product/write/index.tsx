@@ -22,9 +22,6 @@ export default function Write() {
     const category3Ref = useRef<HTMLSelectElement | null>(null);
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const secondaryImageInputRef = useRef<HTMLInputElement | null>(null);
-
-
-    const { pathname } = useLocation();
     const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
     const { productId, setProductId } = useProductStore();
     const { title, setTitle } = useProductStore();
@@ -36,11 +33,9 @@ export default function Write() {
     const { productImageFileList, setProductImageFileList } = useProductStore();
     const { secondaryProductImageFileList, setSecondaryProductImageFileList } = useProductStore();
     const { resetProduct } = useProductStore();
-
     const [cookies, setCookies] = useCookies();
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [secondaryImageUrls, setSecondaryImageUrls] = useState<string[]>([]);
-
 
     const navigate = useNavigate();
 
@@ -123,7 +118,6 @@ export default function Write() {
         const newBoardImageFileList = productImageFileList.filter((file, index) => index !== deleteindex);
         setProductImageFileList(newBoardImageFileList);
     }
-
 
     const onSecondaryImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;

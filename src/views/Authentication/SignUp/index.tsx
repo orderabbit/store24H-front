@@ -15,14 +15,12 @@ import React from "react";
 import SignBox from "components/SignBox";
 
 export default function SignUp() {
-
     const userIdRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
-
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -31,7 +29,6 @@ export default function SignUp() {
     const [email, setEmail] = useState<string>('');
     const [certificationNumber, setCertificationNumber] = useState<string>('');
     const [agreedPersonal, setAgreenPersonal] = useState<boolean>(false);
-
     const [isUserIdError, setUserIdError] = useState<boolean>(false);
     const [isNicknameError, setNicknameError] = useState<boolean>(false);
     const [isPasswordError, setPasswordError] = useState<boolean>(false);
@@ -39,14 +36,12 @@ export default function SignUp() {
     const [isEmailError, setEmailError] = useState<boolean>(false);
     const [isCertificationNumberError, setCertificationNumberError] = useState<boolean>(false);
     const [isAgreedPersonalError, setAgreedPersonalError] = useState<boolean>(false);
-
     const [userIdMessage, setUserIdMessage] = useState<string>('');
     const [NicknameMessage, setNicknameMessage] = useState<string>('');
     const [passwordMessage, setPasswordMessage] = useState<string>('');
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
-
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
@@ -92,7 +87,6 @@ export default function SignUp() {
         setNicknameMessage('사용 가능한 닉네임 입니다.');
         setNicknameCheck(true);
     };
-
 
     const emailCertificationResponse = (responseBody: ResponseBody<EmailCertificationResponseDto>) => {
         if (!responseBody) return;
@@ -213,7 +207,6 @@ export default function SignUp() {
         setEmailMessage('이메일 전송중...');
     };
 
-
     const onCertificationNumberButtenClickHandler = () => {
 
         if (!userId || !email || !certificationNumber) return;
@@ -268,7 +261,6 @@ export default function SignUp() {
         window.location.href = SNS_SIGN_IN_URL(type);
     };
 
-
     const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         onIdButtenClickHandler();
@@ -301,13 +293,9 @@ export default function SignUp() {
         onCertificationNumberButtenClickHandler();
     };
 
-    {/*<div id='sign-up-wrapper'>
-    <div className='sign-up-image'></div>
-    <div className='sign-up-container'>*/}
     return (
         <div className='sign-up-container'>
             <div className='sign-up-box'>
-                <div className='sign-up-title'>{'?'}</div>
                 <div className='sign-up-content-box'>
                     <div className='sign-up-content-sns-sign-in-box'>
                         <div className='sign-up-content-sns-sign-in-title'>{'sns 회원가입'}</div>
@@ -340,6 +328,4 @@ export default function SignUp() {
             </div>
         </div>
     );
-    {/*</div>
-    </div>*/}
 }

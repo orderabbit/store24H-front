@@ -124,7 +124,6 @@ const CartList: React.FC = () => {
         }
     };
 
-
     const handleAllCheckboxChange = () => {
         const newIsAllChecked = !isAllChecked;
         setIsAllChecked(newIsAllChecked);
@@ -160,7 +159,6 @@ const CartList: React.FC = () => {
         }
     };
 
-
     const incrementQuantity = (productId: number) => {
         const currentQuantity = parseInt(quantities[productId]?.toString() || "0", 10); // 정수로 변환
         const updatedQuantities = {
@@ -195,7 +193,6 @@ const CartList: React.FC = () => {
             state: { selectedProducts, selectedProductIds, totalPrice },
         });
     };
-
 
     const calculateProductTotalPrice = (product: Product) => {
         const quantity = quantities[product.productId] || 1;
