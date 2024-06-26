@@ -107,14 +107,13 @@
     max-height: auto;
     margin-bottom: 40px;
 }
+
 .order-caution-image {
     width: 700px;
     max-height: auto;
 }
 
 -----------
-
-
 
 #board-detail-top {
     display: flex;

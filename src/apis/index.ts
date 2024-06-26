@@ -18,6 +18,7 @@ import { GetAllReviewResponseDto, GetReviewResponseDto, PostReviewResponseDto } 
 import { DeleteQuestionResponseDto, GetAllQuestionResponseDto, GetQuestionResponseDto, PatchQuestionResponseDto, PostQuestionResponseDto } from "./response/question";
 import { PatchQuestionRequestDto, PostQuestionRequestDto } from "./request/question";
 import AdminSignUpRequestDto from "./request/auth/admin-sign-up.request.dto";
+import { Product } from "types/interface";
 
 const authorization = (accessToken: string) => {
     return { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -82,6 +83,7 @@ const GET_ORDER_LIST_URL = (userId: string) => `${API_DOMAIN}/orders/list/${user
 const DELETE_ORDER_LIST_URL = (orderId: string) => `${API_DOMAIN}/orders/delete/${orderId}`;
 
 const POST_PRODUCT_URL = () => `${API_DOMAIN}/product`;
+const GET_PRODUCT_LIST_URL = () => `${API_DOMAIN}/product/list`;
 const PATCH_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/${productId}`;
 const GET_PRODUCT_URL = (productId: number | string, type: string) => `${API_DOMAIN}/product/detail/${productId}?type=${type}`;
 const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/product/delete/${productId}`;
@@ -109,16 +111,16 @@ export const adminSignInRequest = async (requestBody: AdminSignInRequestDto) => 
 
 export const adminSignUpRequest = async (requestBody: AdminSignUpRequestDto) => {
     const result = await axios.post(ADMIN_SIGN_UP_URL(), requestBody)
-    .then(response => {
-        const responseBody: AdminSignUpResponseDto = response.data;
-        return responseBody;
-    })
-    .catch(error => {
-        if (!error.response) return null;
-        const responseBody: ResponseDto = error.response.data;
-        return responseBody;
-    })
-return result;
+        .then(response => {
+            const responseBody: AdminSignUpResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
 };
 
 export const signInRequest = async (requestBody: SignInRequestDto) => {
@@ -223,18 +225,18 @@ export const patchPasswordRequest = async (userId: string, requestBody: PatchPas
 export const withdrawUserRequest = async (userId: string, requestBody: WithdrawalUserRequestDto): Promise<ResponseBody<WithdrawalUserResponseDto>> => {
     const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), {
         params: requestBody,
-      })
+    })
         .then(response => {
-          const responseBody: ResponseDto = response.data;
-          return responseBody;
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
         })
         .catch(error => {
-          if (!error.response) return null;
-          const responseBody: ResponseDto = error.response.data;
-          return responseBody;
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
         });
-      return result;
-    };
+    return result;
+};
 
 export const recoveryPasswordRequest = async (requestBody: PasswordRecoveryRequestDto): Promise<ResponseBody<PasswordRecoveryResponseDto>> => {
     try {
@@ -261,7 +263,23 @@ export const PostCartRequest = async (formData: SaveCartRequestDto, accessToken:
     return result;
 };
 
-export const GetProductListRequest = async (userId: string, accessToken: string): Promise<AxiosResponse> => {
+export const GetProductListRequest = async (): Promise<Product[]> => {
+    try {
+        const response = await axios.get(GET_PRODUCT_LIST_URL());
+        const data = response.data;
+
+        if (data && data.code === 'SU' && Array.isArray(data.items)) {
+            return data.items;
+        } else {
+            throw new Error("Invalid response format");
+        }
+    } catch (error) {
+        console.error('Error fetching product list:', error);
+        throw error;
+    }
+}
+
+export const GetCartListRequest = async (userId: string, accessToken: string): Promise<AxiosResponse> => {
     try {
         const response = await axios.get(GET_CART_LIST_URL(userId), authorization(accessToken));
         return response;
