@@ -4,7 +4,11 @@ import { GetProductListRequest } from 'apis';
 import Pagination from 'components/Pagination';
 import { Product } from 'types/interface';
 import './style.css';
+<<<<<<< HEAD
 import useLoginUserStore from 'stores/login-user.store';
+=======
+import ReviewList from 'views/product/review';
+>>>>>>> 9160bc3cf6865a970b119c35de12a5c001c0c801
 
 export default function Main() {
     const [role, setRole] = useState<string>("");
