@@ -257,9 +257,9 @@ const QuestionDetail: React.FC = () => {
             </div>
           </>
         )}
-
+          
         <div className="inquire-answer-write">
-          {role !== "ROLE_ADMIN" && (
+          {role === "ROLE_ADMIN" && (
             <div className="inquire-answer-button" onClick={toggleAnswerSection}>
               답변 작성
             </div>
