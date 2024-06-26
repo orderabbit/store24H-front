@@ -4,6 +4,7 @@ import { GetProductListRequest } from 'apis';
 import Pagination from 'components/Pagination';
 import { Product } from 'types/interface';
 import './style.css';
+import ReviewList from 'views/product/review';
 
 export default function Main() {
 
@@ -93,6 +94,9 @@ export default function Main() {
                         </select>
                     </div>
                 </form>
+                <div>
+                    {ReviewList("1")}
+                </div>
             </div>
             <ul className="list-group">
                 {
