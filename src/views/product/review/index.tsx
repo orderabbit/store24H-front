@@ -3,7 +3,7 @@ import "./style.list.component.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { GetReviewRequestDto } from "apis/request/product";
-import { PostReviewResponseDto } from "apis/response/product";
+//import { PostReviewResponseDTO } from "apis/response/product";
 
 const Review:React.FC<GetReviewRequestDto> = (props) => {
   const trueStars = Array.from({ length: props.rates }, (_, index) => ({
@@ -82,7 +82,7 @@ const Review:React.FC<GetReviewRequestDto> = (props) => {
 };
 
 
-export default function ReviewList(productId: string) {
+export default function ReviewList(productId: number) {
   const [starSelectIndex, setStarSelectIndex] = useState(1);
   const [review_content, setReview_content] = useState("");
 
@@ -103,7 +103,7 @@ export default function ReviewList(productId: string) {
   };
   const submitClickEvent = async () => {
    try {
-    const responseBody :PostReviewResponseDto = {
+    const responseBody /*: PostReviewResponseDTO*/ = {
       review: review_content,
       rates: starSelectIndex
     };

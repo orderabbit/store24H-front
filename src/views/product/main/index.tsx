@@ -94,9 +94,6 @@ export default function Main() {
                         </select>
                     </div>
                 </form>
-                <div>
-                    {ReviewList("1")}
-                </div>
             </div>
             <ul className="list-group">
                 {
