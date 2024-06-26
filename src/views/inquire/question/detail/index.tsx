@@ -291,6 +291,30 @@ const QuestionDetail: React.FC = () => {
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
+          </div>
+        )}
+        <div className="replies-section">
+          {answers.length > 0 ? (
+            <div>
+              <h3 className="replies-title">답변</h3>
+              <ul>
+                {answers.map((answer, index) => (
+                  <li key={index}>
+                    <span className="answer-user-id">
+                     관리자 ({answer.userId} )
+                    </span>{" "}
+                    : {answer.content}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="inquire-answer-result">
+              해당 문의에 대한 답변이 없습니다.
+            </p>
+=======
+>>>>>>> bde2b3384f6ac3054374e486ed5fe8912e384276
           )}
           <div className="replies-section">
             {answers.length > 0 ? (

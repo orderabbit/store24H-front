@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import con24 from '../../../images/con24.png';
+=======
 import { GetProductListRequest, GetSearchProductListRequest, PostCartRequest } from 'apis';
 import { SaveCartRequestDto } from 'apis/request';
 import Pagination from 'components/Pagination';
@@ -6,6 +12,7 @@ import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginUserStore } from 'stores';
 import { Product } from 'types/interface';
+>>>>>>> bde2b3384f6ac3054374e486ed5fe8912e384276
 import './style.css';
 
 export default function Main() {
@@ -59,9 +66,45 @@ export default function Main() {
         }
     };
 
+<<<<<<< HEAD
+    return (
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="container">
+                <h1 className="text-center mb-5">
+                <img  className="main-page-image" src={con24} />
+                    {/* <a href="/" className="text-decoration-none">
+                        <span style={{ color: '#4285f4', fontSize: '90px' }}>G</span>
+                        <span style={{ color: '#ea4335', fontSize: '60px' }}>o</span>
+                        <span style={{ color: '#fbbc05', fontSize: '60px' }}>o</span>
+                        <span style={{ color: '#4285f4', fontSize: '60px' }}>g</span>
+                        <span style={{ color: '#34a853', fontSize: '60px' }}>l</span>
+                        <span style={{ color: '#ea4335', fontSize: '60px' }}>e</span>
+                    </a> */}
+                </h1>
+                <form onSubmit={handleSearch} className="d-flex flex-column align-items-center gap-3">
+                    <div className="input-group mb-3" style={{ maxWidth: '500px' }}>
+                        <input
+                            name="keyword"
+                            type="text"
+                            className="form-control rounded-pill"
+                            placeholder="검색"
+                            aria-label="검색"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
+                        />
+                        <button type="submit" className="btn btn-primary">검색</button>
+                    </div>
+                    <button onClick={() => navigate('/product/write')}>상품등록</button>
+                </form>
+            </div>
+        </div>
+    );
+};
+=======
     const formatPrice = (price: string) => {
         return parseFloat(price).toLocaleString();
     };
+>>>>>>> bde2b3384f6ac3054374e486ed5fe8912e384276
 
     const handleSortBy = (sortType: string) => {
         setSortBy({

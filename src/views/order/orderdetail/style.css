@@ -84,7 +84,7 @@
 }
 
 .orderList-left-product-info-content p {
-    margin: 0;
+    margin: 5px 0;
     width: 120px;
 }
 
@@ -92,13 +92,6 @@
     text-align: right;
 }
 
-.orderList-left-product-info-content {
-    justify-content: space-between;
-}
-
-.orderList-left-product-info-content p {
-    margin: 5px 0;
-}
 
 .orderList-rightInfo {
     flex: 3;
@@ -121,6 +114,7 @@
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .orderList-deliveryStatus{
