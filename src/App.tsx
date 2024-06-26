@@ -11,7 +11,6 @@ import { User } from 'types/interface';
 import OAuth from 'views/Authentication/OAuth';
 import SignIn from 'views/Authentication/SignIn';
 import SignUp from 'views/Authentication/SignUp';
-import LogIN_OUT from 'views/Authentication/main';
 import MyPage from 'views/User';
 import AddressPage from 'views/payment/Address-PhoneNumber';
 import { CheckoutPage } from 'views/payment/CheckoutPage';
@@ -75,7 +74,7 @@ function App() {
         <Route path="/question/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
         <Route path="/admin-signup" element={<AdminSignUp />} />
-        <Route path={SIGNIN_PATH()} element={<LogIN_OUT />} />
+        <Route path={SIGNIN_PATH()} element={<SignIn />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />
         <Route path="/address" element={<AddressPage />} />
         <Route path='/checkout' element={<CheckoutPage />} />

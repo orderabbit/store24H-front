@@ -284,6 +284,13 @@
   background-position: 50% 50%;
   background-size: 100% 100%;
 }
+.icon-orderList {
+  width: 24px;
+  height: 24px;
+
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+}
 
 .eye-light-off-icon {
   background-image: url(images/eye-light-off.png);

@@ -155,7 +155,9 @@ export default function SignIn() {
                         </div>
                         <div className='sign-in-content-button-box'>
                             <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
+                            <div className='sign-up-button full-width' onClick={onSignUpButtonClickHandler}>{'회원가입 하기'}</div>
                             <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
+
                         </div>
                     </div>
                 </div>

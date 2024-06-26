@@ -16,9 +16,7 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
     transition: all 1s ease-in-out;
-    transform: translateX(-100%);
 }
 
 .sign-up-box {
@@ -28,9 +26,7 @@
     top: 0;
     left: 0;
     gap: 0px;
-    padding: 40px;
     border-radius: 20px;
-    opacity: 0;
     transition-delay: 0.5s;
 }
 
@@ -75,14 +71,6 @@
     gap: 16px;
 }
 
-.log-io-container.first-active .sign-up-container {
-    transform: translateX(-7%);
-}
-
-.log-io-container.first-active .sign-up-box {
-    z-index: 2;
-    opacity: 1;
-}
 
 .auth-consent-box {
     display: flex;

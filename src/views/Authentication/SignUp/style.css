@@ -7,19 +7,20 @@
 } 
 
 .sign-up-image{
-    width: 830px;
     background-position: 50% 50%;
     background-size: 100% 100%;
     /*background-image: url(views/Authentication/SignUp/assets/sign-up-image.png);*/
 }
 
 .sign-up-container{
+    width: 830px;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 1s ease-in-out;
-    transform: translateX(-100%);
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 /*
@@ -43,7 +44,6 @@
     gap: 0px;
     padding: 40px;
     border-radius: 20px;
-    opacity: 0;
     transition-delay: 0.5s;
 }
 
