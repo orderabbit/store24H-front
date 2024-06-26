@@ -22,6 +22,7 @@
 .orderList-content {
   display: flex;
   flex-direction: column;
+  width: 120%;
 }
 
 .orderList-product-list {
@@ -62,6 +63,7 @@
 .orderList-left-product-info {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .orderList-left-product-info-title {
@@ -70,27 +72,20 @@
   margin-bottom: 15px;
 }
 
-.orderList-left-product-info-content {
+.orderList-left-product-content-info{
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .orderList-left-product-info-content p {
-  margin: 0;
+  margin: 5px 0;
   width: 120px;
 }
 
 .orderList-product-totalPrice {
   text-align: right;
-}
-
-.orderList-left-product-info-content {
-  justify-content: space-between;
-}
-
-.orderList-left-product-info-content p {
-  margin: 5px 0;
+  
 }
 
 .orderList-rightInfo {
@@ -166,4 +161,20 @@
 
 .orderList-product-title{
   cursor: pointer;
+}
+.icon-button-orderList{
+  border-radius: 50% 50%;
+  
+  width: 197.5%;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+.icon-close-icon{
+  position: absolute;
+  right: 0;
 }

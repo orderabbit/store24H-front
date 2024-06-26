@@ -1,10 +1,15 @@
-import { GetProductListRequest, PostCartRequest, deleteOrderListRequest, getOrderListRequest } from 'apis';
-import { SaveCartRequestDto } from 'apis/request';
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
-import { useNavigate, useParams } from 'react-router-dom';
-import { User } from 'types/interface';
-import './style.css';
+import {
+  GetProductListRequest,
+  PostCartRequest,
+  deleteOrderListRequest,
+  getOrderListRequest,
+} from "apis";
+import { SaveCartRequestDto } from "apis/request";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate, useParams } from "react-router-dom";
+import { User } from "types/interface";
+import "./style.css";
 
 interface Product {
   orderList: any;
@@ -25,7 +30,9 @@ const OrderPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [orderItems, setOrderItems] = useState<Product[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [checkedProducts, setCheckedProducts] = useState<{ [key: number | string]: boolean; }>({});
+  const [checkedProducts, setCheckedProducts] = useState<{
+    [key: number | string]: boolean;
+  }>({});
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [cookies, setCookies] = useCookies();
@@ -37,17 +44,21 @@ const OrderPage: React.FC = () => {
       const response = await getOrderListRequest(userId);
       console.log(response);
       if (response) {
-        const sortedOrderItems = response.orderItems.map((item: Product) => ({
-          ...item,
-          orderId: item.orderList.orderId, // orderList에서 orderId를 가져옴
-          orderDatetime: item.orderList.orderDatetime,
-        })).sort(
-          (a: Product, b: Product) => {
-            const dateA = new Date(a.orderDatetime.replace(/\./g, '/')).getTime();
-            const dateB = new Date(b.orderDatetime.replace(/\./g, '/')).getTime();
+        const sortedOrderItems = response.orderItems
+          .map((item: Product) => ({
+            ...item,
+            orderId: item.orderList.orderId, // orderList에서 orderId를 가져옴
+            orderDatetime: item.orderList.orderDatetime,
+          }))
+          .sort((a: Product, b: Product) => {
+            const dateA = new Date(
+              a.orderDatetime.replace(/\./g, "/")
+            ).getTime();
+            const dateB = new Date(
+              b.orderDatetime.replace(/\./g, "/")
+            ).getTime();
             return dateB - dateA;
-          }
-        );
+          });
         setOrderItems(sortedOrderItems);
       } else {
         setOrderItems([]);
@@ -71,7 +82,8 @@ const OrderPage: React.FC = () => {
       title: product.title,
       productImageList: product.productImageList,
       lowPrice: product.lowPrice,
-      totalPrice: parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
+      totalPrice:
+        parseFloat(product.lowPrice) * (quantities[product.productId] || 1),
       category1: product.category1,
       category2: product.category2,
       category3: product.category3,
@@ -103,7 +115,9 @@ const OrderPage: React.FC = () => {
       [productId]: !prevCheckedProducts[productId],
     }));
     const isChecked = !checkedProducts[productId];
-    const product = orderItems.find((product) => product.productId === productId);
+    const product = orderItems.find(
+      (product) => product.productId === productId
+    );
     if (isChecked && product) {
       setSelectedProducts((prevSelectedProducts) => [
         ...prevSelectedProducts,
@@ -128,7 +142,10 @@ const OrderPage: React.FC = () => {
   };
 
   const incrementQuantity = (productId: number) => {
-    const currentQuantity = parseInt(quantities[productId]?.toString() || "0", 10); // 정수로 변환
+    const currentQuantity = parseInt(
+      quantities[productId]?.toString() || "0",
+      10
+    ); // 정수로 변환
     const updatedQuantities = {
       ...quantities,
       [productId]: currentQuantity + 1,
@@ -142,7 +159,10 @@ const OrderPage: React.FC = () => {
     }
     if (userId && cookies.accessToken) {
       try {
-        const response = await deleteOrderListRequest(product.orderId, cookies.accessToken);
+        const response = await deleteOrderListRequest(
+          product.orderId,
+          cookies.accessToken
+        );
         if (response?.code === "SU") {
           alert("삭제되었습니다.");
           const newOrderItems = orderItems.filter(
@@ -171,7 +191,7 @@ const OrderPage: React.FC = () => {
   };
 
   const formatOrderDate = (orderDatetime: string) => {
-    const date = new Date(orderDatetime.replace(/\./g, '/'));
+    const date = new Date(orderDatetime.replace(/\./g, "/"));
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -180,29 +200,37 @@ const OrderPage: React.FC = () => {
 
   const checkArrivalStatus = (orderDate: string) => {
     const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-    const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
+    const orderDateObj = new Date(orderDate.replace(/\./g, "/"));
     const deliveryDateObj = new Date(orderDateObj);
     deliveryDateObj.setDate(orderDateObj.getDate() + 2);
 
     const currentDateTime = new Date();
-    const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
+    const currentDate = new Date(
+      currentDateTime.getFullYear(),
+      currentDateTime.getMonth(),
+      currentDateTime.getDate()
+    );
 
     if (deliveryDateObj.getTime() === currentDate.getTime()) {
-      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 완료`;
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${
+        daysOfWeek[deliveryDateObj.getDay()]
+      }) 도착 완료`;
     } else {
-      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]}) 도착 예정`;
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${
+        daysOfWeek[deliveryDateObj.getDay()]
+      }) 도착 예정`;
     }
   };
 
   const titleClickHandler = (productId: number) => {
     navigate(`/product/detail/${productId}`);
-  }
+  };
 
   const handleOrderDetailClick = (product: Product) => {
     navigate(`/order/detail/${product.orderId}`, { state: { product } });
   };
   const onQuestionButtonClickHandler = () => {
-    navigate('/question');
+    navigate("/question");
   };
 
   const formatPrice = (price: string) => {
@@ -211,7 +239,7 @@ const OrderPage: React.FC = () => {
 
   const calculateDeliveryStatus = (orderDatetime: string) => {
     const currentDate = new Date();
-    const orderDate = new Date(orderDatetime.replace(/\./g, '/'));
+    const orderDate = new Date(orderDatetime.replace(/\./g, "/"));
     const diffTime = Math.abs(currentDate.getTime() - orderDate.getTime());
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 
@@ -227,56 +255,89 @@ const OrderPage: React.FC = () => {
     <div className="orderList-container">
       <div className="orderList-title">주문 목록</div>
       <div className="orderList-content">
-        <div className="orderList-product-list">
-          <div className="orderList-product-item">
-            {orderItems.length > 0 ? (
-              <ul className="orderList-product-info">
-                {orderItems.map((product, index) => (
+        {orderItems.length > 0 ? (
+          <div className="orderList-product-list">
+            <div className="orderList-product-item">
+              {orderItems.map((product, index) => (
+                <ul className="orderList-product-info">
+                  <div className="icon-button-orderList">
+                    <div
+                      className="icon-orderList close-icon"
+                      onClick={() => deleteButtonClickHandler(product)}
+                    ></div>
+                  </div>
                   <li key={index}>
                     <div className="orderList-leftInfo">
                       <div className="orderList-leftsubTitle">
-                        <div className="orderList-deliveryStatus">{calculateDeliveryStatus(product.orderDatetime)}</div>
-                        {checkArrivalStatus(product.orderDatetime)}
-                        <div className="icon-button">
-                          <div className="icon close-icon" onClick={() => deleteButtonClickHandler(product)}></div>
+                        <div className="orderList-deliveryStatus">
+                          {calculateDeliveryStatus(product.orderDatetime)}
                         </div>
+                        {checkArrivalStatus(product.orderDatetime)}
                       </div>
                       <div className="orderList-leftContent">
                         <div className="orderList-leftThumbnail">
-                          {product.productImageList && product.productImageList.map((image, imgIndex) => (
-                            <img key={`${product.productId}-${imgIndex}`} className="orderList-product-main-image" src={image} alt="product" />
-                          ))}
+                          {product.productImageList &&
+                            product.productImageList.map((image, imgIndex) => (
+                              <img
+                                key={`${product.productId}-${imgIndex}`}
+                                className="orderList-product-main-image"
+                                src={image}
+                                alt="product"
+                              />
+                            ))}
                         </div>
                         <div className="orderList-left-product-info">
                           <div className="orderList-left-product-info-title">
-                            <p className="orderList-product-title" onClick={() => titleClickHandler(product.productId)}>{product.title}</p>
+                            <p
+                              className="orderList-product-title"
+                              onClick={() =>
+                                titleClickHandler(product.productId)
+                              }
+                            >
+                              {product.title}
+                            </p>
                           </div>
-                          <div className="orderList-left-product-info-content">
-                            <p className="orderList-product-price">{formatPrice(product.lowPrice)} 원</p>
-                            <p className="orderList-product-count">{product.count} 개</p>
-                            <p className="orderList-product-totalPrice">총 가격: {calculateProductTotalPrice(product)} 원</p>
+                          <div className="orderList-left-product-content-info">
+                            <p className="orderList-product-price">
+                              {formatPrice(product.lowPrice)} 원
+                            </p>
+                            <p className="orderList-product-count">
+                              {product.count} 개
+                            </p>
+                            <p className="orderList-product-totalPrice">
+                              총 가격: {calculateProductTotalPrice(product)} 원
+                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="orderList-rightInfo">
                       <div className="orderList-button-container">
-                        <button className="orderList-detail-button" onClick={() => handleOrderDetailClick(product)}>주문상세보기</button>
-                        <button onClick={() => saveProductClickHandler(product)}>장바구니 담기</button>
+                        <button
+                          className="orderList-detail-button"
+                          onClick={() => handleOrderDetailClick(product)}
+                        >
+                          주문상세보기
+                        </button>
+                        <button
+                          onClick={() => saveProductClickHandler(product)}
+                        >
+                          장바구니 담기
+                        </button>
                         <button>리뷰 작성하기</button>
-                        <button onClick={onQuestionButtonClickHandler}>고객 문의</button>
+                        <button onClick={onQuestionButtonClickHandler}>
+                          고객 문의
+                        </button>
                       </div>
                     </div>
                   </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="list-no-result">
-                주문 내역이 없습니다.
-              </div>
-            )}
+                </ul>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="list-no-result">주문 내역이 없습니다.</div>
+        )}
       </div>
     </div>
   );

@@ -299,7 +299,7 @@ const QuestionDetail: React.FC = () => {
                 {answers.map((answer, index) => (
                   <li key={index}>
                     <span className="answer-user-id">
-                      작성자 ({answer.userId} )
+                     관리자 ({answer.userId} )
                     </span>{" "}
                     : {answer.content}
                   </li>
