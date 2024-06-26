@@ -43,7 +43,7 @@ export default function Main() {
                 }
                 setProducts(fetchedProducts);
             } catch (error) {
-                console.error("Failed to fetch products", error);
+                return;
             }
         };
         fetchProducts();
@@ -94,6 +94,13 @@ export default function Main() {
                     </div>
                 </form>
             </div>
+            {
+                products.length === 0 && (
+                    <div className="list-no-result">
+                        검색 결과가 없습니다.
+                    </div>
+                )
+            }
             <ul className="list-group">
                 {
                     displayedProducts.map((product) => (

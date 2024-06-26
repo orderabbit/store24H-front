@@ -17,10 +17,18 @@ export default function SearchList() {
     const [keyword, setKeyword] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-    const [sortByPriceAsc, setSortByPriceAsc] = useState<boolean>(false);
-    const [sortByPriceDesc, setSortByPriceDesc] = useState<boolean>(false);
-    const [sortByNameAsc, setSortByNameAsc] = useState<boolean>(false);
-    const [sortByNameDesc, setSortByNameDesc] = useState<boolean>(false);
+
+    const [sortBy, setSortBy] = useState<{
+        priceAsc: boolean;
+        priceDesc: boolean;
+        nameAsc: boolean;
+        nameDesc: boolean;
+    }>({
+        priceAsc: false,
+        priceDesc: false,
+        nameAsc: false,
+        nameDesc: false,
+    });
 
     const itemsPerPage = 10;
     const location = useLocation();
@@ -35,48 +43,31 @@ export default function SearchList() {
         const fetchProducts = async () => {
             if (!searchKeyword) alert("검색어를 입력해주세요.");
             if (searchKeyword) {
-                try {
-                    const response = await GetSearchProductListRequest(searchKeyword);
-                    if (!response?.searchList) return;
-
-                    let fetchedProducts = response.searchList;
-                    if (sortByPriceAsc) {
-                        fetchedProducts = fetchedProducts.sort(
-                            (a: { lowPrice: string }, b: { lowPrice: string }) =>
-                                parseFloat(a.lowPrice) - parseFloat(b.lowPrice)
-                        );
-                    } else if (sortByPriceDesc) {
-                        fetchedProducts = fetchedProducts.sort(
-                            (a: { lowPrice: string }, b: { lowPrice: string }) =>
-                                parseFloat(b.lowPrice) - parseFloat(a.lowPrice)
-                        );
-                    } else if (sortByNameAsc) {
-                        fetchedProducts = fetchedProducts.sort(
-                            (a: { title: string }, b: { title: any }) =>
-                                a.title.localeCompare(b.title)
-                        );
-                    } else if (sortByNameDesc) {
-                        fetchedProducts = fetchedProducts.sort(
-                            (a: { title: any }, b: { title: string }) =>
-                                b.title.localeCompare(a.title)
-                        );
-                    }
-                    setProducts(fetchedProducts);
-                    const initialQuantities = fetchedProducts.reduce(
-                        (acc: { [key: string]: number }, product: Product) => {
-                            acc[product.productId] = 1;
-                            return acc;
-                        },
-                        {}
-                    );
-                    setQuantities(initialQuantities);
-                } catch (error) {
-                    console.error("Failed to fetch products", error);
+                const response = await GetSearchProductListRequest(searchKeyword);
+                if (!response?.searchList) return;
+                let fetchedProducts = response.searchList;
+                if (sortBy.priceAsc) {
+                    fetchedProducts.sort((a, b) => parseFloat(a.lowPrice) - parseFloat(b.lowPrice));
+                } else if (sortBy.priceDesc) {
+                    fetchedProducts.sort((a, b) => parseFloat(b.lowPrice) - parseFloat(a.lowPrice));
+                } else if (sortBy.nameAsc) {
+                    fetchedProducts.sort((a, b) => a.title.localeCompare(b.title));
+                } else if (sortBy.nameDesc) {
+                    fetchedProducts.sort((a, b) => b.title.localeCompare(a.title));
                 }
+                setProducts(fetchedProducts);
+                const initialQuantities = fetchedProducts.reduce(
+                    (acc: { [key: string]: number }, product: Product) => {
+                        acc[product.productId] = 1;
+                        return acc;
+                    },
+                    {}
+                );
+                setQuantities(initialQuantities);
             }
         };
         fetchProducts();
-    }, [searchKeyword, sortByPriceAsc, sortByPriceDesc, sortByNameAsc, sortByNameDesc,]);
+    }, [sortBy]);
 
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -128,7 +119,7 @@ export default function SearchList() {
     };
 
     const buyProductClickHandler = async (product: Product) => {
-        if(loginUser == null) {
+        if (loginUser == null) {
             alert("로그인이 필요합니다.");
             return;
         }
@@ -174,48 +165,14 @@ export default function SearchList() {
         }));
     };
 
-    const handleSortByPriceAsc = () => {
-        if (sortByPriceAsc) {
-            setSortByPriceAsc(false);
-        } else {
-            setSortByPriceAsc(true);
-            setSortByPriceDesc(false);
-            setSortByNameAsc(false);
-            setSortByNameDesc(false);
-        }
-    };
-
-    const handleSortByPriceDesc = () => {
-        if (sortByPriceDesc) {
-            setSortByPriceDesc(false);
-        } else {
-            setSortByPriceDesc(true);
-            setSortByPriceAsc(false);
-            setSortByNameAsc(false);
-            setSortByNameDesc(false);
-        }
-    };
-
-    const handleSortByNameAsc = () => {
-        if (sortByNameAsc) {
-            setSortByNameAsc(false);
-        } else {
-            setSortByNameAsc(true);
-            setSortByPriceAsc(false);
-            setSortByPriceDesc(false);
-            setSortByNameDesc(false);
-        }
-    };
-
-    const handleSortByNameDesc = () => {
-        if (sortByNameDesc) {
-            setSortByNameDesc(false);
-        } else {
-            setSortByNameDesc(true);
-            setSortByPriceAsc(false);
-            setSortByPriceDesc(false);
-            setSortByNameAsc(false);
-        }
+    const handleSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const sortType = e.target.value;
+        setSortBy({
+            priceAsc: sortType === "priceAsc",
+            priceDesc: sortType === "priceDesc",
+            nameAsc: sortType === "nameAsc",
+            nameDesc: sortType === "nameDesc"
+        });
     };
 
     return (
@@ -232,10 +189,13 @@ export default function SearchList() {
                         </div>
                     </div >
                     <div className="items-sort">
-                        <button className="item-sort" onClick={handleSortByPriceAsc}>가격 낮은 순</button>
-                        <button className="item-sort" onClick={handleSortByPriceDesc}>가격 높은 순</button>
-                        <button className="item-sort" onClick={handleSortByNameAsc}>이름 오름차순</button>
-                        <button className="item-sort" onClick={handleSortByNameDesc}>이름 내림차순</button>
+                        <select onChange={handleSortBy} className="item-sort-select">
+                            <option value="">정렬 기준 선택</option>
+                            <option value="priceAsc">가격 낮은 순</option>
+                            <option value="priceDesc">가격 높은 순</option>
+                            <option value="nameAsc">이름 오름차순</option>
+                            <option value="nameDesc">이름 내림차순</option>
+                        </select>
                     </div>
                 </form >
             </div >

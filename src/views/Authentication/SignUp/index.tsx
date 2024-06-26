@@ -296,7 +296,6 @@ export default function SignUp() {
     return (
         <div className='sign-up-container'>
             <div className='sign-up-box'>
-                <div className='sign-up-title'>{'?'}</div>
                 <div className='sign-up-content-box'>
                     <div className='sign-up-content-sns-sign-in-box'>
                         <div className='sign-up-content-sns-sign-in-title'>{'sns 회원가입'}</div>

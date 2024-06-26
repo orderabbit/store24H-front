@@ -194,7 +194,6 @@ export const patchNicknameRequest = async (requestBody: PatchNicknameRequestDto,
 };
 
 export const getUserRequest = async (userId: string, accessToken: string) => {
-
     const result = await axios.get(GET_USER_URL(userId), authorization(accessToken))
         .then(response => {
             const responseBody: GetUserResponseDto = response.data;
@@ -222,10 +221,9 @@ export const patchPasswordRequest = async (userId: string, requestBody: PatchPas
     return result;
 };
 
-export const withdrawUserRequest = async (userId: string, requestBody: WithdrawalUserRequestDto): Promise<ResponseBody<WithdrawalUserResponseDto>> => {
-    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), {
-        params: requestBody,
-    })
+export const withdrawUserRequest = async (userId: string, requestBody: WithdrawalUserRequestDto) => {
+    const config = { data: requestBody };
+    const result = await axios.delete(WIDTHDRAWAL_USER_URL(userId), config)
         .then(response => {
             const responseBody: ResponseDto = response.data;
             return responseBody;
@@ -267,7 +265,6 @@ export const GetProductListRequest = async (): Promise<Product[]> => {
     try {
         const response = await axios.get(GET_PRODUCT_LIST_URL());
         const data = response.data;
-
         if (data && data.code === 'SU' && Array.isArray(data.items)) {
             return data.items;
         } else {
