@@ -1,4 +1,4 @@
-import { GetProductListRequest, PostCartRequest, deleteOrderListRequest, getOrderListRequest } from 'apis';
+import { GetCartListRequest, GetProductListRequest, PostCartRequest, deleteOrderListRequest, getOrderListRequest } from 'apis';
 import { SaveCartRequestDto } from 'apis/request';
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -82,7 +82,7 @@ const OrderPage: React.FC = () => {
       if (response.code === "SU") {
         alert("상품이 저장되었습니다.");
         if (!loginUser) return;
-        const productListResponse = await GetProductListRequest(
+        const productListResponse = await GetCartListRequest(
           loginUser?.userId,
           accessToken
         );

@@ -8,12 +8,12 @@ import { MAIN_PATH } from 'constant';
 
 
 const Footer: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const onLogoClickHandler = () => {
-        navigate(MAIN_PATH());
-      }
-    
+  const onLogoClickHandler = () => {
+    navigate(MAIN_PATH());
+  }
+
   return (
     <footer className="footer">
       <div className="footer-contentbox">
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
             <div>개인정보 처리방침 및 청소년 보호 정책</div>
           </div>
           <div className="footer-right-title">
-            <div>제휴 업체</div> 
+            <div>제휴 업체</div>
             <div>© 2024 Your Shopping Mall. All Rights Reserved.</div>
           </div>
         </div>
@@ -37,10 +37,10 @@ const Footer: React.FC = () => {
         </div>
       </div>
     </footer>
-        /* <p>© 2024 Your Shopping Mall. All Rights Reserved.</p>
-        <p>
-          <p>개인정보처리방침</p>
-        </p> */
+    /* <p>© 2024 Your Shopping Mall. All Rights Reserved.</p>
+    <p>
+      <p>개인정보처리방침</p>
+    </p> */
   );
 }
 
