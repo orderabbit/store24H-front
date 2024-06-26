@@ -69,6 +69,7 @@ export default function MyPage() {
     if (!responseBody) return;
     const { code } = responseBody;
     if (code === "NU") alert("존재하지 않는 유저입니다.");
+    if (code === "WP") setWithdrawalPasswordMatchError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
     if (code === "DBE") alert("데이터베이스 오류입니다.");
     if (code !== "SU") return;
@@ -231,13 +232,9 @@ export default function MyPage() {
       setEmptyWithdrawalPasswordError(true);
       return;
     }
-    if (withdrawalPassword !== currentPassword) {
-      setWithdrawalPasswordMatchError(true);
-      return;
-    }
     if (!userId || !withdrawalPassword) return;
     const requestBody: WithdrawalUserRequestDto = { userId: userId, password: withdrawalPassword };
-    withdrawUserRequest(userId!, requestBody,).then(WithdrawalUserResponse);
+    withdrawUserRequest(userId, requestBody).then(WithdrawalUserResponse);
   };
 
   const closeWithdrawalModal = () => {

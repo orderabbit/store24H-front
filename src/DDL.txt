@@ -96,10 +96,8 @@ SELECT
      FROM image I
      WHERE I.product_id = P.product_id AND I.image_type = 'secondary'
      ) AS secondary_image,
-    U.user_id AS user_id
      FROM 
     product AS P
-    INNER JOIN user AS U ON P.user_id = U.user_id
     LEFT JOIN image AS I ON P.product_id = I.product_id
     GROUP BY P.id;  
 
