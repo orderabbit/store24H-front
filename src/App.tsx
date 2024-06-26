@@ -63,6 +63,7 @@ function App() {
     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
   }, [cookies.accessToken]);
   return (
+    
     <Routes>
       <Route element={<Container />}>
         <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth />}></Route>
@@ -92,8 +93,8 @@ function App() {
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />
-        <Route path={WRITE_PATH()} element={<Write />}></Route>
       </Route>
+      
     </Routes>
 
   );

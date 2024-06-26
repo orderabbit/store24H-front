@@ -10,6 +10,7 @@ import { useLoginUserStore } from 'stores';
 import { Product } from 'types/interface';
 import orderCautionImg from '../../../images/order-caution.png';
 import './style.css';
+import ReviewList from '../review';
 
 export default function Detail() {
 
@@ -167,7 +168,7 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className="detail-bottom-content">
-                    {/* 여기에 하단 댓글,문의등 함수 top: 상품정보 middle : 상품 사진나열, bottom: 댓글,문의 등등 */}
+                    {ReviewList(product.productId)}
                 </div>
             </div>
         </div>

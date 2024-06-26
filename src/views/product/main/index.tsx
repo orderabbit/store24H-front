@@ -4,9 +4,13 @@ import { GetProductListRequest } from 'apis';
 import Pagination from 'components/Pagination';
 import { Product } from 'types/interface';
 import './style.css';
+import useLoginUserStore from 'stores/login-user.store';
+import ReviewList from 'views/product/review';
+
 
 export default function Main() {
-
+    const [role, setRole] = useState<string>("");
+    const { loginUser } = useLoginUserStore();
     const [products, setProducts] = useState<Product[]>([]);
     const [keyword, setKeyword] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +31,14 @@ export default function Main() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const displayedProducts = products.slice(startIndex, endIndex);
+
+    useEffect(() => {
+        const userId = loginUser?.userId;
+        const role = loginUser?.role;
+        console.log("userId", userId, "role", role);
+        if (!userId || !role) return;
+        setRole(role);
+      }, [loginUser]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -137,7 +149,7 @@ export default function Main() {
                     )}
                 />
             </div>
-            <button onClick={() => navigate("/product/write")}>등록</button>
-        </div>
-    );
+            {role !== "ROLE_ADMIN" && (<button onClick={() => navigate("/product/write")}>등록</button>
+            )}</div >
+    )
 }
