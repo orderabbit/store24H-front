@@ -55,28 +55,24 @@ const AddressPage = () => {
     } else {
       setNameError("");
     }
-
     if (postcode.trim() === "") {
       setPostcodeError("우편번호를 입력해주세요.");
       isValid = false;
     } else {
       setPostcodeError("");
     }
-
     if (address.trim() === "") {
       setAddressError("주소를 입력해주세요.");
       isValid = false;
     } else {
       setAddressError("");
     }
-
     if (detailAddress.trim() === "") {
       setDetailAddressError("상세주소를 입력해주세요.");
       isValid = false;
     } else {
       setDetailAddressError("");
     }
-
     if (phoneNumber.trim() === "") {
       setPhoneNumberError("휴대폰 번호를 입력해주세요.");
       isValid = false;
@@ -91,7 +87,6 @@ const AddressPage = () => {
       }
     }
 
-    // Proceed with navigation if valid
     if (isValid) {
       navigate(`/checkout`, {
         state: {
@@ -120,7 +115,6 @@ const AddressPage = () => {
       <div className="address-home">
         <div className="address-whole-title">배송지</div>
         <div className="address-whole">
-
           <div className="address-title">받는 사람 :</div>
           <div className="address-content">
             <input type="text" name="name" value={name} onChange={handleInputChange}  style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }} />
@@ -145,7 +139,6 @@ const AddressPage = () => {
             <input type="text" value={address} readOnly style={{ width: "300px", height: 35, borderRadius: 5, textIndent: "10px"  }}/>
             {addressError && <p className="error-message">{addressError}</p>}
           </div>
-
           <br />
           <div className="address-title"> 상세주소 :</div>
           <div className="address-content">
@@ -158,7 +151,6 @@ const AddressPage = () => {
             />
             {detailAddressError && <p className="error-message">{detailAddressError}</p>}
           </div>
-
           <br />
           <div className="address-title">휴대폰 번호:</div>
           <div className="address-content">
@@ -171,7 +163,6 @@ const AddressPage = () => {
             />
             {phoneNumberError && <p className="error-message">{phoneNumberError}</p>}
           </div>
-
           <br />
             <div className="address-store-mom">
             <button className="address-store" type="submit">배송지 저장</button>

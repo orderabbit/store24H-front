@@ -7,7 +7,6 @@ import { PostQuestionRequestDto } from "apis/request/question";
 import "./style.css"
 
 export default function Update() {
-  const params = useParams();
   const { questionId } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -22,7 +21,6 @@ export default function Update() {
   const [emailError, setEmailError] = useState("");
   const [typeError, setTypeError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [loggedInUserId, setLoggedInUserId] = useState("");
   const [question, setQuestion] = useState<Question | null>(null);
   const [postRequest, setPostRequest] = useState<PostQuestionRequestDto>({
     title: "",
@@ -112,8 +110,6 @@ export default function Update() {
         typeString = ""; // 기본값 처리
         break;
     }
-
-    // state 업데이트
     setType(selectedType);
     if(selectedType != "1") setTypeError("");
     setPostRequest((prevState) => ({
@@ -121,6 +117,7 @@ export default function Update() {
       type: selectedType, // 실제 선택된 값으로 업데이트
     }));
   };
+
   const cancelClickHandler = (questionId : number | string | undefined) => {
     if(!questionId) return;
     navigate(`/question/detail/${questionId}`);
@@ -165,7 +162,6 @@ export default function Update() {
     }
   };
 
-
   const getTypeString = (type: string) => {
     switch (type) {
       case "1":
@@ -186,6 +182,7 @@ export default function Update() {
   if (!question) {
     return <div>해당 문의를 불러오는 데 실패했습니다.</div>;
   }
+
   return (
     <div className="inquire-update-enter">
       <h2 className="inquire-update-enter-title">1대1 문의 접수</h2>

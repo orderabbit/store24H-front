@@ -27,15 +27,12 @@ const QuestionList: React.FC = () => {
         console.error('문의 목록을 가져오는 중 오류가 발생했습니다:', error);
       }
     };
-
     fetchPosts();
   }, []);
 
   const writePathClickHandler = () => {
     navigator("/question/write ");
   }
-  
-
 
   return (
     <div className="inquire-main">

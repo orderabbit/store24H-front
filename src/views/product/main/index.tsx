@@ -1,13 +1,7 @@
-
-
-import con24 from '../../../images/con24.png';
-import { GetProductListRequest, GetSearchProductListRequest, PostCartRequest } from 'apis';
-import { SaveCartRequestDto } from 'apis/request';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GetProductListRequest } from 'apis';
 import Pagination from 'components/Pagination';
-import React, { useEffect, useState } from 'react'
-import { useCookies } from 'react-cookie';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoginUserStore } from 'stores';
 import { Product } from 'types/interface';
 import './style.css';
 
@@ -66,7 +60,8 @@ export default function Main() {
         return parseFloat(price).toLocaleString();
     };
 
-    const handleSortBy = (sortType: string) => {
+    const handleSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const sortType = e.target.value;
         setSortBy({
             priceAsc: sortType === "priceAsc",
             priceDesc: sortType === "priceDesc",
@@ -77,7 +72,7 @@ export default function Main() {
 
     return (
         <div className="list-search-container">
-            <h2 className="list-page-title"> 상품 목록</h2>
+            <h2 className="list-page-title">상품 목록</h2>
             <div className="list-search-box">
                 <form onSubmit={handleSearch} className="list-search-blank">
                     <div className="list-search-bar">
@@ -87,16 +82,19 @@ export default function Main() {
                                 <input type="submit" value="검색" className="search-button" />
                             </div>
                         </div>
-                    </div >
-                    <div className="items-sort">
-                        <button type="button" className="item-sort" onClick={() => handleSortBy("priceAsc")}>가격 낮은 순</button>
-                        <button type="button" className="item-sort" onClick={() => handleSortBy("priceDesc")}>가격 높은 순</button>
-                        <button type="button" className="item-sort" onClick={() => handleSortBy("nameAsc")}>이름 오름차순</button>
-                        <button type="button" className="item-sort" onClick={() => handleSortBy("nameDesc")}>이름 내림차순</button>
                     </div>
-                </form >
-            </div >
-            < ul className="list-group" >
+                    <div className="items-sort">
+                        <select onChange={handleSortBy} className="item-sort-select">
+                            <option value="">정렬 기준 선택</option>
+                            <option value="priceAsc">가격 낮은 순</option>
+                            <option value="priceDesc">가격 높은 순</option>
+                            <option value="nameAsc">이름 오름차순</option>
+                            <option value="nameDesc">이름 내림차순</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <ul className="list-group">
                 {
                     displayedProducts.map((product) => (
                         <li key={product.productId} className="product-item-list-group-item">
@@ -121,7 +119,7 @@ export default function Main() {
                         </li>
                     ))
                 }
-            </ul >
+            </ul>
             <div className="search-pagination-box">
                 <Pagination
                     currentPage={currentPage}
@@ -133,6 +131,6 @@ export default function Main() {
                 />
             </div>
             <button onClick={() => navigate("/product/write")}>등록</button>
-        </div >
-    )
+        </div>
+    );
 }

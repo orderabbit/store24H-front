@@ -33,11 +33,9 @@ export default function Write() {
     const { productImageFileList, setProductImageFileList } = useProductStore();
     const { secondaryProductImageFileList, setSecondaryProductImageFileList } = useProductStore();
     const { resetProduct } = useProductStore();
-
     const [cookies, setCookies] = useCookies();
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [secondaryImageUrls, setSecondaryImageUrls] = useState<string[]>([]);
-
 
     const navigate = useNavigate();
 

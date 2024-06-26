@@ -76,6 +76,10 @@ export default function SignIn() {
         window.location.href = SNS_SIGN_IN_URL(type);
     };
 
+    const onSignUpButtonClickHandler = () => {
+        navigate(SIGNUP_PATH());
+    };
+
     const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         if (!passwordRef.current) return;
@@ -157,7 +161,6 @@ export default function SignIn() {
                             <div className='sign-in-button full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
                             <div className='sign-up-button full-width' onClick={onSignUpButtonClickHandler}>{'회원가입 하기'}</div>
                             <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
-
                         </div>
                     </div>
                 </div>

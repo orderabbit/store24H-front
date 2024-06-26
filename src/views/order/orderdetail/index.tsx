@@ -41,7 +41,6 @@ export default function OrderDetail() {
             if (!orderId) return;
             const response = await getPaymentRequest(orderId);
             setPaymentInfo(response);
-
         };
         fetchOrderList();
     }, [loginUser, orderItems]);
@@ -50,17 +49,6 @@ export default function OrderDetail() {
         console.error("상품 정보가 전달되지 않았습니다.");
         return null;
     }
-
-    const calculateDeliveryDate = (orderDate: string) => {
-        const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-        const orderDateObj = new Date(orderDate.replace(/\./g, '/'));
-        const deliveryDateObj = new Date(orderDateObj);
-        deliveryDateObj.setDate(orderDateObj.getDate() + 2);
-        const month = deliveryDateObj.getMonth() + 1;
-        const day = deliveryDateObj.getDate();
-        const dayOfWeek = daysOfWeek[deliveryDateObj.getDay()];
-        return `${month}/${day}(${dayOfWeek}) 도착예정`;
-    };
 
     const formatOrderDate = (orderDatetime: string) => {
         const date = new Date(orderDatetime.replace(/\./g, '/'));
@@ -133,7 +121,6 @@ export default function OrderDetail() {
         const orderDate = new Date(orderDatetime.replace(/\./g, '/'));
         const diffTime = Math.abs(currentDate.getTime() - orderDate.getTime());
         const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-
         if (diffHours < 8) return "결제완료";
         if (diffHours < 16) return "상품준비중";
         if (diffHours < 24) return "배송시작";

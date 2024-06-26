@@ -61,7 +61,7 @@ export default function MyPage() {
     const isMyPage = userId === loginUser?.userId;
     setMyPage(isMyPage);
   };
-  
+
   const WithdrawalUserResponse = (
     responseBody: WithdrawalUserResponseDto | ResponseDto | null
   ) => {
@@ -219,7 +219,6 @@ export default function MyPage() {
     setDuplicatePasswordError(false);
   };
 
-
   const onWithdrawalButtonClickHandler = () => {
     setWithdrawalModalOpen(true);
   };
@@ -236,11 +235,10 @@ export default function MyPage() {
       setWithdrawalPasswordMatchError(true);
       return;
     }
-    if(!userId || !withdrawalPassword) return;
+    if (!userId || !withdrawalPassword) return;
     const requestBody: WithdrawalUserRequestDto = { userId: userId, password: withdrawalPassword };
     withdrawUserRequest(userId!, requestBody,).then(WithdrawalUserResponse);
   };
-
 
   const closeWithdrawalModal = () => {
     setWithdrawalModalOpen(false);
@@ -253,7 +251,6 @@ export default function MyPage() {
     removeCookie("accessToken", { path: "/" });
     resetLoginUser();
   };
-  
 
   useEffect(() => {
     if (!userId) return;
@@ -280,7 +277,6 @@ export default function MyPage() {
                   <div className="user-top-info-nickname">{nickname}</div>
                   <div className="icon-box" onClick={onNicknameEditButtonClickHandler}>
                     <div className="icon-edit-icon">닉네임 변경</div>
-                    {/* 테두리 없는버전 */}
                   </div>
                 </>
               ) : (
@@ -303,22 +299,19 @@ export default function MyPage() {
               {isMyPage && !isSocialUser && (
                 <div className="icon-box" onClick={onPasswordEditButtonClickHandler}>
                   <div className="icon-edit-icon">비밀번호 변경</div>
-                  {/* 테두리 있는버전 */}
                 </div>
               )}
             </div>
           </div>
           {isMyPage && (
-          <div className="setprofile-withdrawal-box">
-            <div className="setprofile-withdrawal-button" onClick={onWithdrawalButtonClickHandler}>
-              회원 탈퇴
+            <div className="setprofile-withdrawal-box">
+              <div className="setprofile-withdrawal-button" onClick={onWithdrawalButtonClickHandler}>
+                회원 탈퇴
+              </div>
             </div>
-          </div>
           )}
         </div>
       </div>
-
-      {/* 닉네임 변경 모달 */}
       {isNicknameModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -351,8 +344,6 @@ export default function MyPage() {
           </div>
         </div>
       )}
-
-      {/* 비밀번호 변경 모달 */}
       {isPasswordModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -409,18 +400,17 @@ export default function MyPage() {
           </div>
         </div>
       )}
-      {/* 회원 탈퇴 모달 */}
       {isWithdrawalModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-title">회원 탈퇴</div>
             <div className="modal-content-box">
               <input
-              type="password"
-              className="setprofile-in-input"
-              placeholder="비밀번호를 입력하세요."
-              value={withdrawalPassword}
-              onChange={(e) => setWithdrawalPassword(e.target.value)}
+                type="password"
+                className="setprofile-in-input"
+                placeholder="비밀번호를 입력하세요."
+                value={withdrawalPassword}
+                onChange={(e) => setWithdrawalPassword(e.target.value)}
               />
               {emptyWithdrawalPasswordError && (
                 <div className="setprofile-in-error-message">
