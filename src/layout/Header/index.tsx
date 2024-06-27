@@ -28,25 +28,18 @@ interface Product {
 export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
-  const toggleSide = () => {  // 햄버거 버튼 클릭 토글 (미사용)
+  const toggleSide = () => {
     setIsOpen(!isOpen);
   };
-  const toggleProfile = () => {
-    setIsProfileOpen(!isProfileOpen);
-  }
-  const [isHoveringProfile, setIsHoveringProfile] = useState<boolean>(false); // 햄버거 버튼 위에 마우스를 올렸는지 여부
+
   const { loginUser, setLoginUser, resetLoginUser } = useLoginUserStore();
   const { pathname } = useLocation();
   const [cookies, setCookie] = useCookies();
 
-  const [products, setProducts] = useState<Product[]>([]);
   const [cartListCount, setCartListCount] = useState<number>(0);
 
   const [isLogin, setLogin] = useState<boolean>(false);
-  const [isMainPage, setMainPage] = useState<boolean>(false);
-  const [isSearchPage, setSearchPage] = useState<boolean>(false);
-  const [isUserPage, setUserPage] = useState<boolean>(false);
-  const [isPaymentPage, setPaymentPage] = useState<boolean>(false);
+  const [role, setRole] = useState<string>('');
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -77,18 +70,6 @@ export default function Header() {
     };
   }, []);
 
-
-  useEffect(() => {
-    const isMainPage = pathname === MAIN_PATH();
-    setMainPage(isMainPage);
-    const isSearchPage = pathname.startsWith(SEARCH_PATH(''));
-    setSearchPage(isSearchPage);
-    const isPaymentPage = pathname.startsWith(PAYMENT_PATH());
-    setPaymentPage(isPaymentPage);
-    const isUserPage = pathname.startsWith(USER_PATH(''));
-    setUserPage(isUserPage);
-  }, [pathname]);
-
   useEffect(() => {
     setLogin(loginUser !== null);
   }, [loginUser]);
@@ -115,7 +96,7 @@ export default function Header() {
 
   const onSignUpButtonClickHandler = () => {
     navigator(SIGNUP_PATH());
-};
+  };
 
   const onSignOutButtonClickHandler = () => {
     resetLoginUser();
@@ -126,6 +107,12 @@ export default function Header() {
   const onQuestionButtonClickHandler = () => {
     navigator('/question');
   };
+
+  useEffect(() => {
+    const role = loginUser?.role;
+    if (!role) return;
+    setRole(role);
+  }, [loginUser]);
 
   const MyPageButton = () => {
 
@@ -153,6 +140,7 @@ export default function Header() {
           {isLogin && (
             <>
               <div>
+                {role === 'ROLE_ADMIN' && <span className='role'>(관리자) </span>}
                 <span className='nickname'>{loginUser?.nickname}님</span>
               </div>
               <div className='auth-button auth-button-logout' onClick={onSignOutButtonClickHandler}>로그아웃</div>
@@ -163,8 +151,6 @@ export default function Header() {
       </div>
       <div className='header-container'>
         <div className='header-left-box'>
-          {/* onClick={toggleSide} 시에는 클릭시 사이드바 나옴 , onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} => 마우스 호버링 */}
-          {/* 카테고리 로고, 햄버거버튼*/}
           <div className='category-logo'>
             <div className={`hamburger ${isOpen ? 'active' : ''}`} onClick={toggleSide}>
               <span></span>

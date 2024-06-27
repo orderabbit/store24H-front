@@ -133,9 +133,6 @@ export function CheckoutPage(): JSX.Element {
           >
             결제하기
           </button>
-          <div>
-            <p>결제 날짜: {new Date(paymentDate).toLocaleString()}</p>
-          </div>
         </div>
       </div>
     </div>

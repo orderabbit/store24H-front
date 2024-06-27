@@ -115,7 +115,6 @@ export default function Detail() {
         fetchProduct();
     };
 
-    console.log(product);
     if (!product) return <></>;
     return (
         <div id="product-detail-wrapper">
