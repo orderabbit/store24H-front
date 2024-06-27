@@ -69,17 +69,10 @@ const QuestionDetail: React.FC = () => {
   useEffect(() => {
     const fetchAnswerDetails = async () => {
       if (!questionId) return;
-      // const answerId = parseInt(questionId);
       try {
         const response = await getAnswerRequest(questionId);
         console.log("response", response);
-        if (response && response.code === "SU") {
-          // 답변 리스트를 성공적으로 가져왔을 때
-          setAnswers(response.answer); // 답변 리스트를 상태에 저장
-        } else {
-          // 답변 정보를 가져오지 못했을 때
-          alert("답변 정보를 불러오는 데 실패했습니다.");
-        }
+        setAnswers(response.answer);
       } catch (error) {
         console.error("답변 정보를 불러오는 중 오류가 발생했습니다:", error);
         alert("답변 정보를 불러오는 중 오류가 발생했습니다.");
@@ -267,7 +260,6 @@ const QuestionDetail: React.FC = () => {
                           padding: "15px",
                         }}
                       />
-
                     </div>
                   </div>
                 </div>

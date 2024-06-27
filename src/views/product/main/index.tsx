@@ -149,6 +149,7 @@ export default function Main() {
                 />
             </div>
             {role !== "ROLE_ADMIN" && (<button onClick={() => navigate("/product/write")}>등록</button>
-            )}</div >
+            )}
+        </div >
     )
 }
