@@ -41,6 +41,7 @@ export default function MyPage() {
   const [withdrawalPassword, setWithdrawalPassword] = useState<string>("");
   const [emptyWithdrawalPasswordError, setEmptyWithdrawalPasswordError] = useState<boolean>(false);
   const [withdrawalPasswordMatchError, setWithdrawalPasswordMatchError] = useState<boolean>(false);
+  const [role, setRole] = useState<string>("");
 
   const getUserResponse = (
     responseBody: GetUserResponseDto | ResponseDto | null
