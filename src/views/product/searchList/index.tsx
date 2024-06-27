@@ -11,7 +11,6 @@ import './style.css';
 export default function SearchList() {
 
     const { loginUser } = useLoginUserStore();
-
     const [cookies] = useCookies();
     const [products, setProducts] = useState<Product[]>([]);
     const [keyword, setKeyword] = useState("");
@@ -142,6 +141,7 @@ export default function SearchList() {
             }, 0)
             .toLocaleString();
 
+
         navigate("/address", {
             state: { selectedProducts, totalPrice },
         });
@@ -257,6 +257,7 @@ export default function SearchList() {
                     )}
                 />
             </div>
+
         </div >
     )
 }

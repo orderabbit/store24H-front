@@ -1,5 +1,6 @@
 .list-search-container {
     margin-top: 20px;
+
     padding-left: 5%;
     padding-right: 5%;
 }
@@ -110,7 +111,7 @@
 .item-buy {
     background-color: #007bff;
     border-color: #f2f3f8;
-    /* border: none; */
+
     color: #f2f3f8;
     border-radius: 10px;
     font-style: italic;
@@ -118,6 +119,7 @@
     width: 80px;
     margin-left: 10px;
 }
+
 
 .items-sort {
     display: flex;
@@ -145,6 +147,7 @@
     border-color: #007bff;
     color: #007bff;
 }
+
 
 .item-price{
     margin-right: 100px
@@ -185,6 +188,7 @@
     padding: 8px;
     border-radius: 5px;
     margin-right: 20px;
+
 }
 
 .product-detail-main-image {

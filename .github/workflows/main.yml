@@ -20,6 +20,15 @@ jobs:
       - name: 해당 브런치로 체크아웃
         uses: actions/checkout@v4
 
+<<<<<<< HEAD
+    - name: 해당 브런치로 체크아웃
+      uses: actions/checkout@v4
+
+    - name: 노드 설치
+      uses: actions/setup-node@v4
+      with:
+        node-version: 14
+=======
       - name: node 설치
         uses: actions/setup-node@v2
         with:
@@ -27,6 +36,7 @@ jobs:
 
       - name: npm 설치
         run: npm install
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b
 
       - name: typescript 설치
         run: npm install typescript
@@ -40,6 +50,33 @@ jobs:
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
           chmod 775 lightsail.pem
 
+<<<<<<< HEAD
+    - name: AWS 인증하기
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Deploy to Lightsail
+      uses: orderabbit/store24h-front@v1
+      with:
+        host: ${{ secrets.LIGHTSAIL_HOST }}
+        username: ${{ secrets.LIGHTSAIL_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: '*'
+        strip_components: 1
+        target: '/home/ubuntu/{project-name}'
+        script: |
+          cd /home/ubuntu/store24H-front
+          # 다음에 artifact 사용 가능
+          echo $artifact
+          sudo docker stop front-container
+          sudo docker rm front-container
+          sudo docker build -t tdf .
+          sudo docker create --name front-container -p 80:80 tdf:latest
+          sudo docker start front-container
+=======
       - run:
           scp -i ./lightsail.pem /github/workspace/build ubuntu@3.35.30.191:/home/ubuntu/store24H-front/build
           
@@ -67,3 +104,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           
   
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b

@@ -1,6 +1,7 @@
 import { getSignInUserRequest } from 'apis';
 import { ResponseDto } from 'apis/response';
 import { GetSignInUserResponseDto } from 'apis/response/user';
+
 import { DETAIL_PATH, MAIN_PATH, SIGNIN_PATH, SIGNUP_PATH, TEST_PATH, UPDATE_PATH, USER_PATH, WRITE_PATH } from 'constant';
 import Container from 'layout/Container';
 import React, { useEffect } from 'react';
@@ -11,6 +12,7 @@ import { User } from 'types/interface';
 import OAuth from 'views/Authentication/OAuth';
 import SignIn from 'views/Authentication/SignIn';
 import SignUp from 'views/Authentication/SignUp';
+
 import MyPage from 'views/User';
 import AddressPage from 'views/payment/Address-PhoneNumber';
 import { CheckoutPage } from 'views/payment/CheckoutPage';
@@ -18,6 +20,7 @@ import { FailPage } from 'views/payment/FailPage';
 import { SuccessPage } from 'views/payment/SuccessPage';
 import CartList from 'views/product/cart-list';
 import Search from 'views/product/main';
+
 import './App.css';
 import QuestionHome from 'views/inquire/question/main';
 import QuestionWrite from 'views/inquire/question/write';
@@ -74,6 +77,7 @@ function App() {
         <Route path="/question/detail/:questionId" element={<QuestionDetail />} />
         <Route path="/question/update/:questionId" element={<QuestionUpdate />} />
         <Route path="/cart" element={<CartList />} />
+
         <Route path="/admin-signup" element={<AdminSignUp />} />
         <Route path={SIGNIN_PATH()} element={<SignIn />} />
         <Route path={SIGNUP_PATH()} element={<SignUp />} />
