@@ -148,7 +148,7 @@ export default function Main() {
                     )}
                 />
             </div>
-            {role !== "ROLE_ADMIN" && (<button onClick={() => navigate("/product/write")}>등록</button>
+            {role !== "ROLE_ADMIN" && (<div className="main-page-registration" onClick={() => navigate("/product/write")}>상품 등록</div>
             )}</div >
     )
 }
