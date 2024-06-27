@@ -68,7 +68,6 @@ export default function SearchList() {
         fetchProducts();
     }, [sortBy]);
 
-
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (keyword.trim() !== "") {
@@ -177,7 +176,7 @@ export default function SearchList() {
 
     return (
         <div className="list-search-container">
-            <h2 className="list-page-title"> 상품 목록</h2>
+            <h2 className="list-page-title"> 검색 목록</h2>
             <div className="list-search-box">
                 <form onSubmit={handleSearch} className="list-search-blank">
                     <div className="list-search-bar">
