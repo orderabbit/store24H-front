@@ -223,7 +223,6 @@ export default function Write() {
         "문구": {
             "필기용품": ["색연필", "연필", "지우개", "볼펜"]
         }
-        // Add more options as needed
     };
 
     const onCategory1ChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {

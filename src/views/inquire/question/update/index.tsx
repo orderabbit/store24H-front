@@ -112,7 +112,7 @@ export default function Update() {
         break;
     }
     setType(selectedType);
-    if (selectedType != "1") setTypeError("");
+    if (selectedType !== "1") setTypeError("");
     setPostRequest((prevState) => ({
       ...prevState,
       type: selectedType, // 실제 선택된 값으로 업데이트

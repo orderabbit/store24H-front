@@ -74,7 +74,7 @@ const QuestionDetail: React.FC = () => {
       if (!questionId) return;
       try {
         const response = await getAnswerRequest(questionId);
-        console.log("response", response);
+        if(response.code !== "SU") return;
         setAnswers(response.answer);
       } catch (error) {
         console.error("답변 정보를 불러오는 중 오류가 발생했습니다:", error);
@@ -83,20 +83,6 @@ const QuestionDetail: React.FC = () => {
     };
     fetchAnswerDetails();
   }, [answerIdParam]);
-
-  const handleContentChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setContent(event.target.value);
-  };
-
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setPostRequest({
-      ...postRequest,
-      [name]: value,
-    });
-  };
 
   const updatePostClickHandler = (questionId: number | string | undefined) => {
     if (!questionId) return;
@@ -131,6 +117,9 @@ const QuestionDetail: React.FC = () => {
   };
 
   const deletePostClickHandler = (questionId: number | string | undefined) => {
+    if (!window.confirm("삭제하시겠습니까?")) {
+      return;
+    }
     if (!questionId) {
       alert("해당 문의가 없습니다.");
       return;
@@ -250,7 +239,7 @@ const QuestionDetail: React.FC = () => {
             <div
               className="inquire-detail-cancel"
               onClick={() => navigator("/question")}
-            > 취소
+            > 뒤로가기
             </div>
             {isUserAuthorized && (
               <>
@@ -307,7 +296,6 @@ const QuestionDetail: React.FC = () => {
                           padding: "15px",
                         }}
                       />
-
                     </div>
                   </div>
                 </div>
