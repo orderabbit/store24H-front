@@ -89,9 +89,8 @@ function App() {
         <Route path="/product/review" element={<ReviewWrite productId={0} onSuccess={function (): void {
           throw new Error('Function not implemented.');
         } } />} />
-        {/* <Route path={MAIN_PATH()} element={<Home />} />
       <Route path={WRITE_PATH()} element={<Write />}/>
-      <Route path={UPDATE_PATH(':Number')} element={<Update />} /> */}
+      <Route path={UPDATE_PATH(':Number')} element={<Update />} />
         <Route path="/order/list/:userId" element={<OrderPage />} />
         <Route path="/order/detail/:orderId" element={<OrderDetail />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
