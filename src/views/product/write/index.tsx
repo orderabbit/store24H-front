@@ -253,7 +253,6 @@ export default function Write() {
         setCategory3(value);
     };
 
-
     const [categoryOptions2, setCategoryOptions2] = useState<string[]>([]);
     const [categoryOptions3, setCategoryOptions3] = useState<string[]>([]);
 

@@ -1,5 +1,6 @@
 export default interface PostReviewRequestDto {
-    content: string;
-    userId: string | undefined;
-    productId: string  | undefined;
+    rates: number;
+    review: string;
+    userId: string;
+    productId: number;
 };

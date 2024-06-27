@@ -68,18 +68,16 @@ const QuestionDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchAnswerDetails = async () => {
-      if (!answerIdParam) return;
-      const answerId = parseInt(answerIdParam);
+      if (!questionId) return;
+      // const answerId = parseInt(questionId);
       try {
-        const response = await getAnswerRequest(answerId);
-        if (
-          "content" in response &&
-          "userId" in response &&
-          "questionId" in response
-        ) {
-          const { content, userId, questionId } = response;
-          setPostRequest({ content, userId, questionId });
+        const response = await getAnswerRequest(questionId);
+        console.log("response", response);
+        if (response && response.code === "SU") {
+          // 답변 리스트를 성공적으로 가져왔을 때
+          setAnswers(response.answer); // 답변 리스트를 상태에 저장
         } else {
+          // 답변 정보를 가져오지 못했을 때
           alert("답변 정보를 불러오는 데 실패했습니다.");
         }
       } catch (error) {
@@ -257,7 +255,7 @@ const QuestionDetail: React.FC = () => {
             </div>
           </>
         )}
-          
+
         <div className="inquire-answer-write">
           {role !== "ROLE_ADMIN" && (
             <div className="inquire-answer-button" onClick={toggleAnswerSection}>
@@ -289,27 +287,7 @@ const QuestionDetail: React.FC = () => {
                 </div>
               </div>
             </div>
-          
-        )}
-        <div className="replies-section">
-          {answers.length > 0 ? (
-            <div>
-              <h3 className="replies-title">답변</h3>
-              <ul>
-                {answers.map((answer, index) => (
-                  <li key={index}>
-                    <span className="answer-user-id">
-                     관리자 ({answer.userId} )
-                    </span>{" "}
-                    : {answer.content}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <p className="inquire-answer-result">
-              해당 문의에 대한 답변이 없습니다.
-            </p>
+
           )}
           <div className="replies-section">
             {answers.length > 0 ? (
@@ -319,7 +297,7 @@ const QuestionDetail: React.FC = () => {
                   {answers.map((answer, index) => (
                     <li key={index}>
                       <span className="answer-user-id">
-                        작성자 ({answer.userId} )
+                        관리자 ({answer.userId} )
                       </span>{" "}
                       : {answer.content}
                     </li>
@@ -334,7 +312,6 @@ const QuestionDetail: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

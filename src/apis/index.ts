@@ -90,6 +90,7 @@ const DELETE_PRODUCT_URL = (productId: number | string) => `${API_DOMAIN}/produc
 
 const POST_REVIEW_URL = () => `${API_DOMAIN}/product/review`;
 const GET_ALL_REVIEW_URL = (productId: number | string) => `${API_DOMAIN}/product/review/product/${productId}`;
+const DELETE_REVIEW_URL = (reviewNumber: number | string) => `${API_DOMAIN}/product/review/delete/${reviewNumber}`;
 
 const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
@@ -572,14 +573,12 @@ export const DeleteProductRequest = async (productId: number | string, accessTok
 };
 
 export const postReviewRequest = async (requestBody: PostReviewRequestDto, accessToken: string) => {
-    console.log(requestBody)
     const result = await axios.post(POST_REVIEW_URL(), requestBody, authorization(accessToken))
         .then(response => {
             const responseBody: PostReviewResponseDto = response.data;
             return responseBody;
         })
         .catch(error => {
-            // if (!error.response) return null;
             const responseBody: ResponseDto = error.response.data;
             return responseBody;
         })
@@ -593,13 +592,24 @@ export const getAllReviewRequest = async (productId: string) => {
             return responseBody;
         })
         .catch(error => {
-            if (!error.response) return null;
             const responseBody: ResponseDto = error.response.data;
             return responseBody;
         })
     return result;
-
 };
+
+export const deleteReviewRequest = async (reviewNumber: number | string, accessToken: string) => {
+    const result = await axios.delete(DELETE_REVIEW_URL(reviewNumber), authorization(accessToken))
+        .then(response => {
+            const responseBody: ResponseDto = response.data;
+            return responseBody;
+        })
+        .catch(error => {
+            const responseBody: ResponseDto = error.response.data;
+            return responseBody;
+        })
+    return result;
+}
 
 export const GetSearchProductListRequest = async (keyword: string) => {
     const result = await axios.get(GET_SEARCH_PRODUCT_LIST_URL(keyword))
