@@ -159,10 +159,10 @@ export default function Detail() {
                         <div>등록자 : {product.userId}</div>
                         <div className="product-detail-imagebar">
                             {product.productImageList.map((image) => (
-                                <img key={image} className="product-detail-imagebar" src={image} />
+                                <img key={image} className="product-detail-imagebar-image" src={image} />
                             ))}
                             {product.secondaryProductImageList && product.secondaryProductImageList.map((image) => (
-                                <img key={image} className="product-detail-imagebar" src={image} />
+                                <img key={image} className="product-detail-imagebar-image" src={image} />
                             ))}
                         </div>
                     </div>
