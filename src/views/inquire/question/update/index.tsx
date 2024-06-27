@@ -77,10 +77,11 @@ export default function Update() {
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!emailRegex.test(event.target.value)){
+    if (!emailRegex.test(event.target.value)) {
       setEmailError("email 형식으로 입력해주세요.");
-    } else{
-    setEmailError("");}
+    } else {
+      setEmailError("");
+    }
     setPostRequest((prevState) => ({
       ...prevState,
       email: event.target.value,
@@ -111,43 +112,43 @@ export default function Update() {
         break;
     }
     setType(selectedType);
-    if(selectedType != "1") setTypeError("");
+    if (selectedType != "1") setTypeError("");
     setPostRequest((prevState) => ({
       ...prevState,
       type: selectedType, // 실제 선택된 값으로 업데이트
     }));
   };
 
-  const cancelClickHandler = (questionId : number | string | undefined) => {
-    if(!questionId) return;
+  const cancelClickHandler = (questionId: number | string | undefined) => {
+    if (!questionId) return;
     navigate(`/question/detail/${questionId}`);
   };
 
   const uploadPostClickHandler = async () => {
     let hasError = false;
-    if(!title){
+    if (!title) {
       setTitleError("제목을 입력해주세요.");
       hasError = true;
     }
-    if(!content){
+    if (!content) {
       setContentError("내용을 입력해주세요.");
       hasError = true;
     }
-    if(!email){
+    if (!email) {
       setEmailError("이메일을 입력해주세요.");
       hasError = true;
-    } else{
+    } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)){
+      if (!emailRegex.test(email)) {
         setEmailError("email 형식으로 입력해주세요.");
         hasError = true;
       }
     }
-    if(!type || type === "1"){
+    if (!type || type === "1") {
       setTypeError("문의 유형을 입력해주세요.");
       hasError = true;
     }
-    if(hasError) return;
+    if (hasError) return;
     try {
       const result = await patchQuestionRequest(questionId, postRequest);
       if (result && result.code === "SU") {
@@ -185,85 +186,88 @@ export default function Update() {
 
   return (
     <div className="inquire-update-enter">
-      <h2 className="inquire-update-enter-title">1대1 문의 접수</h2>
-      <table className="inquire-update">
-      <tbody>
-        <tr className="inquire-update-combine">
-          <th className="inquire-update-title">문의 ID</th>
-          <td className="inquire-update-content">{question.userId}</td>
-        </tr>
-        <tr className="inquire-update-combine">
-          <th className="inquire-update-title">문의유형</th>
-          <td className="inquire-update-content">
-            {getTypeString(question.type)}
-          </td>
-          <td className="inquire-update-update">
-            <label htmlFor="inquire"></label>
-            <select id="inquire" value={type} onChange={handleTypeChange} style={{ width: "550px", height: 40, borderRadius: 5, textIndent: "10px"  }}>
-              <option value="1">문의 유형을 선택해주세요.</option>
-              <option value="2">배송 /수령예정일 안내</option>
-              <option value="3">주문 / 결제</option>
-              <option value="4">회원정보 안내</option>
-              <option value="5">반품 /교환/ 환불 안내</option>
-            </select>
-            {typeError && <div style={{ color: 'red' }}>{typeError}</div>}
-          </td>
-        </tr>
-        <tr className="inquire-update-combine">
-          <th className="inquire-update-title">제목</th>
-          <td className="inquire-update-content">{question.title}</td>
-          <td className="inquire-update-update">
-            <input
-              type="text"
-              placeholder="제목을 입력해주세요."
-              value={title}
-              onChange={handleTitleChange}
-              style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
-            />
-              {titleError && <div style={{ color: 'red' }}>{titleError}</div>}
-          </td>
-        </tr>
-        <tr className="inquire-update-combine-content">
-          <th className="inquire-update-title-content">내용</th>
-          <td className="inquire-update-content-content">{question.content}</td>
-          <td className="inquire-update-update-content">
-            <textarea
-              placeholder="문의 유형을 먼저 선택 후 내용을 입력해주세요."
-              value={content}
-              onChange={handleContentChange}
-              style={{ width: "700px", height: 350 , borderRadius: 5, textIndent: "10px", resize: "none"  }}
-            />
-            {contentError && <div style={{ color: 'red' }}>{contentError}</div>}
-          </td>
-        </tr>
-        <tr className="inquire-update-combine">
-          <th className="inquire-update-title">이메일</th>
-          <td className="inquire-update-content">{question.email}</td>
-          <td className="inquire-update-update">
-            <input
-              type="text"
-              placeholder="연락 받으실 이메일을 입력해주세요."
-              value={email}
-              onChange={handleEmailChange}
-              style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
-            />
-            {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
-          </td>
-        </tr>
-        <tr>
+      <div className="inquire-update-enter-title" 
+      style={{display: "flex", justifyContent: "space-between"}}>
+        <h2>1대1 문의 접수</h2>
+        <div style={{display: "flex", marginRight: "5%"}}>
           <div className="inquire-update-cancel" onClick={() => cancelClickHandler(questionId)}>
             취소
           </div>
           <div
             className="inquire-update-upload"
             onClick={uploadPostClickHandler}
-          >
-            문의 수정
+          > 문의 수정
           </div>
-        </tr>
-      </tbody>
-    </table>
-    {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+        </div>
+      </div>
+      <table className="inquire-update">
+        <tbody>
+          <tr className="inquire-update-combine">
+            <th className="inquire-update-title">문의 ID</th>
+            <td className="inquire-update-content">{question.userId}</td>
+          </tr>
+          <tr className="inquire-update-combine">
+            <th className="inquire-update-title">문의유형</th>
+            <td className="inquire-update-content">
+              {getTypeString(question.type)}
+            </td>
+            <td className="inquire-update-update">
+              <label htmlFor="inquire"></label>
+              <select id="inquire" value={type} onChange={handleTypeChange} style={{ width: "550px", height: 40, borderRadius: 5, textIndent: "10px" }}>
+                <option value="1">문의 유형을 선택해주세요.</option>
+                <option value="2">배송 /수령예정일 안내</option>
+                <option value="3">주문 / 결제</option>
+                <option value="4">회원정보 안내</option>
+                <option value="5">반품 /교환/ 환불 안내</option>
+              </select>
+              {typeError && <div style={{ color: 'red' }}>{typeError}</div>}
+            </td>
+          </tr>
+          <tr className="inquire-update-combine">
+            <th className="inquire-update-title">제목</th>
+            <td className="inquire-update-content">{question.title}</td>
+            <td className="inquire-update-update">
+              <input
+                type="text"
+                placeholder="제목을 입력해주세요."
+                value={title}
+                onChange={handleTitleChange}
+                style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
+              />
+              {titleError && <div style={{ color: 'red' }}>{titleError}</div>}
+            </td>
+          </tr>
+          <tr className="inquire-update-combine-content">
+            <th className="inquire-update-title-content">내용</th>
+            <td className="inquire-update-content-content">{question.content}</td>
+            <td className="inquire-update-update-content">
+              <textarea
+                placeholder="문의 유형을 먼저 선택 후 내용을 입력해주세요."
+                value={content}
+                onChange={handleContentChange}
+                style={{ width: "700px", height: 350, borderRadius: 5, textIndent: "10px", resize: "none" }}
+              />
+              {contentError && <div style={{ color: 'red' }}>{contentError}</div>}
+            </td>
+          </tr>
+          <tr className="inquire-update-combine">
+            <th className="inquire-update-title">이메일</th>
+            <td className="inquire-update-content">{question.email}</td>
+            <td className="inquire-update-update">
+              <input
+                type="text"
+                placeholder="연락 받으실 이메일을 입력해주세요."
+                value={email}
+                onChange={handleEmailChange}
+                style={{ width: "700px", height: 40, borderRadius: 5, textIndent: "10px" }}
+              />
+              {emailError && <div style={{ color: 'red' }}>{emailError}</div>}
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
     </div>
   );
 }

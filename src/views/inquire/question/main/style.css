@@ -42,6 +42,7 @@
     flex-direction:column;
     font-weight: 500;
     overflow: scroll;
+    overflow-x: hidden
 }
 .inquire-result-main{
     display: flex;
