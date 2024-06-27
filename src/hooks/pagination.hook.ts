@@ -6,7 +6,6 @@ const usePagination = <T>(countPerPage: number) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPageList, setTotalPageList] = useState<number[]>([1]);
 
-  // 현재 페이지에 보여질 아이템 리스트를 설정하는 함수
   const setView = () => {
     const FIRST_INDEX = countPerPage * (currentPage - 1);
     const LAST_INDEX = totalList.length > countPerPage * currentPage ? countPerPage * currentPage : totalList.length;

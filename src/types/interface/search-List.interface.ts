@@ -2,16 +2,12 @@
 export default interface SearchResult{
     productId : number;
     userId : string;
-    title : string; 
-    link : string;
-    image : string;
+    title : string;
     lowPrice : string;
     category1 : string;
     category2 : string;
-    mallName : string;
-
-
-
-
-
+    category3 : string;
+    titleImage : string;
+    secondaryImage : string;
+    writeDatetime: string;
 }

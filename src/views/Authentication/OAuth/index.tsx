@@ -4,22 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export default function OAuth() {
 
-
-
-    const { token, expirationTime } = useParams();    
+    const { token, expirationTime } = useParams();
     const [cookies, setCookie] = useCookies(['accessToken']);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!token || !expirationTime) return;
-
         const now = new Date().getTime();
         const expires = new Date(now + Number(expirationTime) * 1000);
-
         setCookie('accessToken', token, { expires, path: '/' });
         navigate('/');
-        
-
     }, [token, expirationTime, setCookie, navigate]);
 
     return null;

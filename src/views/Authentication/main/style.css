@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .log-io-container{
     display: flex;
     flex-direction: row;
@@ -49,5 +50,78 @@
 }
 
 .log-io-container.right-panel-active .overlay-out {
+=======
+.sign-container {
+    display: flex;
+    justify-content: center;
+}
+
+.log-io-container {
+    display: flex;
+    background-color: rgba(235, 235, 235, 0.534);
+    height: 75%;
+    bottom: 0;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(12%);
+}
+
+.overlay-container {
+    display: flex;
+    position: absolute;
+    height: 105%;
+}
+
+.overlay-box {
+    display: flex;
+    background-image: url('images/loginchange.jpg');
+    background-size: cover;
+    width: 434px;
+    z-index: 3;
+    top: 100px;
+    transition: transform 1s ease-in-out;
+    flex-direction: row-reverse;
+    transform: translateX(110%);
+}
+
+.overlay {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.overlay-in {
+    position: absolute;
+    left: 0;
+    padding: 8%;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.overlay-out {
+    position: absolute;
+    left: 0;
+    padding: 8%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.open-button {
+    display: flex;
+    z-index: 3;
+    border-radius: 0, 10%, 10%, 0%;
+    transition: transform 0.2s ease-in-out;
+    justify-content: flex-start;
+}
+
+.log-io-container.first-active .overlay-box {
+    transform: translateX(-7%);
+}
+
+.log-io-container.first-active .overlay-in {
+    opacity: 0;
+}
+
+.log-io-container.first-active .overlay-out {
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b
     opacity: 1;
 }

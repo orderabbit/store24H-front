@@ -8,7 +8,7 @@ export function FailPage() {
 
   return (
     <div className="result wrapper">
-    <div className="box_section">  
+    <div className="box_section">
       <h2 style={{padding: "20px 0px 10px 0px"}}>
           <img
             width="30px"

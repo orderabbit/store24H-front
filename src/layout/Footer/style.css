@@ -1,0 +1,69 @@
+.footer {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    min-width: 1000px;
+    min-height: 200px;
+    padding-bottom: 20px;
+    margin-top: 200px;
+    border-top: 1px solid #d9d9d9;
+    background: #fff;
+    clear: both;
+    font-size: 12px;
+    letter-spacing: -0.045em;
+    color: #666;
+    overflow: hidden;
+    bottom: 0;
+}
+
+/* .footer {
+    background-color: #f0f0f0; 
+    padding: 20px 0; 
+    text-align: center;
+  } */
+
+.footer-contentbox {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  /* 최대 너비 설정 */
+  margin: 0 auto;
+  /* 가운데 정렬 */
+
+}
+
+.footer-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  /* 제목과 내용 사이 여백 설정 */
+}
+
+.footer-left-title,
+.footer-right-title {
+  display: flex;
+}
+
+.footer-left-title div,
+.footer-right-title div {
+  padding: 5px;
+  margin-right: 10px;
+  background-color: #fff;
+}
+
+.footer-logo {
+  width: 60px;
+  cursor: pointer;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-content div {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  background-color: #fff;
+}

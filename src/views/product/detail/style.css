@@ -1,0 +1,351 @@
+#product-detail-wrapper {
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+.product-detail-container {
+    margin-top: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;;
+    width: 1200px;
+    margin-left: auto; /* 화면 가운데 정렬을 위해 왼쪽 마진을 자동으로 설정 */
+    margin-right: auto; /* 화면 가운데 정렬을 위해 오른쪽 마진을 자동으로 설정 */
+}
+
+.detail-top-content{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.product-top-header {
+    width:100%;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.product-detail-thumbnail {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-detail-thumbnail img {
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+}
+
+.product-detail-info {
+    flex: 1;
+    max-width: 50%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-detail-title {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 140%;
+}
+
+.product-detail-main-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.product-detail-lowPrice {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff0000;
+
+}
+
+.product-detail-imagebar {
+    display: flex;
+    justify-content: left;
+    flex-wrap: nowwrap;
+    gap: 10px;
+    max-width: 150px;
+    max-height: 150px;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.product-detail-bar-image {
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.detail-middle-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.product-detail-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+}
+
+.product-detail-middle-image {
+    width: 700px;
+    max-height: auto;
+    margin-bottom: 40px;
+}
+
+.order-caution-image {
+    width: 700px;
+    max-height: auto;
+}
+
+-----------
+
+#board-detail-top {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.product-detail-top-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-top-sub-box {
+    position: relative;
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-detail-write-info-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-detail-writer-profile-image {
+    border-radius: 50% 50%;
+    width: 32px;
+    height: 32px;
+
+    background-position: 50% 50%;
+    background-size: 100% 100%;
+}
+
+.product-detail-writer-nickname {
+    color: rgba(0, 0, 0, 0.7);
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 140%;
+
+    cursor: pointer;
+}
+
+.product-detail-info-divider, .product-detail-write-date {
+    color: rgba(0, 0, 0, 0.4);
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-more-box {
+    position: absolute;
+
+    top: -81px;
+
+    left: 0px;
+
+    background-color: rgba(255, 255, 255, 1);
+
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.25);
+}
+
+.product-detail-update-button {
+    width: 143px;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-update-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.product-detail-delete-button {
+    width: 143px;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgba(255, 0, 0, 0.5);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-delete-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.product-detail-top-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-main-text {
+    color: rgba(0, 0, 0, 0.7);
+
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%;
+
+    white-space: pre-wrap;
+}
+
+#board-detail-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-bottom-box {
+    display: flex;
+    gap: 12px;
+}
+
+.product-detail-bottom-button-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.product-detail-bottom-button-text {
+    color: rgba(0, 0, 0, 0.7);
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-bottom-favorite-box {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 20px 20px 40px;
+}
+
+.product-detail-bottom-favorite-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-bottom-favorite-title {
+    color: rgba(0, 0, 0, 1);
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-bottom-favorite-contents {
+    display: flex;
+    flex-wrap: wrap;
+
+    row-gap: 20px;
+    column-gap: 30px;
+}
+
+.product-detail-bottom-comment-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-bottom-comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 0 20px;
+}
+
+.product-detail-bottom-comment-title {
+    color: rgba(0, 0, 0, 1);
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.product-detail-bottom-comment-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.product-detail-bottom-comment-pagination-box {
+    display: flex;
+    justify-content: center;
+}
+
+.product-detail-bottom-comment-input-box {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.product-detail-bottom-comment-input-comtainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-detail-bottom-comment-textarea {
+    border: none;
+    outline: none;
+    background: none;
+    resize: none;
+
+    overflow: hidden;
+
+    color: rgba(0, 0, 0, 1);
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.product-detail-bottom-comment-button-box {
+    display: flex;
+    justify-content: flex-end;
+}

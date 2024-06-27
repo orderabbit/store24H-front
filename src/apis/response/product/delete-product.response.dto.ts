@@ -1,4 +1,4 @@
-import ResponseDto from "../response.dto";
+import { ResponseDto } from "apis/response";
 
-export default interface DeleteProductResponseDto extends ResponseDto{
+export default interface DeleteProductResponseDto extends ResponseDto {
 }

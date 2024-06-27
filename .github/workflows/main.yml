@@ -5,11 +5,11 @@ on:
     branches: ['main', 'release']
   pull_request:
     branches: ['main', 'release']
-
+    
 env:
   LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
   LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
-  LIGHTSAIL_USERNAME: bitnami
+  LIGHTSAIL_USERNAME: ubuntu
   AWS_REGION: ap-northeast-2
 
 jobs:
@@ -17,7 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 해당 브런치로 체크아웃
+        uses: actions/checkout@v4
 
+<<<<<<< HEAD
     - name: 해당 브런치로 체크아웃
       uses: actions/checkout@v4
 
@@ -25,18 +28,29 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 14
+=======
+      - name: node 설치
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.14.1
 
-    - name: Install dependencies
-      run: npm install
+      - name: npm 설치
+        run: npm install
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b
 
-    - name: 타입스크립트 설치
-      run: npm install typescript
+      - name: typescript 설치
+        run: npm install typescript
 
-    - name: Build
-      run: |
-        echo Build.
-        npm run build
+      - name: 빌드
+        run: 
+          sudo npm run build
 
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail.pem
+          chmod 775 lightsail.pem
+
+<<<<<<< HEAD
     - name: AWS 인증하기
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -62,3 +76,32 @@ jobs:
           sudo docker build -t tdf .
           sudo docker create --name front-container -p 80:80 tdf:latest
           sudo docker start front-container
+=======
+      - run:
+          scp -i ./lightsail.pem /github/workspace/build ubuntu@3.35.30.191:/home/ubuntu/store24H-front/build
+          
+      - name: Add remote host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: executing remote ssh commands using key
+        uses: appleboy/scp-action@master
+        with:
+          host: 3.35.30.191
+          username: ubuntu
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          port: 22
+          source: /github/workspace/build
+          target: /home/ubuntu/store24H-front/build
+
+        
+      - name: AWS 인증하기
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          
+  
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b

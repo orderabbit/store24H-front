@@ -1,8 +1,46 @@
 #header {
-    padding: 20px 0;
-    
+    padding: 0px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #f8f8f8; */
+}
+
+.top-bar-container {
+  width: 1200px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 5px;
+}
+.auth-button {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.auth-button .nickname {
+  font-weight: bold;
+}
+
+.auth-button-logout {
+  padding: 2px;
+  color: #888;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
 }
 
 .header-container {
@@ -21,9 +59,9 @@
     cursor: pointer;
 }
 
-.header-logo {
+.header-logo img{
     color: rgba(0, 0, 0, 1);
-
+    width: 60px;
     font-family: 'GimhaeGaya';
     font-size: 20px;
     font-weight: 400;
@@ -63,6 +101,25 @@
     line-height: 140%;
 }
 
+.navbar-icon {
+  color: black;
+  display: flex;
+  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+  align-items: center; /* 가운데 정렬 */
+  cursor: pointer;
+}
+
+.navbar-icon img {
+  width: 35px;
+  height: 35px;
+  border-radius: 0%;
+}
+
+.navbar-icon span {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
 .hamburger{
     position:relative;
     display:block;
@@ -97,14 +154,14 @@
     top:15px;
   }
   /*hover*/
-  .hamburger:hover>span{
+  .hamburger.active span{
     background:transparent;
   }
-  .hamburger:hover>span:before{
+  .hamburger.active span:before{
     top:0;
     transform:rotate(45deg);
   }
-  .hamburger:hover>span:after{
+  .hamburger.active span:after{
     top:0;
     transform:rotate(-45deg);
   }

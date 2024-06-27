@@ -2,14 +2,32 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
 
+import foodIcon from '../../../images/free-icon-font-utensils.png';
+import juiceIcon from '../../../images/free-icon-font-mug-hot-alt-6349378.png';
+import snackIcon from '../../../images/free-icon-font-candy-alt-6349013.png';
+import lifestyleIcon from '../../../images/free-icon-relax-157830.png';
+import brushIcon from '../../../images/free-icon-font-broom-3917049.png';
+import showerIcon from '../../../images/free-icon-font-shower-11740046.png';
+import penIcon from '../../../images/free-icon-font-pencil-3917636.png';
 
-export default function SideBar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
+
+const categoryIcons: { [key: string]: string } = {
+  '음식': foodIcon,
+  '음료': juiceIcon,
+  '과자': snackIcon,
+  '생활용품': lifestyleIcon,
+  '욕실용품': brushIcon,
+  '청소용품': showerIcon,
+  '문구': penIcon
+}
+
+export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
   const outside = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const handlerOutside = (e: MouseEvent) => {
-    if (outside.current && !outside.current.contains(e.target as Node)) {
-      toggleSide();
+    if (outside.current && !outside.current.contains(e.target as Node) && isOpen == true) {
+      setIsOpen(false);
     }
   };
 
@@ -23,40 +41,36 @@ export default function SideBar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handlerOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handlerOutside);
+    } else {
+      document.removeEventListener('mousedown', handlerOutside);
+    }
 
     return () => {
       document.removeEventListener('mousedown', handlerOutside);
     };
+  }, [isOpen]);
 
-  },[]);
 
   return (
+    <div className='sidebar-container'>
     <div id="sidebar" ref={outside} className={isOpen ? 'open' : ''}>
-      {/* 닫기 토글버튼 혹시나 이미지 이용시 해당코드사용 */}
-      {/* <img
-        src="img/close.png"
-        alt="Close"
-        className="close"
-        onClick={toggleSide}
-      /> */}
       <button
         className="close"
         onClick={toggleSide}
       >
         Close
       </button>
-      <ul>
-        {/* 나중에 폰트어썸 사용해서 아이콘추가? 하면될듯 */}
-        <li onClick={() => handleCategoryClick('식품')}>식품</li>
-        <li onClick={() => handleCategoryClick('스포츠')}>스포츠</li>
-        <li onClick={() => handleCategoryClick('화장품')}>화장품</li>
-        <li onClick={() => handleCategoryClick('패션')}>패션</li>
-        <li onClick={() => handleCategoryClick('생활')}>생활</li>
-        <li onClick={() => handleCategoryClick('가전')}>가전</li>
-        <li onClick={() => handleCategoryClick('가구')}>가구</li>
+      <ul className='sidebar-list'>
+      {Object.keys(categoryIcons).map((category, index) => (
+          <li key={index} onClick={() => handleCategoryClick(category)}>
+            <img src={categoryIcons[category]} alt={category} className="category-icon" />
+            {category}
+          </li>
+        ))}
       </ul>
-      {/* <span className="exit-menu">Exit</span> */}
+    </div>
     </div>
   );
 }

@@ -15,14 +15,12 @@ import { SIGNIN_PATH } from "constant";
 import React from "react";
 
 export default function SignUp() {
-
     const userIdRef = useRef<HTMLInputElement | null>(null);
     const nicknameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
     const passwordCheckRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const certificationNumberRef = useRef<HTMLInputElement | null>(null);
-   
 
     const [userId, setUserId] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
@@ -31,7 +29,6 @@ export default function SignUp() {
     const [email, setEmail] = useState<string>('');
     const [certificationNumber, setCertificationNumber] = useState<string>('');
     const [agreedPersonal, setAgreenPersonal] = useState<boolean>(false);
-
     const [isUserIdError, setUserIdError] = useState<boolean>(false);
     const [isNicknameError, setNicknameError] = useState<boolean>(false);
     const [isPasswordError, setPasswordError] = useState<boolean>(false);
@@ -39,14 +36,12 @@ export default function SignUp() {
     const [isEmailError, setEmailError] = useState<boolean>(false);
     const [isCertificationNumberError, setCertificationNumberError] = useState<boolean>(false);
     const [isAgreedPersonalError, setAgreedPersonalError] = useState<boolean>(false);
-
     const [userIdMessage, setUserIdMessage] = useState<string>('');
     const [NicknameMessage, setNicknameMessage] = useState<string>('');
     const [passwordMessage, setPasswordMessage] = useState<string>('');
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [EmailMessage, setEmailMessage] = useState<string>('');
     const [CertificationNumberMessage, setCertificationNumberMessage] = useState<string>('');
-   
     const [isUserIdCheck, setUserIdCheck] = useState<boolean>(false);
     const [isNicknameCheck, setNicknameCheck] = useState<boolean>(false);
     const [isCertificationCheck, setCertificationCheck] = useState<boolean>(false);
@@ -93,7 +88,6 @@ export default function SignUp() {
         setNicknameCheck(true);
     };
 
-
     const emailCertificationResponse = (responseBody: ResponseBody<EmailCertificationResponseDto>) => {
         if (!responseBody) return;
 
@@ -104,9 +98,9 @@ export default function SignUp() {
             setEmailError(true);
             setEmailMessage('이메일 전송에 실패했습니다.');
         }
-        if (code === ResponseCode.DUPLICATE_EMAIL) 
+        if (code === ResponseCode.DUPLICATE_EMAIL)
             setEmailError(true);
-            setEmailMessage('이미 사용중인 이메일 입니다.');
+        setEmailMessage('이미 사용중인 이메일 입니다.');
         if (code !== ResponseCode.SUCCESS) return;
         setEmailError(false);
         setEmailMessage('인증번호가 전송되었습니다.');
@@ -166,7 +160,7 @@ export default function SignUp() {
         setPasswordCheck(value);
         setPasswordCheckMessage('');
     };
-    
+
 
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -213,7 +207,6 @@ export default function SignUp() {
         setEmailMessage('이메일 전송중...');
     };
 
-
     const onCertificationNumberButtenClickHandler = () => {
 
         if (!userId || !email || !certificationNumber) return;
@@ -229,7 +222,7 @@ export default function SignUp() {
 
     const onSignUpButtonClickHandler = () => {
 
-        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber ) return;
+        if (!userId || !nickname || !password || !passwordCheck || !email || !certificationNumber) return;
         if (!isUserIdCheck) {
             alert('중복 확인은 필수입니다.');
             return;
@@ -254,7 +247,7 @@ export default function SignUp() {
             return;
         }
 
-        const requestBody: SignUpRequestDto = { userId, nickname, password, email, certificationNumber,  agreedPersonal };
+        const requestBody: SignUpRequestDto = { userId, nickname, password, email, certificationNumber, agreedPersonal };
         signupRequest(requestBody).then(signUpResponse)
     };
 
@@ -267,7 +260,6 @@ export default function SignUp() {
         console.log(SNS_SIGN_IN_URL(type));
         window.location.href = SNS_SIGN_IN_URL(type);
     };
-
 
     const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
@@ -301,43 +293,41 @@ export default function SignUp() {
         onCertificationNumberButtenClickHandler();
     };
 
-    {/*<div id='sign-up-wrapper'>
-    <div className='sign-up-image'></div>
-    <div className='sign-up-container'>*/}
+
     return (
-                <div className='sign-up-box'>
-                    <div className='sign-up-title'>{'?'}</div>
-                    <div className='sign-up-content-box'>
-                        <div className='sign-up-content-sns-sign-in-box'>
-                            <div className='sign-up-content-sns-sign-in-title'>{'sns 회원가입'}</div>
-                            <div className='sign-up-content-sns-sign-in-button-box'>
-                                <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
-                                <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
-                                <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
-                            </div>
-                        </div>
-                        <div className='sign-up-content-divider'></div>
-                        <div className='sign-up-content-input-box'>
-                            <SignBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} isErrorMessage={isUserIdError} message={userIdMessage} buttonTitle='중복 확인' onButtonClick={onIdButtenClickHandler} onKeyDown={onIdKeyDownHandler} />
-                            <SignBox ref={nicknameRef} title='닉네임' placeholder='닉네임을 입력해주세요' type='text' value={nickname} onChange={onNicknameChangeHandler} isErrorMessage={isNicknameError} message={NicknameMessage} buttonTitle='중복 확인' onButtonClick={onNicknameButtenClickHandler} onKeyDown={onNicknameKeyDownHandler} />
-                            <SignBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type='password' value={password} onChange={onPasswordChangeHandler} isErrorMessage={isPasswordError} message={passwordMessage} onKeyDown={onPasswordKeyDownHandler} />
-                            <SignBox ref={passwordCheckRef} title='비밀번호 확인' placeholder='비밀번호를 입력해주세요' type='password' value={passwordCheck} onChange={onPasswordCheckChangeHandler} isErrorMessage={isPasswordCheckError} message={passwordCheckMessage} onKeyDown={onPasswordCheckKeyDownHandler} />
-                            <SignBox ref={emailRef} title='이메일' placeholder='이메일 주소를 입력해주세요' type='text' value={email} onChange={onEmailChangeHandler} isErrorMessage={isEmailError} message={EmailMessage} buttonTitle='이메일 인증' onButtonClick={onEmailButtenClickHandler} onKeyDown={onEmailKeyDownHandler} />
-                            <SignBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
-                        </div>
-                        <div className="auth-consent-box">
-                            <div className="auth-check-box" onClick={onAgreedPersonalClickHandler}>
-                                <div className={`icon ${agreedPersonal ? 'check-round-fill-icon' : 'check-ring-light-icon'} `}></div>
-                            </div>
-                            <div className={isAgreedPersonalError ? "auth-consent-title-error" : "auth-consent-title"}>{'개인정보동의'}</div>
-                            <div className="auth-consent-link">{'더보기 >'}</div>
-                        </div>
-                        <div className='sign-up-content-button-box'>
-                            <div className={signUpButtonClass + ' full-width'} onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
-                            <div className='text-link-lg full-width' onClick={onSignInButtonClickHandler}>{'로그인'}</div>
+        <div className='sign-up-container'>
+            <div className='sign-up-box'>
+                <div className='sign-up-content-box'>
+                    <div className='sign-up-content-sns-sign-in-box'>
+                        <div className='sign-up-content-sns-sign-in-title'>{'sns 회원가입'}</div>
+                        <div className='sign-up-content-sns-sign-in-button-box'>
+                            <div className='kakao-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('kakao')}></div>
+                            <div className='naver-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('naver')}></div>
+                            <div className='google-sign-in-button' onClick={() => onSnsSignInButtonClickHandler('google')}></div>
                         </div>
                     </div>
+                    <div className='sign-up-content-divider'></div>
+                    <div className='sign-up-content-input-box'>
+                        <SignBox ref={userIdRef} title='아이디' placeholder='아이디를 입력해주세요' type='text' value={userId} onChange={onIdChangeHandler} isErrorMessage={isUserIdError} message={userIdMessage} buttonTitle='중복 확인' onButtonClick={onIdButtenClickHandler} onKeyDown={onIdKeyDownHandler} />
+                        <SignBox ref={nicknameRef} title='닉네임' placeholder='닉네임을 입력해주세요' type='text' value={nickname} onChange={onNicknameChangeHandler} isErrorMessage={isNicknameError} message={NicknameMessage} buttonTitle='중복 확인' onButtonClick={onNicknameButtenClickHandler} onKeyDown={onNicknameKeyDownHandler} />
+                        <SignBox ref={passwordRef} title='비밀번호' placeholder='비밀번호를 입력해주세요' type='password' value={password} onChange={onPasswordChangeHandler} isErrorMessage={isPasswordError} message={passwordMessage} onKeyDown={onPasswordKeyDownHandler} />
+                        <SignBox ref={passwordCheckRef} title='비밀번호 확인' placeholder='비밀번호를 입력해주세요' type='password' value={passwordCheck} onChange={onPasswordCheckChangeHandler} isErrorMessage={isPasswordCheckError} message={passwordCheckMessage} onKeyDown={onPasswordCheckKeyDownHandler} />
+                        <SignBox ref={emailRef} title='이메일' placeholder='이메일 주소를 입력해주세요' type='text' value={email} onChange={onEmailChangeHandler} isErrorMessage={isEmailError} message={EmailMessage} buttonTitle='이메일 인증' onButtonClick={onEmailButtenClickHandler} onKeyDown={onEmailKeyDownHandler} />
+                        <SignBox ref={certificationNumberRef} title='인증번호' placeholder='인증번호 4자리를 입력해주세요' type='text' value={certificationNumber} onChange={onCertificationNumberChangeHandler} isErrorMessage={isCertificationNumberError} message={CertificationNumberMessage} buttonTitle='인증 확인' onButtonClick={onCertificationNumberButtenClickHandler} onKeyDown={onCertificationNumberKeyDownHandler} />
+                    </div>
+                    <div className="auth-consent-box">
+                        <div className="auth-check-box" onClick={onAgreedPersonalClickHandler}>
+                            <div className={`icon ${agreedPersonal ? 'check-round-fill-icon' : 'check-ring-light-icon'} `}></div>
+                        </div>
+                        <div className={isAgreedPersonalError ? "auth-consent-title-error" : "auth-consent-title"}>{'개인정보동의'}</div>
+                        <div className="auth-consent-link">{'더보기 >'}</div>
+                    </div>
+                    <div className='sign-up-content-button-box'>
+                        <div className={signUpButtonClass + ' full-width'} onClick={onSignUpButtonClickHandler}>{'회원가입'}</div>
+                    </div>
                 </div>
+            </div>
+        </div>
     );
     {/*</div>
     </div>*/}
