@@ -35,10 +35,9 @@ export default function Main() {
     useEffect(() => {
         const userId = loginUser?.userId;
         const role = loginUser?.role;
-        console.log("userId", userId, "role", role);
         if (!userId || !role) return;
         setRole(role);
-      }, [loginUser]);
+    }, [loginUser]);
 
     useEffect(() => {
         const fetchProducts = async () => {

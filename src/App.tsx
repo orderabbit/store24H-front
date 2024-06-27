@@ -66,7 +66,7 @@ function App() {
     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
   }, [cookies.accessToken]);
   return (
-    
+
     <Routes>
       <Route element={<Container />}>
         <Route path='auth/oauth-response/:token/:expirationTime' element={<OAuth />}></Route>
@@ -88,16 +88,15 @@ function App() {
         <Route path="/user/:userId" element={<MyPage />} />
         <Route path="/product/review" element={<ReviewWrite productId={0} onSuccess={function (): void {
           throw new Error('Function not implemented.');
-        } } />} />
-      <Route path={WRITE_PATH()} element={<Write />}/>
-      <Route path={UPDATE_PATH(':Number')} element={<Update />} />
+        }} />} />
+        <Route path={WRITE_PATH()} element={<Write />} />
+        <Route path={UPDATE_PATH(':Number')} element={<Update />} />
         <Route path="/order/list/:userId" element={<OrderPage />} />
         <Route path="/order/detail/:orderId" element={<OrderDetail />} />
         <Route path={USER_PATH(':userId')} element={<MyPage />} />
         <Route path={DETAIL_PATH(':Number')} element={<Detail />} />
         <Route path={UPDATE_PATH(':Number')} element={<Update />} />
       </Route>
-      
     </Routes>
 
   );
