@@ -1,3 +1,56 @@
+<<<<<<< HEAD
+.log-io-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 65%;
+}
+
+.overlay-container{
+    display: flex;
+    overflow: hidden;
+    position: absolute;
+    z-index: 3;
+    width: 30vw;
+    height: 75%;
+    transition: transform 0.1s ease-in-out;
+    border-radius: 10%;
+    background-color: rgba(140, 243, 157, 0.897);
+}
+
+.overlay-pannel{
+}
+
+.overlay-in{
+    position: absolute;
+    padding: 8%;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.overlay-out{
+    position: absolute;
+    padding: 8%;
+    opacity: 0;
+    height: 100vw;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.open-button{
+    flex-direction: row-reverse;
+}
+
+.log-io-container .overlay-container {
+    transform: translateX(110%);
+}
+
+.log-io-container.right-panel-active .overlay-in {
+    opacity: 0;
+}
+
+.log-io-container.right-panel-active .overlay-out {
+=======
 .sign-container {
     display: flex;
     justify-content: center;
@@ -69,5 +122,6 @@
 }
 
 .log-io-container.first-active .overlay-out {
+>>>>>>> 86b0bc7efd9a006f041ede151f37d39e07466a5b
     opacity: 1;
 }

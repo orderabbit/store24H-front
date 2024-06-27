@@ -35,6 +35,7 @@ const CartList: React.FC = () => {
         }
     }, [loginUser]);
 
+
     const fetchProducts = async () => {
         try {
             if (userId && cookies.accessToken) {
@@ -91,6 +92,7 @@ const CartList: React.FC = () => {
     };
 
     const calculateTotalPrice = () => {
+
         return selectedProducts
             .reduce((total, product) => {
                 const quantity = quantities[product.productId];
@@ -106,6 +108,7 @@ const CartList: React.FC = () => {
             [productId]: !prevCheckedProducts[productId],
         }));
         const isChecked = !checkedProducts[productId];
+
         const product = products.find((product) => product.productId === productId);
         if (isChecked && product) {
             setSelectedProducts((prevSelectedProducts) =>
@@ -143,6 +146,7 @@ const CartList: React.FC = () => {
     };
 
     const decrementQuantity = (productId: number) => {
+
         const currentQuantity = parseInt(quantities[productId].toString(), 10); // 정수로 변환
         if (currentQuantity > 1) {
             const updatedQuantities = {
@@ -160,6 +164,7 @@ const CartList: React.FC = () => {
     };
 
     const incrementQuantity = (productId: number) => {
+
         const currentQuantity = parseInt(quantities[productId]?.toString() || "0", 10); // 정수로 변환
         const updatedQuantities = {
             ...quantities,
@@ -207,6 +212,7 @@ const CartList: React.FC = () => {
             </div>
             {products.length === 0 ? (
                 <table className="table">
+
                     <thead>
                         <tr className="head">
                             <th>
@@ -217,6 +223,7 @@ const CartList: React.FC = () => {
                                 />
                             </th>
                             <th></th>
+
                             <th>상품명</th>
                             <th>수량</th>
                             <th>가격</th>
@@ -224,6 +231,7 @@ const CartList: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
+
                         <tr>
                             <td>
                                 <div style={{
@@ -281,6 +289,7 @@ const CartList: React.FC = () => {
                                         onChange={() => handleCheckboxChange(product.productId)}
                                     />
                                 </td>
+
                                 <td>
                                     {product.productImageList && product.productImageList.map((image) => (
                                         <img key={image} className="product-detail-main-image" src={image} />
@@ -312,6 +321,7 @@ const CartList: React.FC = () => {
                                 </td>
                                 <td>{calculateProductTotalPrice(product)} 원</td>
                                 <td>
+
                                     <div className="icon-button">
                                         <div
                                             className="icon close-icon"

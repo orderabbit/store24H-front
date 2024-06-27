@@ -168,3 +168,8 @@
     font-weight: 600;
     line-height: 140%;
 }
+
+.log-io-container.right-panel-active .sign-up-box {
+    transform: translateX(-100%);
+    opacity: 1; 
+}

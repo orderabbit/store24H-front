@@ -27,6 +27,7 @@ export default function MyPage() {
   const [isPasswordChange, setPasswordChange] = useState<boolean>(false);
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [matchCurrentPasswordError, setMatchCurrentPasswordError] = useState<boolean>(false);
   const [passwordMatchError, setPasswordMatchError] = useState<boolean>(false);
@@ -52,6 +53,7 @@ export default function MyPage() {
       navigator(MAIN_PATH());
       return;
     }
+
     const { userId, nickname, email, profileImage, socialUser } =
       responseBody as GetUserResponseDto;
     setNickname(nickname);
@@ -61,6 +63,7 @@ export default function MyPage() {
     const isMyPage = userId === loginUser?.userId;
     setMyPage(isMyPage);
   };
+
 
   const WithdrawalUserResponse = (
     responseBody: WithdrawalUserResponseDto | ResponseDto | null
@@ -98,6 +101,7 @@ export default function MyPage() {
     if (!userId) return;
     getUserRequest(userId, cookies.accessToken).then((response) => {
       getUserResponse(response);
+
       setNicknameChange(false);
       setNicknameModalOpen(false);
     });
@@ -105,6 +109,7 @@ export default function MyPage() {
 
   const onNicknameEditButtonClickHandler = () => {
     setChangeNickname(nickname);
+
     setNicknameModalOpen(true);
   };
 
@@ -112,6 +117,7 @@ export default function MyPage() {
     const { value } = event.target;
     setChangeNickname(value);
   };
+
 
   const handleNicknameSubmit = () => {
     if (changeNickname === "") {
@@ -142,6 +148,7 @@ export default function MyPage() {
     setMatchCurrentPasswordError(false);
     if (!responseBody) return;
     const { code } = responseBody;
+
     if (code === "VF") setEmptyPasswordError(true);
     if (code === "AF") alert("인증에 실패했습니다.");
     if (code === "DP") setDuplicatePasswordError(true);
@@ -251,6 +258,7 @@ export default function MyPage() {
 
   useEffect(() => {
     if (!userId) return;
+
     getUserRequest(userId, cookies.accessToken).then(getUserResponse);
   }, [userId, isNicknameChange, cookies.accessToken]);
 

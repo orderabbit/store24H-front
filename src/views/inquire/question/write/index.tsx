@@ -1,3 +1,4 @@
+
 import { postQuestionRequest } from "apis";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,19 +37,20 @@ export default function Write() {
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+
     const emailValue = event.target.value;
     setEmail(emailValue);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailValue)) { setErrorMessage("이메일 형식을 지켜서 입력해주세요."); }
     else { setErrorMessage("") }
-
   };
   const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = event.target.value; // 숫자 형태의 값이 들어옴
     let typeString = ""; // 변환된 문자열을 저장할 변수
 
     switch (
+
     selectedType // 선택된 값에 따라 문자열로 변환
     ) {
       case "1":
@@ -125,7 +127,14 @@ export default function Write() {
     <table className="inquire-write">
       <thead>
         <tr>
-          <th className="inquire-write-title">1대1 문의 접수</th>
+          <th className="inquire-write-title">1대1 문의 접수
+          <tfoot>
+            <div style={{ display: "flex", flexDirection: "row-reverse", marginLeft: "600px"}}>
+              <td className="inquire-write-cancel" onClick={cancelClickHandler}>취소</td>
+              <td className="inquire-write-upload" onClick={uploadPostClickHandler}>문의 접수</td>
+        </div>
+      </tfoot>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -186,15 +195,6 @@ export default function Write() {
           </td>
         </div>
       </tbody>
-      <tfoot>
-        <div>
-          <td className="inquire-write-cancel" onClick={cancelClickHandler}>취소
-          </td>
-          <td className="inquire-write-upload" onClick={uploadPostClickHandler}>문의 접수
-          </td>
-        </div>
-      </tfoot>
     </table>
-
   );
 }
