@@ -6,6 +6,8 @@ import {
   getAnswerRequest,
   getQuestionRequest,
   postAnswerRequest,
+  deleteAnswerRequest,
+  patchAnswerRequest,
 } from "apis";
 import { PostAnswerRequestDto } from "apis/request/answer";
 import { ResponseDto } from "apis/response";
@@ -35,6 +37,7 @@ const QuestionDetail: React.FC = () => {
 
   const [answerVisible, setAnswerVisible] = useState(false);
   const [answerContent, setAnswerContent] = useState("");
+  const [editingAnswerId, setEditingAnswerId] = useState<string | null | number>(null);
 
   useEffect(() => {
     const userId = loginUser?.userId;
@@ -191,6 +194,50 @@ const QuestionDetail: React.FC = () => {
     }
   };
 
+  const deleteAnswerHandler = async (answerId: string | number) => {
+    try {
+      const response = await deleteAnswerRequest(answerId);
+      if (response && response.code === "SU") {
+        setAnswers(answers.filter(answer => answer.answerId !== answerId));
+        alert("댓글이 삭제되었습니다.");
+      } else {
+        alert("댓글 삭제 실패");
+      }
+    } catch (error) {
+      console.error("댓글 삭제 중 오류가 발생했습니다:", error);
+      alert("댓글 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  const startEditingAnswer = (answerId: string | number, currentContent: string) => {
+    setEditingAnswerId(answerId);
+    setAnswerContent(currentContent);
+  };
+
+  const updateAnswerHandler = async () => {
+    if (!editingAnswerId) return;
+    try {
+      const response = await patchAnswerRequest(editingAnswerId, {
+        content: answerContent,
+        userId: "",
+        questionId: ""
+      });
+      if (response && response.code === "SU") {
+        setAnswers(answers.map(answer => 
+          answer.answerId === editingAnswerId ? { ...answer, content: answerContent } : answer
+        ));
+        setEditingAnswerId(null);
+        setAnswerContent("");
+        alert("댓글이 수정되었습니다.");
+      } else {
+        alert("댓글 수정 실패");
+      }
+    } catch (error) {
+      console.error("댓글 수정 중 오류가 발생했습니다:", error);
+      alert("댓글 수정 중 오류가 발생했습니다.");
+    }
+  };
+
   if (loading) {
     return <div>로딩중 ....</div>;
   }
@@ -267,6 +314,7 @@ const QuestionDetail: React.FC = () => {
                           padding: "15px",
                         }}
                       />
+
                     </div>
                   </div>
                 </div>
@@ -302,32 +350,67 @@ const QuestionDetail: React.FC = () => {
             </tr>
           </tbody>
         </table>
-        
-          <div className="inquire-answer-write">
-            <div className="replies-section">
-              {answers.length > 0 ? (
-                <div>
-                  <h3 className="replies-title">답변</h3>
-                  <ul>
-                    {answers.map((answer, index) => (
-                      <li key={index}>
-                        <span className="answer-user-id">
-                          관리자 ({answer.userId} )
-                        </span>{" "}
-                        : {answer.content}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <p className="inquire-answer-result">
-                  해당 문의에 대한 답변이 없습니다.
-                </p>
-              )}
-            </div>
+        <div className="inquire-answer-write">
+          <div className="replies-section">
+            {answers.length > 0 ? (
+              <div>
+                <h3 className="replies-title">답변</h3>
+                <ul>
+                  {answers.map((answer, index) => (
+                    <li key={index}>
+                      <span className="answer-user-id">
+                        관리자 ({answer.userId} )
+                      </span>{" "}
+                      : {answer.content}
+                      {role !== "ROLE_ADMIN" && (
+                        <div className="inquire-answer-content-patch-delete">
+                          <button onClick={() => startEditingAnswer(answer.answerId, answer.content)}>수정</button>
+                          <button onClick={() => deleteAnswerHandler(answer.answerId)}>삭제</button>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="inquire-answer-result">
+                해당 문의에 대한 답변이 없습니다.
+              </p>
+            )}
           </div>
         </div>
+        {editingAnswerId && (
+          <div className="modal-overlay-answer">
+            <div className="modal-content-answer" style={{ textAlign: "left" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div className="modal-title-answer">답변 수정</div>
+                <div style={{ marginRight: "10px" }}>
+                  <button className="modal-button" onClick={updateAnswerHandler}>
+                    수정
+                  </button>
+                  <button className="modal-button" onClick={() => setEditingAnswerId(null)}>
+                    취소
+                  </button>
+                </div>
+              </div>
+              <div className="modal-content-box-answer">
+                <textarea
+                  placeholder="문의 내용에 대한 답변을 입력해주세요."
+                  value={answerContent}
+                  onChange={handleAnswerContentChange}
+                  style={{
+                    width: "450px",
+                    height: 300,
+                    borderRadius: 5,
+                    padding: "15px",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+    </div>
   );
 };
 
