@@ -206,7 +206,7 @@ const QuestionDetail: React.FC = () => {
   return (
     <div id="question-detail-wrapper">
       <div className="question-detail-container">
-        <div style={{ display:"flex", justifyContent: "space-between", marginRight: "10%"}}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginRight: "10%" }}>
           <h2 className="inquire-title">문의 내역 상세보기</h2>
           <div style={{ display: "flex" }}>
             <div
@@ -230,14 +230,33 @@ const QuestionDetail: React.FC = () => {
             )}
             <div>
               {role !== "ROLE_ADMIN" && (
-                <div className="inquire-answer-button" onClick={toggleAnswerSection}>
-                  답변 작성
+                <div>
+                  <div className="inquire-answer-button" onClick={toggleAnswerSection}>
+                    답변 작성
+                  </div>
+                  <div className="inquire-answer-upload">
+                    <div onClick={uploadAnswerClickHandler}>업로드</div>
+                  </div>
+                  <div className="inquire-answer-cancel">
+                    <div onClick={toggleAnswerSection}>취소</div>
+                  </div>
                 </div>
               )}
               {answerVisible && (
                 <div className="modal-overlay-answer">
                   <div className="modal-content-answer" style={{ textAlign: "left" }}>
-                    <div className="modal-title-answer">답변 작성</div>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                      <div className="modal-title-answer">답변 작성
+                      </div>
+                      <div style={{marginRight: "10px"}}>
+                        <button className="modal-button" onClick={uploadAnswerClickHandler}> 
+                          업로드
+                        </button>
+                        <button className="modal-button" onClick={toggleAnswerSection}>
+                          취소
+                        </button>
+                      </div>
+                    </div>
                     <div className="modal-content-box-answer">
                       <textarea
                         placeholder="문의 내용에 대한 답변을 입력해주세요."
@@ -250,12 +269,7 @@ const QuestionDetail: React.FC = () => {
                           padding: "15px",
                         }}
                       />
-                      <div className="inquire-answer-upload">
-                        <div onClick={uploadAnswerClickHandler}>업로드</div>
-                      </div>
-                      <div className="inquire-answer-cancel">
-                        <div onClick={toggleAnswerSection}>취소</div>
-                      </div>
+
                     </div>
                   </div>
                 </div>
