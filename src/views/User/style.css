@@ -108,13 +108,7 @@
     flex-shrink: 0; /* 줄어들지 않도록 고정 */
     
 }
-<<<<<<< HEAD
 
-.log-io-container.right-panel-active .sign-in-box {
-    transform: translateX(100%);
-    opacity: 0;
-}
-=======
 .modal {
     display: block; 
     position: fixed; 
@@ -185,4 +179,3 @@
   }
   .error-message,.duplicate-error-message{
     color : red}
->>>>>>> d18c10a (change (#38))
