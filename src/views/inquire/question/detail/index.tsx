@@ -295,33 +295,7 @@ const QuestionDetail: React.FC = () => {
             </tr>
           </tbody>
         </table>
-        <div className="inquire-answer-write">
-          {answerVisible && (
-            <div className="modal-overlay-answer">
-              <div className="modal-content-answer" style={{ textAlign: "left" }}>
-                <div className="modal-title-answer">답변 작성</div>
-                <div className="modal-content-box-answer">
-                  <textarea
-                    placeholder="문의 내용에 대한 답변을 입력해주세요."
-                    value={answerContent}
-                    onChange={handleAnswerContentChange}
-                    style={{
-                      width: "450px",
-                      height: 300,
-                      borderRadius: 5,
-                      padding: "15px",
-                    }}
-                  />
-                  <div className="inquire-answer-upload">
-                    <div onClick={uploadAnswerClickHandler}>업로드</div>
-                  </div>
-                  <div className="inquire-answer-cancel">
-                    <div onClick={toggleAnswerSection}>취소</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+        
           <div className="inquire-answer-write">
             <div className="replies-section">
               {answers.length > 0 ? (
@@ -347,7 +321,6 @@ const QuestionDetail: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
