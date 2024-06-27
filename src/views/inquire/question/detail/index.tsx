@@ -68,18 +68,16 @@ const QuestionDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchAnswerDetails = async () => {
-      if (!answerIdParam) return;
-      const answerId = parseInt(answerIdParam);
+      if (!questionId) return;
+      // const answerId = parseInt(questionId);
       try {
-        const response = await getAnswerRequest(answerId);
-        if (
-          "content" in response &&
-          "userId" in response &&
-          "questionId" in response
-        ) {
-          const { content, userId, questionId } = response;
-          setPostRequest({ content, userId, questionId });
+        const response = await getAnswerRequest(questionId);
+        console.log("response", response);
+        if (response && response.code === "SU") {
+          // 답변 리스트를 성공적으로 가져왔을 때
+          setAnswers(response.answer); // 답변 리스트를 상태에 저장
         } else {
+          // 답변 정보를 가져오지 못했을 때
           alert("답변 정보를 불러오는 데 실패했습니다.");
         }
       } catch (error) {
@@ -245,11 +243,11 @@ const QuestionDetail: React.FC = () => {
               {answerVisible && (
                 <div className="modal-overlay-answer">
                   <div className="modal-content-answer" style={{ textAlign: "left" }}>
-                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <div className="modal-title-answer">답변 작성
                       </div>
-                      <div style={{marginRight: "10px"}}>
-                        <button className="modal-button" onClick={uploadAnswerClickHandler}> 
+                      <div style={{ marginRight: "10px" }}>
+                        <button className="modal-button" onClick={uploadAnswerClickHandler}>
                           업로드
                         </button>
                         <button className="modal-button" onClick={toggleAnswerSection}>
@@ -305,31 +303,34 @@ const QuestionDetail: React.FC = () => {
             </tr>
           </tbody>
         </table>
-
-
-
         <div className="inquire-answer-write">
-
-          <div className="replies-section">
-            {answers.length > 0 ? (
-              <div>
-                <h3 className="replies-title">답변</h3>
-                <ul>
-                  {answers.map((answer, index) => (
-                    <li key={index}>
-                      <span className="answer-user-id">
-                        관리자 ({answer.userId} )
-                      </span>{" "}
-                      : {answer.content}
-                    </li>
-                  ))}
-                </ul>
+          {answerVisible && (
+            <div className="modal-overlay-answer">
+              <div className="modal-content-answer" style={{ textAlign: "left" }}>
+                <div className="modal-title-answer">답변 작성</div>
+                <div className="modal-content-box-answer">
+                  <textarea
+                    placeholder="문의 내용에 대한 답변을 입력해주세요."
+                    value={answerContent}
+                    onChange={handleAnswerContentChange}
+                    style={{
+                      width: "450px",
+                      height: 300,
+                      borderRadius: 5,
+                      padding: "15px",
+                    }}
+                  />
+                  <div className="inquire-answer-upload">
+                    <div onClick={uploadAnswerClickHandler}>업로드</div>
+                  </div>
+                  <div className="inquire-answer-cancel">
+                    <div onClick={toggleAnswerSection}>취소</div>
+                  </div>
+                </div>
               </div>
-            ) : (
-              <p className="inquire-answer-result">
-                해당 문의에 대한 답변이 없습니다.
-              </p>
-            )}
+            </div>
+          )}
+          <div className="inquire-answer-write">
             <div className="replies-section">
               {answers.length > 0 ? (
                 <div>
@@ -338,7 +339,7 @@ const QuestionDetail: React.FC = () => {
                     {answers.map((answer, index) => (
                       <li key={index}>
                         <span className="answer-user-id">
-                          작성자 ({answer.userId} )
+                          관리자 ({answer.userId} )
                         </span>{" "}
                         : {answer.content}
                       </li>
@@ -352,7 +353,6 @@ const QuestionDetail: React.FC = () => {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>

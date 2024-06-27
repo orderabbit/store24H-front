@@ -25,7 +25,7 @@ const OrderPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [orderItems, setOrderItems] = useState<Product[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [checkedProducts, setCheckedProducts] = useState<{[key: number | string]: boolean;}>({});
+  const [checkedProducts, setCheckedProducts] = useState<{ [key: number | string]: boolean; }>({});
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [cookies, setCookies] = useCookies();
@@ -153,13 +153,11 @@ const OrderPage: React.FC = () => {
     );
 
     if (deliveryDateObj.getTime() === currentDate.getTime()) {
-      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${
-        daysOfWeek[deliveryDateObj.getDay()]
-      }) 도착 완료`;
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]
+        }) 도착 완료`;
     } else {
-      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${
-        daysOfWeek[deliveryDateObj.getDay()]
-      }) 도착 예정`;
+      return `${deliveryDateObj.getMonth() + 1}/${deliveryDateObj.getDate()}(${daysOfWeek[deliveryDateObj.getDay()]
+        }) 도착 예정`;
     }
   };
 

@@ -29,9 +29,10 @@ const ReviewWrite: React.FC<ReviewWriteProps> = ({ productId, onSuccess }) => {
     }
 
     const requestBody: PostReviewRequestDto = {
+      rates: 5, // 별점은 5로 고정
       userId: loginUser?.userId || '',
-      content: reviewContent,
-      productId: String(productId),
+      review: reviewContent,
+      productId: productId,
     };
 
     try {
@@ -50,18 +51,18 @@ const ReviewWrite: React.FC<ReviewWriteProps> = ({ productId, onSuccess }) => {
   };
 
   return (
-    <div className= "review-write-container" >
-    <h2>리뷰 작성 </h2>
-      < div className = "review-form" >
+    <div className="review-write-container" >
+      <h2>리뷰 작성 </h2>
+      < div className="review-form" >
         <input
           type="text"
-  value = { reviewContent }
-  onChange = { handleReviewContentChange }
-  placeholder = "리뷰를 작성해주세요..."
-    />
-    <button onClick={ handleSubmitReview }> 리뷰 작성 완료 </button>
+          value={reviewContent}
+          onChange={handleReviewContentChange}
+          placeholder="리뷰를 작성해주세요..."
+        />
+        <button onClick={handleSubmitReview}> 리뷰 작성 완료 </button>
       </div>
-      </div>
+    </div>
   );
 };
 

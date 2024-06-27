@@ -3,128 +3,122 @@ import "./style.list.component.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { GetReviewRequestDto } from "apis/request/product";
-//import { PostReviewResponseDTO } from "apis/response/product";
+import { useLoginUserStore } from "stores";
+import { deleteReviewRequest, postReviewRequest } from "apis";
+import { useCookies } from "react-cookie";
 
-const Review:React.FC<GetReviewRequestDto> = (props) => {
+const Review: React.FC<GetReviewRequestDto & { onDelete: () => void }> = (props) => {
   const trueStars = Array.from({ length: props.rates }, (_, index) => ({
-    key: `${props.review_number}-${index + 1}`,
+    key: `${props.reviewNumber}-${index + 1}`,
     image: "/star_review.png",
   }));
   const falseStars = Array.from(
     { length: Math.max(0, 5 - props.rates) },
     (_, index) => ({
-      key: `${props.review_number}-${index + props.rates + 1}`,
+      key: `${props.reviewNumber}-${index + props.rates + 1}`,
       image: "/star_blank.png",
     })
   );
 
-  const [content, setContent] = useState(props.review);
-  const [likeActive, setLikeActive] = useState(false);
-  const [dislikeActive, setDislikeActive] = useState(false);
-
-  const likeButtonEvent = async (feels: boolean) => {
-    try {
-      const review_number = props.review_number;
-      console.log(feels);
-      const response = await axios.patch(`http://localhost:4040/api/v1/product/${review_number}/feels?feels=${feels}`);
-      if (feels) {
-        setLikeActive(!likeActive);
-      } else {
-        setDislikeActive(!dislikeActive);
-      }
-    } catch (error) {
-    }
+  const handleDelete = () => {
+    props.onDelete(); // 부모 컴포넌트에서 전달한 onDelete 함수 호출
   };
 
+  const [content, setContent] = useState(props.review);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="el-review-star-container">
         {trueStars.map((trueStar, index) => (
-          <div className="star-full-image star-setting" />
+          <div key={trueStar.key} className="star-full-image star-setting" />
         ))}
         {falseStars.map((falseStar, index) => (
-          <div className="star-blank-image star-setting" />
+          <div key={falseStar.key} className="star-blank-image star-setting" />
         ))}
-
         <div className="el-review-account-container">
-          <div>- {props.user_id}</div>
-        </div>
-
-        <div className="like-container">
-          <button
-            className={`like-button-setting ${likeActive ? "like-active" : ""}`}
-            onClick={() => likeButtonEvent(true)}
-          >
+          <div>- {props.userId}</div>
+          <div className="icon-button">
             <div
-              className={`like-image like-image-setting ${
-                likeActive ? "like-animation" : ""
-              }`}
+              className="icon close-icon"
+              onClick={() => handleDelete()}
             ></div>
-          </button>
-          <button
-            className={`like-button-setting ${
-              dislikeActive ? "dislike-active" : ""
-            }`}
-            onClick={() => likeButtonEvent(false)}
-          >
-            <div
-              className={`dislike-image like-image-setting ${
-                dislikeActive ? "dislike-animation" : ""
-              }`}
-            ></div>
-          </button>
+          </div>
         </div>
       </div>
-
       <div>{content}</div>
     </div>
   );
 };
 
+interface ReviewListProps {
+  productId: number;
+  onReviewChange: () => void;
+}
 
-export default function ReviewList(productId: number) {
+const ReviewList: React.FC<ReviewListProps> = ({ productId, onReviewChange }) => {
   const [starSelectIndex, setStarSelectIndex] = useState(1);
   const [review_content, setReview_content] = useState("");
+  const { loginUser } = useLoginUserStore();
+  const [cookie, setCookie] = useCookies()
 
-  
-  
   const [rate, setRate] = useState(
     Array.from({ length: 5 }, (_, index) => index + 1)
   );
-  const [review_list, setReview_list] = useState<GetReviewRequestDto[]>([]);
-  const sliceReviewList = () => { 
-    if(review_list.length < 1) 
-        return [];
-    return review_list.slice(0, review_list.length -1)
-  };
+  const [reviewList, setReviewList] = useState<GetReviewRequestDto[]>([]);
 
   const starClickEvent = (index: number) => {
     setStarSelectIndex(index + 1);
   };
+
   const submitClickEvent = async () => {
-   try {
-    const responseBody /*: PostReviewResponseDTO*/ = {
-      review: review_content,
-      rates: starSelectIndex
-    };
-    const response = await axios.post(`http://localhost:4040/api/v1/product/${productId}/review`, responseBody);
-    } catch (err) {}
+    if (!loginUser) return alert("로그인이 필요합니다.");
+    try {
+      const responseBody = {
+        userId: loginUser?.userId,
+        review: review_content,
+        rates: starSelectIndex,
+        productId: productId,
+      };
+      const response = await postReviewRequest(responseBody, cookie.accessToken);
+      if (response.code !== "SU") alert("리뷰 등록에 실패했습니다.");
+      if (response.code === "SU") {
+        alert("리뷰가 등록되었습니다.");
+        setReview_content("");
+      }
+
+      onReviewChange();
+    } catch (error) {
+      console.error(error);
+      alert("리뷰 등록 중 오류가 발생했습니다.");
+    }
   };
+
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReview_content(e.target.value);
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:4040/api/v1/product/${productId}/review-list`);
-        console.log(response.data);
-        setReview_list(response.data.reviewList);
-      } catch (err) {}
+        setReviewList(response.data.reviewList);
+      } catch (err) { }
     };
-    fetchData(); // 비동기 함수 호출
-  }, []);
+    fetchData();
+  }, [reviewList.length]);
+
+  const deleteReviewButtonClickHandler = async (reviewId: number) => {
+    try {
+      const response = await deleteReviewRequest(reviewId, cookie.accessToken);
+      if (response.code === "SU") {
+        alert("리뷰가 삭제되었습니다.");
+        onReviewChange();
+      }
+    } catch (error) {
+      console.error("리뷰 삭제 중 오류:", error);
+      alert("리뷰 삭제 중 오류가 발생했습니다.");
+    }
+  }
 
   return (
     <div className="review-list-container">
@@ -132,48 +126,36 @@ export default function ReviewList(productId: number) {
         <div className="stars-box">
           {rate.map((star, index) => (
             <button
-              className={`' ${
-                index < starSelectIndex
-                  ? "full-star-button"
-                  : "blank-star-button"
-              }`}
+              key={index}
+              className={index < starSelectIndex ? "full-star-button" : "blank-star-button"}
               onClick={() => starClickEvent(index)}
             />
           ))}
         </div>
         <textarea
+          key={loginUser?.userId}
           value={review_content}
           onChange={handleReviewChange}
         />
-        <button onClick={() => submitClickEvent()}>입력하기</button>
+        <button onClick={submitClickEvent}>입력하기</button>
       </div>
-
       <div className="review-list-box">
-        {review_list.length > 0 && review_list
-          .slice(0, review_list.length -1) .map((el_review, index) => ( 
-            <div className="review-container">
-              <Review  
-              review_number={el_review.review_number}
-              user_id={el_review.user_id}
-              product_id={el_review.product_id}
+        {reviewList.map((el_review, index) => (
+          <div key={el_review.reviewNumber} className="review-container">
+            <Review
+              key={el_review.reviewNumber}
+              reviewNumber={el_review.reviewNumber}
+              userId={el_review.userId}
+              productId={el_review.productId}
               rates={el_review.rates}
               review={el_review.review}
-              writeDatetime={el_review.writeDatetime} 
-              />
-            </div>
-          ))}
-        <div className="review-last-container">
-          {review_list.length > 0 && (
-          <Review 
-              review_number={review_list[review_list.length - 1].review_number}
-              user_id={review_list[review_list.length - 1].user_id}
-              product_id={review_list[review_list.length - 1].product_id}
-              rates={review_list[review_list.length - 1].rates}
-              review={review_list[review_list.length - 1].review}
-              writeDatetime={review_list[review_list.length - 1].writeDatetime} />
-          )}
-        </div>
+              writeDatetime={el_review.writeDatetime}
+              onDelete={() => deleteReviewButtonClickHandler(el_review.reviewNumber)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+export default ReviewList;

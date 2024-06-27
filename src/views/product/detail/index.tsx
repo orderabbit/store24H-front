@@ -51,7 +51,6 @@ export default function Detail() {
         const product: Product = { ...(primaryBody as GetProductResponseDto) };
         product.secondaryProductImageList = (secondaryBody as GetProductResponseDto).secondaryProductImageList;
         setProduct(product);
-        console.log(product);
 
         if (!loginUser) {
             setUser(false);
@@ -91,7 +90,7 @@ export default function Detail() {
         DeleteProductRequest(Number, cookies.accessToken).then(deleteProductResponse);
     };
 
-    useEffect(() => {
+    const fetchProduct = async () => {
         if (!Number) {
             navigator(MAIN_PATH());
             return;
@@ -106,8 +105,17 @@ export default function Detail() {
             .catch(error => {
                 console.error('Error fetching product:', error);
             });
+    }
+
+    useEffect(() => {
+        fetchProduct();
     }, [Number]);
 
+    const handleReviewChange = () => {
+        fetchProduct();
+    };
+
+    console.log(product);
     if (!product) return <></>;
     return (
         <div id="product-detail-wrapper">
@@ -168,7 +176,7 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className="detail-bottom-content">
-                    {ReviewList(product.productId)}
+                    <ReviewList productId={product.productId} onReviewChange={handleReviewChange} />
                 </div>
             </div>
         </div>

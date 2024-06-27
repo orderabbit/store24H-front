@@ -11,6 +11,7 @@ export default interface Product {
     titleImage: string[];
     productImageList: string[];
     secondaryProductImageList: string[];
+    reviewList: any;
     purchaseDate?: string;
     writeDatetime: string;
     userId: string;
