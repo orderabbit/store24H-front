@@ -256,7 +256,7 @@ const QuestionDetail: React.FC = () => {
               </>
             )}
             <div>
-              {role !== "ROLE_ADMIN" && (
+              {role === "ROLE_ADMIN" && (
                 <div>
                   <div className="inquire-answer-button" onClick={toggleAnswerSection}>
                     답변 작성
@@ -343,7 +343,7 @@ const QuestionDetail: React.FC = () => {
                         관리자 ({answer.userId} )
                       </span>{" "}
                       : {answer.content}
-                      {role !== "ROLE_ADMIN" && (
+                      {role === "ROLE_ADMIN" && (
                         <div className="inquire-answer-content-patch-delete">
                           <button onClick={() => startEditingAnswer(answer.answerId, answer.content)}>수정</button>
                           <button onClick={() => deleteAnswerHandler(answer.answerId)}>삭제</button>
