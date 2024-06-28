@@ -44,7 +44,7 @@ const multipartFormData = { headers: { 'Url-Type': 'multipart/form-data' } };
 
 const GET_ALL_ANSWER_URL = () => `${API_DOMAIN}/question/answer/list`;
 const POST_ANSWER_URL = () => `${API_DOMAIN}/question/answer`;
-const PATCH_ANSWER_URL = (answerId: number | string) => `${API_DOMAIN}/question/answer/${answerId}`;
+const PATCH_ANSWER_URL = (answerId: number | string) => `${API_DOMAIN}/question/answer/update/${answerId}`;
 const GET_ANSWER_URL = (questionId: number | string) => `${API_DOMAIN}/question/answer/detail/${questionId}`;
 const DELETE_ANSWER_URL = (answerId: number | string) => `${API_DOMAIN}/question/answer/delete/${answerId}`;
 

@@ -204,7 +204,7 @@ export default function Write() {
             PostProductRequest(requestBody, accessToken).then(postBoardResponse);
         }
 
-        if (title && content && productImageFileList.length > 0)
+        if (title && content && lowPrice && category1 && category2 && category3 && productImageFileList.length > 0)
             return <div className='black-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>;
         return <div className='disable-button'>{'업로드'}</div>;
     }
