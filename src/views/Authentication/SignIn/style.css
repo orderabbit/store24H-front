@@ -41,12 +41,14 @@
     background-color: #95f3a2; /* 배경색 흰색 */
     border-radius: 10px; /* 모서리 둥글게 */
     width: 350px;
-    height: 500px;
+    /* height: 500px; */
     align-items: center;
     gap: 24px;
     margin-top: 10%;
     margin-bottom: 50%;
+    transition: height 0.3s ease-in-out;
 }
+
 
 .sign-in-content-sns-sign-in-box{
     display: flex;

@@ -97,7 +97,7 @@ export default function SignIn() {
     const recoverPasswordResponse = (responseBody: ResponseBody<PasswordRecoveryResponseDto>) => {
         if (!responseBody) return;
 
-        const { code } = responseBody.data;
+        const { code } = responseBody;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             alert('올바른 이메일 형식이 아닙니다.');
@@ -162,15 +162,15 @@ export default function SignIn() {
                             <div className='sign-up-button full-width' onClick={onSignUpButtonClickHandler}>{'회원가입 하기'}</div>
                             <div className="text-link-lg-right recovery-password-button" onClick={toggleRecoveryBox}>{'비밀번호 찾기'}</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            {showRecoveryBox && (
+                        {showRecoveryBox && (
                 <div className="recovery-password-box">
                     <InputBox ref={emailRef} title="이메일" placeholder="이메일을 입력하세요." type="email" value={email} onChange={handleEmailChange} isErrorMessage={isEmailError} message={EmailMessage} onKeyDown={onRecoverPasswordKeyDownHandler} />
                     <div className="primary-button-small recovery-password-button" onClick={handleRecoverPassword}>{'비밀번호 찾기'}</div>
                 </div>
             )}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
