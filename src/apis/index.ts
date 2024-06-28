@@ -95,7 +95,6 @@ const DELETE_REVIEW_URL = (reviewNumber: number | string) => `${API_DOMAIN}/prod
 
 const GET_SEARCH_PRODUCT_LIST_URL = (keyword: string) => `${API_DOMAIN}/product/search?keyword=${keyword}`;
 
-
 const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 
 export const SnsSignInRequest = async (requestBody: SignInRequestDto, type: 'kakao' | 'naver' | 'google') => {
