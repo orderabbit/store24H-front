@@ -164,6 +164,10 @@ export default function Detail() {
                                 <img key={image} className="product-detail-imagebar-image" src={image} />
                             ))}
                         </div>
+                        <div className="product-detail-button">
+                        <button className="item-store">담기</button>
+                        <button className="item-buy">구매</button>
+                        </div>
                     </div>
                 </div>
                 <div className="detail-middle-content">

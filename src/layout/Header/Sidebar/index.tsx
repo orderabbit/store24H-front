@@ -12,7 +12,7 @@ import penIcon from '../../../images/free-icon-font-pencil-3917636.png';
 
 
 const categoryIcons: { [key: string]: string } = {
-  '음식': foodIcon,
+  '식품': foodIcon,
   '음료': juiceIcon,
   '과자': snackIcon,
   '생활용품': lifestyleIcon,
